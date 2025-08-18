@@ -1318,6 +1318,55 @@ body {
 }
 
 /* Responsive Design */
+/* Responsive Stories */
+@media (max-width: 768px) {
+    .story-card {
+        min-width: 250px;
+        height: 350px;
+    }
+
+    .story-title {
+        font-size: 1.2rem;
+    }
+
+    .story-description {
+        font-size: 0.9rem;
+    }
+
+    .stories-container {
+        gap: 1rem;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .story-card {
+        min-width: 220px;
+        height: 320px;
+    }
+
+    .story-overlay {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .story-title {
+        font-size: 1.1rem;
+    }
+
+    .story-description {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .story-cta {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
