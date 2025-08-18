@@ -129,8 +129,12 @@
                 </nav>
                 <div class="header-actions">
                     <div class="search-container">
-                        <input type="text" placeholder="Search products..." class="search-input">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
                         <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
                     </div>
                     <div class="action-icons">
                         <i class="far fa-heart wishlist-icon"></i>
