@@ -849,6 +849,232 @@ body {
     font-weight: 600;
 }
 
+/* Seasonal Collections Section */
+.seasonal-collections-section {
+    margin-bottom: 4rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 0;
+    border-radius: 30px;
+    color: white;
+}
+
+.seasonal-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.seasonal-tab {
+    padding: 1rem 2rem;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.seasonal-tab:hover,
+.seasonal-tab.active {
+    background: white;
+    color: #667eea;
+    border-color: white;
+}
+
+.seasonal-collection {
+    display: none;
+}
+
+.seasonal-collection.active {
+    display: block;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    height: 400px;
+}
+
+.collection-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+    transform: translateY(-5px);
+}
+
+.collection-item.featured {
+    grid-row: span 1;
+}
+
+.collection-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.collection-item:hover .collection-image {
+    transform: scale(1.05);
+}
+
+.collection-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    padding: 2rem;
+    color: white;
+}
+
+.collection-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.collection-description {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.collection-cta {
+    padding: 0.75rem 1.5rem;
+    background: white;
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.collection-cta:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Trending & Popular Section */
+.trending-popular-section {
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+}
+
+.trending-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.trending-tab {
+    padding: 1rem 2rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.trending-tab:hover,
+.trending-tab.active {
+    background: #333;
+    color: white;
+    border-color: #333;
+}
+
+.trending-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.trending-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.trending-item:hover {
+    transform: translateY(-5px);
+}
+
+.trending-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 10;
+}
+
+.trending-badge.hot {
+    background: #ff4444;
+    color: white;
+}
+
+.trending-badge.viewed {
+    background: #4CAF50;
+    color: white;
+}
+
+.trending-badge.seller {
+    background: #ff9800;
+    color: white;
+}
+
+.trending-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.trending-info {
+    padding: 1.5rem;
+}
+
+.trending-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.trending-brand {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.trending-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.trending-stats span {
+    color: #888;
+}
+
+.trending-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+}
+
 /* Categories Section */
 .categories-section {
     margin-bottom: 4rem;
