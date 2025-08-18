@@ -9,6 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
     showFlashScreen();
 });
 
+// Flash Screen Functionality
+function showFlashScreen() {
+    const flashScreen = document.getElementById('flashScreen');
+
+    // Hide flash screen after 3 seconds
+    setTimeout(() => {
+        flashScreen.classList.add('hidden');
+        setTimeout(() => {
+            flashScreen.style.display = 'none';
+            initializeApp();
+        }, 500);
+    }, 3000);
+}
+
 function initializeApp() {
     setupEventListeners();
     updateCartCount();
@@ -16,6 +30,11 @@ function initializeApp() {
     setupProductCards();
     setupNewsletterForm();
     setupSearch();
+    setupAuthentication();
+    setupLocationServices();
+    setupBannerCarousel();
+    setupRecommendations();
+    checkUserLocation();
 }
 
 // Event Listeners Setup
