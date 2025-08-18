@@ -751,6 +751,55 @@ body {
     font-size: 0.9rem;
 }
 
+/* New Arrivals Section */
+.new-arrivals-section {
+    background: #f8f9fa;
+    padding: 4rem 0;
+    border-radius: 20px;
+    margin-bottom: 4rem;
+}
+
+.new-arrivals-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.arrival-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.arrival-count {
+    background: #333;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.view-all-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #333;
+    background: transparent;
+    color: #333;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+    background: #333;
+    color: white;
+}
+
 /* Products Section */
 .products-section {
     margin-bottom: 4rem;
