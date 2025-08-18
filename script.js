@@ -6,7 +6,7 @@ let wishlist = [];
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+    showFlashScreen();
 });
 
 function initializeApp() {
