@@ -905,27 +905,18 @@ function filterNewArrivals(filter) {
 
 // Seasonal Collections
 function setupSeasonalCollections() {
-    const seasonalTabs = document.querySelectorAll('.seasonal-tab');
-    const seasonalCollections = document.querySelectorAll('.seasonal-collection');
+    const seasonalCards = document.querySelectorAll('.seasonal-card');
 
-    seasonalTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const season = tab.dataset.season;
+    seasonalCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.querySelector('.seasonal-card-title').textContent;
+            showNotification(`Browsing ${title}`, 'info');
 
-            // Update active tab
-            seasonalTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            // Show corresponding collection
-            seasonalCollections.forEach(collection => {
-                if (collection.id === season) {
-                    collection.classList.add('active');
-                } else {
-                    collection.classList.remove('active');
-                }
-            });
-
-            showNotification(`Browsing ${tab.textContent} collection`, 'info');
+            // Add click animation
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                card.style.transform = '';
+            }, 150);
         });
     });
 }
@@ -989,7 +980,7 @@ function updateTrendingStats() {
             const newSales = currentSales + Math.floor(Math.random() * 3);
 
             viewsElement.textContent = `👁️ ${newViews.toLocaleString()} views`;
-            salesElement.textContent = `��� ${newSales} sold today`;
+            salesElement.textContent = `💫 ${newSales} sold today`;
         }
     });
 }
