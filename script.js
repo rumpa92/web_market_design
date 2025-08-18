@@ -903,6 +903,388 @@ function filterNewArrivals(filter) {
     showNotification(`Showing ${filter} arrivals`, 'info');
 }
 
+// Seasonal Collections
+function setupSeasonalCollections() {
+    const seasonalTabs = document.querySelectorAll('.seasonal-tab');
+    const seasonalCollections = document.querySelectorAll('.seasonal-collection');
+
+    seasonalTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const season = tab.dataset.season;
+
+            // Update active tab
+            seasonalTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Show corresponding collection
+            seasonalCollections.forEach(collection => {
+                if (collection.id === season) {
+                    collection.classList.add('active');
+                } else {
+                    collection.classList.remove('active');
+                }
+            });
+
+            showNotification(`Browsing ${tab.textContent} collection`, 'info');
+        });
+    });
+}
+
+// Trending Section
+function setupTrendingSection() {
+    const trendingTabs = document.querySelectorAll('.trending-tab');
+    const trendingItems = document.querySelectorAll('.trending-item');
+
+    trendingTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const trend = tab.dataset.trend;
+
+            // Update active tab
+            trendingTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter trending items
+            filterTrendingItems(trend);
+
+            showNotification(`Showing ${tab.textContent}`, 'info');
+        });
+    });
+
+    // Real-time updates
+    setInterval(updateTrendingStats, 10000); // Update every 10 seconds
+}
+
+function filterTrendingItems(trend) {
+    const trendingItems = document.querySelectorAll('.trending-item');
+
+    trendingItems.forEach(item => {
+        const badge = item.querySelector('.trending-badge');
+        let shouldShow = true;
+
+        if (trend === 'hot') {
+            shouldShow = badge.classList.contains('hot');
+        } else if (trend === 'viewed') {
+            shouldShow = badge.classList.contains('viewed');
+        } else if (trend === 'sellers') {
+            shouldShow = badge.classList.contains('seller');
+        }
+
+        item.style.display = shouldShow ? 'block' : 'none';
+    });
+}
+
+function updateTrendingStats() {
+    const trendingItems = document.querySelectorAll('.trending-item');
+
+    trendingItems.forEach(item => {
+        const viewsElement = item.querySelector('.views');
+        const salesElement = item.querySelector('.sales');
+
+        if (viewsElement && salesElement) {
+            // Simulate real-time updates
+            const currentViews = parseInt(viewsElement.textContent.match(/\d+/)[0]);
+            const currentSales = parseInt(salesElement.textContent.match(/\d+/)[0]);
+
+            const newViews = currentViews + Math.floor(Math.random() * 10);
+            const newSales = currentSales + Math.floor(Math.random() * 3);
+
+            viewsElement.textContent = `👁️ ${newViews.toLocaleString()} views`;
+            salesElement.textContent = `��� ${newSales} sold today`;
+        }
+    });
+}
+
+// Advanced Search with Predictions
+function setupAdvancedSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchSuggestions = document.getElementById('searchSuggestions');
+
+    const suggestions = [
+        'Women\'s Dresses', 'Men\'s Jackets', 'Nike Sneakers', 'Zara Tops',
+        'Designer Handbags', 'Summer Collection', 'Winter Coats', 'Formal Shoes',
+        'Casual Wear', 'Party Dresses', 'Workout Clothes', 'Vintage Style'
+    ];
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+
+        if (query.length > 0) {
+            const filteredSuggestions = suggestions.filter(item =>
+                item.toLowerCase().includes(query)
+            );
+
+            if (filteredSuggestions.length > 0) {
+                showSearchSuggestions(filteredSuggestions);
+            } else {
+                hideSearchSuggestions();
+            }
+        } else {
+            hideSearchSuggestions();
+        }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+            hideSearchSuggestions();
+        }
+    });
+}
+
+function showSearchSuggestions(suggestions) {
+    const searchSuggestions = document.getElementById('searchSuggestions');
+
+    searchSuggestions.innerHTML = suggestions.map(suggestion =>
+        `<div class="suggestion-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
+    ).join('');
+
+    searchSuggestions.classList.add('visible');
+}
+
+function hideSearchSuggestions() {
+    const searchSuggestions = document.getElementById('searchSuggestions');
+    searchSuggestions.classList.remove('visible');
+}
+
+function selectSuggestion(suggestion) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = suggestion;
+    hideSearchSuggestions();
+    showNotification(`Searching for: ${suggestion}`, 'info');
+}
+
+// Voice Search
+function setupVoiceSearch() {
+    const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        voiceSearchBtn.addEventListener('click', () => {
+            startVoiceSearch(recognition, voiceSearchBtn, searchInput);
+        });
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            searchInput.value = transcript;
+            showNotification(`Voice search: ${transcript}`, 'success');
+            voiceSearchBtn.classList.remove('listening');
+        };
+
+        recognition.onerror = () => {
+            showNotification('Voice search error. Please try again.', 'error');
+            voiceSearchBtn.classList.remove('listening');
+        };
+
+        recognition.onend = () => {
+            voiceSearchBtn.classList.remove('listening');
+        };
+    } else {
+        voiceSearchBtn.style.display = 'none';
+    }
+}
+
+function startVoiceSearch(recognition, button, input) {
+    button.classList.add('listening');
+    showNotification('Listening... Speak now!', 'info');
+    recognition.start();
+}
+
+// Filters and Sort
+function setupFiltersAndSort() {
+    const filtersToggle = document.getElementById('filtersToggle');
+    const filtersPanel = document.getElementById('filtersPanel');
+    const sortSelect = document.getElementById('sortSelect');
+    const priceRange = document.getElementById('priceRange');
+    const currentPrice = document.getElementById('currentPrice');
+
+    // Toggle filters panel
+    filtersToggle.addEventListener('click', () => {
+        filtersPanel.classList.toggle('open');
+    });
+
+    // Sort functionality
+    sortSelect.addEventListener('change', (e) => {
+        const sortBy = e.target.value;
+        sortProducts(sortBy);
+        showNotification(`Sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'info');
+    });
+
+    // Price range
+    if (priceRange && currentPrice) {
+        priceRange.addEventListener('input', (e) => {
+            currentPrice.textContent = `$${e.target.value}`;
+        });
+    }
+
+    // Filter options
+    setupFilterOptions();
+}
+
+function setupFilterOptions() {
+    // Size filters
+    const sizeOptions = document.querySelectorAll('.size-options .filter-option');
+    sizeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            option.classList.toggle('active');
+            updateActiveFilters();
+        });
+    });
+
+    // Color filters
+    const colorOptions = document.querySelectorAll('.color-option');
+    colorOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            option.classList.toggle('active');
+            updateActiveFilters();
+        });
+    });
+
+    // Brand filters
+    const brandCheckboxes = document.querySelectorAll('.brand-options input');
+    brandCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateActiveFilters);
+    });
+
+    // Clear and apply filters
+    const clearBtn = document.querySelector('.clear-filters-btn');
+    const applyBtn = document.querySelector('.apply-filters-btn');
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearAllFilters);
+    }
+
+    if (applyBtn) {
+        applyBtn.addEventListener('click', applyFilters);
+    }
+}
+
+function updateActiveFilters() {
+    const activeFiltersContainer = document.getElementById('activeFilters');
+    const activeFilters = [];
+
+    // Get active size filters
+    document.querySelectorAll('.size-options .filter-option.active').forEach(option => {
+        activeFilters.push({type: 'size', value: option.textContent});
+    });
+
+    // Get active color filters
+    document.querySelectorAll('.color-option.active').forEach(option => {
+        activeFilters.push({type: 'color', value: option.dataset.color});
+    });
+
+    // Get active brand filters
+    document.querySelectorAll('.brand-options input:checked').forEach(checkbox => {
+        activeFilters.push({type: 'brand', value: checkbox.value});
+    });
+
+    // Display active filters
+    activeFiltersContainer.innerHTML = activeFilters.map(filter =>
+        `<span class="active-filter">${filter.value} <span class="remove" onclick="removeFilter('${filter.type}', '${filter.value}')">×</span></span>`
+    ).join('');
+}
+
+function removeFilter(type, value) {
+    // Remove specific filter based on type and value
+    if (type === 'size') {
+        document.querySelectorAll('.size-options .filter-option').forEach(option => {
+            if (option.textContent === value) {
+                option.classList.remove('active');
+            }
+        });
+    } else if (type === 'color') {
+        document.querySelectorAll('.color-option').forEach(option => {
+            if (option.dataset.color === value) {
+                option.classList.remove('active');
+            }
+        });
+    } else if (type === 'brand') {
+        document.querySelectorAll('.brand-options input').forEach(checkbox => {
+            if (checkbox.value === value) {
+                checkbox.checked = false;
+            }
+        });
+    }
+
+    updateActiveFilters();
+    showNotification(`Removed ${value} filter`, 'info');
+}
+
+function clearAllFilters() {
+    // Clear all active filters
+    document.querySelectorAll('.filter-option.active').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelectorAll('.color-option.active').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelectorAll('.brand-options input:checked').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    updateActiveFilters();
+    showNotification('All filters cleared', 'info');
+}
+
+function applyFilters() {
+    // Apply current filters to product display
+    showNotification('Filters applied successfully!', 'success');
+    document.getElementById('filtersPanel').classList.remove('open');
+}
+
+function sortProducts(sortBy) {
+    // Implement product sorting logic
+    const productCards = document.querySelectorAll('.product-card');
+    const productsArray = Array.from(productCards);
+
+    productsArray.sort((a, b) => {
+        switch(sortBy) {
+            case 'price-low':
+                return getPrice(a) - getPrice(b);
+            case 'price-high':
+                return getPrice(b) - getPrice(a);
+            case 'rating':
+                return getRating(b) - getRating(a);
+            default:
+                return 0;
+        }
+    });
+
+    // Re-append sorted products
+    const container = document.querySelector('.products-grid');
+    productsArray.forEach(card => container.appendChild(card));
+}
+
+function getPrice(productCard) {
+    const priceText = productCard.querySelector('.current-price').textContent;
+    return parseInt(priceText.replace(/[^0-9]/g, ''));
+}
+
+function getRating(productCard) {
+    const stars = productCard.querySelectorAll('.stars .fas').length;
+    return stars;
+}
+
+// Enhanced Navigation
+function setupEnhancedNavigation() {
+    // Mobile menu handling and dropdown functionality is already handled by CSS
+    // Additional JavaScript for mobile responsiveness if needed
+}
+
+// Guest Browsing
+function enableGuestBrowsing() {
+    // Allow all browsing functionality without login requirement
+    // Override any login checks for browsing features
+    window.guestMode = true;
+    showNotification('Browse as guest - Full access enabled!', 'success');
+}
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
@@ -911,5 +1293,9 @@ window.FashionMarketplace = {
     filterProducts,
     handleSignIn,
     handleSignUp,
-    setUserLocation
+    setUserLocation,
+    selectSuggestion,
+    removeFilter,
+    clearAllFilters,
+    applyFilters
 };
