@@ -32,7 +32,7 @@ function initializeApp() {
     setupSearch();
     setupAuthentication();
     setupLocationServices();
-    setupBannerCarousel();
+    setupFashionStories();
     setupRecommendations();
     checkUserLocation();
 }
