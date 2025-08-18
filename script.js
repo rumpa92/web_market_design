@@ -310,11 +310,18 @@ function searchProducts(searchTerm) {
 
 // Category Click Handler
 function handleCategoryClick(event) {
-    const categoryTitle = event.currentTarget.querySelector('.category-title').textContent;
-    showNotification(`Browsing ${categoryTitle} category`, 'info');
-    
+    const categoryTitle = event.currentTarget.querySelector('.category-title, .category-circle-title');
+    const title = categoryTitle ? categoryTitle.textContent : 'Unknown';
+    showNotification(`Browsing ${title} category`, 'info');
+
     // Add category filtering logic here
-    filterByCategory(categoryTitle.toLowerCase());
+    filterByCategory(title.toLowerCase());
+
+    // Add visual feedback
+    event.currentTarget.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        event.currentTarget.style.transform = '';
+    }, 150);
 }
 
 function filterByCategory(category) {
