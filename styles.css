@@ -1380,6 +1380,47 @@ body {
 }
 
 /* Responsive Design */
+/* Responsive Circular Categories */
+@media (max-width: 768px) {
+    .categories-circle-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .category-circle-container {
+        width: 140px;
+        height: 140px;
+    }
+
+    .category-circle-title {
+        font-size: 1.1rem;
+    }
+
+    .category-circle-subtitle {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .categories-circle-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .category-circle-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .category-circle-title {
+        font-size: 1rem;
+    }
+
+    .category-circle-subtitle {
+        font-size: 0.7rem;
+    }
+}
+
 /* Responsive Stories */
 @media (max-width: 768px) {
     .story-card {
