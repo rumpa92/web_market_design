@@ -1902,6 +1902,38 @@ body {
 }
 
 /* Responsive Design */
+/* Responsive Seasonal Cards */
+@media (max-width: 768px) {
+    .seasonal-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .seasonal-card-image {
+        height: 250px;
+    }
+
+    .seasonal-card-title {
+        font-size: 1.1rem;
+    }
+
+    .seasonal-card-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .seasonal-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .seasonal-card-image {
+        height: 220px;
+    }
+}
+
 /* Responsive Circular Categories */
 @media (max-width: 768px) {
     .categories-circle-grid {
