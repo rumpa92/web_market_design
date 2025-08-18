@@ -9,6 +9,108 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Flash Screen -->
+    <div id="flashScreen" class="flash-screen">
+        <div class="flash-content">
+            <div class="brand-logo">
+                <h1 class="brand-name">StyleHub</h1>
+                <p class="brand-tagline">Discover Your Style</p>
+            </div>
+            <div class="loading-animation">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading your fashion world...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modals -->
+    <div id="authModal" class="auth-modal hidden">
+        <div class="auth-modal-content">
+            <span class="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="signin">Sign In</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <form id="signinForm" class="auth-form active">
+                <h2>Welcome Back</h2>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required class="auth-input">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required class="auth-input">
+                </div>
+                <button type="submit" class="auth-submit-btn">Sign In</button>
+                <div class="auth-divider">or</div>
+                <div class="social-auth">
+                    <button type="button" class="social-btn google-btn">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </button>
+                    <button type="button" class="social-btn apple-btn">
+                        <i class="fab fa-apple"></i> Sign in with Apple
+                    </button>
+                </div>
+                <p class="forgot-password"><a href="#">Forgot your password?</a></p>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" class="auth-form">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required class="auth-input">
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required class="auth-input">
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Phone Number" required class="auth-input">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required class="auth-input">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Confirm Password" required class="auth-input">
+                </div>
+                <button type="submit" class="auth-submit-btn">Create Account</button>
+                <div class="auth-divider">or</div>
+                <div class="social-auth">
+                    <button type="button" class="social-btn google-btn">
+                        <i class="fab fa-google"></i> Sign up with Google
+                    </button>
+                    <button type="button" class="social-btn apple-btn">
+                        <i class="fab fa-apple"></i> Sign up with Apple
+                    </button>
+                </div>
+                <p class="terms-text">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Location Modal -->
+    <div id="locationModal" class="location-modal hidden">
+        <div class="location-modal-content">
+            <span class="close-location">&times;</span>
+            <h2>Select Your Location</h2>
+            <div class="location-search">
+                <input type="text" placeholder="Search city or zip code" class="location-input">
+                <button class="detect-location-btn">
+                    <i class="fas fa-location-arrow"></i> Detect Location
+                </button>
+            </div>
+            <div class="popular-cities">
+                <h3>Popular Cities</h3>
+                <div class="cities-grid">
+                    <button class="city-btn">New York</button>
+                    <button class="city-btn">Los Angeles</button>
+                    <button class="city-btn">Chicago</button>
+                    <button class="city-btn">Miami</button>
+                    <button class="city-btn">San Francisco</button>
+                    <button class="city-btn">London</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Header -->
     <header class="main-header">
         <div class="container">
@@ -36,7 +138,7 @@
                             <i class="fas fa-shopping-bag cart-icon"></i>
                             <span class="cart-count">2</span>
                         </div>
-                        <i class="far fa-user profile-icon"></i>
+                        <i class="far fa-user profile-icon" id="profileIcon"></i>
                     </div>
                 </div>
             </div>
