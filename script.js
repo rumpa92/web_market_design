@@ -57,8 +57,8 @@ function setupEventListeners() {
         btn.addEventListener('click', handleQuickView);
     });
 
-    // Category cards
-    const categoryCards = document.querySelectorAll('.category-card');
+    // Category cards (both old and new circular)
+    const categoryCards = document.querySelectorAll('.category-card, .category-circle-card');
     categoryCards.forEach(card => {
         card.addEventListener('click', handleCategoryClick);
     });
