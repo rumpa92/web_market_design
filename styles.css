@@ -635,6 +635,136 @@ body {
     opacity: 1;
 }
 
+/* Story read indicator */
+.story-card.story-read {
+    opacity: 0.7;
+}
+
+.story-card.story-read::after {
+    content: '✓';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Story Modal Styles */
+.story-modal-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-story-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    z-index: 11;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-modal-header {
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.story-modal-header h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.story-progress {
+    width: 100%;
+    height: 4px;
+    background: #eee;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.story-progress-bar {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    transition: width 0.1s linear;
+}
+
+.story-modal-body {
+    padding: 2rem;
+}
+
+.story-modal-body p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+.story-modal-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.story-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.story-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.story-action-btn:hover {
+    background: #f8f9fa;
+    border-color: #333;
+    color: #333;
+    transform: translateY(-2px);
+}
+
+/* Scroll indicators */
+.scroll-indicator {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+    background: rgba(0,0,0,0.7) !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
 /* Recommendations Section */
 .recommendations-section {
     margin-bottom: 4rem;
