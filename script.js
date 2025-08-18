@@ -638,36 +638,192 @@ function updateUIWithLocation(city) {
     }
 }
 
-// Banner Carousel
-function setupBannerCarousel() {
-    const slides = document.querySelectorAll('.banner-slide');
-    const dots = document.querySelectorAll('.dot');
-    let currentSlide = 0;
+// Fashion Stories
+function setupFashionStories() {
+    const storyCards = document.querySelectorAll('.story-card');
+    const storiesContainer = document.querySelector('.stories-container');
 
-    // Dot click handlers
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            showSlide(index);
+    // Add click handlers to story cards
+    storyCards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            handleStoryClick(card, index);
+        });
+
+        // Add story read indicator
+        const storyTitle = card.querySelector('.story-title').textContent;
+        if (localStorage.getItem(`story_read_${index}`)) {
+            card.classList.add('story-read');
+        }
+    });
+
+    // Add horizontal scroll with mouse wheel
+    if (storiesContainer) {
+        storiesContainer.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                storiesContainer.scrollLeft += e.deltaY;
+            }
+        });
+    }
+
+    // Add scroll indicators
+    addScrollIndicators();
+}
+
+function handleStoryClick(card, index) {
+    const storyTitle = card.querySelector('.story-title').textContent;
+    const storyDescription = card.querySelector('.story-description').textContent;
+
+    // Mark story as read
+    localStorage.setItem(`story_read_${index}`, 'true');
+    card.classList.add('story-read');
+
+    // Show story modal or navigate
+    showStoryModal(storyTitle, storyDescription, index);
+
+    showNotification(`Opening: ${storyTitle}`, 'info');
+}
+
+function showStoryModal(title, description, index) {
+    const modal = document.createElement('div');
+    modal.className = 'story-modal';
+    modal.innerHTML = `
+        <div class="story-modal-content">
+            <span class="close-story-modal">&times;</span>
+            <div class="story-modal-header">
+                <h2>${title}</h2>
+                <div class="story-progress">
+                    <div class="story-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="story-modal-body">
+                <p>${description}</p>
+                <div class="story-images">
+                    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&h=800&fit=crop"
+                         alt="Fashion Story" class="story-modal-image">
+                </div>
+                <div class="story-actions">
+                    <button class="story-action-btn like-btn">
+                        <i class="far fa-heart"></i> Like
+                    </button>
+                    <button class="story-action-btn share-btn">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                    <button class="story-action-btn save-btn">
+                        <i class="far fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Style the modal
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.9)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '10000'
+    });
+
+    document.body.appendChild(modal);
+
+    // Progress bar animation
+    const progressBar = modal.querySelector('.story-progress-bar');
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += 2;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            setTimeout(() => {
+                if (document.body.contains(modal)) {
+                    document.body.removeChild(modal);
+                }
+            }, 500);
+        }
+    }, 100);
+
+    // Close functionality
+    const closeBtn = modal.querySelector('.close-story-modal');
+    closeBtn.addEventListener('click', () => {
+        clearInterval(progressInterval);
+        document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            clearInterval(progressInterval);
+            document.body.removeChild(modal);
+        }
+    });
+
+    // Action buttons
+    const actionBtns = modal.querySelectorAll('.story-action-btn');
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const action = btn.classList.contains('like-btn') ? 'liked' :
+                          btn.classList.contains('share-btn') ? 'shared' : 'saved';
+            showNotification(`Story ${action}!`, 'success');
+        });
+    });
+}
+
+function addScrollIndicators() {
+    const storiesContainer = document.querySelector('.stories-container');
+    if (!storiesContainer) return;
+
+    const leftIndicator = document.createElement('div');
+    const rightIndicator = document.createElement('div');
+
+    leftIndicator.className = 'scroll-indicator left';
+    rightIndicator.className = 'scroll-indicator right';
+
+    leftIndicator.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    rightIndicator.innerHTML = '<i class="fas fa-chevron-right"></i>';
+
+    // Style indicators
+    [leftIndicator, rightIndicator].forEach(indicator => {
+        Object.assign(indicator.style, {
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '40px',
+            height: '40px',
+            background: 'rgba(0,0,0,0.5)',
+            color: 'white',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            zIndex: '10',
+            transition: 'all 0.3s ease'
         });
     });
 
-    function showSlide(index) {
-        // Hide all slides
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
+    leftIndicator.style.left = '10px';
+    rightIndicator.style.right = '10px';
 
-        // Show current slide
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
+    const storiesSection = document.querySelector('.fashion-stories-section');
+    storiesSection.style.position = 'relative';
+    storiesSection.appendChild(leftIndicator);
+    storiesSection.appendChild(rightIndicator);
 
-        currentSlide = index;
-    }
+    // Scroll functionality
+    leftIndicator.addEventListener('click', () => {
+        storiesContainer.scrollBy({ left: -300, behavior: 'smooth' });
+    });
 
-    // Auto-advance slides
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }, 5000);
+    rightIndicator.addEventListener('click', () => {
+        storiesContainer.scrollBy({ left: 300, behavior: 'smooth' });
+    });
 }
 
 // Recommendations
