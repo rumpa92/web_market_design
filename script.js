@@ -460,10 +460,286 @@ window.addEventListener('resize', function() {
     }
 });
 
+// Authentication Functionality
+function setupAuthentication() {
+    const profileIcon = document.getElementById('profileIcon');
+    const authModal = document.getElementById('authModal');
+    const closeAuth = document.querySelector('.close-auth');
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const authForms = document.querySelectorAll('.auth-form');
+
+    // Show auth modal when profile icon is clicked
+    profileIcon.addEventListener('click', () => {
+        authModal.classList.remove('hidden');
+    });
+
+    // Close modal
+    closeAuth.addEventListener('click', () => {
+        authModal.classList.add('hidden');
+    });
+
+    // Close on outside click
+    authModal.addEventListener('click', (e) => {
+        if (e.target === authModal) {
+            authModal.classList.add('hidden');
+        }
+    });
+
+    // Tab switching
+    authTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetTab = tab.dataset.tab;
+
+            // Update active tab
+            authTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Show corresponding form
+            authForms.forEach(form => {
+                if (form.id === targetTab + 'Form') {
+                    form.classList.add('active');
+                } else {
+                    form.classList.remove('active');
+                }
+            });
+        });
+    });
+
+    // Form submissions
+    const signinForm = document.getElementById('signinForm');
+    const signupForm = document.getElementById('signupForm');
+
+    signinForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSignIn();
+    });
+
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleSignUp();
+    });
+
+    // Social auth buttons
+    const socialBtns = document.querySelectorAll('.social-btn');
+    socialBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const provider = btn.classList.contains('google-btn') ? 'Google' : 'Apple';
+            handleSocialAuth(provider);
+        });
+    });
+}
+
+function handleSignIn() {
+    showNotification('Signing you in...', 'info');
+    // Simulate API call
+    setTimeout(() => {
+        showNotification('Welcome back!', 'success');
+        document.getElementById('authModal').classList.add('hidden');
+        updateUIForLoggedInUser();
+    }, 1500);
+}
+
+function handleSignUp() {
+    showNotification('Creating your account...', 'info');
+    // Simulate API call
+    setTimeout(() => {
+        showNotification('Account created successfully!', 'success');
+        document.getElementById('authModal').classList.add('hidden');
+        updateUIForLoggedInUser();
+    }, 1500);
+}
+
+function handleSocialAuth(provider) {
+    showNotification(`Connecting with ${provider}...`, 'info');
+    setTimeout(() => {
+        showNotification(`Successfully signed in with ${provider}!`, 'success');
+        document.getElementById('authModal').classList.add('hidden');
+        updateUIForLoggedInUser();
+    }, 1500);
+}
+
+function updateUIForLoggedInUser() {
+    const profileIcon = document.getElementById('profileIcon');
+    profileIcon.className = 'fas fa-user profile-icon';
+    profileIcon.style.color = '#4CAF50';
+}
+
+// Location Services
+function setupLocationServices() {
+    const locationModal = document.getElementById('locationModal');
+    const closeLocation = document.querySelector('.close-location');
+    const detectLocationBtn = document.querySelector('.detect-location-btn');
+    const cityBtns = document.querySelectorAll('.city-btn');
+
+    // Close modal
+    closeLocation.addEventListener('click', () => {
+        locationModal.classList.add('hidden');
+    });
+
+    // Detect location
+    detectLocationBtn.addEventListener('click', () => {
+        detectUserLocation();
+    });
+
+    // City selection
+    cityBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const city = btn.textContent;
+            setUserLocation(city);
+            locationModal.classList.add('hidden');
+        });
+    });
+}
+
+function checkUserLocation() {
+    const savedLocation = localStorage.getItem('userLocation');
+    if (!savedLocation) {
+        setTimeout(() => {
+            document.getElementById('locationModal').classList.remove('hidden');
+        }, 4000); // Show after flash screen
+    }
+}
+
+function detectUserLocation() {
+    if (navigator.geolocation) {
+        showNotification('Detecting your location...', 'info');
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                // Simulate reverse geocoding
+                setTimeout(() => {
+                    const city = 'New York'; // Simulated result
+                    setUserLocation(city);
+                    document.getElementById('locationModal').classList.add('hidden');
+                }, 1500);
+            },
+            (error) => {
+                showNotification('Unable to detect location. Please select manually.', 'error');
+            }
+        );
+    }
+}
+
+function setUserLocation(city) {
+    localStorage.setItem('userLocation', city);
+    showNotification(`Location set to ${city}`, 'success');
+    updateUIWithLocation(city);
+}
+
+function updateUIWithLocation(city) {
+    // Update header or add location indicator
+    const locationIndicator = document.createElement('span');
+    locationIndicator.textContent = `📍 ${city}`;
+    locationIndicator.className = 'location-indicator';
+    locationIndicator.style.cssText = 'margin-left: 1rem; color: #666; font-size: 0.9rem;';
+
+    const logo = document.querySelector('.logo');
+    if (!document.querySelector('.location-indicator')) {
+        logo.appendChild(locationIndicator);
+    }
+}
+
+// Banner Carousel
+function setupBannerCarousel() {
+    const slides = document.querySelectorAll('.banner-slide');
+    const dots = document.querySelectorAll('.dot');
+    let currentSlide = 0;
+
+    // Dot click handlers
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Show current slide
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+
+        currentSlide = index;
+    }
+
+    // Auto-advance slides
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }, 5000);
+}
+
+// Recommendations
+function setupRecommendations() {
+    const recTabs = document.querySelectorAll('.rec-tab');
+
+    recTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+
+            // Update active tab
+            recTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter recommendations
+            filterRecommendations(category);
+        });
+    });
+}
+
+function filterRecommendations(category) {
+    showNotification(`Loading ${category} recommendations...`, 'info');
+
+    // Simulate API call and update recommendations
+    setTimeout(() => {
+        showNotification(`Updated recommendations for ${category}`, 'success');
+    }, 1000);
+}
+
+// Enhanced filter tabs for New Arrivals
+function setupFilterTabs() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            filterTabs.forEach(t => t.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            // Filter products based on tab
+            const filter = this.textContent.toLowerCase();
+            filterNewArrivals(filter);
+        });
+    });
+}
+
+function filterNewArrivals(filter) {
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        let shouldShow = filter === 'all';
+
+        if (!shouldShow) {
+            // Show products based on time filter
+            shouldShow = true; // For demo, show all products
+        }
+
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+
+    showNotification(`Showing ${filter} arrivals`, 'info');
+}
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
     addToWishlist,
     showNotification,
-    filterProducts
+    filterProducts,
+    handleSignIn,
+    handleSignUp,
+    setUserLocation
 };
