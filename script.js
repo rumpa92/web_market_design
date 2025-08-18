@@ -35,6 +35,13 @@ function initializeApp() {
     setupFashionStories();
     setupRecommendations();
     checkUserLocation();
+    setupSeasonalCollections();
+    setupTrendingSection();
+    setupAdvancedSearch();
+    setupVoiceSearch();
+    setupFiltersAndSort();
+    setupEnhancedNavigation();
+    enableGuestBrowsing();
 }
 
 // Event Listeners Setup
