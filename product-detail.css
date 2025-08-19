@@ -157,21 +157,10 @@ body {
 }
 
 .product-nav-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.product-nav-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.25rem;
-}
-
-.product-nav-subtitle {
-    font-size: 0.9rem;
     color: #666;
+    font-size: 0.9rem;
     font-weight: 400;
+    line-height: 1.6;
 }
 
 .main-image-wrapper {
