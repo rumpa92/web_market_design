@@ -719,85 +719,55 @@ body {
     font-weight: 500;
 }
 
-.arrivals-products-grid {
+/* Modern Product Cards Design */
+.modern-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
-.arrival-product-card {
+.modern-product-card {
     background: white;
-    border-radius: 15px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
     cursor: pointer;
+    border: 1px solid #f0f0f0;
 }
 
-.arrival-product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+.modern-product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-.arrival-product-image {
+.modern-product-image {
     position: relative;
-    height: 320px;
+    width: 100%;
+    height: 300px;
     overflow: hidden;
+    background: #f8f9fa;
 }
 
-.product-img {
+.modern-product-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.arrival-product-card:hover .product-img {
-    transform: scale(1.05);
+.modern-product-card:hover .modern-product-img {
+    transform: scale(1.03);
 }
 
-.product-label {
+.modern-wishlist-btn {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    z-index: 5;
-}
-
-.new-label {
-    background: #4CAF50;
-    color: white;
-}
-
-.sale-label {
-    background: #ff4444;
-    color: white;
-}
-
-.product-overlay {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.arrival-product-card:hover .product-overlay {
-    opacity: 1;
-}
-
-.wishlist-btn-overlay,
-.quickview-btn-overlay {
-    width: 40px;
-    height: 40px;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
     border: none;
-    background: rgba(255,255,255,0.9);
+    background: white;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -805,75 +775,52 @@ body {
     justify-content: center;
     transition: all 0.3s ease;
     color: #666;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.wishlist-btn-overlay:hover,
-.quickview-btn-overlay:hover {
-    background: white;
-    color: #333;
+.modern-wishlist-btn:hover {
+    background: #f8f9fa;
+    color: #ff4444;
     transform: scale(1.1);
 }
 
-.arrival-product-details {
-    padding: 1.5rem;
+.modern-product-info {
+    padding: 1rem 1.25rem 1.25rem;
 }
 
-.arrival-product-name {
-    font-size: 1.1rem;
+.modern-product-title {
+    font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
-    line-height: 1.3;
-}
-
-.arrival-product-brand {
-    color: #888;
-    font-size: 0.9rem;
     margin-bottom: 0.75rem;
+    color: #333;
+    line-height: 1.4;
+    min-height: 2.8rem;
 }
 
-.arrival-product-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.modern-product-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
     margin-bottom: 1rem;
 }
 
-.star-rating {
-    display: flex;
-    gap: 0.1rem;
-}
-
-.star {
-    color: #ddd;
+.modern-add-to-cart {
+    width: 100%;
+    padding: 0.75rem;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
     font-size: 0.9rem;
+    text-transform: capitalize;
 }
 
-.star.filled {
-    color: #ffc107;
-}
-
-.rating-text {
-    color: #888;
-    font-size: 0.85rem;
-}
-
-.arrival-product-price {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.price-current {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #333;
-}
-
-.price-original {
-    font-size: 1rem;
-    color: #888;
-    text-decoration: line-through;
+.modern-add-to-cart:hover {
+    background: #555;
+    transform: translateY(-1px);
 }
 
 /* Filters Panel */
