@@ -105,6 +105,8 @@ function setupProductEventListeners() {
     
     // Gallery functionality
     setupGallery();
+    setupCarousel();
+    setupShareFunctionality();
     
     // Color selection
     setupColorSelection();
