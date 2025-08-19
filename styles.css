@@ -2293,8 +2293,8 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Specific positioning for first trending product to show face */
-.colorful-product-card:first-child .colorful-product-img {
+/* Specific positioning for all trending products to show faces */
+.colorful-product-card .colorful-product-img {
     object-position: center top;
 }
 
