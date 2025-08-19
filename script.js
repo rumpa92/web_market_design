@@ -173,12 +173,16 @@ function updateCartCount() {
     const cartCountElement = document.querySelector('.cart-count');
     if (cartCountElement) {
         cartCountElement.textContent = cartCount;
-        
+
         // Add animation when count changes
-        cartCountElement.style.transform = 'scale(1.2)';
-        setTimeout(() => {
-            cartCountElement.style.transform = 'scale(1)';
-        }, 200);
+        if (cartCount > 0) {
+            cartCountElement.style.transform = 'scale(1.2)';
+            cartCountElement.style.backgroundColor = '#4CAF50';
+            setTimeout(() => {
+                cartCountElement.style.transform = 'scale(1)';
+                cartCountElement.style.backgroundColor = '#000';
+            }, 200);
+        }
     }
 }
 
