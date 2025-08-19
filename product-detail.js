@@ -582,6 +582,138 @@ function show360View() {
     // In a real app, this would show an interactive 360° product view
 }
 
+function setupCarousel() {
+    const prevBtn = document.getElementById('prevImageBtn');
+    const nextBtn = document.getElementById('nextImageBtn');
+    const indicators = document.querySelectorAll('.indicator');
+    const mainImage = document.getElementById('mainProductImage');
+
+    let currentImageIndex = 0;
+    const imageKeys = ['main', 'side', 'back', 'detail'];
+
+    function updateCarousel(index) {
+        currentImageIndex = index;
+
+        // Update main image
+        if (currentProduct.images[imageKeys[index]]) {
+            mainImage.src = currentProduct.images[imageKeys[index]];
+        }
+
+        // Update indicators
+        indicators.forEach((indicator, i) => {
+            indicator.classList.toggle('active', i === index);
+        });
+
+        // Update thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        const newIndex = currentImageIndex > 0 ? currentImageIndex - 1 : imageKeys.length - 1;
+        updateCarousel(newIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const newIndex = currentImageIndex < imageKeys.length - 1 ? currentImageIndex + 1 : 0;
+        updateCarousel(newIndex);
+    });
+
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            updateCarousel(index);
+        });
+    });
+
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let startY = 0;
+
+    mainImage.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    });
+
+    mainImage.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // Only trigger swipe if horizontal movement is greater than vertical
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Swiped left, show next image
+                nextBtn.click();
+            } else {
+                // Swiped right, show previous image
+                prevBtn.click();
+            }
+        }
+    });
+}
+
+function setupShareFunctionality() {
+    const shareWhatsApp = document.getElementById('shareWhatsApp');
+    const shareInstagram = document.getElementById('shareInstagram');
+    const shareFacebook = document.getElementById('shareFacebook');
+    const copyLink = document.getElementById('copyLink');
+
+    const productUrl = window.location.href;
+    const productTitle = currentProduct.title;
+    const productImage = currentProduct.images.main;
+
+    shareWhatsApp.addEventListener('click', () => {
+        const message = `Check out this ${productTitle}! ${productUrl}`;
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        showNotification('Opening WhatsApp...', 'success');
+    });
+
+    shareInstagram.addEventListener('click', () => {
+        // Instagram doesn't support direct sharing via URL, so we copy the link
+        navigator.clipboard.writeText(productUrl).then(() => {
+            showNotification('Link copied! Open Instagram and paste to share.', 'success');
+        }).catch(() => {
+            showNotification('Instagram sharing - please copy the link manually', 'info');
+        });
+    });
+
+    shareFacebook.addEventListener('click', () => {
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`;
+        window.open(facebookUrl, '_blank', 'width=600,height=400');
+        showNotification('Opening Facebook...', 'success');
+    });
+
+    copyLink.addEventListener('click', () => {
+        navigator.clipboard.writeText(productUrl).then(() => {
+            showNotification('Product link copied to clipboard!', 'success');
+
+            // Visual feedback
+            copyLink.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                copyLink.innerHTML = '<i class="fas fa-link"></i>';
+            }, 2000);
+        }).catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = productUrl;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showNotification('Product link copied to clipboard!', 'success');
+            } catch (err) {
+                showNotification('Unable to copy link', 'error');
+            }
+            document.body.removeChild(textArea);
+        });
+    });
+}
+
 // Utility functions
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
