@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // Product data (this would typically come from an API or URL params)
 let currentProduct = {
     id: 1,
-    title: 'Traditional Salwar Kameez Set',
-    brand: 'StyleHub',
-    tagline: 'Elegant Traditional Wear for Special Occasions',
-    currentPrice: 250,
-    originalPrice: 300,
-    discount: 16,
-    rating: 4.8,
-    reviewCount: 1245,
+    title: 'Luxe Velvet Matte Lipstick',
+    brand: 'Bella Beauty',
+    tagline: 'Long-lasting, Full Coverage Matte Finish',
+    currentPrice: 85,
+    originalPrice: 120,
+    discount: 29,
+    rating: 4.9,
+    reviewCount: 2847,
     images: {
         main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
         side: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
