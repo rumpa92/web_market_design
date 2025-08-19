@@ -681,9 +681,10 @@ body {
 }
 
 .filter-toggle-btn:hover {
-    background: #333;
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
     color: white;
-    border-color: #333;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(255,107,107,0.3);
 }
 
 .active-filter-tags {
