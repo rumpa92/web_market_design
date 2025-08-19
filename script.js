@@ -1607,6 +1607,116 @@ function setupNewsletterForm() {
     }
 }
 
+// Product Navigation Setup
+function setupProductNavigation() {
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+
+    productCards.forEach(card => {
+        // Make entire card clickable except for buttons
+        card.addEventListener('click', (e) => {
+            // Don't navigate if clicking on buttons
+            if (e.target.closest('button')) {
+                return;
+            }
+
+            const productData = extractProductDataForNavigation(card);
+            navigateToProductDetail(productData);
+        });
+
+        // Add hover effect to indicate clickability
+        card.style.cursor = 'pointer';
+    });
+}
+
+function extractProductDataForNavigation(productCard) {
+    let title, price, image, brand = 'StyleHub';
+
+    // Handle different card types
+    if (productCard.classList.contains('colorful-product-card')) {
+        title = productCard.querySelector('.colorful-product-title').textContent;
+        const currentPriceEl = productCard.querySelector('.current-price');
+        const originalPriceEl = productCard.querySelector('.original-price');
+
+        price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 250;
+        const originalPrice = originalPriceEl ? parseInt(originalPriceEl.textContent.replace('$', '')) : price + 50;
+
+        image = productCard.querySelector('.colorful-product-img').src;
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: originalPrice,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round(((originalPrice - price) / originalPrice) * 100)
+        };
+    } else if (productCard.classList.contains('modern-product-card')) {
+        title = productCard.querySelector('.modern-product-title').textContent;
+        price = parseInt(productCard.querySelector('.modern-product-price').textContent.replace('$', ''));
+        image = productCard.querySelector('.modern-product-img').src;
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: price + 50,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round((50 / (price + 50)) * 100)
+        };
+    } else {
+        // Regular product card
+        title = productCard.querySelector('.product-title')?.textContent || 'Fashion Item';
+        const currentPriceEl = productCard.querySelector('.current-price');
+        price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 200;
+        image = productCard.querySelector('.product-image, img')?.src || '';
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: price + 40,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round((40 / (price + 40)) * 100)
+        };
+    }
+}
+
+function getTaglineForProduct(title) {
+    const taglines = {
+        'Traditional Salwar Kameez Set': 'Elegant Traditional Wear for Special Occasions',
+        'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
+        'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
+        'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
+        'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
+        'Premium Navy Formal Shirt': 'Professional Style for Modern Men',
+        'Teal Cotton Casual Shirt': 'Comfortable Casual Wear for Every Day',
+        'Mustard Yellow Anarkali Dress': 'Vibrant Colors for Joyful Occasions',
+        'Traditional Red Silk Saree': 'Timeless Grace in Pure Silk',
+        'Silk Blend Maxi Dress': 'Luxurious Comfort for Special Events',
+        'Traditional Anarkali Set': 'Classic Design with Modern Fit',
+        'Designer Footwear Collection': 'Step in Style with Premium Comfort'
+    };
+
+    return taglines[title] || 'Premium Fashion for Every Occasion';
+}
+
+function navigateToProductDetail(productData) {
+    // Show loading notification
+    showNotification(`Loading ${productData.title}...`, 'info');
+
+    // Create URL with product data
+    const productParam = encodeURIComponent(JSON.stringify(productData));
+    const url = `product-detail.html?product=${productParam}`;
+
+    // Navigate to product detail page
+    setTimeout(() => {
+        window.location.href = url;
+    }, 500);
+}
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
@@ -1623,5 +1733,6 @@ window.FashionMarketplace = {
     setupWishlistButtons,
     setupAddToCartButtons,
     showCartSummary,
-    showWishlistSummary
+    showWishlistSummary,
+    navigateToProductDetail
 };
