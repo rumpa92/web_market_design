@@ -859,10 +859,22 @@ function setupRecommendations() {
             recTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            // Filter recommendations
+            // Add visual feedback
+            tab.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                tab.style.transform = '';
+            }, 150);
+
+            // Filter recommendations with animation
             filterRecommendations(category);
+
+            showNotification(`Loading ${category} recommendations...`, 'info');
         });
     });
+
+    // Add wishlist functionality to modern cards
+    setupWishlistButtons();
+    setupAddToCartButtons();
 }
 
 function filterRecommendations(category) {
