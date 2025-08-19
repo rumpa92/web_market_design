@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail - StyleHub</title>
+    <title>Churidar - StyleHub</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="product-detail.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,14 +12,14 @@
 </head>
 <body>
     <!-- Header/Navigation -->
-    <header class="product-header">
-        <div class="container">
-            <div class="product-header-content">
+    <header class="fashion-header">
+        <div class="header-container">
+            <div class="header-content">
                 <div class="header-left">
                     <button class="back-btn" id="backBtn">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <h1 class="product-page-title">StyleHub</h1>
+                    <h1 class="brand-title">Clothes & Fashion</h1>
                 </div>
                 <div class="header-right">
                     <button class="header-icon-btn search-btn" id="searchBtn">
@@ -30,7 +30,7 @@
                     </button>
                     <button class="header-icon-btn cart-btn" id="headerCartBtn">
                         <i class="fas fa-shopping-bag"></i>
-                        <span class="cart-badge" id="cartBadge">1</span>
+                        <span class="cart-badge" id="cartBadge">0</span>
                     </button>
                 </div>
             </div>
@@ -38,611 +38,393 @@
     </header>
 
     <!-- Main Product Content -->
-    <main class="product-main">
-        <!-- Product Gallery -->
-        <section class="product-gallery">
-            <div class="gallery-container">
-                <div class="image-carousel-container">
-                    <button class="carousel-nav-btn prev-btn" id="prevImageBtn">
-                        <i class="fas fa-chevron-left"></i>
+    <main class="fashion-main">
+        <div class="product-container">
+            <!-- Product Gallery Section -->
+            <section class="product-gallery-section">
+                <div class="main-image-wrapper">
+                    <button class="wishlist-overlay-btn" id="wishlistOverlay">
+                        <i class="far fa-heart"></i>
                     </button>
-                    <button class="carousel-nav-btn next-btn" id="nextImageBtn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-
+                    
                     <div class="main-image-container">
-                        <img src="" alt="Product Image" class="main-product-image" id="mainProductImage">
-                        <button class="zoom-btn" id="zoomBtn">
-                            <i class="fas fa-search-plus"></i>
-                        </button>
-
-                        <!-- Share Icons -->
-                        <div class="share-icons">
-                            <button class="share-btn" id="shareWhatsApp" title="Share on WhatsApp">
-                                <i class="fab fa-whatsapp"></i>
-                            </button>
-                            <button class="share-btn" id="shareInstagram" title="Share on Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </button>
-                            <button class="share-btn" id="shareFacebook" title="Share on Facebook">
-                                <i class="fab fa-facebook"></i>
-                            </button>
-                            <button class="share-btn" id="copyLink" title="Copy Link">
-                                <i class="fas fa-link"></i>
-                            </button>
-                        </div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800" alt="Product Image" class="main-product-image" id="mainProductImage">
                     </div>
+                </div>
+                
+                <div class="thumbnail-gallery">
+                    <div class="thumbnail-item active" data-image="main">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Front view">
+                    </div>
+                    <div class="thumbnail-item" data-image="side">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Side view">
+                    </div>
+                    <div class="thumbnail-item" data-image="back">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=200" alt="Back view">
+                    </div>
+                    <div class="thumbnail-item" data-image="detail">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Detail view">
+                    </div>
+                    <div class="thumbnail-item" data-image="fabric">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Fabric detail">
+                    </div>
+                </div>
+            </section>
 
-                    <!-- Image Indicators -->
-                    <div class="image-indicators">
-                        <span class="indicator active" data-index="0"></span>
-                        <span class="indicator" data-index="1"></span>
-                        <span class="indicator" data-index="2"></span>
-                        <span class="indicator" data-index="3"></span>
+            <!-- Product Information Section -->
+            <section class="product-info-section">
+                <div class="product-header-info">
+                    <h1 class="product-title" id="productTitle">Churidar</h1>
+                    <div class="product-rating">
+                        <div class="rating-stars">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-text">4.8 (384 Reviews)</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="gallery-thumbnails">
-                    <div class="thumbnail-scroll">
-                        <div class="thumbnail active" data-image="main">
-                            <img src="" alt="Front view">
+                <div class="price-section">
+                    <span class="current-price" id="currentPrice">$299</span>
+                </div>
+
+                <!-- Color Selection -->
+                <div class="selection-section">
+                    <h3>Color</h3>
+                    <div class="color-options">
+                        <div class="color-dot active" data-color="black" style="background-color: #000000;" title="Black"></div>
+                        <div class="color-dot" data-color="blue" style="background-color: #4285f4;" title="Blue"></div>
+                        <div class="color-dot" data-color="red" style="background-color: #ea4335;" title="Red"></div>
+                        <div class="color-dot" data-color="green" style="background-color: #34a853;" title="Green"></div>
+                    </div>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="selection-section">
+                    <h3>Select Size</h3>
+                    <div class="size-options">
+                        <button class="size-btn" data-size="XS">XS</button>
+                        <button class="size-btn" data-size="S">S</button>
+                        <button class="size-btn active" data-size="M">M</button>
+                        <button class="size-btn" data-size="L">L</button>
+                        <button class="size-btn" data-size="XL">XL</button>
+                        <button class="size-btn" data-size="XXL">XXL</button>
+                    </div>
+                </div>
+
+                <!-- Quantity Selection -->
+                <div class="quantity-section">
+                    <h3>Quantity</h3>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" id="decreaseQty">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity-display" id="quantityDisplay">1</span>
+                        <button class="qty-btn" id="increaseQty">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button class="add-to-cart-btn" id="addToCartBtn">
+                    Add to Cart
+                </button>
+
+                <!-- Delivery Information -->
+                <div class="delivery-info">
+                    <div class="delivery-item">
+                        <i class="fas fa-truck"></i>
+                        <div>
+                            <strong>Free Delivery</strong>
+                            <span>Estimated delivery by Thursday, Dec 14</span>
                         </div>
-                        <div class="thumbnail" data-image="side">
-                            <img src="" alt="Side view">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Details Tabs -->
+        <section class="product-details-tabs">
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="details">Product Details</button>
+                <button class="tab-btn" data-tab="size-fit">Size & Fit</button>
+                <button class="tab-btn" data-tab="materials">Materials & Care</button>
+                <button class="tab-btn" data-tab="shipping">Shipping & Returns</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-panel active" id="details">
+                    <div class="details-content">
+                        <h3>Product Details</h3>
+                        <p>Experience the elegance of traditional Indian fashion with this beautiful Churidar set. Crafted with premium quality fabrics and intricate embroidery work, this outfit is perfect for special occasions and festive celebrations.</p>
+                        
+                        <div class="detail-specs">
+                            <div class="spec-item">
+                                <strong>Fabric:</strong>
+                                <span>Premium Cotton with Georgette Dupatta</span>
+                            </div>
+                            <div class="spec-item">
+                                <strong>Style:</strong>
+                                <span>Traditional ethnic wear with intricate embroidery</span>
+                            </div>
+                            <div class="spec-item">
+                                <strong>Occasion:</strong>
+                                <span>Festivals, Weddings, Special Events</span>
+                            </div>
+                            <div class="spec-item">
+                                <strong>Care Instructions:</strong>
+                                <span>Dry clean only. Do not bleach. Iron on medium heat.</span>
+                            </div>
                         </div>
-                        <div class="thumbnail" data-image="back">
-                            <img src="" alt="Back view">
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="size-fit">
+                    <div class="size-guide">
+                        <h3>Size Guide</h3>
+                        <div class="size-chart">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Chest (inches)</th>
+                                        <th>Length (inches)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>XS</td>
+                                        <td>34-36</td>
+                                        <td>26</td>
+                                    </tr>
+                                    <tr>
+                                        <td>S</td>
+                                        <td>36-38</td>
+                                        <td>27</td>
+                                    </tr>
+                                    <tr>
+                                        <td>M</td>
+                                        <td>38-40</td>
+                                        <td>28</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L</td>
+                                        <td>40-42</td>
+                                        <td>29</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XL</td>
+                                        <td>42-44</td>
+                                        <td>30</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="thumbnail" data-image="detail">
-                            <img src="" alt="Material detail">
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="materials">
+                    <div class="materials-content">
+                        <h3>Materials & Care</h3>
+                        <div class="care-instructions">
+                            <div class="care-item">
+                                <i class="fas fa-tshirt"></i>
+                                <div>
+                                    <strong>Fabric:</strong>
+                                    <span>100% Premium Cotton with Georgette Dupatta</span>
+                                </div>
+                            </div>
+                            <div class="care-item">
+                                <i class="fas fa-hand-sparkles"></i>
+                                <div>
+                                    <strong>Care:</strong>
+                                    <span>Dry clean recommended for best results</span>
+                                </div>
+                            </div>
+                            <div class="care-item">
+                                <i class="fas fa-temperature-high"></i>
+                                <div>
+                                    <strong>Ironing:</strong>
+                                    <span>Iron on medium heat, use pressing cloth for embroidery</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="thumbnail video-thumbnail" data-image="video">
-                            <i class="fas fa-play"></i>
-                            <span>360° View</span>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="shipping">
+                    <div class="shipping-content">
+                        <h3>Shipping & Returns</h3>
+                        <div class="shipping-info">
+                            <div class="shipping-item">
+                                <i class="fas fa-shipping-fast"></i>
+                                <div>
+                                    <strong>Free Shipping:</strong>
+                                    <span>On orders over $199. Standard delivery in 3-5 business days.</span>
+                                </div>
+                            </div>
+                            <div class="shipping-item">
+                                <i class="fas fa-undo"></i>
+                                <div>
+                                    <strong>Easy Returns:</strong>
+                                    <span>30-day return policy. Items must be unworn with original tags.</span>
+                                </div>
+                            </div>
+                            <div class="shipping-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <div>
+                                    <strong>Size Exchange:</strong>
+                                    <span>Free size exchange within 15 days of delivery.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Product Info -->
-        <section class="product-info">
-            <div class="container">
-                <!-- Product Title & Essentials -->
-                <div class="product-header-info">
-                    <div class="product-brand">
-                        <a href="#" class="brand-link" id="productBrand">StyleHub</a>
+        <!-- Customer Reviews -->
+        <section class="customer-reviews">
+            <h2>Customer Reviews</h2>
+            <div class="reviews-list">
+                <div class="review-item">
+                    <div class="reviewer-avatar">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="Sarah M.">
                     </div>
-                    <h1 class="product-title" id="productTitle">Traditional Salwar Kameez Set</h1>
-                    <p class="product-tagline" id="productTagline">Elegant Traditional Wear for Special Occasions</p>
-                    
-                    <div class="product-rating-section">
-                        <div class="rating-stars">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-score">4.8</span>
+                    <div class="review-content">
+                        <div class="reviewer-info">
+                            <span class="reviewer-name">Sarah M.</span>
+                            <span class="verified-badge">✓ Verified Purchase</span>
                         </div>
-                        <button class="reviews-link" id="reviewsLink">
-                            <span class="review-count">1,245 reviews</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Price & Offers -->
-                <div class="price-section">
-                    <div class="price-container">
-                        <span class="current-price" id="currentPrice">$250</span>
-                        <span class="original-price" id="originalPrice">$300</span>
-                        <span class="discount-percentage">16% OFF</span>
-                    </div>
-                    
-                    <div class="offers-section">
-                        <div class="emi-info">
-                            <i class="fas fa-credit-card"></i>
-                            <span>EMI starting from $25/month</span>
-                        </div>
-                        <div class="coupon-banner">
-                            <i class="fas fa-tag"></i>
-                            <span>Extra 10% off with code: FESTIVE10</span>
-                            <button class="apply-coupon">Apply</button>
+                        <div class="review-rating">★★★★★</div>
+                        <p class="review-text">Perfect fit and super comfortable! The cotton is premium quality and the design is classic.</p>
+                        <div class="review-meta">
+                            <span>Size: M</span>
+                            <span>Height: 5'7"</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Shade/Color Selection -->
-                <div class="beauty-color-section">
-                    <h3>Shade</h3>
-                    <div class="beauty-color-grid">
-                        <div class="beauty-color-item active" data-color="coral-blush">
-                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e);"></div>
-                            <span class="shade-name">Coral Blush</span>
-                            <span class="shade-code">#CB01</span>
+                <div class="review-item">
+                    <div class="reviewer-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b1-5?w=50&h=50&fit=crop&crop=face" alt="Sarah M.">
+                    </div>
+                    <div class="review-content">
+                        <div class="reviewer-info">
+                            <span class="reviewer-name">Sarah M.</span>
+                            <span class="verified-badge">✓ Verified Purchase</span>
                         </div>
-                        <div class="beauty-color-item" data-color="rose-gold">
-                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #f7b2bd, #e8a598);"></div>
-                            <span class="shade-name">Rose Gold</span>
-                            <span class="shade-code">#RG03</span>
-                        </div>
-                        <div class="beauty-color-item" data-color="berry-wine">
-                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #8e44ad, #c0392b);"></div>
-                            <span class="shade-name">Berry Wine</span>
-                            <span class="shade-code">#BW05</span>
-                        </div>
-                        <div class="beauty-color-item" data-color="nude-pink">
-                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #f8c4b8, #f5a3a3);"></div>
-                            <span class="shade-name">Nude Pink</span>
-                            <span class="shade-code">#NP02</span>
+                        <div class="review-rating">★★★★★</div>
+                        <p class="review-text">Perfect fit and super comfortable! The cotton is premium quality and the design is classic.</p>
+                        <div class="review-meta">
+                            <span>Size: M</span>
+                            <span>Height: 5'7"</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Size/Volume Selection -->
-                <div class="variant-section">
-                    <div class="variant-header">
-                        <h3>Size & Volume</h3>
-                        <span class="variant-helper">Choose your perfect size</span>
+                <div class="review-item">
+                    <div class="reviewer-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" alt="Sarah M.">
                     </div>
-
-                    <div class="pill-variants">
-                        <button class="pill-variant-btn" data-variant="mini" data-price="45">
-                            <span class="variant-size">Mini</span>
-                            <span class="variant-volume">15ml</span>
-                            <span class="variant-price">$45</span>
-                        </button>
-                        <button class="pill-variant-btn active" data-variant="regular" data-price="85">
-                            <span class="variant-size">Regular</span>
-                            <span class="variant-volume">30ml</span>
-                            <span class="variant-price">$85</span>
-                            <span class="popular-badge">Popular</span>
-                        </button>
-                        <button class="pill-variant-btn" data-variant="large" data-price="125">
-                            <span class="variant-size">Large</span>
-                            <span class="variant-volume">50ml</span>
-                            <span class="variant-price">$125</span>
-                            <span class="value-badge">Best Value</span>
-                        </button>
-                        <button class="pill-variant-btn" data-variant="travel-set" data-price="189">
-                            <span class="variant-size">Travel Set</span>
-                            <span class="variant-volume">3 × 15ml</span>
-                            <span class="variant-price">$189</span>
-                        </button>
-                    </div>
-
-                    <div class="variant-info">
-                        <div class="usage-info">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Regular size lasts approximately 2-3 months with daily use</span>
+                    <div class="review-content">
+                        <div class="reviewer-info">
+                            <span class="reviewer-name">Sarah M.</span>
+                            <span class="verified-badge">✓ Verified Purchase</span>
                         </div>
-                        <div class="stock-info">
-                            <i class="fas fa-check-circle"></i>
-                            <span>In stock - Ships within 24 hours</span>
+                        <div class="review-rating">★★★★★</div>
+                        <p class="review-text">Perfect fit and super comfortable! The cotton is premium quality and the design is classic.</p>
+                        <div class="review-meta">
+                            <span>Size: M</span>
+                            <span>Height: 5'7"</span>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- How to Use Section -->
-                <div class="how-to-use-section">
-                    <div class="how-to-use-header" id="howToUseHeader">
-                        <h3>How to Use</h3>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="how-to-use-content" id="howToUseContent">
-                        <div class="usage-steps">
-                            <div class="usage-step">
-                                <div class="step-icon">
-                                    <i class="fas fa-hand-sparkles"></i>
-                                    <span class="step-number">1</span>
-                                </div>
-                                <div class="step-content">
-                                    <h4>Prep Your Lips</h4>
-                                    <p>Gently exfoliate and moisturize your lips. Allow moisturizer to absorb completely before application.</p>
-                                </div>
-                            </div>
-                            <div class="usage-step">
-                                <div class="step-icon">
-                                    <i class="fas fa-paint-brush"></i>
-                                    <span class="step-number">2</span>
-                                </div>
-                                <div class="step-content">
-                                    <h4>Line Your Lips</h4>
-                                    <p>Use the precision tip to outline your lips, starting from the cupid's bow and working outward.</p>
-                                </div>
-                            </div>
-                            <div class="usage-step">
-                                <div class="step-icon">
-                                    <i class="fas fa-lipstick"></i>
-                                    <span class="step-number">3</span>
-                                </div>
-                                <div class="step-content">
-                                    <h4>Fill & Perfect</h4>
-                                    <p>Fill in your lips with smooth, even strokes. For best results, apply in thin layers and allow to set.</p>
-                                </div>
-                            </div>
-                            <div class="usage-step">
-                                <div class="step-icon">
-                                    <i class="fas fa-clock"></i>
-                                    <span class="step-number">4</span>
-                                </div>
-                                <div class="step-content">
-                                    <h4>Set & Enjoy</h4>
-                                    <p>Allow 30 seconds to set for long-lasting wear. Reapply as needed throughout the day.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="usage-tips">
-                            <h4><i class="fas fa-lightbulb"></i> Pro Tips</h4>
-                            <ul>
-                                <li>For a softer look, dab gently with fingertip after application</li>
-                                <li>Layer with our matching lip liner for maximum longevity</li>
-                                <li>Remove with oil-based cleanser for gentle, complete removal</li>
-                                <li>Store cap-down to maintain consistency</li>
-                            </ul>
-                        </div>
+        <!-- You May Also Like -->
+        <section class="related-products">
+            <h2>You May Also Like</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=400&fit=crop" alt="Shirt Dress">
+                    <div class="product-info">
+                        <h3>Shirt Dress</h3>
+                        <p class="product-price">$39.99</p>
                     </div>
                 </div>
 
-                <!-- Delivery & Returns -->
-                <div class="delivery-section">
-                    <h3>Delivery & Returns</h3>
-                    <div class="pincode-checker">
-                        <div class="pincode-input-group">
-                            <input type="text" placeholder="Enter pincode" class="pincode-input" id="pincodeInput">
-                            <button class="check-btn" id="checkDeliveryBtn">Check</button>
-                        </div>
-                        <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                            <div class="delivery-item">
-                                <i class="fas fa-truck"></i>
-                                <div>
-                                    <strong>Free Delivery</strong>
-                                    <span>Expected delivery by Dec 28</span>
-                                </div>
-                            </div>
-                            <div class="delivery-item">
-                                <i class="fas fa-undo"></i>
-                                <div>
-                                    <strong>Easy Returns</strong>
-                                    <span>30 days return & exchange</span>
-                                </div>
-                            </div>
-                        </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop" alt="Saree">
+                    <div class="product-info">
+                        <h3>Saree</h3>
+                        <p class="product-price">$39.99</p>
                     </div>
                 </div>
 
-                <!-- Product Description -->
-                <div class="description-section">
-                    <h3>Product Details</h3>
-                    <div class="description-content">
-                        <div class="detail-item">
-                            <strong>Fabric:</strong>
-                            <span>Premium Cotton with Georgette Dupatta</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Style:</strong>
-                            <span>Traditional ethnic wear with intricate embroidery and modern fit</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Care Instructions:</strong>
-                            <span>Dry clean only. Do not bleach. Iron on medium heat.</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Country of Origin:</strong>
-                            <span>India</span>
-                        </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop" alt="Anarkali">
+                    <div class="product-info">
+                        <h3>Anarkali</h3>
+                        <p class="product-price">$39.99</p>
                     </div>
                 </div>
 
-                <!-- Ratings & Reviews -->
-                <div class="reviews-section">
-                    <div class="reviews-header">
-                        <h3>Ratings & Reviews</h3>
-                        <button class="write-review-btn" id="writeReviewBtn">
-                            <i class="fas fa-edit"></i>
-                            Write Review
-                        </button>
-                    </div>
-                    
-                    <div class="rating-summary">
-                        <div class="overall-rating">
-                            <span class="big-rating">4.8</span>
-                            <div class="rating-details">
-                                <div class="stars">★★★★★</div>
-                                <span>Based on 1,245 reviews</span>
-                            </div>
-                        </div>
-                        
-                        <div class="rating-breakdown">
-                            <div class="rating-bar">
-                                <span>5★</span>
-                                <div class="bar"><div class="fill" style="width: 78%"></div></div>
-                                <span>78%</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span>4★</span>
-                                <div class="bar"><div class="fill" style="width: 15%"></div></div>
-                                <span>15%</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span>3★</span>
-                                <div class="bar"><div class="fill" style="width: 5%"></div></div>
-                                <span>5%</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span>2★</span>
-                                <div class="bar"><div class="fill" style="width: 1%"></div></div>
-                                <span>1%</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span>1★</span>
-                                <div class="bar"><div class="fill" style="width: 1%"></div></div>
-                                <span>1%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="review-filters">
-                        <button class="filter-btn active">All Reviews</button>
-                        <button class="filter-btn">With Photos</button>
-                        <button class="filter-btn">Verified Buyers</button>
-                        <button class="filter-btn">5 Stars</button>
-                        <button class="filter-btn">4 Stars</button>
-                    </div>
-
-                    <div class="reviews-list">
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <div class="reviewer-avatar">A</div>
-                                    <div class="reviewer-details">
-                                        <span class="reviewer-name">Anita Sharma</span>
-                                        <span class="review-date">Dec 15, 2024</span>
-                                    </div>
-                                </div>
-                                <div class="review-rating">★★★★★</div>
-                            </div>
-                            <div class="review-content">
-                                <p>Beautiful traditional outfit! The fabric quality is excellent and the embroidery work is stunning. Perfect fit and very comfortable to wear.</p>
-                                <div class="review-images">
-                                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=80&h=80&fit=crop" alt="Review photo">
-                                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=80&h=80&fit=crop" alt="Review photo">
-                                </div>
-                                <div class="review-actions">
-                                    <button class="helpful-btn">👍 Helpful (12)</button>
-                                    <button class="reply-btn">Reply</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <div class="reviewer-avatar">P</div>
-                                    <div class="reviewer-details">
-                                        <span class="reviewer-name">Priya Patel</span>
-                                        <span class="review-date">Dec 12, 2024</span>
-                                    </div>
-                                </div>
-                                <div class="review-rating">★★★★☆</div>
-                            </div>
-                            <div class="review-content">
-                                <p>Good quality outfit. The colors are vibrant and true to the pictures. Delivery was fast. Only suggestion is to improve the packaging.</p>
-                                <div class="review-actions">
-                                    <button class="helpful-btn">👍 Helpful (8)</button>
-                                    <button class="reply-btn">Reply</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="show-more-reviews">Show More Reviews</button>
-                </div>
-
-                <!-- Recommendations -->
-                <div class="recommendations-section">
-                    <h3>Frequently Bought Together</h3>
-                    <div class="bought-together">
-                        <div class="product-combo">
-                            <div class="combo-item main-item">
-                                <img src="" alt="Main product" class="combo-image">
-                                <span class="combo-price">$250</span>
-                            </div>
-                            <div class="combo-plus">+</div>
-                            <div class="combo-item">
-                                <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop" alt="Jewelry set">
-                                <span class="combo-price">$45</span>
-                            </div>
-                            <div class="combo-plus">+</div>
-                            <div class="combo-item">
-                                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&h=100&fit=crop" alt="Handbag">
-                                <span class="combo-price">$89</span>
-                            </div>
-                        </div>
-                        <div class="combo-total">
-                            <span class="total-price">Total: $384</span>
-                            <span class="savings">Save $41</span>
-                            <button class="add-all-btn">Add All to Cart</button>
-                        </div>
-                    </div>
-
-                    <h3>You May Also Like</h3>
-                    <div class="similar-products">
-                        <div class="similar-product">
-                            <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=150&h=200&fit=crop" alt="Similar product">
-                            <div class="similar-info">
-                                <span class="similar-title">Floral Anarkali Dress</span>
-                                <span class="similar-price">$189</span>
-                            </div>
-                        </div>
-                        <div class="similar-product">
-                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=150&h=200&fit=crop" alt="Similar product">
-                            <div class="similar-info">
-                                <span class="similar-title">Silk Maxi Dress</span>
-                                <span class="similar-price">$220</span>
-                            </div>
-                        </div>
-                        <div class="similar-product">
-                            <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=150&h=200&fit=crop" alt="Similar product">
-                            <div class="similar-info">
-                                <span class="similar-title">Embroidered Kurti</span>
-                                <span class="similar-price">$145</span>
-                            </div>
-                        </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop" alt="Classic White T-Shirt">
+                    <div class="product-info">
+                        <h3>Classic White T-Shirt</h3>
+                        <p class="product-price">$39.99</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Sticky Bottom Bar (Mobile) -->
-    <div class="sticky-bottom-bar">
-        <div class="bottom-bar-content">
-            <div class="price-display">
-                <span class="bottom-price" id="bottomPrice">$85</span>
-                <span class="bottom-discount">29% off</span>
-                <span class="savings-amount">Save $35</span>
-            </div>
-            <div class="action-buttons">
-                <button class="wishlist-bottom-btn" id="wishlistBottomBtn">
-                    <i class="far fa-heart"></i>
-                </button>
-
-                <!-- Add to Cart or Cart Modifier -->
-                <div class="cart-action-container" id="cartActionContainer">
-                    <button class="add-to-cart-enhanced" id="addToCartEnhanced">
-                        <div class="cart-btn-content">
-                            <i class="fas fa-shopping-bag"></i>
-                            <span class="cart-btn-text">Add to Cart</span>
-                        </div>
-                        <div class="cart-btn-loading" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <span>Adding...</span>
-                        </div>
-                        <div class="cart-btn-success" style="display: none;">
-                            <i class="fas fa-check"></i>
-                            <span>Added!</span>
-                        </div>
-                    </button>
-
-                    <!-- Cart Modifier (shown when item is in cart) -->
-                    <div class="cart-modifier" id="cartModifier" style="display: none;">
-                        <button class="quantity-btn minus-btn" id="decreaseQty">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span class="quantity-display" id="quantityDisplay">1</span>
-                        <button class="quantity-btn plus-btn" id="increaseQty">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <button class="remove-btn" id="removeFromCart">
-                            <i class="fas fa-trash"></i>
-                        </button>
+    <!-- Footer -->
+    <footer class="fashion-footer">
+        <div class="footer-container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
-                <button class="buy-now-enhanced" id="buyNowEnhanced">
-                    <i class="fas fa-bolt"></i>
-                    <span>Buy Now</span>
-                </button>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FASHION. All rights reserved.</p>
             </div>
         </div>
-    </div>
-
-    <!-- Success Toast -->
-    <div class="success-toast" id="successToast">
-        <i class="fas fa-check-circle"></i>
-        <span>Added to cart successfully!</span>
-    </div>
-
-    <!-- Modals -->
-    <!-- Size Guide Modal -->
-    <div id="sizeGuideModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Size Guide</h2>
-            <div class="size-chart">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Size</th>
-                            <th>Bust (inches)</th>
-                            <th>Waist (inches)</th>
-                            <th>Hip (inches)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>XS</td>
-                            <td>32-34</td>
-                            <td>24-26</td>
-                            <td>34-36</td>
-                        </tr>
-                        <tr>
-                            <td>S</td>
-                            <td>34-36</td>
-                            <td>26-28</td>
-                            <td>36-38</td>
-                        </tr>
-                        <tr>
-                            <td>M</td>
-                            <td>36-38</td>
-                            <td>28-30</td>
-                            <td>38-40</td>
-                        </tr>
-                        <tr>
-                            <td>L</td>
-                            <td>38-40</td>
-                            <td>30-32</td>
-                            <td>40-42</td>
-                        </tr>
-                        <tr>
-                            <td>XL</td>
-                            <td>40-42</td>
-                            <td>32-34</td>
-                            <td>42-44</td>
-                        </tr>
-                        <tr>
-                            <td>XXL</td>
-                            <td>42-44</td>
-                            <td>34-36</td>
-                            <td>44-46</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Write Review Modal -->
-    <div id="writeReviewModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Write a Review</h2>
-            <form class="review-form">
-                <div class="rating-input">
-                    <label>Rating:</label>
-                    <div class="star-rating-input">
-                        <span class="star-input" data-rating="1">☆</span>
-                        <span class="star-input" data-rating="2">☆</span>
-                        <span class="star-input" data-rating="3">☆</span>
-                        <span class="star-input" data-rating="4">☆</span>
-                        <span class="star-input" data-rating="5">☆</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="reviewTitle">Review Title:</label>
-                    <input type="text" id="reviewTitle" placeholder="Summarize your review">
-                </div>
-                <div class="form-group">
-                    <label for="reviewContent">Your Review:</label>
-                    <textarea id="reviewContent" rows="4" placeholder="Share your experience with this product"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="reviewImages">Add Photos (optional):</label>
-                    <input type="file" id="reviewImages" multiple accept="image/*">
-                </div>
-                <button type="submit" class="submit-review-btn">Submit Review</button>
-            </form>
-        </div>
-    </div>
+    </footer>
 
     <script src="script.js"></script>
     <script src="product-detail.js"></script>
