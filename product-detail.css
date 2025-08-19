@@ -842,7 +842,7 @@ body {
         padding: 0.75rem 0;
     }
 
-    .brand-title {
+    .header-left {
         font-size: 1rem;
     }
 
@@ -865,11 +865,7 @@ body {
         font-size: 1rem;
     }
 
-    .product-nav-title {
-        font-size: 1.1rem;
-    }
-
-    .product-nav-subtitle {
+    .product-nav-info {
         font-size: 0.8rem;
     }
     
