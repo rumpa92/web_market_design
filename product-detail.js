@@ -297,45 +297,79 @@ function setupDeliveryChecker() {
 }
 
 function setupPurchaseButtons() {
-    // Add to cart buttons
-    const addToCartButtons = [
-        document.getElementById('addToCartBottom'),
-        // Add other add to cart buttons if they exist
-    ];
-    
-    addToCartButtons.forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', () => {
-                addToCart(currentProduct);
-                showNotification(`${currentProduct.title} added to cart!`, 'success');
-                updateCartBadge();
-                
-                // Animation
-                btn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    btn.style.transform = 'scale(1)';
-                }, 150);
-            });
+    // Enhanced Add to Cart button
+    const addToCartEnhanced = document.getElementById('addToCartEnhanced');
+    const cartModifier = document.getElementById('cartModifier');
+    const quantityDisplay = document.getElementById('quantityDisplay');
+
+    addToCartEnhanced.addEventListener('click', () => {
+        animateAddToCart(addToCartEnhanced, () => {
+            addToCart(currentProduct);
+            updateCartBadge();
+            showSuccessToast('Added to cart successfully!');
+
+            // Check if item is now in cart and switch to modifier view
+            setTimeout(() => {
+                const cartItem = getCartItem();
+                if (cartItem) {
+                    showCartModifier(cartItem.quantity);
+                }
+            }, 1500);
+        });
+    });
+
+    // Quantity controls
+    document.getElementById('increaseQty').addEventListener('click', () => {
+        const cartItem = getCartItem();
+        if (cartItem) {
+            cartItem.quantity += 1;
+            updateCartItem(cartItem);
+            quantityDisplay.textContent = cartItem.quantity;
+            updateCartBadge();
+            showSuccessToast('Quantity updated!');
         }
     });
-    
-    // Buy now button
-    const buyNowBtn = document.getElementById('buyNowBottom');
-    buyNowBtn.addEventListener('click', () => {
-        addToCart(currentProduct);
-        showNotification('Proceeding to checkout...', 'success');
-        // In a real app, this would navigate to checkout
-        setTimeout(() => {
-            showNotification('Checkout functionality coming soon!', 'info');
-        }, 1000);
+
+    document.getElementById('decreaseQty').addEventListener('click', () => {
+        const cartItem = getCartItem();
+        if (cartItem && cartItem.quantity > 1) {
+            cartItem.quantity -= 1;
+            updateCartItem(cartItem);
+            quantityDisplay.textContent = cartItem.quantity;
+            updateCartBadge();
+            showSuccessToast('Quantity updated!');
+        } else if (cartItem && cartItem.quantity === 1) {
+            // Remove item if quantity reaches 0
+            document.getElementById('removeFromCart').click();
+        }
     });
-    
+
+    document.getElementById('removeFromCart').addEventListener('click', () => {
+        removeFromCart();
+        hideCartModifier();
+        updateCartBadge();
+        showSuccessToast('Removed from cart');
+    });
+
+    // Buy now button
+    const buyNowEnhanced = document.getElementById('buyNowEnhanced');
+    buyNowEnhanced.addEventListener('click', () => {
+        animateBuyNow(buyNowEnhanced, () => {
+            addToCart(currentProduct);
+            showSuccessToast('Proceeding to checkout...');
+            // In a real app, this would navigate to checkout
+            setTimeout(() => {
+                showNotification('Checkout functionality coming soon!', 'info');
+            }, 1000);
+        });
+    });
+
     // Wishlist buttons
     const wishlistButtons = [
         document.getElementById('wishlistBottomBtn'),
         document.getElementById('headerWishlistBtn')
     ];
-    
+
     wishlistButtons.forEach(btn => {
         if (btn) {
             btn.addEventListener('click', () => {
@@ -343,6 +377,110 @@ function setupPurchaseButtons() {
             });
         }
     });
+
+    // Initialize cart state
+    initializeCartState();
+}
+
+function animateAddToCart(button, callback) {
+    const content = button.querySelector('.cart-btn-content');
+    const loading = button.querySelector('.cart-btn-loading');
+    const success = button.querySelector('.cart-btn-success');
+
+    // Show loading state
+    content.style.display = 'none';
+    loading.style.display = 'flex';
+
+    setTimeout(() => {
+        // Show success state
+        loading.style.display = 'none';
+        success.style.display = 'flex';
+        callback();
+
+        setTimeout(() => {
+            // Return to normal state
+            success.style.display = 'none';
+            content.style.display = 'flex';
+        }, 1500);
+    }, 1000);
+}
+
+function animateBuyNow(button, callback) {
+    button.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        button.style.transform = 'scale(1)';
+        callback();
+    }, 150);
+}
+
+function showCartModifier(quantity) {
+    const addToCartEnhanced = document.getElementById('addToCartEnhanced');
+    const cartModifier = document.getElementById('cartModifier');
+    const quantityDisplay = document.getElementById('quantityDisplay');
+
+    addToCartEnhanced.style.display = 'none';
+    cartModifier.style.display = 'flex';
+    quantityDisplay.textContent = quantity;
+}
+
+function hideCartModifier() {
+    const addToCartEnhanced = document.getElementById('addToCartEnhanced');
+    const cartModifier = document.getElementById('cartModifier');
+
+    cartModifier.style.display = 'none';
+    addToCartEnhanced.style.display = 'block';
+}
+
+function getCartItem() {
+    const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    return cart.find(item =>
+        item.title === currentProduct.title &&
+        item.selectedVariant === currentProduct.selectedVariant &&
+        item.selectedShade === currentProduct.selectedShade
+    );
+}
+
+function updateCartItem(cartItem) {
+    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const index = cart.findIndex(item =>
+        item.title === currentProduct.title &&
+        item.selectedVariant === currentProduct.selectedVariant &&
+        item.selectedShade === currentProduct.selectedShade
+    );
+
+    if (index !== -1) {
+        cart[index] = cartItem;
+        localStorage.setItem('fashionCart', JSON.stringify(cart));
+    }
+}
+
+function removeFromCart() {
+    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    cart = cart.filter(item => !(
+        item.title === currentProduct.title &&
+        item.selectedVariant === currentProduct.selectedVariant &&
+        item.selectedShade === currentProduct.selectedShade
+    ));
+    localStorage.setItem('fashionCart', JSON.stringify(cart));
+}
+
+function initializeCartState() {
+    const cartItem = getCartItem();
+    if (cartItem) {
+        showCartModifier(cartItem.quantity);
+    }
+}
+
+function showSuccessToast(message) {
+    const toast = document.getElementById('successToast');
+    const messageSpan = toast.querySelector('span');
+
+    messageSpan.textContent = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
 }
 
 function setupReviewFunctionality() {
