@@ -799,9 +799,10 @@ body {
 }
 
 .modern-wishlist-btn:hover {
-    background: #f8f9fa;
-    color: #ff4444;
+    background: linear-gradient(135deg, #ff6b6b, #ff8a80);
+    color: white;
     transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255,107,107,0.3);
 }
 
 .modern-product-info {
