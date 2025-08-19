@@ -581,13 +581,26 @@ function updateUIForLoggedInUser() {
 // Location Services
 function setupLocationServices() {
     const locationModal = document.getElementById('locationModal');
+    const locationTrigger = document.getElementById('locationTrigger');
     const closeLocation = document.querySelector('.close-location');
     const detectLocationBtn = document.querySelector('.detect-location-btn');
     const cityBtns = document.querySelectorAll('.city-btn');
 
+    // Show modal when location trigger is clicked
+    locationTrigger.addEventListener('click', () => {
+        locationModal.classList.remove('hidden');
+    });
+
     // Close modal
     closeLocation.addEventListener('click', () => {
         locationModal.classList.add('hidden');
+    });
+
+    // Close on outside click
+    locationModal.addEventListener('click', (e) => {
+        if (e.target === locationModal) {
+            locationModal.classList.add('hidden');
+        }
     });
 
     // Detect location
@@ -607,11 +620,10 @@ function setupLocationServices() {
 
 function checkUserLocation() {
     const savedLocation = localStorage.getItem('userLocation');
-    if (!savedLocation) {
-        setTimeout(() => {
-            document.getElementById('locationModal').classList.remove('hidden');
-        }, 4000); // Show after flash screen
+    if (savedLocation) {
+        updateUIWithLocation(savedLocation);
     }
+    // No automatic popup - user must click location trigger to open modal
 }
 
 function detectUserLocation() {
@@ -640,15 +652,10 @@ function setUserLocation(city) {
 }
 
 function updateUIWithLocation(city) {
-    // Update header or add location indicator
-    const locationIndicator = document.createElement('span');
-    locationIndicator.textContent = `📍 ${city}`;
-    locationIndicator.className = 'location-indicator';
-    locationIndicator.style.cssText = 'margin-left: 1rem; color: #666; font-size: 0.9rem;';
-
-    const logo = document.querySelector('.logo');
-    if (!document.querySelector('.location-indicator')) {
-        logo.appendChild(locationIndicator);
+    // Update the location trigger text
+    const locationText = document.querySelector('.location-text');
+    if (locationText) {
+        locationText.textContent = city;
     }
 }
 
@@ -852,10 +859,22 @@ function setupRecommendations() {
             recTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            // Filter recommendations
+            // Add visual feedback
+            tab.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                tab.style.transform = '';
+            }, 150);
+
+            // Filter recommendations with animation
             filterRecommendations(category);
+
+            showNotification(`Loading ${category} recommendations...`, 'info');
         });
     });
+
+    // Add wishlist functionality to modern cards
+    setupWishlistButtons();
+    setupAddToCartButtons();
 }
 
 function filterRecommendations(category) {
@@ -924,7 +943,6 @@ function setupSeasonalCollections() {
 // Trending Section
 function setupTrendingSection() {
     const trendingTabs = document.querySelectorAll('.trending-tab');
-    const trendingItems = document.querySelectorAll('.trending-item');
 
     trendingTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -934,15 +952,27 @@ function setupTrendingSection() {
             trendingTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            // Filter trending items
-            filterTrendingItems(trend);
+            // Add visual feedback
+            tab.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                tab.style.transform = '';
+            }, 150);
 
-            showNotification(`Showing ${tab.textContent}`, 'info');
+            showNotification(`Showing ${tab.textContent}`, 'success');
         });
     });
 
-    // Real-time updates
-    setInterval(updateTrendingStats, 10000); // Update every 10 seconds
+    // Add enhanced interaction for product cards
+    const productCards = document.querySelectorAll('.modern-product-card');
+    productCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('.modern-wishlist-btn') && !e.target.closest('.modern-add-to-cart')) {
+                // Product card click for quick view
+                const productName = card.querySelector('.modern-product-title').textContent;
+                showNotification(`Viewing ${productName}`, 'info');
+            }
+        });
+    });
 }
 
 function filterTrendingItems(trend) {
@@ -1276,6 +1306,160 @@ function enableGuestBrowsing() {
     showNotification('Browse as guest - Full access enabled!', 'success');
 }
 
+// Enhanced Wishlist Functionality for Modern Cards
+function setupWishlistButtons() {
+    const wishlistBtns = document.querySelectorAll('.modern-wishlist-btn');
+
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = e.target.closest('.modern-product-card');
+            const productName = card.querySelector('.modern-product-title').textContent;
+            const icon = btn.querySelector('i');
+
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8a80)';
+                btn.style.color = 'white';
+                showNotification(`${productName} added to wishlist!`, 'success');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.style.background = 'white';
+                btn.style.color = '#666';
+                showNotification(`${productName} removed from wishlist`, 'info');
+            }
+
+            // Add animation
+            btn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 200);
+        });
+    });
+}
+
+// Enhanced Add to Cart Functionality for Modern Cards
+function setupAddToCartButtons() {
+    const addToCartBtns = document.querySelectorAll('.modern-add-to-cart');
+
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = e.target.closest('.modern-product-card');
+            const productName = card.querySelector('.modern-product-title').textContent;
+            const productPrice = card.querySelector('.modern-product-price').textContent;
+
+            // Add to cart logic
+            const product = {
+                id: Date.now() + Math.random(),
+                title: productName,
+                price: productPrice,
+                quantity: 1
+            };
+
+            addToCart(product);
+
+            // Button animation
+            const originalText = btn.textContent;
+            btn.textContent = 'Added!';
+            btn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'linear-gradient(135deg, #ff6b6b, #4ecdc4)';
+            }, 1500);
+
+            showNotification(`${productName} added to cart!`, 'success');
+        });
+    });
+}
+
+// Enhanced Filter Functionality
+function setupEnhancedFilters() {
+    const filterToggleBtn = document.getElementById('filterToggleBtn');
+    const sortDropdown = document.getElementById('sortDropdown');
+
+    if (filterToggleBtn) {
+        filterToggleBtn.addEventListener('click', () => {
+            showNotification('Filter panel opened', 'info');
+            // Add filter panel toggle logic here
+        });
+    }
+
+    if (sortDropdown) {
+        sortDropdown.addEventListener('change', (e) => {
+            const sortValue = e.target.value;
+            showNotification(`Sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'success');
+            // Add actual sorting logic here
+        });
+    }
+}
+
+// Enhanced Category Circle Functionality
+function setupEnhancedCategories() {
+    const categoryCards = document.querySelectorAll('.category-circle-card');
+
+    categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const categoryTitle = card.querySelector('.category-circle-title').textContent;
+
+            // Add ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.6);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+
+            const rect = card.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+
+            card.style.position = 'relative';
+            card.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+
+            showNotification(`Browsing ${categoryTitle} category`, 'info');
+        });
+    });
+}
+
+// Initialize all enhanced features
+function initializeEnhancedFeatures() {
+    setupWishlistButtons();
+    setupAddToCartButtons();
+    setupEnhancedFilters();
+    setupEnhancedCategories();
+
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: translate(-50%, -50%) scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Call enhanced features after DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initializeEnhancedFeatures, 100);
+});
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
@@ -1288,5 +1472,7 @@ window.FashionMarketplace = {
     selectSuggestion,
     removeFilter,
     clearAllFilters,
-    applyFilters
+    applyFilters,
+    setupWishlistButtons,
+    setupAddToCartButtons
 };
