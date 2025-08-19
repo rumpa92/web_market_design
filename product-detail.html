@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="product-detail.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
 </head>
 <body>
     <!-- Header/Navigation -->
@@ -41,17 +42,46 @@
         <!-- Product Gallery -->
         <section class="product-gallery">
             <div class="gallery-container">
-                <div class="main-image-container">
-                    <img src="" alt="Product Image" class="main-product-image" id="mainProductImage">
-                    <button class="zoom-btn" id="zoomBtn">
-                        <i class="fas fa-search-plus"></i>
+                <div class="image-carousel-container">
+                    <button class="carousel-nav-btn prev-btn" id="prevImageBtn">
+                        <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="video-try-on-btn" id="videoTryOnBtn">
-                        <i class="fas fa-video"></i>
-                        <span>Try On</span>
+                    <button class="carousel-nav-btn next-btn" id="nextImageBtn">
+                        <i class="fas fa-chevron-right"></i>
                     </button>
+
+                    <div class="main-image-container">
+                        <img src="" alt="Product Image" class="main-product-image" id="mainProductImage">
+                        <button class="zoom-btn" id="zoomBtn">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+
+                        <!-- Share Icons -->
+                        <div class="share-icons">
+                            <button class="share-btn" id="shareWhatsApp" title="Share on WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="share-btn" id="shareInstagram" title="Share on Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </button>
+                            <button class="share-btn" id="shareFacebook" title="Share on Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </button>
+                            <button class="share-btn" id="copyLink" title="Copy Link">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Image Indicators -->
+                    <div class="image-indicators">
+                        <span class="indicator active" data-index="0"></span>
+                        <span class="indicator" data-index="1"></span>
+                        <span class="indicator" data-index="2"></span>
+                        <span class="indicator" data-index="3"></span>
+                    </div>
                 </div>
-                
+
                 <div class="gallery-thumbnails">
                     <div class="thumbnail-scroll">
                         <div class="thumbnail active" data-image="main">
