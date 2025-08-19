@@ -536,6 +536,168 @@
     font-size: 1rem;
 }
 
+/* How to Use Section */
+.how-to-use-section {
+    margin-bottom: 2rem;
+    background: rgba(255,255,255,0.8);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
+}
+
+.how-to-use-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255,107,107,0.1);
+}
+
+.how-to-use-header:hover {
+    background: rgba(255,107,107,0.05);
+}
+
+.how-to-use-header h3 {
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.accordion-icon {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.accordion-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.how-to-use-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.how-to-use-content.expanded {
+    max-height: 800px;
+    transition: max-height 0.5s ease;
+}
+
+.usage-steps {
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.usage-step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.usage-step:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.usage-step:last-child {
+    margin-bottom: 0;
+}
+
+.step-icon {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.step-number {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: white;
+    color: #ff6b6b;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.step-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.step-content p {
+    margin: 0;
+    color: #666;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.usage-tips {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255,107,107,0.1);
+    margin-top: 1rem;
+}
+
+.usage-tips h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.usage-tips h4 i {
+    color: #ffc107;
+}
+
+.usage-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.usage-tips li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.usage-tips li:before {
+    content: "✨";
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
 /* Delivery Section */
 .delivery-section {
     margin-bottom: 2rem;
