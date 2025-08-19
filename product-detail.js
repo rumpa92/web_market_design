@@ -77,14 +77,6 @@ function loadProductData() {
 }
 
 function setupProductEventListeners() {
-    // Back button (header)
-    const backBtn = document.getElementById('backBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            window.history.back();
-        });
-    }
-
     // Product back button (above image)
     const productBackBtn = document.getElementById('productBackBtn');
     productBackBtn.addEventListener('click', () => {
