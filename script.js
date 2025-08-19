@@ -88,12 +88,14 @@ function setupEventListeners() {
 // Add to Cart Functionality
 function handleAddToCart(event) {
     event.preventDefault();
-    const productCard = event.target.closest('.product-card');
+    event.stopPropagation();
+
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
     const product = extractProductData(productCard);
-    
+
     addToCart(product);
     showNotification(`${product.title} added to cart!`, 'success');
-    
+
     // Add animation effect
     const btn = event.target;
     btn.style.transform = 'scale(0.95)';
@@ -103,12 +105,28 @@ function handleAddToCart(event) {
 }
 
 function extractProductData(productCard) {
+    let title, price, image;
+
+    // Handle different card types
+    if (productCard.classList.contains('colorful-product-card')) {
+        title = productCard.querySelector('.colorful-product-title').textContent;
+        price = productCard.querySelector('.current-price').textContent;
+        image = productCard.querySelector('.colorful-product-img').src;
+    } else if (productCard.classList.contains('modern-product-card')) {
+        title = productCard.querySelector('.modern-product-title').textContent;
+        price = productCard.querySelector('.modern-product-price').textContent;
+        image = productCard.querySelector('.modern-product-img').src;
+    } else {
+        title = productCard.querySelector('.product-title').textContent;
+        price = productCard.querySelector('.current-price').textContent;
+        image = productCard.querySelector('.product-image').src;
+    }
+
     return {
         id: Date.now() + Math.random(), // Simple ID generation
-        title: productCard.querySelector('.product-title').textContent,
-        brand: productCard.querySelector('.product-brand').textContent,
-        price: productCard.querySelector('.current-price').textContent,
-        image: productCard.querySelector('.product-image').src,
+        title: title,
+        price: price,
+        image: image,
         quantity: 1
     };
 }
