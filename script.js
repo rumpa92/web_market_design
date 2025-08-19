@@ -1542,6 +1542,62 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initializeEnhancedFeatures, 100);
 });
 
+// Cart Summary Function
+function showCartSummary() {
+    const total = cart.reduce((sum, item) => {
+        const price = parseFloat(item.price.replace('$', ''));
+        return sum + (price * item.quantity);
+    }, 0);
+
+    const cartItems = cart.map(item =>
+        `${item.title} (${item.quantity}x) - ${item.price}`
+    ).join('\n');
+
+    showNotification(`Cart Items:\n${cartItems}\n\nTotal: $${total.toFixed(2)}`, 'success');
+}
+
+// Wishlist Summary Function
+function showWishlistSummary() {
+    const wishlistItems = wishlist.map(item => item.title).join('\n');
+    showNotification(`Wishlist Items:\n${wishlistItems}\n\n${wishlist.length} items saved`, 'success');
+}
+
+// Newsletter functionality enhancement
+function setupNewsletterForm() {
+    const newsletterForm = document.querySelector('.newsletter-form');
+    const newsletterInput = document.querySelector('.newsletter-input');
+    const newsletterBtn = document.querySelector('.newsletter-button');
+
+    if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = newsletterInput.value.trim();
+
+            if (validateEmail(email)) {
+                showNotification('Thank you for subscribing to StyleHub newsletter!', 'success');
+                newsletterInput.value = '';
+
+                // Add visual feedback
+                newsletterBtn.textContent = 'Subscribed!';
+                newsletterBtn.style.background = '#4CAF50';
+                setTimeout(() => {
+                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.style.background = '';
+                }, 2000);
+            } else {
+                showNotification('Please enter a valid email address', 'error');
+            }
+        });
+
+        // Enter key support
+        newsletterInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                newsletterBtn.click();
+            }
+        });
+    }
+}
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
@@ -1556,5 +1612,7 @@ window.FashionMarketplace = {
     clearAllFilters,
     applyFilters,
     setupWishlistButtons,
-    setupAddToCartButtons
+    setupAddToCartButtons,
+    showCartSummary,
+    showWishlistSummary
 };
