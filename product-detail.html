@@ -497,21 +497,59 @@
     <div class="sticky-bottom-bar">
         <div class="bottom-bar-content">
             <div class="price-display">
-                <span class="bottom-price" id="bottomPrice">$250</span>
-                <span class="bottom-discount">16% off</span>
+                <span class="bottom-price" id="bottomPrice">$85</span>
+                <span class="bottom-discount">29% off</span>
+                <span class="savings-amount">Save $35</span>
             </div>
             <div class="action-buttons">
                 <button class="wishlist-bottom-btn" id="wishlistBottomBtn">
                     <i class="far fa-heart"></i>
                 </button>
-                <button class="add-to-cart-bottom" id="addToCartBottom">
-                    Add to Cart
-                </button>
-                <button class="buy-now-bottom" id="buyNowBottom">
-                    Buy Now
+
+                <!-- Add to Cart or Cart Modifier -->
+                <div class="cart-action-container" id="cartActionContainer">
+                    <button class="add-to-cart-enhanced" id="addToCartEnhanced">
+                        <div class="cart-btn-content">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="cart-btn-text">Add to Cart</span>
+                        </div>
+                        <div class="cart-btn-loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Adding...</span>
+                        </div>
+                        <div class="cart-btn-success" style="display: none;">
+                            <i class="fas fa-check"></i>
+                            <span>Added!</span>
+                        </div>
+                    </button>
+
+                    <!-- Cart Modifier (shown when item is in cart) -->
+                    <div class="cart-modifier" id="cartModifier" style="display: none;">
+                        <button class="quantity-btn minus-btn" id="decreaseQty">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity-display" id="quantityDisplay">1</span>
+                        <button class="quantity-btn plus-btn" id="increaseQty">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="remove-btn" id="removeFromCart">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="buy-now-enhanced" id="buyNowEnhanced">
+                    <i class="fas fa-bolt"></i>
+                    <span>Buy Now</span>
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast">
+        <i class="fas fa-check-circle"></i>
+        <span>Added to cart successfully!</span>
     </div>
 
     <!-- Modals -->
