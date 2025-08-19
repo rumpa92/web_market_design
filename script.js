@@ -81,6 +81,30 @@ function setupEventListeners() {
         });
     }
 
+    // Cart icon functionality
+    const cartIcon = document.querySelector('.cart-icon-container');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty. Add some items!', 'info');
+            } else {
+                showCartSummary();
+            }
+        });
+    }
+
+    // Wishlist icon functionality
+    const wishlistIcon = document.querySelector('.wishlist-icon');
+    if (wishlistIcon) {
+        wishlistIcon.addEventListener('click', () => {
+            if (wishlist.length === 0) {
+                showNotification('Your wishlist is empty. Add some favorites!', 'info');
+            } else {
+                showWishlistSummary();
+            }
+        });
+    }
+
     // Mobile menu toggle (if needed)
     setupMobileMenu();
 }
