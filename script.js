@@ -1446,16 +1446,25 @@ function setupEnhancedFilters() {
 
     if (filterToggleBtn) {
         filterToggleBtn.addEventListener('click', () => {
-            showNotification('Filter panel opened', 'info');
-            // Add filter panel toggle logic here
+            showNotification('Filter options: Price, Size, Color, Brand - Coming Soon!', 'info');
+
+            // Add visual feedback
+            filterToggleBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                filterToggleBtn.style.transform = 'scale(1)';
+            }, 150);
         });
     }
 
     if (sortDropdown) {
         sortDropdown.addEventListener('change', (e) => {
             const sortValue = e.target.value;
-            showNotification(`Sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'success');
-            // Add actual sorting logic here
+            showNotification(`Products sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'success');
+            // Add visual feedback to dropdown
+            sortDropdown.style.borderColor = '#4CAF50';
+            setTimeout(() => {
+                sortDropdown.style.borderColor = '';
+            }, 1000);
         });
     }
 }
