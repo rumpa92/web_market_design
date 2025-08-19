@@ -342,26 +342,7 @@ function setupProductCards() {
     });
 }
 
-// Newsletter Form
-function setupNewsletterForm() {
-    const newsletterForm = document.querySelector('.newsletter-form');
-    const newsletterInput = document.querySelector('.newsletter-input');
-    const newsletterBtn = document.querySelector('.newsletter-button');
-    
-    if (newsletterBtn) {
-        newsletterBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const email = newsletterInput.value.trim();
-            
-            if (validateEmail(email)) {
-                showNotification('Thank you for subscribing!', 'success');
-                newsletterInput.value = '';
-            } else {
-                showNotification('Please enter a valid email address', 'error');
-            }
-        });
-    }
-}
+// Newsletter Form - functionality handled in enhanced version below
 
 // Search Functionality
 function setupSearch() {
