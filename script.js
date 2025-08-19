@@ -581,13 +581,26 @@ function updateUIForLoggedInUser() {
 // Location Services
 function setupLocationServices() {
     const locationModal = document.getElementById('locationModal');
+    const locationTrigger = document.getElementById('locationTrigger');
     const closeLocation = document.querySelector('.close-location');
     const detectLocationBtn = document.querySelector('.detect-location-btn');
     const cityBtns = document.querySelectorAll('.city-btn');
 
+    // Show modal when location trigger is clicked
+    locationTrigger.addEventListener('click', () => {
+        locationModal.classList.remove('hidden');
+    });
+
     // Close modal
     closeLocation.addEventListener('click', () => {
         locationModal.classList.add('hidden');
+    });
+
+    // Close on outside click
+    locationModal.addEventListener('click', (e) => {
+        if (e.target === locationModal) {
+            locationModal.classList.add('hidden');
+        }
     });
 
     // Detect location
@@ -979,7 +992,7 @@ function updateTrendingStats() {
             const newViews = currentViews + Math.floor(Math.random() * 10);
             const newSales = currentSales + Math.floor(Math.random() * 3);
 
-            viewsElement.textContent = `👁️ ${newViews.toLocaleString()} views`;
+            viewsElement.textContent = `���️ ${newViews.toLocaleString()} views`;
             salesElement.textContent = `💫 ${newSales} sold today`;
         }
     });
