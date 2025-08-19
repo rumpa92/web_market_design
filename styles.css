@@ -1265,6 +1265,11 @@ body {
     object-position: center top;
 }
 
+/* Specific positioning for Summer Collection to show face */
+.seasonal-card:nth-child(3) .season-image {
+    object-position: center top;
+}
+
 .seasonal-card:hover .season-image {
     transform: scale(1.05);
 }
