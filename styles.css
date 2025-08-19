@@ -2224,6 +2224,178 @@ body {
     font-size: 0.9rem;
 }
 
+/* Colorful Product Cards */
+.colorful-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.colorful-product-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.colorful-product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.product-category-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(255,255,255,0.9);
+    color: #666;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.colorful-product-image {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Background colors for different cards */
+.purple-bg .colorful-product-image {
+    background: linear-gradient(135deg, #8B5CF6, #A855F7);
+}
+
+.orange-bg .colorful-product-image {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.pink-bg .colorful-product-image {
+    background: linear-gradient(135deg, #EC4899, #BE185D);
+}
+
+.colorful-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.colorful-product-card:hover .colorful-product-img {
+    transform: scale(1.05);
+}
+
+.colorful-wishlist-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #666;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.colorful-wishlist-btn:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: scale(1.1);
+}
+
+.colorful-product-info {
+    padding: 1.5rem;
+    background: white;
+}
+
+.colorful-product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #333;
+    text-transform: lowercase;
+    line-height: 1.3;
+}
+
+.product-rating {
+    margin-bottom: 1rem;
+}
+
+.product-rating .stars {
+    color: #FFD700;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.colorful-product-price {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.colorful-product-price .current-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.colorful-product-price .original-price {
+    font-size: 1rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .colorful-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .colorful-product-image {
+        height: 220px;
+        padding: 1.5rem;
+    }
+
+    .colorful-product-title {
+        font-size: 1rem;
+    }
+
+    .colorful-product-price .current-price {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .colorful-products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .colorful-product-image {
+        height: 250px;
+    }
+}
+
 /* Responsive Design */
 /* Responsive Seasonal Cards */
 @media (max-width: 768px) {
