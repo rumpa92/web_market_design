@@ -351,11 +351,46 @@ body {
     gap: 2rem;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .logo h1 {
     font-size: 1.8rem;
     font-weight: 700;
     color: #000;
     text-decoration: none;
+}
+
+.location-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.location-trigger:hover {
+    background: #e9ecef;
+    border-color: #333;
+    color: #333;
+}
+
+.location-trigger i {
+    color: #ff4444;
+    font-size: 1rem;
+}
+
+.location-text {
+    font-weight: 500;
 }
 
 .main-nav ul {
