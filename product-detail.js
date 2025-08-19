@@ -24,10 +24,10 @@ let currentProduct = {
         back: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=800',
         detail: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800'
     },
-    colors: ['orange', 'blue', 'red', 'green'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    selectedColor: 'orange',
-    selectedSize: 'M',
+    shades: ['coral-blush', 'rose-gold', 'berry-wine', 'nude-pink'],
+    variants: ['mini', 'regular', 'large', 'travel-set'],
+    selectedShade: 'coral-blush',
+    selectedVariant: 'regular',
     inStock: true,
     stockCount: 3
 };
