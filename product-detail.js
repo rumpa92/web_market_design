@@ -50,6 +50,7 @@ function initializeProductDetail() {
 function loadProductData() {
     // Update product information
     document.getElementById('productTitle').textContent = currentProduct.title;
+    document.getElementById('productNavTitle').textContent = currentProduct.title;
     document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
     
     // Update cart badge
