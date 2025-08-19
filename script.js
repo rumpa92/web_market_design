@@ -973,6 +973,7 @@ function filterNewArrivals(filter) {
 // Seasonal Collections
 function setupSeasonalCollections() {
     const seasonalCards = document.querySelectorAll('.seasonal-card');
+    const seasonalButtons = document.querySelectorAll('.seasonal-card-button');
 
     seasonalCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -984,6 +985,15 @@ function setupSeasonalCollections() {
             setTimeout(() => {
                 card.style.transform = '';
             }, 150);
+        });
+    });
+
+    // Handle seasonal collection buttons
+    seasonalButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const title = button.closest('.seasonal-card').querySelector('.seasonal-card-title').textContent;
+            showNotification(`Shopping ${title} - Coming Soon!`, 'success');
         });
     });
 }
