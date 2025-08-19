@@ -1198,11 +1198,12 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: white;
-    border-top: 1px solid #eee;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.95) 100%);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,107,107,0.2);
     padding: 1rem;
     z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
 }
 
 .bottom-bar-content {
@@ -1216,10 +1217,11 @@
 .price-display {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
 }
 
 .bottom-price {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: #333;
 }
@@ -1230,6 +1232,12 @@
     font-weight: 600;
 }
 
+.savings-amount {
+    font-size: 0.75rem;
+    color: #ff6b6b;
+    font-weight: 500;
+}
+
 .action-buttons {
     display: flex;
     gap: 0.75rem;
@@ -1238,7 +1246,7 @@
 
 .wishlist-bottom-btn {
     background: white;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -1246,39 +1254,158 @@
     font-size: 1.2rem;
     color: #666;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .wishlist-bottom-btn:hover {
     border-color: #ff6b6b;
     color: #ff6b6b;
+    transform: scale(1.05);
 }
 
-.add-to-cart-bottom, .buy-now-bottom {
-    padding: 0.75rem 1.5rem;
+/* Enhanced Cart Button */
+.cart-action-container {
+    position: relative;
+}
+
+.add-to-cart-enhanced {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+    color: white;
     border: none;
+    padding: 0.9rem 2rem;
     border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    box-shadow: 0 4px 20px rgba(255,107,107,0.4);
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
 }
 
-.add-to-cart-bottom {
-    background: #f0f0f0;
-    color: #333;
+.add-to-cart-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,107,107,0.5);
 }
 
-.add-to-cart-bottom:hover {
-    background: #e0e0e0;
+.add-to-cart-enhanced:active {
+    transform: translateY(0);
 }
 
-.buy-now-bottom {
+.cart-btn-content, .cart-btn-loading, .cart-btn-success {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+/* Cart Modifier */
+.cart-modifier {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    border: 2px solid #ff6b6b;
+    border-radius: 25px;
+    padding: 0.5rem;
+}
+
+.quantity-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
     background: #ff6b6b;
     color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.buy-now-bottom:hover {
+.quantity-btn:hover {
     background: #e55a5a;
+    transform: scale(1.1);
+}
+
+.quantity-display {
+    font-weight: 700;
+    color: #333;
+    min-width: 24px;
+    text-align: center;
+}
+
+.remove-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: #dc3545;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+.buy-now-enhanced {
+    background: linear-gradient(135deg, #4ecdc4 0%, #5dade2 100%);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 20px rgba(78,205,196,0.4);
+}
+
+.buy-now-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(78,205,196,0.5);
+}
+
+/* Success Toast */
+.success-toast {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.success-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* Modals */
