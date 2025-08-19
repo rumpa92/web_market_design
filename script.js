@@ -357,15 +357,27 @@ function setupSearch() {
 }
 
 function searchProducts(searchTerm) {
-    const productCards = document.querySelectorAll('.product-card');
-    
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+
     productCards.forEach(card => {
-        const title = card.querySelector('.product-title').textContent.toLowerCase();
-        const brand = card.querySelector('.product-brand').textContent.toLowerCase();
-        
-        const matches = title.includes(searchTerm) || brand.includes(searchTerm);
+        let title = '';
+
+        // Handle different card types
+        if (card.classList.contains('colorful-product-card')) {
+            title = card.querySelector('.colorful-product-title').textContent.toLowerCase();
+        } else if (card.classList.contains('modern-product-card')) {
+            title = card.querySelector('.modern-product-title').textContent.toLowerCase();
+        } else {
+            title = card.querySelector('.product-title').textContent.toLowerCase();
+        }
+
+        const matches = title.includes(searchTerm);
         card.style.display = matches ? 'block' : 'none';
     });
+
+    if (searchTerm) {
+        showNotification(`Searching for: "${searchTerm}"`, 'info');
+    }
 }
 
 // Category Click Handler
