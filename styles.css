@@ -2293,6 +2293,11 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Specific positioning for first trending product to show face */
+.colorful-product-card:first-child .colorful-product-img {
+    object-position: center top;
+}
+
 .colorful-product-card:hover .colorful-product-img {
     transform: scale(1.05);
 }
