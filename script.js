@@ -46,14 +46,14 @@ function initializeApp() {
 
 // Event Listeners Setup
 function setupEventListeners() {
-    // Add to cart buttons
-    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+    // Add to cart buttons (all types)
+    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn, .modern-add-to-cart, .colorful-add-to-cart');
     addToCartBtns.forEach(btn => {
         btn.addEventListener('click', handleAddToCart);
     });
 
-    // Wishlist buttons
-    const wishlistBtns = document.querySelectorAll('.wishlist-btn');
+    // Wishlist buttons (all types)
+    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
     wishlistBtns.forEach(btn => {
         btn.addEventListener('click', handleWishlist);
     });
@@ -70,6 +70,44 @@ function setupEventListeners() {
         card.addEventListener('click', handleCategoryClick);
     });
 
+    // Product cards navigation
+    setupProductNavigation();
+
+    // Hero CTA button
+    const ctaButton = document.querySelector('.cta-button');
+    if (ctaButton) {
+        ctaButton.addEventListener('click', () => {
+            showNotification('Welcome to StyleHub! Explore our collections below.', 'success');
+            document.querySelector('.trending-popular-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Cart icon functionality
+    const cartIcon = document.querySelector('.cart-icon-container');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty. Add some items!', 'info');
+            } else {
+                showCartSummary();
+            }
+        });
+    }
+
+    // Wishlist icon functionality
+    const wishlistIcon = document.querySelector('.wishlist-icon');
+    if (wishlistIcon) {
+        wishlistIcon.addEventListener('click', () => {
+            if (wishlist.length === 0) {
+                showNotification('Your wishlist is empty. Add some favorites!', 'info');
+            } else {
+                showWishlistSummary();
+            }
+        });
+    }
+
     // Mobile menu toggle (if needed)
     setupMobileMenu();
 }
@@ -77,12 +115,14 @@ function setupEventListeners() {
 // Add to Cart Functionality
 function handleAddToCart(event) {
     event.preventDefault();
-    const productCard = event.target.closest('.product-card');
+    event.stopPropagation();
+
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
     const product = extractProductData(productCard);
-    
+
     addToCart(product);
     showNotification(`${product.title} added to cart!`, 'success');
-    
+
     // Add animation effect
     const btn = event.target;
     btn.style.transform = 'scale(0.95)';
@@ -92,12 +132,28 @@ function handleAddToCart(event) {
 }
 
 function extractProductData(productCard) {
+    let title, price, image;
+
+    // Handle different card types
+    if (productCard.classList.contains('colorful-product-card')) {
+        title = productCard.querySelector('.colorful-product-title').textContent;
+        price = productCard.querySelector('.current-price').textContent;
+        image = productCard.querySelector('.colorful-product-img').src;
+    } else if (productCard.classList.contains('modern-product-card')) {
+        title = productCard.querySelector('.modern-product-title').textContent;
+        price = productCard.querySelector('.modern-product-price').textContent;
+        image = productCard.querySelector('.modern-product-img').src;
+    } else {
+        title = productCard.querySelector('.product-title').textContent;
+        price = productCard.querySelector('.current-price').textContent;
+        image = productCard.querySelector('.product-image').src;
+    }
+
     return {
         id: Date.now() + Math.random(), // Simple ID generation
-        title: productCard.querySelector('.product-title').textContent,
-        brand: productCard.querySelector('.product-brand').textContent,
-        price: productCard.querySelector('.current-price').textContent,
-        image: productCard.querySelector('.product-image').src,
+        title: title,
+        price: price,
+        image: image,
         quantity: 1
     };
 }
@@ -120,33 +176,56 @@ function updateCartCount() {
     const cartCountElement = document.querySelector('.cart-count');
     if (cartCountElement) {
         cartCountElement.textContent = cartCount;
-        
+
         // Add animation when count changes
-        cartCountElement.style.transform = 'scale(1.2)';
-        setTimeout(() => {
-            cartCountElement.style.transform = 'scale(1)';
-        }, 200);
+        if (cartCount > 0) {
+            cartCountElement.style.transform = 'scale(1.2)';
+            cartCountElement.style.backgroundColor = '#4CAF50';
+            setTimeout(() => {
+                cartCountElement.style.transform = 'scale(1)';
+                cartCountElement.style.backgroundColor = '#000';
+            }, 200);
+        }
     }
 }
 
 // Wishlist Functionality
 function handleWishlist(event) {
     event.preventDefault();
-    const productCard = event.target.closest('.product-card');
+    event.stopPropagation();
+
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
     const product = extractProductData(productCard);
-    const heartIcon = event.target.closest('.wishlist-btn').querySelector('i');
-    
+    const wishlistBtn = event.target.closest('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
+    const heartIcon = wishlistBtn.querySelector('i');
+
     const isInWishlist = wishlist.some(item => item.title === product.title);
-    
+
     if (isInWishlist) {
         removeFromWishlist(product.title);
         heartIcon.className = 'far fa-heart';
+        // Reset button styling for colorful cards
+        if (wishlistBtn.classList.contains('colorful-wishlist-btn')) {
+            wishlistBtn.style.background = 'rgba(255,255,255,0.9)';
+            wishlistBtn.style.color = '#666';
+        }
         showNotification(`${product.title} removed from wishlist`, 'info');
     } else {
         addToWishlist(product);
         heartIcon.className = 'fas fa-heart';
+        // Apply active styling for colorful cards
+        if (wishlistBtn.classList.contains('colorful-wishlist-btn')) {
+            wishlistBtn.style.background = '#ff6b6b';
+            wishlistBtn.style.color = 'white';
+        }
         showNotification(`${product.title} added to wishlist!`, 'success');
     }
+
+    // Add animation
+    wishlistBtn.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+        wishlistBtn.style.transform = 'scale(1)';
+    }, 200);
 }
 
 function addToWishlist(product) {
@@ -270,26 +349,7 @@ function setupProductCards() {
     });
 }
 
-// Newsletter Form
-function setupNewsletterForm() {
-    const newsletterForm = document.querySelector('.newsletter-form');
-    const newsletterInput = document.querySelector('.newsletter-input');
-    const newsletterBtn = document.querySelector('.newsletter-button');
-    
-    if (newsletterBtn) {
-        newsletterBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const email = newsletterInput.value.trim();
-            
-            if (validateEmail(email)) {
-                showNotification('Thank you for subscribing!', 'success');
-                newsletterInput.value = '';
-            } else {
-                showNotification('Please enter a valid email address', 'error');
-            }
-        });
-    }
-}
+// Newsletter Form - functionality handled in enhanced version below
 
 // Search Functionality
 function setupSearch() {
@@ -304,15 +364,27 @@ function setupSearch() {
 }
 
 function searchProducts(searchTerm) {
-    const productCards = document.querySelectorAll('.product-card');
-    
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+
     productCards.forEach(card => {
-        const title = card.querySelector('.product-title').textContent.toLowerCase();
-        const brand = card.querySelector('.product-brand').textContent.toLowerCase();
-        
-        const matches = title.includes(searchTerm) || brand.includes(searchTerm);
+        let title = '';
+
+        // Handle different card types
+        if (card.classList.contains('colorful-product-card')) {
+            title = card.querySelector('.colorful-product-title').textContent.toLowerCase();
+        } else if (card.classList.contains('modern-product-card')) {
+            title = card.querySelector('.modern-product-title').textContent.toLowerCase();
+        } else {
+            title = card.querySelector('.product-title').textContent.toLowerCase();
+        }
+
+        const matches = title.includes(searchTerm);
         card.style.display = matches ? 'block' : 'none';
     });
+
+    if (searchTerm) {
+        showNotification(`Searching for: "${searchTerm}"`, 'info');
+    }
 }
 
 // Category Click Handler
@@ -925,6 +997,7 @@ function filterNewArrivals(filter) {
 // Seasonal Collections
 function setupSeasonalCollections() {
     const seasonalCards = document.querySelectorAll('.seasonal-card');
+    const seasonalButtons = document.querySelectorAll('.seasonal-card-button');
 
     seasonalCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -936,6 +1009,15 @@ function setupSeasonalCollections() {
             setTimeout(() => {
                 card.style.transform = '';
             }, 150);
+        });
+    });
+
+    // Handle seasonal collection buttons
+    seasonalButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const title = button.closest('.seasonal-card').querySelector('.seasonal-card-title').textContent;
+            showNotification(`Shopping ${title} - Coming Soon!`, 'success');
         });
     });
 }
@@ -1383,16 +1465,25 @@ function setupEnhancedFilters() {
 
     if (filterToggleBtn) {
         filterToggleBtn.addEventListener('click', () => {
-            showNotification('Filter panel opened', 'info');
-            // Add filter panel toggle logic here
+            showNotification('Filter options: Price, Size, Color, Brand - Coming Soon!', 'info');
+
+            // Add visual feedback
+            filterToggleBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                filterToggleBtn.style.transform = 'scale(1)';
+            }, 150);
         });
     }
 
     if (sortDropdown) {
         sortDropdown.addEventListener('change', (e) => {
             const sortValue = e.target.value;
-            showNotification(`Sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'success');
-            // Add actual sorting logic here
+            showNotification(`Products sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'success');
+            // Add visual feedback to dropdown
+            sortDropdown.style.borderColor = '#4CAF50';
+            setTimeout(() => {
+                sortDropdown.style.borderColor = '';
+            }, 1000);
         });
     }
 }
@@ -1460,6 +1551,172 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initializeEnhancedFeatures, 100);
 });
 
+// Cart Summary Function
+function showCartSummary() {
+    const total = cart.reduce((sum, item) => {
+        const price = parseFloat(item.price.replace('$', ''));
+        return sum + (price * item.quantity);
+    }, 0);
+
+    const cartItems = cart.map(item =>
+        `${item.title} (${item.quantity}x) - ${item.price}`
+    ).join('\n');
+
+    showNotification(`Cart Items:\n${cartItems}\n\nTotal: $${total.toFixed(2)}`, 'success');
+}
+
+// Wishlist Summary Function
+function showWishlistSummary() {
+    const wishlistItems = wishlist.map(item => item.title).join('\n');
+    showNotification(`Wishlist Items:\n${wishlistItems}\n\n${wishlist.length} items saved`, 'success');
+}
+
+// Newsletter functionality enhancement
+function setupNewsletterForm() {
+    const newsletterForm = document.querySelector('.newsletter-form');
+    const newsletterInput = document.querySelector('.newsletter-input');
+    const newsletterBtn = document.querySelector('.newsletter-button');
+
+    if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = newsletterInput.value.trim();
+
+            if (validateEmail(email)) {
+                showNotification('Thank you for subscribing to StyleHub newsletter!', 'success');
+                newsletterInput.value = '';
+
+                // Add visual feedback
+                newsletterBtn.textContent = 'Subscribed!';
+                newsletterBtn.style.background = '#4CAF50';
+                setTimeout(() => {
+                    newsletterBtn.textContent = 'Subscribe';
+                    newsletterBtn.style.background = '';
+                }, 2000);
+            } else {
+                showNotification('Please enter a valid email address', 'error');
+            }
+        });
+
+        // Enter key support
+        newsletterInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                newsletterBtn.click();
+            }
+        });
+    }
+}
+
+// Product Navigation Setup
+function setupProductNavigation() {
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+
+    productCards.forEach(card => {
+        // Make entire card clickable except for buttons
+        card.addEventListener('click', (e) => {
+            // Don't navigate if clicking on buttons
+            if (e.target.closest('button')) {
+                return;
+            }
+
+            const productData = extractProductDataForNavigation(card);
+            navigateToProductDetail(productData);
+        });
+
+        // Add hover effect to indicate clickability
+        card.style.cursor = 'pointer';
+    });
+}
+
+function extractProductDataForNavigation(productCard) {
+    let title, price, image, brand = 'StyleHub';
+
+    // Handle different card types
+    if (productCard.classList.contains('colorful-product-card')) {
+        title = productCard.querySelector('.colorful-product-title').textContent;
+        const currentPriceEl = productCard.querySelector('.current-price');
+        const originalPriceEl = productCard.querySelector('.original-price');
+
+        price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 250;
+        const originalPrice = originalPriceEl ? parseInt(originalPriceEl.textContent.replace('$', '')) : price + 50;
+
+        image = productCard.querySelector('.colorful-product-img').src;
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: originalPrice,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round(((originalPrice - price) / originalPrice) * 100)
+        };
+    } else if (productCard.classList.contains('modern-product-card')) {
+        title = productCard.querySelector('.modern-product-title').textContent;
+        price = parseInt(productCard.querySelector('.modern-product-price').textContent.replace('$', ''));
+        image = productCard.querySelector('.modern-product-img').src;
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: price + 50,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round((50 / (price + 50)) * 100)
+        };
+    } else {
+        // Regular product card
+        title = productCard.querySelector('.product-title')?.textContent || 'Fashion Item';
+        const currentPriceEl = productCard.querySelector('.current-price');
+        price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 200;
+        image = productCard.querySelector('.product-image, img')?.src || '';
+
+        return {
+            title,
+            currentPrice: price,
+            originalPrice: price + 40,
+            image,
+            brand,
+            tagline: getTaglineForProduct(title),
+            discount: Math.round((40 / (price + 40)) * 100)
+        };
+    }
+}
+
+function getTaglineForProduct(title) {
+    const taglines = {
+        'Traditional Salwar Kameez Set': 'Elegant Traditional Wear for Special Occasions',
+        'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
+        'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
+        'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
+        'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
+        'Premium Navy Formal Shirt': 'Professional Style for Modern Men',
+        'Teal Cotton Casual Shirt': 'Comfortable Casual Wear for Every Day',
+        'Mustard Yellow Anarkali Dress': 'Vibrant Colors for Joyful Occasions',
+        'Traditional Red Silk Saree': 'Timeless Grace in Pure Silk',
+        'Silk Blend Maxi Dress': 'Luxurious Comfort for Special Events',
+        'Traditional Anarkali Set': 'Classic Design with Modern Fit',
+        'Designer Footwear Collection': 'Step in Style with Premium Comfort'
+    };
+
+    return taglines[title] || 'Premium Fashion for Every Occasion';
+}
+
+function navigateToProductDetail(productData) {
+    // Show loading notification
+    showNotification(`Loading ${productData.title}...`, 'info');
+
+    // Create URL with product data
+    const productParam = encodeURIComponent(JSON.stringify(productData));
+    const url = `product-detail.html?product=${productParam}`;
+
+    // Navigate to product detail page
+    setTimeout(() => {
+        window.location.href = url;
+    }, 500);
+}
+
 // Export functions for potential external use
 window.FashionMarketplace = {
     addToCart,
@@ -1474,5 +1731,8 @@ window.FashionMarketplace = {
     clearAllFilters,
     applyFilters,
     setupWishlistButtons,
-    setupAddToCartButtons
+    setupAddToCartButtons,
+    showCartSummary,
+    showWishlistSummary,
+    navigateToProductDetail
 };
