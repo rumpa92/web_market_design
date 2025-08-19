@@ -161,21 +161,40 @@ function updateCartCount() {
 // Wishlist Functionality
 function handleWishlist(event) {
     event.preventDefault();
-    const productCard = event.target.closest('.product-card');
+    event.stopPropagation();
+
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
     const product = extractProductData(productCard);
-    const heartIcon = event.target.closest('.wishlist-btn').querySelector('i');
-    
+    const wishlistBtn = event.target.closest('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
+    const heartIcon = wishlistBtn.querySelector('i');
+
     const isInWishlist = wishlist.some(item => item.title === product.title);
-    
+
     if (isInWishlist) {
         removeFromWishlist(product.title);
         heartIcon.className = 'far fa-heart';
+        // Reset button styling for colorful cards
+        if (wishlistBtn.classList.contains('colorful-wishlist-btn')) {
+            wishlistBtn.style.background = 'rgba(255,255,255,0.9)';
+            wishlistBtn.style.color = '#666';
+        }
         showNotification(`${product.title} removed from wishlist`, 'info');
     } else {
         addToWishlist(product);
         heartIcon.className = 'fas fa-heart';
+        // Apply active styling for colorful cards
+        if (wishlistBtn.classList.contains('colorful-wishlist-btn')) {
+            wishlistBtn.style.background = '#ff6b6b';
+            wishlistBtn.style.color = 'white';
+        }
         showNotification(`${product.title} added to wishlist!`, 'success');
     }
+
+    // Add animation
+    wishlistBtn.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+        wishlistBtn.style.transform = 'scale(1)';
+    }, 200);
 }
 
 function addToWishlist(product) {
