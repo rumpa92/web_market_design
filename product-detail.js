@@ -717,6 +717,34 @@ function setupShareFunctionality() {
     });
 }
 
+function setupHowToUseAccordion() {
+    const header = document.getElementById('howToUseHeader');
+    const content = document.getElementById('howToUseContent');
+    const icon = header.querySelector('.accordion-icon');
+
+    header.addEventListener('click', () => {
+        const isExpanded = content.classList.contains('expanded');
+
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            icon.classList.remove('expanded');
+        } else {
+            content.classList.add('expanded');
+            icon.classList.add('expanded');
+        }
+
+        // Smooth scroll into view when expanding
+        if (!isExpanded) {
+            setTimeout(() => {
+                header.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
+        }
+    });
+}
+
 // Utility functions
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
