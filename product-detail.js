@@ -134,9 +134,12 @@ function setupProductEventListeners() {
     
     // Image zoom
     setupImageZoom();
-    
+
     // Video try-on
     setupVideoTryOn();
+
+    // How to Use accordion
+    setupHowToUseAccordion();
 }
 
 function setupHeaderIcons() {
