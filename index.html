@@ -459,235 +459,130 @@
     </section>
 
     <!-- New Arrivals Section -->
-    <section class="products-section new-arrivals-section">
+    <section class="new-arrivals-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">New Arrivals</h2>
-                <div class="arrival-info">
-                    <span class="arrival-count">24 new items this week</span>
-                    <button class="view-all-btn">View All New Arrivals</button>
+            <!-- Header Section -->
+            <div class="arrivals-header">
+                <div class="arrivals-title-section">
+                    <h2 class="arrivals-title">New Arrivals</h2>
+                </div>
+                <div class="arrivals-actions">
+                    <span class="arrivals-count">24 new items this week</span>
+                    <button class="view-all-arrivals-btn">View All New Arrivals</button>
                 </div>
             </div>
-            <!-- Advanced Filters & Sort Section -->
-            <div class="filters-sort-container">
-                <div class="filters-section">
-                    <button class="filters-toggle" id="filtersToggle">
-                        <i class="fas fa-filter"></i> Filters
+
+            <!-- Filters and Sort Bar -->
+            <div class="arrivals-controls">
+                <div class="controls-left">
+                    <button class="filter-toggle-btn" id="filterToggleBtn">
+                        <i class="fas fa-filter"></i>
+                        Filters
                     </button>
-                    <div class="active-filters" id="activeFilters"></div>
+                    <div class="active-filter-tags" id="activeFilterTags">
+                        <span class="filter-tag">
+                            RED
+                            <button class="remove-filter" onclick="removeFilter('color', 'red')">×</button>
+                        </span>
+                    </div>
                 </div>
-
-                <div class="sort-section">
-                    <label for="sortSelect">Sort by:</label>
-                    <select id="sortSelect" class="sort-select">
-                        <option value="newest">Newest First</option>
-                        <option value="popularity">Most Popular</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="rating">Highest Rated</option>
-                        <option value="discount">Best Discount</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Filters Panel -->
-            <div class="filters-panel" id="filtersPanel">
-                <div class="filters-content">
-                    <div class="filter-group">
-                        <h4 class="filter-title">Size</h4>
-                        <div class="filter-options size-options">
-                            <button class="filter-option">XS</button>
-                            <button class="filter-option">S</button>
-                            <button class="filter-option">M</button>
-                            <button class="filter-option">L</button>
-                            <button class="filter-option">XL</button>
-                            <button class="filter-option">XXL</button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4 class="filter-title">Color</h4>
-                        <div class="filter-options color-options">
-                            <button class="color-option" data-color="black" style="background: #000"></button>
-                            <button class="color-option" data-color="white" style="background: #fff; border: 1px solid #ddd"></button>
-                            <button class="color-option" data-color="red" style="background: #ff0000"></button>
-                            <button class="color-option" data-color="blue" style="background: #0066cc"></button>
-                            <button class="color-option" data-color="green" style="background: #00cc66"></button>
-                            <button class="color-option" data-color="pink" style="background: #ff69b4"></button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4 class="filter-title">Brand</h4>
-                        <div class="filter-options brand-options">
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="nike"> Nike
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="adidas"> Adidas
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="zara"> Zara
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="hm"> H&M
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4 class="filter-title">Price Range</h4>
-                        <div class="price-range">
-                            <input type="range" id="priceRange" min="0" max="1000" value="500" class="price-slider">
-                            <div class="price-labels">
-                                <span>$0</span>
-                                <span id="currentPrice">$500</span>
-                                <span>$1000+</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4 class="filter-title">Rating</h4>
-                        <div class="filter-options rating-options">
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="5"> ⭐⭐⭐⭐⭐ 5 Stars
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="4"> ⭐⭐⭐⭐ 4+ Stars
-                            </label>
-                            <label class="filter-checkbox">
-                                <input type="checkbox" value="3"> ⭐⭐⭐ 3+ Stars
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-actions">
-                        <button class="clear-filters-btn">Clear All</button>
-                        <button class="apply-filters-btn">Apply Filters</button>
+                <div class="controls-right">
+                    <div class="sort-dropdown">
+                        <label for="sortDropdown">Sort by:</label>
+                        <select id="sortDropdown" class="sort-select-modern">
+                            <option value="newest">Newest First</option>
+                            <option value="popularity">Most Popular</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=400&fit=crop" alt="Designer Dress" class="product-image">
-                        <div class="product-badges">
-                            <span class="badge-new">New</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="action-button wishlist-btn"><i class="far fa-heart"></i></button>
-                            <button class="action-button quick-view-btn"><i class="far fa-eye"></i></button>
+
+            <!-- Products Grid -->
+            <div class="arrivals-products-grid">
+                <div class="arrival-product-card">
+                    <div class="arrival-product-image">
+                        <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=400&fit=crop" alt="Elegant Summer Dress" class="product-img">
+                        <div class="product-label new-label">New</div>
+                        <div class="product-overlay">
+                            <button class="wishlist-btn-overlay"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn-overlay"><i class="far fa-eye"></i></button>
                         </div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Elegant Summer Dress</h3>
-                        <p class="product-brand">Designer Brand</p>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                    <div class="arrival-product-details">
+                        <h3 class="arrival-product-name">Elegant Summer Dress</h3>
+                        <p class="arrival-product-brand">Designer Brand</p>
+                        <div class="arrival-product-rating">
+                            <div class="star-rating">
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
                             </div>
-                            <span class="rating-count">(127)</span>
+                            <span class="rating-text">(127)</span>
                         </div>
-                        <div class="product-price">
-                            <span class="current-price">$189</span>
+                        <div class="arrival-product-price">
+                            <span class="price-current">$189</span>
                         </div>
-                        <button class="add-to-cart-btn">Add to Cart</button>
                     </div>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop" alt="Casual Jacket" class="product-image">
-                        <div class="product-badges">
-                            <span class="badge-sale">-20%</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="action-button wishlist-btn"><i class="far fa-heart"></i></button>
-                            <button class="action-button quick-view-btn"><i class="far fa-eye"></i></button>
+                <div class="arrival-product-card">
+                    <div class="arrival-product-image">
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop" alt="Premium Leather Jacket" class="product-img">
+                        <div class="product-label sale-label">-20%</div>
+                        <div class="product-overlay">
+                            <button class="wishlist-btn-overlay"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn-overlay"><i class="far fa-eye"></i></button>
                         </div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Premium Leather Jacket</h3>
-                        <p class="product-brand">Urban Style</p>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
+                    <div class="arrival-product-details">
+                        <h3 class="arrival-product-name">Premium Leather Jacket</h3>
+                        <p class="arrival-product-brand">Urban Style</p>
+                        <div class="arrival-product-rating">
+                            <div class="star-rating">
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star">★</span>
                             </div>
-                            <span class="rating-count">(89)</span>
+                            <span class="rating-text">(89)</span>
                         </div>
-                        <div class="product-price">
-                            <span class="current-price">$299</span>
-                            <span class="original-price">$374</span>
+                        <div class="arrival-product-price">
+                            <span class="price-current">$299</span>
+                            <span class="price-original">$374</span>
                         </div>
-                        <button class="add-to-cart-btn">Add to Cart</button>
                     </div>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="https://images.unsplash.com/photo-1560243563-062bfc001d68?w=300&h=400&fit=crop" alt="Sneakers" class="product-image">
-                        <div class="product-actions">
-                            <button class="action-button wishlist-btn"><i class="far fa-heart"></i></button>
-                            <button class="action-button quick-view-btn"><i class="far fa-eye"></i></button>
+                <div class="arrival-product-card">
+                    <div class="arrival-product-image">
+                        <img src="https://images.unsplash.com/photo-1560243563-062bfc001d68?w=300&h=400&fit=crop" alt="Classic White Sneakers" class="product-img">
+                        <div class="product-overlay">
+                            <button class="wishlist-btn-overlay"><i class="far fa-heart"></i></button>
+                            <button class="quickview-btn-overlay"><i class="far fa-eye"></i></button>
                         </div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Classic White Sneakers</h3>
-                        <p class="product-brand">ComfortFit</p>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                    <div class="arrival-product-details">
+                        <h3 class="arrival-product-name">Classic White Sneakers</h3>
+                        <p class="arrival-product-brand">ComfortFit</p>
+                        <div class="arrival-product-rating">
+                            <div class="star-rating">
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
                             </div>
-                            <span class="rating-count">(234)</span>
+                            <span class="rating-text">(234)</span>
                         </div>
-                        <div class="product-price">
-                            <span class="current-price">$129</span>
+                        <div class="arrival-product-price">
+                            <span class="price-current">$129</span>
                         </div>
-                        <button class="add-to-cart-btn">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop" alt="Handbag" class="product-image">
-                        <div class="product-badges">
-                            <span class="badge-bestseller">Best Seller</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="action-button wishlist-btn"><i class="far fa-heart"></i></button>
-                            <button class="action-button quick-view-btn"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Luxury Handbag</h3>
-                        <p class="product-brand">Elite Fashion</p>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="rating-count">(156)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$449</span>
-                        </div>
-                        <button class="add-to-cart-btn">Add to Cart</button>
                     </div>
                 </div>
             </div>
