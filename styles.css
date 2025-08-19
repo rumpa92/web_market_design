@@ -610,27 +610,47 @@ body {
 }
 
 .arrivals-count {
-    background: #333;
+    background: linear-gradient(135deg, #4ecdc4, #45b7d1);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 500;
+    box-shadow: 0 3px 10px rgba(78,205,196,0.3);
 }
 
 .view-all-arrivals-btn {
     padding: 0.75rem 1.5rem;
-    border: 1px solid #ddd;
-    background: white;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    color: white;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.view-all-arrivals-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #45b7d1, #ff6b6b);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.view-all-arrivals-btn:hover::before {
+    left: 0;
 }
 
 .view-all-arrivals-btn:hover {
-    background: #f8f9fa;
-    border-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,107,107,0.3);
 }
 
 .arrivals-controls {
