@@ -931,7 +931,6 @@ function setupSeasonalCollections() {
 // Trending Section
 function setupTrendingSection() {
     const trendingTabs = document.querySelectorAll('.trending-tab');
-    const trendingItems = document.querySelectorAll('.trending-item');
 
     trendingTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -941,15 +940,27 @@ function setupTrendingSection() {
             trendingTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            // Filter trending items
-            filterTrendingItems(trend);
+            // Add visual feedback
+            tab.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                tab.style.transform = '';
+            }, 150);
 
-            showNotification(`Showing ${tab.textContent}`, 'info');
+            showNotification(`Showing ${tab.textContent}`, 'success');
         });
     });
 
-    // Real-time updates
-    setInterval(updateTrendingStats, 10000); // Update every 10 seconds
+    // Add enhanced interaction for product cards
+    const productCards = document.querySelectorAll('.modern-product-card');
+    productCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('.modern-wishlist-btn') && !e.target.closest('.modern-add-to-cart')) {
+                // Product card click for quick view
+                const productName = card.querySelector('.modern-product-title').textContent;
+                showNotification(`Viewing ${productName}`, 'info');
+            }
+        });
+    });
 }
 
 function filterTrendingItems(trend) {
