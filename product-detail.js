@@ -76,10 +76,19 @@ function loadProductData() {
 }
 
 function setupProductEventListeners() {
-    // Back button
+    // Back button (header)
     const backBtn = document.getElementById('backBtn');
-    backBtn.addEventListener('click', () => {
-        window.history.back();
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.history.back();
+        });
+    }
+
+    // Product back button (above image)
+    const productBackBtn = document.getElementById('productBackBtn');
+    productBackBtn.addEventListener('click', () => {
+        // Navigate to home page
+        window.location.href = 'index.html';
     });
     
     // Header icons
