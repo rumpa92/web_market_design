@@ -70,6 +70,9 @@ function setupEventListeners() {
         card.addEventListener('click', handleCategoryClick);
     });
 
+    // Product cards navigation
+    setupProductNavigation();
+
     // Hero CTA button
     const ctaButton = document.querySelector('.cta-button');
     if (ctaButton) {
