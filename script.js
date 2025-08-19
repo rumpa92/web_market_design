@@ -46,14 +46,14 @@ function initializeApp() {
 
 // Event Listeners Setup
 function setupEventListeners() {
-    // Add to cart buttons
-    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+    // Add to cart buttons (all types)
+    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn, .modern-add-to-cart, .colorful-add-to-cart');
     addToCartBtns.forEach(btn => {
         btn.addEventListener('click', handleAddToCart);
     });
 
-    // Wishlist buttons
-    const wishlistBtns = document.querySelectorAll('.wishlist-btn');
+    // Wishlist buttons (all types)
+    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
     wishlistBtns.forEach(btn => {
         btn.addEventListener('click', handleWishlist);
     });
@@ -69,6 +69,17 @@ function setupEventListeners() {
     categoryCards.forEach(card => {
         card.addEventListener('click', handleCategoryClick);
     });
+
+    // Hero CTA button
+    const ctaButton = document.querySelector('.cta-button');
+    if (ctaButton) {
+        ctaButton.addEventListener('click', () => {
+            showNotification('Welcome to StyleHub! Explore our collections below.', 'success');
+            document.querySelector('.trending-popular-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // Mobile menu toggle (if needed)
     setupMobileMenu();
