@@ -653,15 +653,10 @@ function setUserLocation(city) {
 }
 
 function updateUIWithLocation(city) {
-    // Update header or add location indicator
-    const locationIndicator = document.createElement('span');
-    locationIndicator.textContent = `📍 ${city}`;
-    locationIndicator.className = 'location-indicator';
-    locationIndicator.style.cssText = 'margin-left: 1rem; color: #666; font-size: 0.9rem;';
-
-    const logo = document.querySelector('.logo');
-    if (!document.querySelector('.location-indicator')) {
-        logo.appendChild(locationIndicator);
+    // Update the location trigger text
+    const locationText = document.querySelector('.location-text');
+    if (locationText) {
+        locationText.textContent = city;
     }
 }
 
@@ -992,7 +987,7 @@ function updateTrendingStats() {
             const newViews = currentViews + Math.floor(Math.random() * 10);
             const newSales = currentSales + Math.floor(Math.random() * 3);
 
-            viewsElement.textContent = `���️ ${newViews.toLocaleString()} views`;
+            viewsElement.textContent = `👁️ ${newViews.toLocaleString()} views`;
             salesElement.textContent = `💫 ${newSales} sold today`;
         }
     });
