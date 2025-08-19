@@ -1230,7 +1230,35 @@
     }
     
     .main-image-container {
-        margin: 0 1rem 1rem 1rem;
+        margin: 0;
+    }
+
+    .main-product-image:hover {
+        transform: none;
+    }
+
+    .share-icons {
+        gap: 0.4rem;
+    }
+
+    .share-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .carousel-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
     }
     
     .product-info {
