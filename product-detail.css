@@ -1206,6 +1206,19 @@
     background: #e55a5a;
 }
 
+/* Mobile Touch Support */
+.main-product-image.touch-zoom {
+    transform-origin: center center;
+    touch-action: pan-x pan-y pinch-zoom;
+}
+
+/* Desktop zoom hover effect */
+@media (hover: hover) and (pointer: fine) {
+    .main-product-image:hover {
+        transform: scale(1.05);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .product-header-content {
