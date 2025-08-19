@@ -149,52 +149,73 @@
                     </div>
                 </div>
 
-                <!-- Color Options -->
-                <div class="color-section">
-                    <h3>Color</h3>
-                    <div class="color-swatches">
-                        <div class="color-swatch active" data-color="orange" style="background: linear-gradient(45deg, #ff6b35, #ff9500);">
-                            <span class="color-name">Orange</span>
+                <!-- Shade/Color Selection -->
+                <div class="beauty-color-section">
+                    <h3>Shade</h3>
+                    <div class="beauty-color-grid">
+                        <div class="beauty-color-item active" data-color="coral-blush">
+                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e);"></div>
+                            <span class="shade-name">Coral Blush</span>
+                            <span class="shade-code">#CB01</span>
                         </div>
-                        <div class="color-swatch" data-color="blue" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6);">
-                            <span class="color-name">Blue</span>
+                        <div class="beauty-color-item" data-color="rose-gold">
+                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #f7b2bd, #e8a598);"></div>
+                            <span class="shade-name">Rose Gold</span>
+                            <span class="shade-code">#RG03</span>
                         </div>
-                        <div class="color-swatch" data-color="red" style="background: linear-gradient(45deg, #dc2626, #ef4444);">
-                            <span class="color-name">Red</span>
+                        <div class="beauty-color-item" data-color="berry-wine">
+                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #8e44ad, #c0392b);"></div>
+                            <span class="shade-name">Berry Wine</span>
+                            <span class="shade-code">#BW05</span>
                         </div>
-                        <div class="color-swatch" data-color="green" style="background: linear-gradient(45deg, #059669, #10b981);">
-                            <span class="color-name">Green</span>
+                        <div class="beauty-color-item" data-color="nude-pink">
+                            <div class="color-swatch-beauty" style="background: linear-gradient(45deg, #f8c4b8, #f5a3a3);"></div>
+                            <span class="shade-name">Nude Pink</span>
+                            <span class="shade-code">#NP02</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Size & Fit -->
-                <div class="size-section">
-                    <div class="size-header">
-                        <h3>Size</h3>
-                        <button class="size-guide-btn" id="sizeGuideBtn">
-                            <i class="fas fa-ruler"></i>
-                            Size Guide
+                <!-- Size/Volume Selection -->
+                <div class="variant-section">
+                    <div class="variant-header">
+                        <h3>Size & Volume</h3>
+                        <span class="variant-helper">Choose your perfect size</span>
+                    </div>
+
+                    <div class="pill-variants">
+                        <button class="pill-variant-btn" data-variant="mini" data-price="45">
+                            <span class="variant-size">Mini</span>
+                            <span class="variant-volume">15ml</span>
+                            <span class="variant-price">$45</span>
+                        </button>
+                        <button class="pill-variant-btn active" data-variant="regular" data-price="85">
+                            <span class="variant-size">Regular</span>
+                            <span class="variant-volume">30ml</span>
+                            <span class="variant-price">$85</span>
+                            <span class="popular-badge">Popular</span>
+                        </button>
+                        <button class="pill-variant-btn" data-variant="large" data-price="125">
+                            <span class="variant-size">Large</span>
+                            <span class="variant-volume">50ml</span>
+                            <span class="variant-price">$125</span>
+                            <span class="value-badge">Best Value</span>
+                        </button>
+                        <button class="pill-variant-btn" data-variant="travel-set" data-price="189">
+                            <span class="variant-size">Travel Set</span>
+                            <span class="variant-volume">3 × 15ml</span>
+                            <span class="variant-price">$189</span>
                         </button>
                     </div>
-                    
-                    <div class="size-options">
-                        <button class="size-btn" data-size="XS">XS</button>
-                        <button class="size-btn" data-size="S">S</button>
-                        <button class="size-btn active" data-size="M">M</button>
-                        <button class="size-btn" data-size="L">L</button>
-                        <button class="size-btn" data-size="XL">XL</button>
-                        <button class="size-btn" data-size="XXL">XXL</button>
-                    </div>
-                    
-                    <div class="fit-info">
-                        <div class="fit-prediction">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Runs true to size</span>
+
+                    <div class="variant-info">
+                        <div class="usage-info">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Regular size lasts approximately 2-3 months with daily use</span>
                         </div>
                         <div class="stock-info">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span>Only 3 left in Size M</span>
+                            <i class="fas fa-check-circle"></i>
+                            <span>In stock - Ships within 24 hours</span>
                         </div>
                     </div>
                 </div>
@@ -344,7 +365,7 @@
                             <div class="review-content">
                                 <p>Good quality outfit. The colors are vibrant and true to the pictures. Delivery was fast. Only suggestion is to improve the packaging.</p>
                                 <div class="review-actions">
-                                    <button class="helpful-btn">👍 Helpful (8)</button>
+                                    <button class="helpful-btn">���� Helpful (8)</button>
                                     <button class="reply-btn">Reply</button>
                                 </div>
                             </div>
