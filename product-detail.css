@@ -870,18 +870,36 @@ body {
     .header-content {
         padding: 0.75rem 0;
     }
-    
+
     .brand-title {
         font-size: 1rem;
     }
-    
+
     .header-right {
         gap: 0.5rem;
     }
-    
+
     .product-container {
         padding: 1rem;
         gap: 1.5rem;
+    }
+
+    .product-nav-header {
+        margin-bottom: 1rem;
+    }
+
+    .product-back-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .product-nav-title {
+        font-size: 1.1rem;
+    }
+
+    .product-nav-subtitle {
+        font-size: 0.8rem;
     }
     
     .product-title {
