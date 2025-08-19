@@ -886,13 +886,13 @@ function setupHowToUseAccordion() {
 // Utility functions
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-    
-    const existingItem = cart.find(item => 
-        item.title === product.title && 
-        item.selectedSize === product.selectedSize && 
-        item.selectedColor === product.selectedColor
+
+    const existingItem = cart.find(item =>
+        item.title === product.title &&
+        item.selectedVariant === product.selectedVariant &&
+        item.selectedShade === product.selectedShade
     );
-    
+
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -901,12 +901,12 @@ function addToCart(product) {
             title: product.title,
             price: `$${product.currentPrice}`,
             image: product.images.main,
-            selectedSize: product.selectedSize,
-            selectedColor: product.selectedColor,
+            selectedVariant: product.selectedVariant,
+            selectedShade: product.selectedShade,
             quantity: 1
         });
     }
-    
+
     localStorage.setItem('fashionCart', JSON.stringify(cart));
 }
 
