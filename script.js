@@ -620,11 +620,10 @@ function setupLocationServices() {
 
 function checkUserLocation() {
     const savedLocation = localStorage.getItem('userLocation');
-    if (!savedLocation) {
-        setTimeout(() => {
-            document.getElementById('locationModal').classList.remove('hidden');
-        }, 4000); // Show after flash screen
+    if (savedLocation) {
+        updateUIWithLocation(savedLocation);
     }
+    // No automatic popup - user must click location trigger to open modal
 }
 
 function detectUserLocation() {
