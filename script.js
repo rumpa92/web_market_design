@@ -32,6 +32,7 @@ function initializeApp() {
     setupSearch();
     setupAuthentication();
     setupLocationServices();
+    setupProfileDropdown();
     setupFashionStories();
     setupRecommendations();
     checkUserLocation();
