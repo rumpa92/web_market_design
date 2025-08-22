@@ -144,16 +144,129 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-banner">
-            <img src="https://cdn.builder.io/api/v1/image/assets%2Fc99001f9e69a455282a423b18e3348b0%2Fe095a2e544f64362b42983863279578d?format=webp&width=800" alt="Fashion Store Interior" class="hero-banner-img">
-            <div class="hero-overlay">
-                <div class="hero-content">
-                    <h2 class="hero-title">Discover Your Style</h2>
-                    <p class="hero-subtitle">Curated fashion from top brands and emerging designers</p>
-                    <button class="cta-button">Shop Now</button>
+    <!-- Hero Banner Slider -->
+    <section class="hero-slider-section">
+        <div class="hero-slider-container">
+            <!-- Slide 1 -->
+            <div class="hero-slide active">
+                <div class="slide-background">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
                 </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">New Arrival</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">FASHION</span>
+                            <span class="title-sub">SEASONAL COLLECTION</span>
+                        </h1>
+                        <p class="slide-description">Discover the latest trends in fashion with our curated seasonal collection featuring premium designs and contemporary styles.</p>
+                        <button class="slide-cta-btn">Shop Collection</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=600&fit=crop" alt="Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="hero-slide">
+                <div class="slide-background slide-2-bg">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">Trending Now</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">WINTER</span>
+                            <span class="title-sub">COLLECTION 2024</span>
+                        </h1>
+                        <p class="slide-description">Embrace the season with our exclusive winter collection featuring cozy yet stylish pieces perfect for the modern wardrobe.</p>
+                        <button class="slide-cta-btn">Explore Winter</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop" alt="Winter Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="hero-slide">
+                <div class="slide-background slide-3-bg">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">Limited Edition</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">DESIGNER</span>
+                            <span class="title-sub">EXCLUSIVE PIECES</span>
+                        </h1>
+                        <p class="slide-description">Discover our exclusive designer collaborations featuring unique pieces that define luxury and sophistication in modern fashion.</p>
+                        <button class="slide-cta-btn">Shop Exclusive</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=400&h=600&fit=crop" alt="Designer Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Navigation -->
+            <div class="slider-nav">
+                <button class="nav-btn prev-btn" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next-btn" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Slider Dots -->
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
             </div>
         </div>
     </section>
