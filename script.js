@@ -1737,3 +1737,154 @@ window.FashionMarketplace = {
     showWishlistSummary,
     navigateToProductDetail
 };
+
+// Hero Slider Functionality
+let currentSlideIndex = 0;
+let slideInterval;
+
+function setupHeroSlider() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Start auto-slide
+    startAutoSlide();
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            changeSlide(-1);
+        } else if (e.key === 'ArrowRight') {
+            changeSlide(1);
+        }
+    });
+
+    // Pause auto-slide on hover
+    const sliderContainer = document.querySelector('.hero-slider-container');
+    if (sliderContainer) {
+        sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+        sliderContainer.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    // Touch/swipe support for mobile
+    setupTouchControls();
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Remove active class from current slide and dot
+    slides[currentSlideIndex].classList.remove('active');
+    dots[currentSlideIndex].classList.remove('active');
+
+    // Calculate new slide index
+    currentSlideIndex += direction;
+
+    if (currentSlideIndex >= slides.length) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = slides.length - 1;
+    }
+
+    // Add active class to new slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+
+    // Restart auto-slide timer
+    restartAutoSlide();
+}
+
+function currentSlide(slideIndex) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    // Update current slide index
+    currentSlideIndex = slideIndex - 1;
+
+    // Add active class to selected slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+
+    // Restart auto-slide timer
+    restartAutoSlide();
+}
+
+function startAutoSlide() {
+    slideInterval = setInterval(() => {
+        changeSlide(1);
+    }, 5000); // Change slide every 5 seconds
+}
+
+function stopAutoSlide() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+    }
+}
+
+function restartAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+}
+
+function setupTouchControls() {
+    const sliderContainer = document.querySelector('.hero-slider-container');
+    if (!sliderContainer) return;
+
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+
+    sliderContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        stopAutoSlide();
+    });
+
+    sliderContainer.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+
+    sliderContainer.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // Check if horizontal swipe is more significant than vertical
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Swipe left - next slide
+                changeSlide(1);
+            } else {
+                // Swipe right - previous slide
+                changeSlide(-1);
+            }
+        }
+
+        isDragging = false;
+        startAutoSlide();
+    });
+
+    // Prevent context menu on long press
+    sliderContainer.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+}
+
+// Make functions global for onclick handlers
+window.changeSlide = changeSlide;
+window.currentSlide = currentSlide;
