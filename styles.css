@@ -1141,6 +1141,52 @@ body {
     background: #f8f9fa;
 }
 
+/* Hero Section Responsive */
+@media (max-width: 768px) {
+    .hero-banner {
+        height: 400px;
+    }
+
+    .hero-overlay {
+        padding: 0 2rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner {
+        height: 350px;
+    }
+
+    .hero-overlay {
+        padding: 0 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
 /* Fashion Stories Section */
 .fashion-stories-section {
     margin-bottom: 4rem;
