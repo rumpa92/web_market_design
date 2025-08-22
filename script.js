@@ -32,6 +32,7 @@ function initializeApp() {
     setupSearch();
     setupAuthentication();
     setupLocationServices();
+    setupProfileDropdown();
     setupFashionStories();
     setupRecommendations();
     checkUserLocation();
@@ -42,6 +43,7 @@ function initializeApp() {
     setupFiltersAndSort();
     setupEnhancedNavigation();
     enableGuestBrowsing();
+    setupHeroSlider();
 }
 
 // Event Listeners Setup
@@ -1736,3 +1738,409 @@ window.FashionMarketplace = {
     showWishlistSummary,
     navigateToProductDetail
 };
+
+// Hero Slider Functionality
+let currentSlideIndex = 0;
+let slideInterval;
+
+function setupHeroSlider() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Start auto-slide
+    startAutoSlide();
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            changeSlide(-1);
+        } else if (e.key === 'ArrowRight') {
+            changeSlide(1);
+        }
+    });
+
+    // Pause auto-slide on hover
+    const sliderContainer = document.querySelector('.hero-slider-container');
+    if (sliderContainer) {
+        sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+        sliderContainer.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    // Touch/swipe support for mobile
+    setupTouchControls();
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Remove active class from current slide and dot
+    slides[currentSlideIndex].classList.remove('active');
+    dots[currentSlideIndex].classList.remove('active');
+
+    // Calculate new slide index
+    currentSlideIndex += direction;
+
+    if (currentSlideIndex >= slides.length) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = slides.length - 1;
+    }
+
+    // Add active class to new slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+
+    // Restart auto-slide timer
+    restartAutoSlide();
+}
+
+function currentSlide(slideIndex) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    if (slides.length === 0) return;
+
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    // Update current slide index
+    currentSlideIndex = slideIndex - 1;
+
+    // Add active class to selected slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+
+    // Restart auto-slide timer
+    restartAutoSlide();
+}
+
+function startAutoSlide() {
+    slideInterval = setInterval(() => {
+        changeSlide(1);
+    }, 5000); // Change slide every 5 seconds
+}
+
+function stopAutoSlide() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+    }
+}
+
+function restartAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+}
+
+function setupTouchControls() {
+    const sliderContainer = document.querySelector('.hero-slider-container');
+    if (!sliderContainer) return;
+
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+
+    sliderContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        stopAutoSlide();
+    });
+
+    sliderContainer.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+
+    sliderContainer.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // Check if horizontal swipe is more significant than vertical
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Swipe left - next slide
+                changeSlide(1);
+            } else {
+                // Swipe right - previous slide
+                changeSlide(-1);
+            }
+        }
+
+        isDragging = false;
+        startAutoSlide();
+    });
+
+    // Prevent context menu on long press
+    sliderContainer.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+}
+
+// Make functions global for onclick handlers
+window.changeSlide = changeSlide;
+window.currentSlide = currentSlide;
+
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const profileSection = document.getElementById('profileSection');
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const myProfileItem = document.getElementById('myProfile');
+    const myOrdersItem = document.getElementById('myOrders');
+    const signInOutItem = document.getElementById('signInOut');
+
+    if (!profileSection || !profileTrigger) return;
+
+    // Toggle dropdown on profile trigger click
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfileDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!profileSection.contains(e.target)) {
+            closeProfileDropdown();
+        }
+    });
+
+    // Handle menu item clicks
+    if (myProfileItem) {
+        myProfileItem.addEventListener('click', () => {
+            handleMyProfile();
+            closeProfileDropdown();
+        });
+    }
+
+    if (myOrdersItem) {
+        myOrdersItem.addEventListener('click', () => {
+            handleMyOrders();
+            closeProfileDropdown();
+        });
+    }
+
+    if (signInOutItem) {
+        signInOutItem.addEventListener('click', () => {
+            handleSignInOut();
+            closeProfileDropdown();
+        });
+    }
+
+    // Initialize user state
+    initializeUserState();
+}
+
+function toggleProfileDropdown() {
+    const profileSection = document.getElementById('profileSection');
+    const isActive = profileSection.classList.contains('active');
+
+    if (isActive) {
+        closeProfileDropdown();
+    } else {
+        openProfileDropdown();
+    }
+}
+
+function openProfileDropdown() {
+    const profileSection = document.getElementById('profileSection');
+    profileSection.classList.add('active');
+
+    // Add subtle animation to arrow
+    const arrow = document.getElementById('profileArrow');
+    if (arrow) {
+        arrow.style.transform = 'rotate(180deg)';
+    }
+}
+
+function closeProfileDropdown() {
+    const profileSection = document.getElementById('profileSection');
+    profileSection.classList.remove('active');
+
+    // Reset arrow animation
+    const arrow = document.getElementById('profileArrow');
+    if (arrow) {
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+
+function handleMyProfile() {
+    const isLoggedIn = checkUserLoginStatus();
+
+    if (!isLoggedIn) {
+        showNotification('Please sign in to view your profile', 'info');
+        // Open authentication modal
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.remove('hidden');
+        }
+        return;
+    }
+
+    showNotification('Opening your profile...', 'success');
+    // In a real app, this would navigate to profile page
+    console.log('Navigate to profile page');
+}
+
+function handleMyOrders() {
+    const isLoggedIn = checkUserLoginStatus();
+
+    if (!isLoggedIn) {
+        showNotification('Please sign in to view your orders', 'info');
+        // Open authentication modal
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.remove('hidden');
+        }
+        return;
+    }
+
+    showNotification('Loading your orders...', 'success');
+    // In a real app, this would navigate to orders page
+    console.log('Navigate to orders page');
+}
+
+function handleSignInOut() {
+    const isLoggedIn = checkUserLoginStatus();
+
+    if (isLoggedIn) {
+        // Sign out
+        signOutUser();
+    } else {
+        // Sign in
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.remove('hidden');
+        }
+    }
+}
+
+function initializeUserState() {
+    const isLoggedIn = checkUserLoginStatus();
+    updateProfileUI(isLoggedIn);
+}
+
+function checkUserLoginStatus() {
+    // Check if user is logged in (in a real app, this would check localStorage, session, etc.)
+    return localStorage.getItem('userLoggedIn') === 'true';
+}
+
+function signOutUser() {
+    localStorage.removeItem('userLoggedIn');
+    localStorage.removeItem('userData');
+
+    // Reset to guest state
+    updateProfileUI(false);
+
+    showNotification('You have been signed out successfully', 'success');
+
+    // Clear any user-specific data
+    clearUserData();
+}
+
+function updateProfileUI(isLoggedIn) {
+    const profileSection = document.getElementById('profileSection');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const signInOutText = document.getElementById('signInOutText');
+    const signInOutIcon = document.querySelector('#signInOut i');
+
+    if (isLoggedIn) {
+        // User is logged in
+        profileSection.classList.add('logged-in');
+        profileSection.classList.remove('guest');
+
+        // Update user info
+        const userData = getUserData();
+        if (userName) userName.textContent = userData.name;
+        if (userEmail) userEmail.textContent = userData.email;
+
+        // Update sign in/out button
+        if (signInOutText) signInOutText.textContent = 'Sign Out';
+        if (signInOutIcon) signInOutIcon.className = 'fas fa-sign-out-alt';
+
+        // Update profile images
+        updateProfileImages(userData.avatar);
+
+    } else {
+        // User is guest
+        profileSection.classList.add('guest');
+        profileSection.classList.remove('logged-in');
+
+        // Set default guest info
+        if (userName) userName.textContent = 'Guest User';
+        if (userEmail) userEmail.textContent = 'guest@stylehub.com';
+
+        // Update sign in/out button
+        if (signInOutText) signInOutText.textContent = 'Sign In';
+        if (signInOutIcon) signInOutIcon.className = 'fas fa-sign-in-alt';
+
+        // Set default avatar
+        updateProfileImages('https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face');
+    }
+}
+
+function getUserData() {
+    const defaultData = {
+        name: 'Style Enthusiast',
+        email: 'user@stylehub.com',
+        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face'
+    };
+
+    const saved = localStorage.getItem('userData');
+    return saved ? JSON.parse(saved) : defaultData;
+}
+
+function updateProfileImages(avatarUrl) {
+    const profileImage = document.getElementById('profileImage');
+    const dropdownAvatar = document.querySelector('.dropdown-avatar');
+
+    if (profileImage) profileImage.src = avatarUrl;
+    if (dropdownAvatar) dropdownAvatar.src = avatarUrl;
+}
+
+function clearUserData() {
+    // Clear any user-specific data like cart, wishlist, etc.
+    cart = [];
+    wishlist = [];
+    updateCartCount();
+
+    // Update UI elements
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) cartCount.textContent = '0';
+}
+
+// Enhanced authentication functions to work with profile dropdown
+function updateUIForLoggedInUser() {
+    const profileIcon = document.getElementById('profileIcon'); // Old profile icon
+    const profileSection = document.getElementById('profileSection'); // New profile section
+
+    // Mark user as logged in
+    localStorage.setItem('userLoggedIn', 'true');
+
+    // Save user data (in a real app, this would come from the server)
+    const userData = {
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face'
+    };
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    // Update profile UI
+    updateProfileUI(true);
+
+    // Legacy profile icon update (if still exists)
+    if (profileIcon) {
+        profileIcon.className = 'fas fa-user profile-icon';
+        profileIcon.style.color = '#4CAF50';
+    }
+}

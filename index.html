@@ -111,6 +111,94 @@
             </div>
         </div>
     </div>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="cart-modal hidden">
+        <div class="cart-modal-overlay"></div>
+        <div class="cart-modal-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Shopping Cart</h2>
+                <button class="close-cart" id="closeCart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be dynamically added here -->
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Traditional Salwar Kameez Set">
+                        </div>
+                        <div class="cart-item-details">
+                            <h3 class="item-title">Lifestyle Comfort</h3>
+                            <p class="item-brand">New Balance</p>
+                            <div class="item-options">
+                                <span class="item-size">Size: 7</span>
+                                <span class="item-color">Color: Grey</span>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="qty-btn decrease">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="quantity">1</span>
+                                    <button class="qty-btn increase">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <button class="remove-item">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <span class="item-price">$94.99</span>
+                            <span class="item-original-price">$94.99 each</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-empty hidden" id="cartEmpty">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some items to get started</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal <span class="item-count">(1 items)</span></span>
+                    <span class="summary-value">$94.99</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value shipping-value">$9.99</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Tax</span>
+                    <span class="summary-value tax-value">$8.40</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value total-value">$113.38</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="continue-shopping-btn" id="continueShopping">
+                    Continue Shopping
+                </button>
+                <button class="proceed-checkout-btn" id="proceedCheckout">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="main-header">
         <div class="container">
@@ -137,23 +225,169 @@
                             <i class="fas fa-shopping-bag cart-icon"></i>
                             <span class="cart-count">2</span>
                         </div>
-                        <i class="far fa-user profile-icon" id="profileIcon"></i>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Guest User</span>
+                                            <span class="user-email" id="userEmail">guest@stylehub.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="signInOut">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                        <span id="signInOutText">Sign In</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h2 class="hero-title">Discover Your Style</h2>
-                <p class="hero-subtitle">Curated fashion from top brands and emerging designers</p>
-                <button class="cta-button">Shop Now</button>
+    <!-- Hero Banner Slider -->
+    <section class="hero-slider-section">
+        <div class="hero-slider-container">
+            <!-- Slide 1 -->
+            <div class="hero-slide active">
+                <div class="slide-background">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">New Arrival</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">FASHION</span>
+                            <span class="title-sub">SEASONAL COLLECTION</span>
+                        </h1>
+                        <p class="slide-description">Discover the latest trends in fashion with our curated seasonal collection featuring premium designs and contemporary styles.</p>
+                        <button class="slide-cta-btn">Shop Collection</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=600&fit=crop" alt="Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&h=600&fit=crop" alt="Fashion Hero" class="hero-img">
+
+            <!-- Slide 2 -->
+            <div class="hero-slide">
+                <div class="slide-background slide-2-bg">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">Trending Now</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">WINTER</span>
+                            <span class="title-sub">COLLECTION 2024</span>
+                        </h1>
+                        <p class="slide-description">Embrace the season with our exclusive winter collection featuring cozy yet stylish pieces perfect for the modern wardrobe.</p>
+                        <button class="slide-cta-btn">Explore Winter</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop" alt="Winter Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="hero-slide">
+                <div class="slide-background slide-3-bg">
+                    <div class="geometric-shape shape-1"></div>
+                    <div class="geometric-shape shape-2"></div>
+                    <div class="geometric-shape shape-3"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-left">
+                        <div class="brand-logo">StyleHub</div>
+                        <div class="collection-badge">Limited Edition</div>
+                        <h1 class="slide-title">
+                            <span class="title-main">DESIGNER</span>
+                            <span class="title-sub">EXCLUSIVE PIECES</span>
+                        </h1>
+                        <p class="slide-description">Discover our exclusive designer collaborations featuring unique pieces that define luxury and sophistication in modern fashion.</p>
+                        <button class="slide-cta-btn">Shop Exclusive</button>
+                    </div>
+                    <div class="slide-right">
+                        <div class="model-image">
+                            <img src="https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=400&h=600&fit=crop" alt="Designer Fashion Model" class="model-img">
+                        </div>
+                        <div class="social-follow">
+                            <span class="follow-text">Follow Us</span>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Navigation -->
+            <div class="slider-nav">
+                <button class="nav-btn prev-btn" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next-btn" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Slider Dots -->
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
             </div>
         </div>
     </section>
