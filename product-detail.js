@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeProductDetail();
     loadProductData();
     setupProductEventListeners();
+    setupRelatedProductsInteraction();
 });
 
 // Product data for fashion item
