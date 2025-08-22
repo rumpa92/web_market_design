@@ -42,6 +42,7 @@ function initializeApp() {
     setupFiltersAndSort();
     setupEnhancedNavigation();
     enableGuestBrowsing();
+    setupHeroSlider();
 }
 
 // Event Listeners Setup
