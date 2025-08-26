@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - StyleHub</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -63,14 +64,6 @@
                                         <i class="fas fa-user-circle"></i>
                                         <span>My Profile</span>
                                     </li>
-                                    <li class="dropdown-item" id="myOrders">
-                                        <i class="fas fa-shopping-bag"></i>
-                                        <span>My Orders</span>
-                                    </li>
-                                    <li class="dropdown-item" id="myWishlist">
-                                        <i class="fas fa-heart"></i>
-                                        <span>My Wishlist</span>
-                                    </li>
                                     <li class="dropdown-item" id="accountSettings">
                                         <i class="fas fa-cog"></i>
                                         <span>Account Settings</span>
@@ -78,10 +71,6 @@
                                     <li class="dropdown-item" id="helpSupport">
                                         <i class="fas fa-question-circle"></i>
                                         <span>Help & Support</span>
-                                    </li>
-                                    <li class="dropdown-item sign-out" id="signInOut">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span id="signInOutText">Sign Out</span>
                                     </li>
                                 </ul>
                             </div>
@@ -95,375 +84,118 @@
     <!-- Profile Main Content -->
     <main class="profile-main">
         <div class="container">
-            <!-- Profile Header Section -->
-            <div class="profile-header">
-                <div class="profile-header-content">
-                    <div class="profile-header-left">
-                        <button class="back-button" onclick="goBack()">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <h1 class="profile-title">My Profile</h1>
-                    </div>
-                    <div class="profile-header-right">
-                        <div class="profile-info">
-                            <div class="profile-picture">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Profile Picture" class="profile-image" id="profilePictureMain">
-                                <button class="profile-picture-edit" onclick="editProfilePicture()">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            <div class="profile-details">
-                                <h2 class="user-name">Sarah Johnson</h2>
-                                <p class="user-contact">sarah.johnson@stylehub.com • +91 9775637590</p>
-                            </div>
+            <!-- Profile Header -->
+            <div class="profile-header-nav">
+                <button class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <span class="nav-title">My Profile</span>
+            </div>
+
+            <!-- Profile Title Section -->
+            <div class="profile-title-section">
+                <h1 class="main-title">My Profile</h1>
+                <p class="subtitle">Manage your account settings and preferences</p>
+            </div>
+
+            <!-- Profile Info Card -->
+            <div class="profile-info-card">
+                <div class="profile-avatar-section">
+                    <div class="avatar-container">
+                        <div class="avatar-circle">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Sarah Johnson" class="profile-avatar-img" id="profilePictureMain">
                         </div>
-                        <button class="edit-profile-btn" onclick="editProfile()">
-                            <i class="fas fa-edit"></i>
-                            Edit Profile
-                        </button>
+                        <div class="online-badge">
+                            <i class="fas fa-circle"></i>
+                        </div>
                     </div>
+                </div>
+                <div class="profile-details">
+                    <h2 class="user-name">Sarah Johnson</h2>
+                    <p class="user-membership">Premium Member since 2023</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sarah.johnson@stylehub.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9775637590</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="edit-profile-btn" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
                 </div>
             </div>
 
-            <!-- Profile Completion Progress -->
-            <div class="profile-completion">
-                <div class="completion-content">
-                    <div class="completion-info">
-                        <h3>Profile Completion</h3>
-                        <p>Complete your profile to get personalized recommendations</p>
+            <!-- Profile Menu Cards -->
+            <div class="profile-menu">
+                <div class="menu-card" onclick="navigateToPersonalInfo()">
+                    <div class="card-icon personal">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="completion-progress">
-                        <div class="progress-circle">
-                            <svg width="60" height="60">
-                                <circle cx="30" cy="30" r="25" stroke="#e0e0e0" stroke-width="4" fill="none"></circle>
-                                <circle cx="30" cy="30" r="25" stroke="#667eea" stroke-width="4" fill="none" 
-                                        stroke-dasharray="157" stroke-dashoffset="47" stroke-linecap="round"></circle>
-                            </svg>
-                            <span class="progress-percentage">70%</span>
-                        </div>
-                        <span class="completion-text">Almost done!</span>
+                    <div class="card-content">
+                        <h3>Personal Information</h3>
+                        <p>Update your name, email, phone, gender, and date of birth</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-            </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <h3>Quick Actions</h3>
-                <div class="quick-actions-grid">
-                    <button class="quick-action-btn" onclick="navigateToOrders()">
+                <div class="menu-card" onclick="navigateToAddresses()">
+                    <div class="card-icon address">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Saved Addresses</h3>
+                        <p>Add, edit, or remove delivery addresses and set a default one</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="accountSettings()">
+                    <div class="card-icon settings">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Account Settings</h3>
+                        <p>Change password, update notifications, and app preferences</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="customerSupport()">
+                    <div class="card-icon support">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Help & Support</h3>
+                        <p>Browse FAQs, contact customer service, or raise a support ticket</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="deliveryManagement()">
+                    <div class="card-icon delivery">
                         <i class="fas fa-truck"></i>
-                        <span>Track My Order</span>
-                    </button>
-                    <button class="quick-action-btn" onclick="navigateToWishlist()">
-                        <i class="fas fa-heart"></i>
-                        <span>View Wishlist</span>
-                    </button>
-                    <button class="quick-action-btn" onclick="navigateToPayments()">
-                        <i class="fas fa-credit-card"></i>
-                        <span>Saved Cards</span>
-                    </button>
-                    <button class="quick-action-btn" onclick="navigateToSupport()">
-                        <i class="fas fa-headset"></i>
-                        <span>Get Help</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Profile Sections -->
-            <div class="profile-sections">
-                <!-- Personal & Account Management -->
-                <div class="profile-section-group">
-                    <div class="section-header">
-                        <i class="fas fa-user-cog"></i>
-                        <h3>Personal & Account Management</h3>
                     </div>
-                    <div class="section-items">
-                        <div class="section-item" onclick="navigateToPersonalInfo()">
-                            <div class="item-left">
-                                <i class="fas fa-user"></i>
-                                <div class="item-content">
-                                    <h4>Personal Information</h4>
-                                    <p>View & edit name, email, mobile, DOB, gender</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="editProfile()">
-                            <div class="item-left">
-                                <i class="fas fa-camera"></i>
-                                <div class="item-content">
-                                    <h4>Edit Profile / Change Profile Picture</h4>
-                                    <p>Update your profile photo and basic details</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="changePassword()">
-                            <div class="item-left">
-                                <i class="fas fa-lock"></i>
-                                <div class="item-content">
-                                    <h4>Change Password</h4>
-                                    <p>Update your account password for security</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="navigateToAddresses()">
-                            <div class="item-left">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div class="item-content">
-                                    <h4>Saved Addresses / Delivery Management</h4>
-                                    <p>Add, edit, delete multiple addresses</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="languageRegionSettings()">
-                            <div class="item-left">
-                                <i class="fas fa-globe"></i>
-                                <div class="item-content">
-                                    <h4>Language & Region</h4>
-                                    <p>Change language, currency preferences</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="notificationSettings()">
-                            <div class="item-left">
-                                <i class="fas fa-bell"></i>
-                                <div class="item-content">
-                                    <h4>Notifications</h4>
-                                    <p>Turn on/off order updates, offers, reminders</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
+                    <div class="card-content">
+                        <h3>Delivery Management</h3>
+                        <p>Control delivery preferences, time slots, pickup address for returns</p>
                     </div>
-                </div>
-
-                <!-- Orders & Shopping Activity -->
-                <div class="profile-section-group">
-                    <div class="section-header">
-                        <i class="fas fa-shopping-bag"></i>
-                        <h3>Orders & Shopping Activity</h3>
-                    </div>
-                    <div class="section-items">
-                        <div class="section-item" onclick="navigateToOrders()">
-                            <div class="item-left">
-                                <i class="fas fa-box"></i>
-                                <div class="item-content">
-                                    <h4>My Orders</h4>
-                                    <p>View your recent and past orders</p>
-                                </div>
-                            </div>
-                            <div class="item-badge">3</div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="trackOrders()">
-                            <div class="item-left">
-                                <i class="fas fa-truck"></i>
-                                <div class="item-content">
-                                    <h4>Track Order, Cancel, Return/Exchange, Reorder</h4>
-                                    <p>Manage your order status and actions</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="orderHistory()">
-                            <div class="item-left">
-                                <i class="fas fa-history"></i>
-                                <div class="item-content">
-                                    <h4>Order History</h4>
-                                    <p>Complete order history with invoice download</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="navigateToWishlist()">
-                            <div class="item-left">
-                                <i class="fas fa-heart"></i>
-                                <div class="item-content">
-                                    <h4>Wishlist</h4>
-                                    <p>Saved items for later purchase</p>
-                                </div>
-                            </div>
-                            <div class="item-badge">12</div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="recentlyViewed()">
-                            <div class="item-left">
-                                <i class="fas fa-eye"></i>
-                                <div class="item-content">
-                                    <h4>Recently Viewed Items</h4>
-                                    <p>Products you've browsed recently</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="refundHistory()">
-                            <div class="item-left">
-                                <i class="fas fa-undo"></i>
-                                <div class="item-content">
-                                    <h4>Refund History</h4>
-                                    <p>Track your refunds and their status</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payments & Rewards -->
-                <div class="profile-section-group">
-                    <div class="section-header">
-                        <i class="fas fa-credit-card"></i>
-                        <h3>Payments & Rewards</h3>
-                    </div>
-                    <div class="section-items">
-                        <div class="section-item" onclick="paymentMethods()">
-                            <div class="item-left">
-                                <i class="fas fa-credit-card"></i>
-                                <div class="item-content">
-                                    <h4>Payment Methods</h4>
-                                    <p>Saved Cards, Wallets, UPI, etc.</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="walletBalance()">
-                            <div class="item-left">
-                                <i class="fas fa-wallet"></i>
-                                <div class="item-content">
-                                    <h4>Wallet Balance / Instant Refunds</h4>
-                                    <p>Check your wallet balance and refunds</p>
-                                </div>
-                            </div>
-                            <div class="item-value">₹ 250.00</div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="rewardsGiftCards()">
-                            <div class="item-left">
-                                <i class="fas fa-gift"></i>
-                                <div class="item-content">
-                                    <h4>Rewards & Gift Cards</h4>
-                                    <p>Coupons, discounts, loyalty points</p>
-                                </div>
-                            </div>
-                            <div class="item-badge">5</div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Support & Assistance -->
-                <div class="profile-section-group">
-                    <div class="section-header">
-                        <i class="fas fa-headset"></i>
-                        <h3>Support & Assistance</h3>
-                    </div>
-                    <div class="section-items">
-                        <div class="section-item" onclick="customerSupport()">
-                            <div class="item-left">
-                                <i class="fas fa-comments"></i>
-                                <div class="item-content">
-                                    <h4>Customer Support</h4>
-                                    <p>Live Chat, Call Us, Email, Raise Ticket</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="faqHelpCenter()">
-                            <div class="item-left">
-                                <i class="fas fa-question-circle"></i>
-                                <div class="item-content">
-                                    <h4>FAQ & Help Center</h4>
-                                    <p>Find answers to common questions</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="chatbot()">
-                            <div class="item-left">
-                                <i class="fas fa-robot"></i>
-                                <div class="item-content">
-                                    <h4>Chatbot</h4>
-                                    <p>AI-powered support assistant</p>
-                                </div>
-                            </div>
-                            <div class="item-status online">Online</div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Privacy & Security -->
-                <div class="profile-section-group">
-                    <div class="section-header">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Privacy & Security</h3>
-                    </div>
-                    <div class="section-items">
-                        <div class="section-item" onclick="privacyTerms()">
-                            <div class="item-left">
-                                <i class="fas fa-file-contract"></i>
-                                <div class="item-content">
-                                    <h4>Privacy & Terms</h4>
-                                    <p>Policies, terms of use</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item" onclick="accountDeletion()">
-                            <div class="item-left">
-                                <i class="fas fa-trash"></i>
-                                <div class="item-content">
-                                    <h4>Account Deletion</h4>
-                                    <p>With warning & OTP verification</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="section-item logout-item" onclick="logout()">
-                            <div class="item-left">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <div class="item-content">
-                                    <h4>Logout</h4>
-                                    <p>Secure sign-out</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Promotional Section -->
-            <div class="promotional-section">
-                <div class="promo-header">
-                    <h3>Just For You</h3>
-                    <p>Personalized offers and recommendations</p>
-                </div>
-                <div class="promo-content">
-                    <div class="promo-item">
-                        <div class="promo-icon">
-                            <i class="fas fa-percent"></i>
-                        </div>
-                        <div class="promo-details">
-                            <h4>Special Offer</h4>
-                            <p>Get 30% off on your next order</p>
-                            <span class="promo-code">Code: SAVE30</span>
-                        </div>
-                        <button class="promo-btn">Use Now</button>
-                    </div>
-                    <div class="promo-item">
-                        <div class="promo-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="promo-details">
-                            <h4>Style Recommendation</h4>
-                            <p>New arrivals based on your browsing</p>
-                        </div>
-                        <button class="promo-btn">Explore</button>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
             </div>
@@ -518,35 +250,6 @@
         </div>
     </footer>
 
-    <!-- Edit Profile Picture Modal -->
-    <div id="editPictureModal" class="edit-picture-modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Change Profile Picture</h3>
-                <button class="close-modal" onclick="closeEditPictureModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="picture-options">
-                    <button class="picture-option-btn" onclick="uploadNewPicture()">
-                        <i class="fas fa-upload"></i>
-                        Upload New Photo
-                    </button>
-                    <button class="picture-option-btn" onclick="takePicture()">
-                        <i class="fas fa-camera"></i>
-                        Take Photo
-                    </button>
-                    <button class="picture-option-btn danger" onclick="removePicture()">
-                        <i class="fas fa-trash"></i>
-                        Remove Photo
-                    </button>
-                </div>
-                <input type="file" id="photoFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
-            </div>
-        </div>
-    </div>
-
     <script src="script.js"></script>
     <script>
         // Profile page functions
@@ -555,45 +258,7 @@
         }
 
         function editProfile() {
-            window.location.href = 'edit-profile.html';
-        }
-
-        function editProfilePicture() {
-            document.getElementById('editPictureModal').classList.remove('hidden');
-        }
-
-        function closeEditPictureModal() {
-            document.getElementById('editPictureModal').classList.add('hidden');
-        }
-
-        function uploadNewPicture() {
-            document.getElementById('photoFileInput').click();
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilePictureMain').src = e.target.result;
-                    localStorage.setItem('userProfilePicture', e.target.result);
-                    showNotification('Profile picture updated successfully!', 'success');
-                    closeEditPictureModal();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function takePicture() {
-            showNotification('Camera feature coming soon!', 'info');
-        }
-
-        function removePicture() {
-            const defaultAvatar = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face';
-            document.getElementById('profilePictureMain').src = defaultAvatar;
-            localStorage.removeItem('userProfilePicture');
-            showNotification('Profile picture removed successfully!', 'success');
-            closeEditPictureModal();
+            showNotification('Opening Profile Editor...', 'info');
         }
 
         // Navigation functions
@@ -601,93 +266,20 @@
             window.location.href = 'personal-info.html';
         }
 
-        function changePassword() {
-            showNotification('Change password feature coming soon!', 'info');
-        }
-
         function navigateToAddresses() {
-            window.location.href = 'saved-addresses.html';
+            showNotification('Opening Address Management...', 'info');
         }
 
-        function languageRegionSettings() {
-            showNotification('Language & Region settings coming soon!', 'info');
-        }
-
-        function notificationSettings() {
-            showNotification('Notification settings coming soon!', 'info');
-        }
-
-        function navigateToOrders() {
-            showNotification('My Orders page coming soon!', 'info');
-        }
-
-        function trackOrders() {
-            showNotification('Order tracking coming soon!', 'info');
-        }
-
-        function orderHistory() {
-            showNotification('Order history coming soon!', 'info');
-        }
-
-        function navigateToWishlist() {
-            showNotification('Wishlist page coming soon!', 'info');
-        }
-
-        function recentlyViewed() {
-            showNotification('Recently viewed items coming soon!', 'info');
-        }
-
-        function refundHistory() {
-            showNotification('Refund history coming soon!', 'info');
-        }
-
-        function paymentMethods() {
-            showNotification('Payment methods coming soon!', 'info');
-        }
-
-        function walletBalance() {
-            showNotification('Wallet balance coming soon!', 'info');
-        }
-
-        function rewardsGiftCards() {
-            showNotification('Rewards & Gift Cards coming soon!', 'info');
+        function accountSettings() {
+            showNotification('Opening Account Settings...', 'info');
         }
 
         function customerSupport() {
-            showNotification('Customer support coming soon!', 'info');
+            showNotification('Opening Customer Support...', 'info');
         }
 
-        function faqHelpCenter() {
-            showNotification('FAQ & Help Center coming soon!', 'info');
-        }
-
-        function chatbot() {
-            showNotification('AI Chatbot coming soon!', 'info');
-        }
-
-        function privacyTerms() {
-            showNotification('Privacy & Terms coming soon!', 'info');
-        }
-
-        function accountDeletion() {
-            showNotification('Account deletion coming soon!', 'info');
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                showNotification('Logging out...', 'info');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-            }
-        }
-
-        function navigateToPayments() {
-            paymentMethods();
-        }
-
-        function navigateToSupport() {
-            customerSupport();
+        function deliveryManagement() {
+            showNotification('Opening Delivery Management...', 'info');
         }
 
         // Notification function
@@ -710,18 +302,9 @@
             }, 3000);
         }
 
-        // Load saved profile picture
-        function loadSavedProfilePicture() {
-            const savedPicture = localStorage.getItem('userProfilePicture');
-            if (savedPicture) {
-                document.getElementById('profilePictureMain').src = savedPicture;
-            }
-        }
-
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Profile page loaded');
-            loadSavedProfilePicture();
+            console.log('Clean Profile page loaded');
         });
     </script>
 </body>
