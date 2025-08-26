@@ -695,15 +695,25 @@ function setupLocationServices() {
     const detectLocationBtn = document.querySelector('.detect-location-btn');
     const cityBtns = document.querySelectorAll('.city-btn');
 
+    // Only setup if location modal exists
+    if (!locationModal) {
+        console.log('Location modal not found, skipping location services setup');
+        return;
+    }
+
     // Show modal when location trigger is clicked
-    locationTrigger.addEventListener('click', () => {
-        locationModal.classList.remove('hidden');
-    });
+    if (locationTrigger) {
+        locationTrigger.addEventListener('click', () => {
+            locationModal.classList.remove('hidden');
+        });
+    }
 
     // Close modal
-    closeLocation.addEventListener('click', () => {
-        locationModal.classList.add('hidden');
-    });
+    if (closeLocation) {
+        closeLocation.addEventListener('click', () => {
+            locationModal.classList.add('hidden');
+        });
+    }
 
     // Close on outside click
     locationModal.addEventListener('click', (e) => {
@@ -713,9 +723,11 @@ function setupLocationServices() {
     });
 
     // Detect location
-    detectLocationBtn.addEventListener('click', () => {
-        detectUserLocation();
-    });
+    if (detectLocationBtn) {
+        detectLocationBtn.addEventListener('click', () => {
+            detectUserLocation();
+        });
+    }
 
     // City selection
     cityBtns.forEach(btn => {
