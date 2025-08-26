@@ -550,21 +550,23 @@ window.addEventListener('resize', function() {
 
 // Authentication Functionality
 function setupAuthentication() {
-    const profileIcon = document.getElementById('profileIcon');
     const authModal = document.getElementById('authModal');
     const closeAuth = document.querySelector('.close-auth');
     const authTabs = document.querySelectorAll('.auth-tab');
     const authForms = document.querySelectorAll('.auth-form');
 
-    // Show auth modal when profile icon is clicked
-    profileIcon.addEventListener('click', () => {
-        authModal.classList.remove('hidden');
-    });
+    // Only setup if auth modal exists
+    if (!authModal) {
+        console.log('Auth modal not found, skipping authentication setup');
+        return;
+    }
 
     // Close modal
-    closeAuth.addEventListener('click', () => {
-        authModal.classList.add('hidden');
-    });
+    if (closeAuth) {
+        closeAuth.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+        });
+    }
 
     // Close on outside click
     authModal.addEventListener('click', (e) => {
@@ -597,15 +599,19 @@ function setupAuthentication() {
     const signinForm = document.getElementById('signinForm');
     const signupForm = document.getElementById('signupForm');
 
-    signinForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSignIn();
-    });
+    if (signinForm) {
+        signinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleSignIn();
+        });
+    }
 
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSignUp();
-    });
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleSignUp();
+        });
+    }
 
     // Social auth buttons
     const socialBtns = document.querySelectorAll('.social-btn');
