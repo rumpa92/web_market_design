@@ -1501,6 +1501,12 @@ function setupProfileDropdown() {
     const statusText = document.getElementById('statusText');
     const onlineStatus = document.getElementById('onlineStatus');
 
+    // Exit early if required elements don't exist
+    if (!profileTrigger || !profileDropdown) {
+        console.log('Profile dropdown elements not found, skipping setup');
+        return;
+    }
+
     // Initialize user status
     updateUserStatus('online');
 
