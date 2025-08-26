@@ -459,20 +459,29 @@
         }
 
         function navigateToSection(section) {
-            // For now, show notification. In a real app, these would navigate to specific pages
+            const sectionPages = {
+                'personal-info': 'personal-info.html',
+                'addresses': 'saved-addresses.html',
+                'delivery': null,
+                'rewards': null,
+                'payments': null,
+                'settings': null
+            };
+
             const sectionNames = {
                 'personal-info': 'Personal Information',
                 'addresses': 'Saved Addresses',
-                'orders': 'My Orders',
-                'wishlist': 'Wishlist',
                 'delivery': 'Delivery Management',
                 'rewards': 'Rewards & Gift Cards',
                 'payments': 'Payment Methods',
-                'support': 'Help & Support',
                 'settings': 'Account Settings'
             };
-            
-            showNotification(`Opening ${sectionNames[section]}...`, 'info');
+
+            if (sectionPages[section]) {
+                window.location.href = sectionPages[section];
+            } else {
+                showNotification(`${sectionNames[section]} coming soon!`, 'info');
+            }
         }
 
         // Add notification function if not available
