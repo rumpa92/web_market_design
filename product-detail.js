@@ -438,19 +438,28 @@ function setupCartModalListeners() {
     const proceedCheckout = document.getElementById('proceedCheckout');
     const cartModal = document.getElementById('cartModal');
 
+    // Remove existing listeners to avoid duplicates
+    const newCloseCart = closeCart.cloneNode(true);
+    const newContinueShopping = continueShopping.cloneNode(true);
+    const newProceedCheckout = proceedCheckout.cloneNode(true);
+
+    closeCart.parentNode.replaceChild(newCloseCart, closeCart);
+    continueShopping.parentNode.replaceChild(newContinueShopping, continueShopping);
+    proceedCheckout.parentNode.replaceChild(newProceedCheckout, proceedCheckout);
+
     // Close modal events
-    closeCart.addEventListener('click', closeCartModal);
-    continueShopping.addEventListener('click', closeCartModal);
+    newCloseCart.addEventListener('click', closeCartModal);
+    newContinueShopping.addEventListener('click', closeCartModal);
 
     // Close on overlay click
-    cartModal.addEventListener('click', (e) => {
+    cartModal.onclick = (e) => {
         if (e.target.classList.contains('cart-modal-overlay')) {
             closeCartModal();
         }
-    });
+    };
 
     // Proceed to checkout
-    proceedCheckout.addEventListener('click', () => {
+    newProceedCheckout.addEventListener('click', () => {
         const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
         if (cart.length === 0) {
             showNotification('Your cart is empty!', 'info');
