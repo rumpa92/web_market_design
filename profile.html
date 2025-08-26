@@ -84,350 +84,118 @@
     <!-- Profile Main Content -->
     <main class="profile-main">
         <div class="container">
-            <!-- Profile Hero Section -->
-            <div class="profile-hero">
-                <div class="hero-background">
-                    <div class="gradient-overlay"></div>
-                    <div class="pattern-overlay"></div>
+            <!-- Profile Header -->
+            <div class="profile-header-nav">
+                <button class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <span class="nav-title">My Profile</span>
+            </div>
+
+            <!-- Profile Title Section -->
+            <div class="profile-title-section">
+                <h1 class="main-title">My Profile</h1>
+                <p class="subtitle">Manage your account settings and preferences</p>
+            </div>
+
+            <!-- Profile Info Card -->
+            <div class="profile-info-card">
+                <div class="profile-avatar-section">
+                    <div class="avatar-container">
+                        <div class="avatar-circle">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Sarah Johnson" class="profile-avatar-img" id="profilePictureMain">
+                        </div>
+                        <div class="online-badge">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="hero-content">
-                    <div class="hero-header">
-                        <button class="back-button" onclick="goBack()">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div class="profile-title-section">
-                            <i class="fas fa-user-circle profile-title-icon"></i>
-                            <h2 class="profile-page-title">My Profile</h2>
+                <div class="profile-details">
+                    <h2 class="user-name">Sarah Johnson</h2>
+                    <p class="user-membership">Premium Member since 2023</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sarah.johnson@stylehub.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9775637590</span>
                         </div>
                     </div>
-                    <div class="profile-info-card">
-                        <div class="profile-avatar-section">
-                            <div class="avatar-container">
-                                <div class="avatar-circle">
-                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Sarah Johnson" class="profile-avatar-img" id="profilePictureMain">
-                                </div>
-                                <div class="status-badge">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="profile-details-section">
-                            <h1 class="profile-name">Sarah Johnson</h1>
-                            <p class="profile-contact">sarah.johnson@stylehub.com</p>
-                            <p class="profile-phone">+91 9775637590</p>
-                            <div class="profile-stats">
-                                <div class="stat-item">
-                                    <span class="stat-value">85%</span>
-                                    <span class="stat-label">Profile Complete</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-value">2</span>
-                                    <span class="stat-label">Active Sessions</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-value">3</span>
-                                    <span class="stat-label">Saved Addresses</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="edit-profile-btn" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
                 </div>
             </div>
 
-            <!-- Quick Actions Hub -->
-            <div class="quick-actions-hub">
-                <h3 class="section-title">Quick Actions</h3>
-                <div class="actions-grid">
-                    <div class="action-card">
-                        <div class="action-icon personal">
-                            <i class="fas fa-user-edit"></i>
-                        </div>
-                        <h4>Personal Info</h4>
-                        <p>Update your basic information</p>
-                        <button class="action-btn" onclick="navigateToPersonalInfo()">Manage</button>
+            <!-- Profile Menu Cards -->
+            <div class="profile-menu">
+                <div class="menu-card" onclick="navigateToPersonalInfo()">
+                    <div class="card-icon personal">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="action-card">
-                        <div class="action-icon security">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Security</h4>
-                        <p>Password and account security</p>
-                        <button class="action-btn" onclick="changePassword()">Secure</button>
+                    <div class="card-content">
+                        <h3>Personal Information</h3>
+                        <p>Update your name, email, phone, gender, and date of birth</p>
                     </div>
-                    <div class="action-card">
-                        <div class="action-icon location">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h4>Addresses</h4>
-                        <p>Manage delivery locations</p>
-                        <button class="action-btn" onclick="navigateToAddresses()">Manage</button>
-                    </div>
-                    <div class="action-card">
-                        <div class="action-icon support">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h4>Support</h4>
-                        <p>Get help and assistance</p>
-                        <button class="action-btn" onclick="customerSupport()">Contact</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Settings Sections -->
-            <div class="settings-sections">
-                <!-- Personal Information -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <div class="header-icon personal">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="header-content">
-                            <h3>Personal Information</h3>
-                            <p>Manage your personal details and preferences</p>
-                        </div>
-                    </div>
-                    <div class="group-items">
-                        <div class="setting-item" onclick="navigateToPersonalInfo()">
-                            <div class="item-icon">
-                                <i class="fas fa-id-card"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Basic Information</h4>
-                                <p>Name, email, phone, date of birth</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="languageRegionSettings()">
-                            <div class="item-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Language & Region</h4>
-                                <p>Language, timezone, currency preferences</p>
-                            </div>
-                            <div class="item-badge">EN</div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="notificationSettings()">
-                            <div class="item-icon">
-                                <i class="fas fa-bell"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Notifications</h4>
-                                <p>Email and push notification preferences</p>
-                            </div>
-                            <div class="item-toggle">
-                                <input type="checkbox" id="notifications" checked>
-                                <label for="notifications" class="toggle-switch"></label>
-                            </div>
-                        </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <!-- Account & Security -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <div class="header-icon security">
-                            <i class="fas fa-shield-check"></i>
-                        </div>
-                        <div class="header-content">
-                            <h3>Account & Security</h3>
-                            <p>Keep your account safe and secure</p>
-                        </div>
+                <div class="menu-card" onclick="navigateToAddresses()">
+                    <div class="card-icon address">
+                        <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <div class="group-items">
-                        <div class="setting-item" onclick="changePassword()">
-                            <div class="item-icon">
-                                <i class="fas fa-key"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Change Password</h4>
-                                <p>Update your account password</p>
-                            </div>
-                            <div class="item-status secure">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Strong</span>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="twoFactorAuth()">
-                            <div class="item-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Two-Factor Authentication</h4>
-                                <p>Add an extra layer of security</p>
-                            </div>
-                            <div class="item-toggle">
-                                <input type="checkbox" id="twoFactor">
-                                <label for="twoFactor" class="toggle-switch"></label>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="sessionManagement()">
-                            <div class="item-icon">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Active Sessions</h4>
-                                <p>Manage your logged-in devices</p>
-                            </div>
-                            <div class="item-badge">2 Active</div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
+                    <div class="card-content">
+                        <h3>Saved Addresses</h3>
+                        <p>Add, edit, or remove delivery addresses and set a default one</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <!-- Addresses & Locations -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <div class="header-icon location">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <div class="header-content">
-                            <h3>Addresses & Locations</h3>
-                            <p>Manage your saved addresses</p>
-                        </div>
+                <div class="menu-card" onclick="accountSettings()">
+                    <div class="card-icon settings">
+                        <i class="fas fa-cog"></i>
                     </div>
-                    <div class="group-items">
-                        <div class="setting-item" onclick="navigateToAddresses()">
-                            <div class="item-icon">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Saved Addresses</h4>
-                                <p>Home, work, and other locations</p>
-                            </div>
-                            <div class="item-badge">3 Saved</div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="addNewAddress()">
-                            <div class="item-icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Add New Address</h4>
-                                <p>Add a new delivery location</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
+                    <div class="card-content">
+                        <h3>Account Settings</h3>
+                        <p>Change password, update notifications, and app preferences</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <!-- Support & Help -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <div class="header-icon support">
-                            <i class="fas fa-life-ring"></i>
-                        </div>
-                        <div class="header-content">
-                            <h3>Support & Help</h3>
-                            <p>Get assistance and find answers</p>
-                        </div>
+                <div class="menu-card" onclick="customerSupport()">
+                    <div class="card-icon support">
+                        <i class="fas fa-headset"></i>
                     </div>
-                    <div class="group-items">
-                        <div class="setting-item" onclick="customerSupport()">
-                            <div class="item-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Contact Support</h4>
-                                <p>Live chat, email, phone support</p>
-                            </div>
-                            <div class="item-status online">
-                                <i class="fas fa-circle"></i>
-                                <span>Online</span>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="faqHelpCenter()">
-                            <div class="item-icon">
-                                <i class="fas fa-question-circle"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Help Center</h4>
-                                <p>Frequently asked questions and guides</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="feedbackForm()">
-                            <div class="item-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Feedback</h4>
-                                <p>Share your thoughts and suggestions</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
+                    <div class="card-content">
+                        <h3>Help & Support</h3>
+                        <p>Browse FAQs, contact customer service, or raise a support ticket</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <!-- Privacy & Legal -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <div class="header-icon privacy">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="header-content">
-                            <h3>Privacy & Legal</h3>
-                            <p>Privacy settings and legal information</p>
-                        </div>
+                <div class="menu-card" onclick="deliveryManagement()">
+                    <div class="card-icon delivery">
+                        <i class="fas fa-truck"></i>
                     </div>
-                    <div class="group-items">
-                        <div class="setting-item" onclick="privacySettings()">
-                            <div class="item-icon">
-                                <i class="fas fa-eye-slash"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Privacy Settings</h4>
-                                <p>Control your data and privacy</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item" onclick="privacyTerms()">
-                            <div class="item-icon">
-                                <i class="fas fa-file-contract"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Terms & Privacy Policy</h4>
-                                <p>Legal terms and privacy policy</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <div class="setting-item danger" onclick="accountDeletion()">
-                            <div class="item-icon">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
-                            <div class="item-content">
-                                <h4>Delete Account</h4>
-                                <p>Permanently delete your account</p>
-                            </div>
-                            <div class="item-action">
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        </div>
+                    <div class="card-content">
+                        <h3>Delivery Management</h3>
+                        <p>Control delivery preferences, time slots, pickup address for returns</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
             </div>
@@ -489,65 +257,29 @@
             window.history.back();
         }
 
+        function editProfile() {
+            showNotification('Opening Profile Editor...', 'info');
+        }
+
         // Navigation functions
         function navigateToPersonalInfo() {
             showNotification('Opening Personal Information...', 'info');
-            // window.location.href = 'personal-info.html';
-        }
-
-        function changePassword() {
-            showNotification('Opening Password Settings...', 'info');
         }
 
         function navigateToAddresses() {
             showNotification('Opening Address Management...', 'info');
-            // window.location.href = 'saved-addresses.html';
         }
 
-        function addNewAddress() {
-            showNotification('Opening Add Address Form...', 'info');
-        }
-
-        function languageRegionSettings() {
-            showNotification('Opening Language & Region Settings...', 'info');
-        }
-
-        function notificationSettings() {
-            showNotification('Opening Notification Settings...', 'info');
-        }
-
-        function twoFactorAuth() {
-            showNotification('Opening Two-Factor Authentication...', 'info');
-        }
-
-        function sessionManagement() {
-            showNotification('Opening Session Management...', 'info');
+        function accountSettings() {
+            showNotification('Opening Account Settings...', 'info');
         }
 
         function customerSupport() {
             showNotification('Opening Customer Support...', 'info');
         }
 
-        function faqHelpCenter() {
-            showNotification('Opening Help Center...', 'info');
-        }
-
-        function feedbackForm() {
-            showNotification('Opening Feedback Form...', 'info');
-        }
-
-        function privacySettings() {
-            showNotification('Opening Privacy Settings...', 'info');
-        }
-
-        function privacyTerms() {
-            showNotification('Opening Terms & Privacy Policy...', 'info');
-        }
-
-        function accountDeletion() {
-            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                showNotification('Account deletion process will be initiated...', 'warning');
-            }
+        function deliveryManagement() {
+            showNotification('Opening Delivery Management...', 'info');
         }
 
         // Notification function
@@ -570,18 +302,9 @@
             }, 3000);
         }
 
-        // Toggle switches functionality
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            const toggles = document.querySelectorAll('.item-toggle input[type="checkbox"]');
-            toggles.forEach(toggle => {
-                toggle.addEventListener('change', function() {
-                    const label = this.id.charAt(0).toUpperCase() + this.id.slice(1);
-                    const status = this.checked ? 'enabled' : 'disabled';
-                    showNotification(`${label} ${status}`, 'success');
-                });
-            });
-
-            console.log('Enhanced Profile page loaded');
+            console.log('Clean Profile page loaded');
         });
     </script>
 </body>
