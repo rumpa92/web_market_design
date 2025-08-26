@@ -2862,6 +2862,15 @@ const subcategoryItems = {
             image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
             rating: '★★★★★'
+        },
+        {
+            id: 'pants3',
+            title: 'Chino Pants',
+            price: '$79',
+            originalPrice: '$100',
+            image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
         }
     ],
     'Suits & Blazers': [
@@ -2873,6 +2882,24 @@ const subcategoryItems = {
             image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
             rating: '★★★★★'
+        },
+        {
+            id: 'suit2',
+            title: 'Navy Blue Blazer',
+            price: '$189',
+            originalPrice: '$249',
+            image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'suit3',
+            title: 'Formal Tuxedo',
+            price: '$459',
+            originalPrice: '$599',
+            image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
         }
     ],
     'Jewelry': [
@@ -2882,6 +2909,24 @@ const subcategoryItems = {
             price: '$599',
             originalPrice: '$799',
             image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'JEWELRY',
+            rating: '★★★★★'
+        },
+        {
+            id: 'jewelry2',
+            title: 'Gold Bracelet',
+            price: '$299',
+            originalPrice: '$399',
+            image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'JEWELRY',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'jewelry3',
+            title: 'Silver Earrings',
+            price: '$149',
+            originalPrice: '$199',
+            image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'JEWELRY',
             rating: '★★★★★'
         }
