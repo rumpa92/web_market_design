@@ -148,11 +148,7 @@
 
                     <!-- Navigation Menu -->
                     <nav class="profile-navigation">
-                        <div class="nav-item active" data-section="feed">
-                            <i class="fas fa-star"></i>
-                            <span>Personal Feed</span>
-                        </div>
-                        <div class="nav-item" data-section="notifications">
+                        <div class="nav-item active" data-section="notifications">
                             <i class="fas fa-bell"></i>
                             <span>Notifications</span>
                             <div class="notification-badge">1</div>
@@ -186,128 +182,47 @@
 
                 <!-- Main Content Area -->
                 <div class="profile-content">
-                    <!-- Personal Feed Section -->
-                    <section class="personalized-feed-section">
-                        <div class="feed-header">
-                            <div class="feed-title">
-                                <i class="fas fa-star"></i>
-                                <h2>Your Personalized Feed</h2>
+                    <!-- Notifications Section -->
+                    <section class="notifications-section">
+                        <div class="notifications-header">
+                            <div class="notifications-title">
+                                <i class="fas fa-bell"></i>
+                                <h2>Notifications</h2>
                             </div>
-                            <p class="feed-subtitle">Curated products based on your preferences, skin profile, and purchase history</p>
+                            <p class="notifications-subtitle">Stay updated with your orders, offers, and account activity</p>
                         </div>
 
-                        <!-- AI Recommendations -->
-                        <div class="ai-recommendations">
-                            <div class="recommendations-header">
-                                <i class="fas fa-brain"></i>
-                                <h3>AI-Powered Recommendations</h3>
-                            </div>
-
-                            <div class="recommendations-grid">
-                                <div class="recommendation-card">
-                                    <div class="card-image">
-                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400" alt="Traditional Salwar Kameez Set">
-                                        <button class="wishlist-heart">
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Traditional Salwar Kameez Set</h4>
-                                        <p class="card-brand">Premium Collection</p>
-                                        <div class="card-rating">
-                                            <span class="stars">★★★★★</span>
-                                            <span class="rating-count">(4.8)</span>
-                                        </div>
-                                        <div class="card-price">
-                                            <span class="current-price">$250</span>
-                                            <span class="original-price">$300</span>
-                                        </div>
-                                    </div>
+                        <div class="notifications-content">
+                            <div class="notification-item unread">
+                                <div class="notification-icon">
+                                    <i class="fas fa-shopping-bag"></i>
                                 </div>
-
-                                <div class="recommendation-card">
-                                    <div class="card-image">
-                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=400" alt="Designer Anarkali Gown">
-                                        <button class="wishlist-heart">
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Designer Anarkali Gown</h4>
-                                        <p class="card-brand">Ethnic Wear</p>
-                                        <div class="card-rating">
-                                            <span class="stars">★★★★★</span>
-                                            <span class="rating-count">(4.9)</span>
-                                        </div>
-                                        <div class="card-price">
-                                            <span class="current-price">$198</span>
-                                            <span class="original-price">$250</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="recommendation-card">
-                                    <div class="card-image">
-                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400" alt="Embroidered Kurta Set">
-                                        <button class="wishlist-heart">
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Embroidered Kurta Set</h4>
-                                        <p class="card-brand">Festive Collection</p>
-                                        <div class="card-rating">
-                                            <span class="stars">★★★★☆</span>
-                                            <span class="rating-count">(4.6)</span>
-                                        </div>
-                                        <div class="card-price">
-                                            <span class="current-price">$178</span>
-                                            <span class="original-price">$220</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="recommendation-card">
-                                    <div class="card-image">
-                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Navy Embroidered Anarkali Gown">
-                                        <button class="wishlist-heart">
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-content">
-                                        <h4>Navy Embroidered Anarkali</h4>
-                                        <p class="card-brand">Bridal Collection</p>
-                                        <div class="card-rating">
-                                            <span class="stars">★★★★★</span>
-                                            <span class="rating-count">(4.8)</span>
-                                        </div>
-                                        <div class="card-price">
-                                            <span class="current-price">$285</span>
-                                            <span class="original-price">$350</span>
-                                        </div>
-                                    </div>
+                                <div class="notification-content">
+                                    <h4>Order Shipped</h4>
+                                    <p>Your order #12345 has been shipped and is on its way!</p>
+                                    <span class="notification-time">2 hours ago</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Recently Viewed -->
-                        <div class="recently-viewed">
-                            <h3>Recently Viewed</h3>
-                            <div class="recently-viewed-grid">
-                                <div class="mini-product-card">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=200" alt="Golden Yellow Lehenga">
-                                    <p>Golden Yellow Lehenga Set</p>
-                                    <span>$320</span>
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-percent"></i>
                                 </div>
-                                <div class="mini-product-card">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=200" alt="Premium Navy Formal Shirt">
-                                    <p>Premium Navy Formal Shirt</p>
-                                    <span>$65</span>
+                                <div class="notification-content">
+                                    <h4>Special Offer</h4>
+                                    <p>Get 30% off on your next purchase. Limited time offer!</p>
+                                    <span class="notification-time">1 day ago</span>
                                 </div>
-                                <div class="mini-product-card">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=200" alt="Teal Cotton Casual Shirt">
-                                    <p>Teal Cotton Casual Shirt</p>
-                                    <span>$55</span>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <h4>Wishlist Item Available</h4>
+                                    <p>An item from your wishlist is back in stock!</p>
+                                    <span class="notification-time">3 days ago</span>
                                 </div>
                             </div>
                         </div>
