@@ -529,6 +529,30 @@
             }
         }
 
+        function loadSavedProfileData() {
+            // Load saved profile data from localStorage
+            const savedData = {
+                fullName: localStorage.getItem('user_fullName'),
+                email: localStorage.getItem('user_email'),
+                mobile: localStorage.getItem('user_mobile'),
+                dateOfBirth: localStorage.getItem('user_dateOfBirth'),
+                gender: localStorage.getItem('user_gender')
+            };
+
+            // Update form values if data exists
+            if (savedData.fullName) document.getElementById('fullName').value = savedData.fullName;
+            if (savedData.email) document.getElementById('email').value = savedData.email;
+            if (savedData.mobile) document.getElementById('mobile').value = savedData.mobile;
+            if (savedData.dateOfBirth) document.getElementById('dateOfBirth').value = savedData.dateOfBirth;
+
+            if (savedData.gender) {
+                const genderRadio = document.querySelector(`input[name="gender"][value="${savedData.gender}"]`);
+                if (genderRadio) {
+                    genderRadio.checked = true;
+                }
+            }
+        }
+
         function editProfilePicture() {
             resetModalState();
             document.getElementById('editPictureModal').classList.remove('hidden');
