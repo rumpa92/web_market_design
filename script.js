@@ -2693,6 +2693,11 @@ function showWishlistSummary() {
 // Category Page Data and Functionality
 const categoryData = {
     'Women': {
+        banner: {
+            title: 'Women Fashion',
+            subtitle: 'Discover elegant and modern styles for every occasion',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F05be5c3bd0814bc2aa6e4c5a61d7cfe1?format=webp&width=800'
+        },
         subcategories: [
             { name: 'Dresses', icon: 'fas fa-tshirt', count: 125 },
             { name: 'Tops & Blouses', icon: 'fas fa-vest', count: 89 },
@@ -2703,6 +2708,11 @@ const categoryData = {
         ]
     },
     'Men': {
+        banner: {
+            title: 'Men Fashion',
+            subtitle: 'Sharp and stylish clothing for the modern gentleman',
+            image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90'
+        },
         subcategories: [
             { name: 'Shirts', icon: 'fas fa-tshirt', count: 98 },
             { name: 'Pants & Jeans', icon: 'fas fa-user-tie', count: 76 },
