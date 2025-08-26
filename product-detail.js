@@ -566,6 +566,28 @@ function initializeWishlistState() {
 // Initialize on load
 setTimeout(initializeWishlistState, 100);
 
+// Initialize Cart Modal
+function initializeCartModal() {
+    // Add event listeners for cart modal
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !cartModal.classList.contains('hidden')) {
+                closeCartModal();
+            }
+        });
+
+        // Prevent modal content click from closing modal
+        const cartModalContent = cartModal.querySelector('.cart-modal-content');
+        if (cartModalContent) {
+            cartModalContent.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+    }
+}
+
 // Setup Related Products Interaction
 function setupRelatedProductsInteraction() {
     // Handle Quick View buttons
