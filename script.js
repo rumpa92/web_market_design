@@ -2902,6 +2902,38 @@ function updateBreadcrumb(category) {
     }
 }
 
+// Update category banner
+function updateCategoryBanner(category) {
+    const bannerTitle = document.getElementById('bannerTitle');
+    const bannerSubtitle = document.getElementById('bannerSubtitle');
+    const bannerImage = document.getElementById('bannerImage');
+    const categoryBanner = document.getElementById('categoryBanner');
+
+    const categoryInfo = categoryData[category];
+    if (categoryInfo && categoryInfo.banner) {
+        if (bannerTitle) bannerTitle.textContent = categoryInfo.banner.title;
+        if (bannerSubtitle) bannerSubtitle.textContent = categoryInfo.banner.subtitle;
+        if (bannerImage) {
+            bannerImage.src = categoryInfo.banner.image;
+            bannerImage.alt = `${category} Fashion`;
+        }
+        if (categoryBanner) categoryBanner.style.display = 'flex';
+    } else {
+        // Hide banner if no category info
+        if (categoryBanner) categoryBanner.style.display = 'none';
+    }
+}
+
+// Update back button text
+function updateBackButton(category) {
+    const backBtn = document.getElementById('backBtn');
+    const backBtnSpan = backBtn ? backBtn.querySelector('span') : null;
+
+    if (backBtnSpan) {
+        backBtnSpan.textContent = category;
+    }
+}
+
 // Load subcategories for the selected category
 function loadSubcategories(category) {
     const subcategoriesGrid = document.getElementById('subcategoriesGrid');
