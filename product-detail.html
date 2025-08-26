@@ -11,73 +11,82 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
 </head>
 <body>
-    <!-- Header/Navigation -->
-    <header class="fashion-header">
-        <div class="header-container">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
             <div class="header-content">
-                <div class="header-left">
-                    Clothes & Fashion
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
                 </div>
-                <div class="header-right">
-                    <button class="header-icon-btn search-btn" id="searchBtn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="header-icon-btn wishlist-btn" id="headerWishlistBtn">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="header-icon-btn cart-btn" id="headerCartBtn">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="cart-badge" id="cartBadge">0</span>
-                    </button>
-                    <div class="profile-section" id="profileSection">
-                        <div class="profile-trigger" id="profileTrigger">
-                            <div class="profile-avatar">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
-                                <div class="online-status" id="onlineStatus" title="Online"></div>
-                            </div>
-                            <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon" id="headerWishlistBtn"></i>
+                        <div class="cart-icon-container" id="headerCartBtn">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count" id="cartBadge">0</span>
                         </div>
-                        <div class="profile-dropdown" id="profileDropdown">
-                            <div class="dropdown-header">
-                                <div class="user-info">
-                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
-                                    <div class="user-details">
-                                        <span class="user-name" id="userName">Sarah Johnson</span>
-                                        <span class="user-email" id="userEmail">sarah.johnson@stylehub.com</span>
-                                        <div class="user-status">
-                                            <div class="status-indicator" id="statusIndicator"></div>
-                                            <span id="statusText">Online</span>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Sarah Johnson</span>
+                                            <span class="user-email" id="userEmail">sarah.johnson@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myWishlist">
+                                        <i class="fas fa-heart"></i>
+                                        <span>My Wishlist</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountSettings">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Account Settings</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="dropdown-divider"></div>
-                            <ul class="dropdown-menu-list">
-                                <li class="dropdown-item" id="myProfile">
-                                    <i class="fas fa-user-circle"></i>
-                                    <span>My Profile</span>
-                                </li>
-                                <li class="dropdown-item" id="myOrders">
-                                    <i class="fas fa-shopping-bag"></i>
-                                    <span>My Orders</span>
-                                </li>
-                                <li class="dropdown-item" id="myWishlist">
-                                    <i class="fas fa-heart"></i>
-                                    <span>My Wishlist</span>
-                                </li>
-                                <li class="dropdown-item" id="accountSettings">
-                                    <i class="fas fa-cog"></i>
-                                    <span>Account Settings</span>
-                                </li>
-                                <li class="dropdown-item" id="helpSupport">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>Help & Support</span>
-                                </li>
-                                <li class="dropdown-item sign-out" id="signInOut">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span id="signInOutText">Sign Out</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -504,46 +513,131 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="fashion-footer">
-        <div class="footer-container">
-            <div class="footer-sections">
-                <div class="footer-section">
-                    <h3>About Us</h3>
-                    <ul>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
+    <!-- Location Modal -->
+    <div id="locationModal" class="location-modal hidden">
+        <div class="location-modal-content">
+            <span class="close-location">&times;</span>
+            <h2>Select Your Location</h2>
+            <div class="location-search">
+                <input type="text" placeholder="Search city or zip code" class="location-input">
+                <button class="detect-location-btn">
+                    <i class="fas fa-location-arrow"></i> Detect Location
+                </button>
+            </div>
+            <div class="popular-cities">
+                <h3>Popular Cities</h3>
+                <div class="cities-grid">
+                    <button class="city-btn">New York</button>
+                    <button class="city-btn">Los Angeles</button>
+                    <button class="city-btn">Chicago</button>
+                    <button class="city-btn">Miami</button>
+                    <button class="city-btn">San Francisco</button>
+                    <button class="city-btn">London</button>
                 </div>
-                <div class="footer-section">
-                    <h3>Help</h3>
-                    <ul>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Returns</a></li>
-                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="cart-modal hidden">
+        <div class="cart-modal-overlay"></div>
+        <div class="cart-modal-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Shopping Cart</h2>
+                <button class="close-cart" id="closeCart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be dynamically added here -->
                 </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+
+                <div class="cart-empty hidden" id="cartEmpty">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-bag"></i>
                     </div>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some items to get started</p>
+                </div>
+            </div>
+
+            <div class="cart-summary" id="cartSummary">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal <span class="item-count" id="itemCount">(0 items)</span></span>
+                    <span class="summary-value" id="subtotalValue">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value shipping-value">$9.99</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Tax</span>
+                    <span class="summary-value tax-value" id="taxValue">$0.00</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value total-value" id="totalValue">$9.99</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="continue-shopping-btn" id="continueShopping">
+                    Continue Shopping
+                </button>
+                <button class="proceed-checkout-btn" id="proceedCheckout">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 FASHION. All rights reserved.</p>
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
             </div>
         </div>
     </footer>

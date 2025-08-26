@@ -9,17 +9,97 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header Section -->
-    <div class="profile-page-header">
+    <!-- Header -->
+    <header class="main-header">
         <div class="container">
-            <div class="profile-header-content">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon"></i>
+                        <div class="cart-icon-container">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count">2</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Sarah Johnson</span>
+                                            <span class="user-email" id="userEmail">sarah.johnson@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myWishlist">
+                                        <i class="fas fa-heart"></i>
+                                        <span>My Wishlist</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountSettings">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Account Settings</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title Section -->
+    <div class="page-title-section">
+        <div class="container">
+            <div class="page-title-content">
                 <button class="back-button" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <h1 class="profile-page-title">My Profile</h1>
-                <button class="close-button" onclick="goHome()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <h1 class="page-title">My Profile</h1>
             </div>
         </div>
     </div>
@@ -27,117 +107,213 @@
     <!-- Profile Content -->
     <main class="profile-main">
         <div class="container">
-            <!-- User Info Card -->
-            <section class="user-info-card">
-                <div class="profile-picture-section">
-                    <div class="profile-picture-wrapper">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Profile Picture" class="profile-picture" id="profilePicture">
-                        <div class="edit-picture-overlay" onclick="editProfilePicture()">
-                            <i class="fas fa-camera"></i>
+            <div class="profile-layout">
+                <!-- Sidebar with Profile Info -->
+                <aside class="profile-sidebar">
+                    <!-- Profile Avatar -->
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Profile Avatar" class="profile-avatar-image" id="profileAvatarImage">
+                            <div class="avatar-edit-overlay" onclick="editProfilePicture()">
+                                <i class="fas fa-camera"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="user-details-section">
-                    <h2 class="user-name">Sarah Johnson</h2>
-                    <div class="user-contact-info">
-                        <p class="user-email"><i class="fas fa-envelope"></i> sarah.johnson@stylehub.com</p>
-                        <p class="user-phone"><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                    </div>
-                    <button class="edit-profile-btn" onclick="editProfile()">
-                        <i class="fas fa-edit"></i>
-                        Edit Profile
-                    </button>
-                </div>
-            </section>
 
-            <!-- Profile Options Menu -->
-            <section class="profile-options-section">
-                <div class="profile-menu-list">
-                    <!-- Personal Information -->
-                    <div class="profile-menu-item" onclick="navigateToSection('personal-info')">
-                        <div class="menu-item-icon">
+                    <!-- Profile Information -->
+                    <div class="profile-info-section">
+                        <div class="profile-info-header">
                             <i class="fas fa-user"></i>
+                            <h3>Profile Information</h3>
                         </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Personal Information</h3>
-                            <p class="menu-item-subtitle">Name, email, mobile, DOB, gender</p>
-                        </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-
-                    <!-- Saved Addresses -->
-                    <div class="profile-menu-item" onclick="navigateToSection('addresses')">
-                        <div class="menu-item-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Saved Addresses</h3>
-                            <p class="menu-item-subtitle">Add new, edit, delete, set default</p>
-                        </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
+                        <div class="profile-info-content">
+                            <div class="info-group">
+                                <label>NAME</label>
+                                <p class="info-value">Sarah Johnson</p>
+                            </div>
+                            <div class="info-group">
+                                <label>EMAIL</label>
+                                <p class="info-value">sarah.j@example.com</p>
+                            </div>
+                            <div class="info-group">
+                                <label>PHONE NUMBER</label>
+                                <p class="info-value">9775637590</p>
+                            </div>
+                            <button class="edit-profile-button" onclick="editProfile()">
+                                <i class="fas fa-edit"></i>
+                                Edit Profile
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Delivery Management -->
-                    <div class="profile-menu-item" onclick="navigateToSection('delivery')">
-                        <div class="menu-item-icon">
+                    <!-- Navigation Menu -->
+                    <nav class="profile-navigation">
+                        <div class="nav-item active" data-section="feed">
+                            <i class="fas fa-star"></i>
+                            <span>Personal Feed</span>
+                        </div>
+                        <div class="nav-item" data-section="notifications">
+                            <i class="fas fa-bell"></i>
+                            <span>Notifications</span>
+                            <div class="notification-badge">1</div>
+                        </div>
+                        <div class="nav-item" data-section="support">
+                            <i class="fas fa-headset"></i>
+                            <span>Customer Support</span>
+                        </div>
+                        <div class="nav-item" data-section="language">
+                            <i class="fas fa-globe"></i>
+                            <span>Language & Region</span>
+                        </div>
+                        <div class="nav-item" data-section="privacy">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Privacy & Terms</span>
+                        </div>
+                        <div class="nav-item" data-section="refunds">
+                            <i class="fas fa-undo"></i>
+                            <span>Refund History</span>
+                        </div>
+                        <div class="nav-item" data-section="delivery">
                             <i class="fas fa-truck"></i>
+                            <span>Delivery Management</span>
                         </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Delivery Management</h3>
-                            <p class="menu-item-subtitle">Delivery preferences, scheduled delivery, manage slots</p>
+                        <div class="nav-item" data-section="deletion">
+                            <i class="fas fa-trash"></i>
+                            <span>Account Deletion</span>
                         </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
+                    </nav>
+                </aside>
 
-                    <!-- Rewards & Gift Cards -->
-                    <div class="profile-menu-item" onclick="navigateToSection('rewards')">
-                        <div class="menu-item-icon">
-                            <i class="fas fa-gift"></i>
+                <!-- Main Content Area -->
+                <div class="profile-content">
+                    <!-- Personal Feed Section -->
+                    <section class="personalized-feed-section">
+                        <div class="feed-header">
+                            <div class="feed-title">
+                                <i class="fas fa-star"></i>
+                                <h2>Your Personalized Feed</h2>
+                            </div>
+                            <p class="feed-subtitle">Curated products based on your preferences, skin profile, and purchase history</p>
                         </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Rewards & Gift Cards</h3>
-                            <p class="menu-item-subtitle">Available rewards, redeemed history, gift card balance</p>
-                        </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
 
-                    <!-- Payment Methods -->
-                    <div class="profile-menu-item" onclick="navigateToSection('payments')">
-                        <div class="menu-item-icon">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Payment Methods</h3>
-                            <p class="menu-item-subtitle">Saved cards, UPI, wallets, add/remove</p>
-                        </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
+                        <!-- AI Recommendations -->
+                        <div class="ai-recommendations">
+                            <div class="recommendations-header">
+                                <i class="fas fa-brain"></i>
+                                <h3>AI-Powered Recommendations</h3>
+                            </div>
 
-                    <!-- Account Settings -->
-                    <div class="profile-menu-item" onclick="navigateToSection('settings')">
-                        <div class="menu-item-icon">
-                            <i class="fas fa-cog"></i>
+                            <div class="recommendations-grid">
+                                <div class="recommendation-card">
+                                    <div class="card-image">
+                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400" alt="Traditional Salwar Kameez Set">
+                                        <button class="wishlist-heart">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Traditional Salwar Kameez Set</h4>
+                                        <p class="card-brand">Premium Collection</p>
+                                        <div class="card-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span class="rating-count">(4.8)</span>
+                                        </div>
+                                        <div class="card-price">
+                                            <span class="current-price">$250</span>
+                                            <span class="original-price">$300</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="recommendation-card">
+                                    <div class="card-image">
+                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=400" alt="Designer Anarkali Gown">
+                                        <button class="wishlist-heart">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Designer Anarkali Gown</h4>
+                                        <p class="card-brand">Ethnic Wear</p>
+                                        <div class="card-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span class="rating-count">(4.9)</span>
+                                        </div>
+                                        <div class="card-price">
+                                            <span class="current-price">$198</span>
+                                            <span class="original-price">$250</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="recommendation-card">
+                                    <div class="card-image">
+                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400" alt="Embroidered Kurta Set">
+                                        <button class="wishlist-heart">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Embroidered Kurta Set</h4>
+                                        <p class="card-brand">Festive Collection</p>
+                                        <div class="card-rating">
+                                            <span class="stars">★★★★☆</span>
+                                            <span class="rating-count">(4.6)</span>
+                                        </div>
+                                        <div class="card-price">
+                                            <span class="current-price">$178</span>
+                                            <span class="original-price">$220</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="recommendation-card">
+                                    <div class="card-image">
+                                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Navy Embroidered Anarkali Gown">
+                                        <button class="wishlist-heart">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4>Navy Embroidered Anarkali</h4>
+                                        <p class="card-brand">Bridal Collection</p>
+                                        <div class="card-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span class="rating-count">(4.8)</span>
+                                        </div>
+                                        <div class="card-price">
+                                            <span class="current-price">$285</span>
+                                            <span class="original-price">$350</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">Account Settings</h3>
-                            <p class="menu-item-subtitle">Password change, notification preferences, privacy settings</p>
+
+                        <!-- Recently Viewed -->
+                        <div class="recently-viewed">
+                            <h3>Recently Viewed</h3>
+                            <div class="recently-viewed-grid">
+                                <div class="mini-product-card">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=200" alt="Golden Yellow Lehenga">
+                                    <p>Golden Yellow Lehenga Set</p>
+                                    <span>$320</span>
+                                </div>
+                                <div class="mini-product-card">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=200" alt="Premium Navy Formal Shirt">
+                                    <p>Premium Navy Formal Shirt</p>
+                                    <span>$65</span>
+                                </div>
+                                <div class="mini-product-card">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=200" alt="Teal Cotton Casual Shirt">
+                                    <p>Teal Cotton Casual Shirt</p>
+                                    <span>$55</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="menu-item-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
+            </div>
         </div>
     </main>
 
@@ -522,5 +698,136 @@
             loadSavedProfilePicture();
         });
     </script>
+
+    <!-- Location Modal -->
+    <div id="locationModal" class="location-modal hidden">
+        <div class="location-modal-content">
+            <span class="close-location">&times;</span>
+            <h2>Select Your Location</h2>
+            <div class="location-search">
+                <input type="text" placeholder="Search city or zip code" class="location-input">
+                <button class="detect-location-btn">
+                    <i class="fas fa-location-arrow"></i> Detect Location
+                </button>
+            </div>
+            <div class="popular-cities">
+                <h3>Popular Cities</h3>
+                <div class="cities-grid">
+                    <button class="city-btn">New York</button>
+                    <button class="city-btn">Los Angeles</button>
+                    <button class="city-btn">Chicago</button>
+                    <button class="city-btn">Miami</button>
+                    <button class="city-btn">San Francisco</button>
+                    <button class="city-btn">London</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="cart-modal hidden">
+        <div class="cart-modal-overlay"></div>
+        <div class="cart-modal-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Shopping Cart</h2>
+                <button class="close-cart" id="closeCart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+
+                <div class="cart-empty hidden" id="cartEmpty">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some items to get started</p>
+                </div>
+            </div>
+
+            <div class="cart-summary" id="cartSummary">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal <span class="item-count" id="itemCount">(0 items)</span></span>
+                    <span class="summary-value" id="subtotalValue">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value shipping-value">$9.99</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Tax</span>
+                    <span class="summary-value tax-value" id="taxValue">$0.00</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value total-value" id="totalValue">$9.99</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="continue-shopping-btn" id="continueShopping">
+                    Continue Shopping
+                </button>
+                <button class="proceed-checkout-btn" id="proceedCheckout">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
