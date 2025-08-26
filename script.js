@@ -1336,6 +1336,12 @@ function setupFilterOptions() {
 
 function updateActiveFilters() {
     const activeFiltersContainer = document.getElementById('activeFilters');
+
+    // Exit early if container doesn't exist
+    if (!activeFiltersContainer) {
+        return;
+    }
+
     const activeFilters = [];
 
     // Get active size filters
