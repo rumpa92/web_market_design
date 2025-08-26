@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupProductEventListeners();
     setupRelatedProductsInteraction();
     setupProfileDropdown();
+    initializeCartModal();
 });
 
 // Product data for fashion item
