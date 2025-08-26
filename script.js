@@ -2854,7 +2854,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '★★���★☆'
+            rating: '★★★★☆'
         }
     ],
     'Handbags': [
@@ -2878,6 +2878,8 @@ function initializeCategoryPage() {
 
     updatePageTitle(currentCategory);
     updateBreadcrumb(currentCategory);
+    updateCategoryBanner(currentCategory);
+    updateBackButton(currentCategory);
     loadSubcategories(currentCategory);
     setupProfileDropdown();
     setupCartModal();
