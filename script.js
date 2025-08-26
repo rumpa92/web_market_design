@@ -2614,66 +2614,6 @@ function setupCartModal() {
 }
 
 // Hero slider functionality
-function setupHeroSlider() {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-    const totalSlides = slides.length;
-
-    if (totalSlides === 0) return;
-
-    // Auto-advance slides
-    setInterval(() => {
-        changeSlide(1);
-    }, 5000);
-
-    // Initialize first slide
-    showSlide(0);
-}
-
-function changeSlide(direction) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-    let currentSlide = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
-
-    // Remove active class from current slide and dot
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-
-    // Calculate next slide
-    currentSlide += direction;
-    if (currentSlide >= slides.length) currentSlide = 0;
-    if (currentSlide < 0) currentSlide = slides.length - 1;
-
-    // Add active class to new slide and dot
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-}
-
-function currentSlide(n) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-
-    // Remove active from all
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-
-    // Add active to selected
-    slides[n - 1].classList.add('active');
-    dots[n - 1].classList.add('active');
-}
-
-function showSlide(n) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-
-    if (slides[n]) slides[n].classList.add('active');
-    if (dots[n]) dots[n].classList.add('active');
-}
-
 // Initialize cart modal when page loads
 document.addEventListener('DOMContentLoaded', function() {
     setupCartModal();
