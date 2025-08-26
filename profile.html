@@ -183,16 +183,76 @@
                 <!-- Main Content Area -->
                 <div class="profile-content">
                     <!-- Notifications Section -->
-                    <section class="notifications-section">
+                    <section class="profile-section notifications-section active" id="notifications-section">
                         <div class="notifications-header">
                             <div class="notifications-title">
                                 <i class="fas fa-bell"></i>
                                 <h2>Notifications</h2>
                             </div>
-                            <p class="notifications-subtitle">Stay updated with your orders, offers, and account activity</p>
+                            <p class="notifications-subtitle">Manage push notifications, order updates, offers, and reminders</p>
                         </div>
 
+                        <!-- Notification Categories with Toggles -->
+                        <div class="notification-categories">
+                            <div class="notification-category">
+                                <div class="category-info">
+                                    <h4>Order Updates</h4>
+                                    <p>Get notified about order status, shipping, and delivery</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-category">
+                                <div class="category-info">
+                                    <h4>Offers & Promotions</h4>
+                                    <p>Receive updates about sales, discounts, and special offers</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-category">
+                                <div class="category-info">
+                                    <h4>Wishlist Alerts</h4>
+                                    <p>Alerts when wishlist items are back in stock or on sale</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-category">
+                                <div class="category-info">
+                                    <h4>Account Security</h4>
+                                    <p>Important security alerts and account activity</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-category">
+                                <div class="category-info">
+                                    <h4>General Reminders</h4>
+                                    <p>Cart reminders, price drop alerts, and recommendations</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Recent Notifications -->
                         <div class="notifications-content">
+                            <h3>Recent Notifications</h3>
                             <div class="notification-item unread">
                                 <div class="notification-icon">
                                     <i class="fas fa-shopping-bag"></i>
@@ -225,6 +285,302 @@
                                     <span class="notification-time">3 days ago</span>
                                 </div>
                             </div>
+                        </div>
+                    </section>
+
+                    <!-- Customer Support Section -->
+                    <section class="profile-section" id="support-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-headset"></i>
+                                <h2>Customer Support</h2>
+                            </div>
+                            <p class="section-subtitle">Get help when you need it with multiple support options</p>
+                        </div>
+
+                        <div class="support-options">
+                            <div class="support-card" onclick="openLiveChat()">
+                                <div class="support-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h3>Live Chat</h3>
+                                <p>Chat with our support team in real-time for immediate assistance</p>
+                            </div>
+
+                            <div class="support-card" onclick="callSupport()">
+                                <div class="support-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <h3>Call Us</h3>
+                                <p>Speak directly with our customer service representatives</p>
+                            </div>
+
+                            <div class="support-card" onclick="emailSupport()">
+                                <div class="support-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <h3>Email Support</h3>
+                                <p>Send us an email and we'll get back to you within 24 hours</p>
+                            </div>
+
+                            <div class="support-card" onclick="raiseTicket()">
+                                <div class="support-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <h3>Raise a Ticket</h3>
+                                <p>Submit a detailed support request for complex issues</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Language & Region Section -->
+                    <section class="profile-section" id="language-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-globe"></i>
+                                <h2>Language & Region</h2>
+                            </div>
+                            <p class="section-subtitle">Customize your app language and regional preferences</p>
+                        </div>
+
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <h3><i class="fas fa-language"></i> App Language</h3>
+                                <div class="form-group">
+                                    <label for="language-select">Select Language</label>
+                                    <select id="language-select" class="form-select">
+                                        <option value="en">English</option>
+                                        <option value="hi">Hindi (हिन्दी)</option>
+                                        <option value="bn">Bengali (বাংলা)</option>
+                                        <option value="ta">Tamil (தமிழ்)</option>
+                                        <option value="te">Telugu (తెలుగు)</option>
+                                        <option value="mr">Marathi (मराठी)</option>
+                                        <option value="gu">Gujarati (ગુજરાતી)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h3><i class="fas fa-map-marker-alt"></i> Region Settings</h3>
+                                <div class="form-group">
+                                    <label for="currency-select">Currency</label>
+                                    <select id="currency-select" class="form-select">
+                                        <option value="INR">Indian Rupee (₹)</option>
+                                        <option value="USD">US Dollar ($)</option>
+                                        <option value="EUR">Euro (€)</option>
+                                        <option value="GBP">British Pound (£)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="region-select">Delivery Region</label>
+                                    <select id="region-select" class="form-select">
+                                        <option value="north">North India</option>
+                                        <option value="south">South India</option>
+                                        <option value="east">East India</option>
+                                        <option value="west">West India</option>
+                                        <option value="central">Central India</option>
+                                        <option value="northeast">Northeast India</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Privacy & Terms Section -->
+                    <section class="profile-section" id="privacy-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-shield-alt"></i>
+                                <h2>Privacy & Terms</h2>
+                            </div>
+                            <p class="section-subtitle">Review our privacy policy, terms of service, and data usage policies</p>
+                        </div>
+
+                        <div class="policy-links">
+                            <a href="#" class="policy-link" onclick="viewPrivacyPolicy()">
+                                <div class="policy-info">
+                                    <div class="policy-icon">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                    <div class="policy-details">
+                                        <h4>Privacy Policy</h4>
+                                        <p>Learn how we collect, use, and protect your personal information</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+
+                            <a href="#" class="policy-link" onclick="viewTermsConditions()">
+                                <div class="policy-info">
+                                    <div class="policy-icon">
+                                        <i class="fas fa-file-contract"></i>
+                                    </div>
+                                    <div class="policy-details">
+                                        <h4>Terms & Conditions</h4>
+                                        <p>Review the terms of service and user agreement</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+
+                            <a href="#" class="policy-link" onclick="viewDataUsage()">
+                                <div class="policy-info">
+                                    <div class="policy-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="policy-details">
+                                        <h4>Data Usage Policy</h4>
+                                        <p>Understand how your data is used to improve your experience</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Refund History Section -->
+                    <section class="profile-section" id="refunds-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-undo"></i>
+                                <h2>Refund History</h2>
+                            </div>
+                            <p class="section-subtitle">Track all your refunds and their current status</p>
+                        </div>
+
+                        <div class="refund-list">
+                            <div class="refund-item">
+                                <div class="refund-info">
+                                    <h4>Order #12345</h4>
+                                    <p>Traditional Salwar Kameez Set - Size M</p>
+                                    <p>Refund requested on March 15, 2024</p>
+                                </div>
+                                <div class="refund-status">
+                                    <span class="refund-amount">₹2,500</span>
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                            </div>
+
+                            <div class="refund-item">
+                                <div class="refund-info">
+                                    <h4>Order #12340</h4>
+                                    <p>Designer Anarkali Gown - Size L</p>
+                                    <p>Refund requested on March 10, 2024</p>
+                                </div>
+                                <div class="refund-status">
+                                    <span class="refund-amount">₹1,980</span>
+                                    <span class="status-badge pending">Pending</span>
+                                </div>
+                            </div>
+
+                            <div class="refund-item">
+                                <div class="refund-info">
+                                    <h4>Order #12338</h4>
+                                    <p>Embroidered Kurta Set - Size S</p>
+                                    <p>Refund requested on March 5, 2024</p>
+                                </div>
+                                <div class="refund-status">
+                                    <span class="refund-amount">₹1,780</span>
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Delivery Management Section -->
+                    <section class="profile-section" id="delivery-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-truck"></i>
+                                <h2>Delivery Management</h2>
+                            </div>
+                            <p class="section-subtitle">Manage your delivery addresses, preferred time slots, and subscription deliveries</p>
+                        </div>
+
+                        <div class="address-list">
+                            <div class="address-card default">
+                                <span class="address-type">Home</span>
+                                <div class="address-details">
+                                    <h4>Sarah Johnson</h4>
+                                    <p>123 Main Street, Apartment 4B<br>
+                                    Downtown District, Mumbai 400001<br>
+                                    Maharashtra, India<br>
+                                    Phone: +91 9775637590</p>
+                                </div>
+                                <div class="address-actions">
+                                    <button class="action-btn" onclick="editAddress('home')" title="Edit Address">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="deleteAddress('home')" title="Delete Address">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="address-card">
+                                <span class="address-type">Office</span>
+                                <div class="address-details">
+                                    <h4>Sarah Johnson</h4>
+                                    <p>456 Business Park, Floor 12<br>
+                                    Corporate District, Mumbai 400051<br>
+                                    Maharashtra, India<br>
+                                    Phone: +91 9775637590</p>
+                                </div>
+                                <div class="address-actions">
+                                    <button class="action-btn" onclick="editAddress('office')" title="Edit Address">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="deleteAddress('office')" title="Delete Address">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="add-address-btn" onclick="addNewAddress()">
+                            <i class="fas fa-plus"></i>
+                            Add New Address
+                        </button>
+                    </section>
+
+                    <!-- Account Deletion Section -->
+                    <section class="profile-section" id="deletion-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-trash"></i>
+                                <h2>Account Deletion</h2>
+                            </div>
+                            <p class="section-subtitle">Permanently delete your account and all associated data</p>
+                        </div>
+
+                        <div class="deletion-warning">
+                            <div class="warning-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3 class="warning-title">Warning: Permanent Action</h3>
+                            </div>
+                            <p class="warning-text">Deleting your account is permanent and cannot be undone. All your data, including order history, wishlist, saved addresses, and personal information will be permanently removed from our systems.</p>
+                        </div>
+
+                        <div class="deletion-steps">
+                            <h3>Deletion Process</h3>
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <p>Verify your identity with password or OTP</p>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <p>Confirm deletion by typing your email address</p>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <p>Account and all data will be permanently deleted within 30 days</p>
+                            </div>
+
+                            <button class="delete-account-btn" onclick="initiateAccountDeletion()">
+                                <i class="fas fa-trash"></i>
+                                Delete My Account
+                            </button>
                         </div>
                     </section>
                 </div>
