@@ -4350,3 +4350,516 @@ body {
         font-size: 1.2rem;
     }
 }
+
+/* My Profile Page Styles */
+.profile-page-header {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.profile-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.back-button, .close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f8f9fa;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover, .close-button:hover {
+    background: #333;
+    color: white;
+    transform: scale(1.1);
+}
+
+.profile-page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.profile-main {
+    padding: 2rem 0;
+    min-height: 60vh;
+    background: #f8f9fa;
+}
+
+/* User Info Card */
+.user-info-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-picture-section {
+    flex-shrink: 0;
+}
+
+.profile-picture-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-picture-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-picture-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.profile-picture-wrapper:hover .edit-picture-overlay {
+    opacity: 1;
+}
+
+.user-details-section {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.user-contact-info {
+    margin-bottom: 1.5rem;
+}
+
+.user-email, .user-phone {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+.user-email i, .user-phone i {
+    color: #667eea;
+    width: 16px;
+}
+
+.edit-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Profile Options Section */
+.profile-options-section {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.profile-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.profile-menu-item:hover {
+    background: #f8f9fa;
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+.menu-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.menu-item-content {
+    flex: 1;
+}
+
+.menu-item-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.25rem 0;
+}
+
+.menu-item-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.menu-item-arrow {
+    color: #999;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.profile-menu-item:hover .menu-item-arrow {
+    color: #667eea;
+    transform: translateX(3px);
+}
+
+/* Edit Picture Modal */
+.edit-picture-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.edit-picture-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.edit-picture-modal .modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 0;
+    max-width: 400px;
+    width: 90%;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.picture-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.picture-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    color: #333;
+}
+
+.picture-option-btn:hover {
+    background: #f8f9fa;
+    border-color: #667eea;
+    transform: translateY(-1px);
+}
+
+.picture-option-btn.danger {
+    color: #dc3545;
+}
+
+.picture-option-btn.danger:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    z-index: 10000;
+    min-width: 300px;
+    animation: slideIn 0.3s ease;
+}
+
+.notification.success {
+    border-left-color: #28a745;
+}
+
+.notification.info {
+    border-left-color: #17a2b8;
+}
+
+.notification.warning {
+    border-left-color: #ffc107;
+}
+
+.notification.error {
+    border-left-color: #dc3545;
+}
+
+.notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification-content button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+}
+
+.notification-content button:hover {
+    color: #333;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design for Profile Page */
+@media (max-width: 768px) {
+    .profile-main {
+        padding: 1rem 0;
+    }
+
+    .user-info-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .profile-picture-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+
+    .user-name {
+        font-size: 1.5rem;
+    }
+
+    .user-contact-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .profile-menu-item {
+        padding: 0.75rem;
+    }
+
+    .menu-item-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+
+    .menu-item-title {
+        font-size: 1rem;
+    }
+
+    .menu-item-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .notification {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-page-header {
+        padding: 0.75rem 0;
+    }
+
+    .profile-page-title {
+        font-size: 1.3rem;
+    }
+
+    .back-button, .close-button {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .profile-main {
+        padding: 0.75rem 0;
+    }
+
+    .user-info-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .profile-picture-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+
+    .user-name {
+        font-size: 1.3rem;
+    }
+
+    .edit-profile-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .profile-options-section {
+        padding: 1rem;
+    }
+
+    .profile-menu-item {
+        padding: 0.75rem 0.5rem;
+        gap: 0.75rem;
+    }
+
+    .profile-menu-item:hover {
+        transform: translateX(3px);
+    }
+
+    .menu-item-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .menu-item-title {
+        font-size: 0.95rem;
+    }
+
+    .menu-item-subtitle {
+        font-size: 0.8rem;
+    }
+}
