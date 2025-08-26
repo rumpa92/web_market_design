@@ -2970,7 +2970,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '★★★★☆'
+            rating: '★���★★☆'
         }
     ],
     'Handbags': [
@@ -3164,7 +3164,7 @@ const subcategoryItems = {
 function initializeCategoryPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.get('category');
-    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Men';
+    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Women';
 
     updatePageTitle(currentCategory);
     updateBreadcrumb(currentCategory);
