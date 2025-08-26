@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function showFlashScreen() {
     const flashScreen = document.getElementById('flashScreen');
 
+    // Only proceed if flash screen element exists
+    if (!flashScreen) {
+        initializeApp();
+        return;
+    }
+
     // Hide flash screen after 3 seconds
     setTimeout(() => {
         flashScreen.classList.add('hidden');
@@ -398,10 +404,14 @@ function handleCategoryClick(event) {
     navigateToCategory(title);
 
     // Add visual feedback
-    event.currentTarget.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        event.currentTarget.style.transform = '';
-    }, 150);
+    if (event && event.currentTarget) {
+        event.currentTarget.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            if (event.currentTarget) {
+                event.currentTarget.style.transform = '';
+            }
+        }, 150);
+    }
 }
 
 function navigateToCategory(categoryName) {
@@ -1257,6 +1267,11 @@ function setupFiltersAndSort() {
     const sortSelect = document.getElementById('sortSelect');
     const priceRange = document.getElementById('priceRange');
     const currentPrice = document.getElementById('currentPrice');
+
+    // Only setup if elements exist
+    if (!filtersToggle || !filtersPanel || !sortSelect) {
+        return;
+    }
 
     // Toggle filters panel
     filtersToggle.addEventListener('click', () => {
