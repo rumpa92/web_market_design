@@ -3046,7 +3046,7 @@ const subcategoryItems = {
 function initializeCategoryPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.get('category');
-    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Categories';
+    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Men';
 
     updatePageTitle(currentCategory);
     updateBreadcrumb(currentCategory);
