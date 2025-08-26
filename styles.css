@@ -6916,7 +6916,7 @@ input:checked + .slider:before {
         padding: 0.6rem;
     }
 
-    .profile-section {
+    .profile-content .profile-section {
         padding: 1.5rem;
     }
 
