@@ -2060,7 +2060,8 @@ function setupEnhancedCategories() {
                 ripple.remove();
             }, 600);
 
-            showNotification(`Browsing ${categoryTitle} category`, 'info');
+            // Navigate to category page
+            navigateToCategory(categoryTitle);
         });
     });
 }
