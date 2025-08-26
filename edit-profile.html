@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="profile-page-header">
+        <div class="container">
+            <div class="profile-header-content">
+                <button class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="profile-page-title">Edit Profile</h1>
+                <button class="save-button" onclick="saveProfile()" id="saveButton">
+                    <i class="fas fa-check"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Content -->
+    <main class="edit-profile-main">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state hidden">
+                <div class="loading-spinner"></div>
+                <p>Saving your profile...</p>
+            </div>
+
+            <!-- Edit Profile Form -->
+            <form id="editProfileForm" class="edit-profile-form">
+                <!-- Profile Picture Section -->
+                <section class="edit-section profile-picture-section">
+                    <div class="profile-picture-edit">
+                        <div class="profile-picture-wrapper" onclick="editProfilePicture()">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Profile Picture" class="profile-picture" id="profilePicture">
+                            <div class="edit-picture-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Tap to change</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Personal Details Section -->
+                <section class="edit-section">
+                    <h3 class="section-title">Personal Details</h3>
+                    
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="form-input" value="Sarah Johnson" required>
+                        <div class="error-message" id="fullNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" value="sarah.johnson@stylehub.com" required>
+                        <div class="input-note">
+                            <i class="fas fa-info-circle"></i>
+                            Changing email will require OTP verification
+                        </div>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" class="form-input" value="+1 (555) 123-4567" required>
+                        <div class="input-note">
+                            <i class="fas fa-info-circle"></i>
+                            Changing mobile will require OTP verification
+                        </div>
+                        <div class="error-message" id="mobileError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input" value="1995-08-15" required>
+                        <div class="error-message" id="dobError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="male">
+                                <span class="radio-custom"></span>
+                                Male
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="female" checked>
+                                <span class="radio-custom"></span>
+                                Female
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="prefer-not-to-say">
+                                <span class="radio-custom"></span>
+                                Prefer not to say
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="custom">
+                                <span class="radio-custom"></span>
+                                Custom
+                            </label>
+                        </div>
+                        <div class="form-group custom-gender-group hidden" id="customGenderGroup">
+                            <input type="text" id="customGender" name="customGender" class="form-input" placeholder="Please specify">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Security Section -->
+                <section class="edit-section">
+                    <h3 class="section-title">Security</h3>
+                    
+                    <div class="password-option" onclick="changePassword()">
+                        <div class="password-info">
+                            <i class="fas fa-key"></i>
+                            <div class="password-details">
+                                <h4>Change Password</h4>
+                                <p>Update your account password</p>
+                            </div>
+                        </div>
+                        <div class="password-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Action Buttons -->
+                <section class="form-actions">
+                    <button type="button" class="cancel-button" onclick="cancelEdit()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="save-changes-button">
+                        <i class="fas fa-check"></i>
+                        Save Changes
+                    </button>
+                </section>
+            </form>
+        </div>
+    </main>
+
+    <!-- Edit Profile Picture Modal -->
+    <div id="editPictureModal" class="edit-picture-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Profile Picture</h3>
+                <button class="close-modal" onclick="closeEditPictureModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Loading State -->
+                <div id="photoLoadingState" class="photo-loading-state hidden">
+                    <div class="loading-spinner"></div>
+                    <p>Updating your profile picture...</p>
+                </div>
+                
+                <!-- Error State -->
+                <div id="photoErrorState" class="photo-error-state hidden">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <p class="error-message">Failed to update profile picture. Please try again.</p>
+                    <button class="retry-btn" onclick="hidePhotoError()">Try Again</button>
+                </div>
+                
+                <!-- Picture Options -->
+                <div id="pictureOptions" class="picture-options">
+                    <button class="picture-option-btn" onclick="uploadNewPicture()">
+                        <i class="fas fa-upload"></i>
+                        Upload New Photo
+                    </button>
+                    <button class="picture-option-btn" onclick="takePicture()">
+                        <i class="fas fa-camera"></i>
+                        Take Photo
+                    </button>
+                    <button class="picture-option-btn danger" onclick="removePicture()">
+                        <i class="fas fa-trash"></i>
+                        Remove Photo
+                    </button>
+                </div>
+                
+                <!-- Hidden File Input -->
+                <input type="file" id="photoFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                
+                <!-- Camera Video Preview -->
+                <div id="cameraPreview" class="camera-preview hidden">
+                    <video id="cameraVideo" autoplay playsinline></video>
+                    <div class="camera-controls">
+                        <button class="camera-btn capture" onclick="capturePhoto()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <button class="camera-btn cancel" onclick="closeCameraPreview()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otpModal" class="otp-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Verify Changes</h3>
+            </div>
+            <div class="modal-body">
+                <p class="otp-message">We've sent a verification code to verify your changes.</p>
+                <div class="otp-input-group">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 1)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 2)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 3)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 4)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 5)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 6)">
+                </div>
+                <div class="otp-actions">
+                    <button class="verify-otp-btn" onclick="verifyOTP()">Verify</button>
+                    <button class="resend-otp-btn" onclick="resendOTP()">Resend Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let cameraStream = null;
+        let originalFormData = {};
+        let pendingChanges = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedProfilePicture();
+            loadSavedProfileData();
+            storeOriginalFormData();
+            setupFormValidation();
+            setupGenderSelection();
+        });
+
+        function goBack() {
+            window.location.href = 'profile.html';
+        }
+
+        function storeOriginalFormData() {
+            const form = document.getElementById('editProfileForm');
+            const formData = new FormData(form);
+            originalFormData = {};
+            for (let [key, value] of formData.entries()) {
+                originalFormData[key] = value;
+            }
+        }
+
+        function setupGenderSelection() {
+            const genderRadios = document.querySelectorAll('input[name="gender"]');
+            const customGenderGroup = document.getElementById('customGenderGroup');
+            
+            genderRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'custom') {
+                        customGenderGroup.classList.remove('hidden');
+                    } else {
+                        customGenderGroup.classList.add('hidden');
+                        document.getElementById('customGender').value = '';
+                    }
+                });
+            });
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('editProfileForm');
+            const inputs = form.querySelectorAll('.form-input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    clearFieldError(this);
+                });
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateForm()) {
+                    saveProfile();
+                }
+            });
+        }
+
+        function validateField(field) {
+            const fieldName = field.name;
+            const value = field.value.trim();
+            let isValid = true;
+            let errorMessage = '';
+
+            switch(fieldName) {
+                case 'fullName':
+                    if (!value) {
+                        errorMessage = 'Full name is required';
+                        isValid = false;
+                    } else if (value.length < 2) {
+                        errorMessage = 'Name must be at least 2 characters';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!value) {
+                        errorMessage = 'Email is required';
+                        isValid = false;
+                    } else if (!emailRegex.test(value)) {
+                        errorMessage = 'Please enter a valid email address';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'mobile':
+                    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                    if (!value) {
+                        errorMessage = 'Mobile number is required';
+                        isValid = false;
+                    } else if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) {
+                        errorMessage = 'Please enter a valid mobile number';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'dateOfBirth':
+                    if (!value) {
+                        errorMessage = 'Date of birth is required';
+                        isValid = false;
+                    } else {
+                        const birthDate = new Date(value);
+                        const today = new Date();
+                        const age = today.getFullYear() - birthDate.getFullYear();
+                        if (age < 13) {
+                            errorMessage = 'You must be at least 13 years old';
+                            isValid = false;
+                        }
+                    }
+                    break;
+            }
+
+            showFieldError(field, isValid ? '' : errorMessage);
+            return isValid;
+        }
+
+        function validateForm() {
+            const form = document.getElementById('editProfileForm');
+            const inputs = form.querySelectorAll('.form-input[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+
+            return isValid;
+        }
+
+        function showFieldError(field, message) {
+            const errorElement = document.getElementById(field.name + 'Error');
+            if (errorElement) {
+                errorElement.textContent = message;
+                if (message) {
+                    field.classList.add('error');
+                } else {
+                    field.classList.remove('error');
+                }
+            }
+        }
+
+        function clearFieldError(field) {
+            showFieldError(field, '');
+        }
+
+        function saveProfile() {
+            if (!validateForm()) return;
+
+            const currentFormData = new FormData(document.getElementById('editProfileForm'));
+            const changes = {};
+            let hasChanges = false;
+            let requiresOTP = false;
+
+            // Check for changes
+            for (let [key, value] of currentFormData.entries()) {
+                if (originalFormData[key] !== value) {
+                    changes[key] = value;
+                    hasChanges = true;
+                    
+                    // Check if email or mobile changed (requires OTP)
+                    if (key === 'email' || key === 'mobile') {
+                        requiresOTP = true;
+                    }
+                }
+            }
+
+            if (!hasChanges) {
+                showNotification('No changes to save', 'info');
+                return;
+            }
+
+            pendingChanges = changes;
+
+            if (requiresOTP) {
+                showOTPModal();
+            } else {
+                processSave();
+            }
+        }
+
+        function processSave() {
+            showLoadingState();
+
+            // Simulate API call
+            setTimeout(() => {
+                try {
+                    // Update stored data
+                    for (let [key, value] of Object.entries(pendingChanges)) {
+                        localStorage.setItem('user_' + key, value);
+                    }
+
+                    hideLoadingState();
+                    showNotification('Profile updated successfully!', 'success');
+                    
+                    // Update original form data
+                    storeOriginalFormData();
+                    
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+
+                } catch (error) {
+                    hideLoadingState();
+                    showNotification('Failed to update profile. Please try again.', 'error');
+                }
+            }, 2000);
+        }
+
+        function showLoadingState() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('editProfileForm').classList.add('hidden');
+        }
+
+        function hideLoadingState() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('editProfileForm').classList.remove('hidden');
+        }
+
+        function cancelEdit() {
+            if (hasUnsavedChanges()) {
+                if (confirm('You have unsaved changes. Are you sure you want to discard them?')) {
+                    window.location.href = 'profile.html';
+                }
+            } else {
+                window.location.href = 'profile.html';
+            }
+        }
+
+        function hasUnsavedChanges() {
+            const currentFormData = new FormData(document.getElementById('editProfileForm'));
+            for (let [key, value] of currentFormData.entries()) {
+                if (originalFormData[key] !== value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function changePassword() {
+            showNotification('Password change feature coming soon!', 'info');
+        }
+
+        // OTP Modal Functions
+        function showOTPModal() {
+            document.getElementById('otpModal').classList.remove('hidden');
+        }
+
+        function hideOTPModal() {
+            document.getElementById('otpModal').classList.add('hidden');
+        }
+
+        function moveToNext(current, nextIndex) {
+            if (current.value.length === 1 && nextIndex <= 6) {
+                const nextInput = document.querySelectorAll('.otp-input')[nextIndex];
+                if (nextInput) nextInput.focus();
+            }
+        }
+
+        function verifyOTP() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            
+            if (otp.length !== 6) {
+                showNotification('Please enter complete OTP', 'error');
+                return;
+            }
+
+            // Simulate OTP verification
+            showNotification('Verifying OTP...', 'info');
+            setTimeout(() => {
+                hideOTPModal();
+                processSave();
+            }, 1500);
+        }
+
+        function resendOTP() {
+            showNotification('OTP sent successfully!', 'success');
+        }
+
+        // Include all the photo modal functions from profile.html
+        function loadSavedProfilePicture() {
+            const savedPicture = localStorage.getItem('userProfilePicture');
+            if (savedPicture) {
+                const profilePicture = document.getElementById('profilePicture');
+                profilePicture.src = savedPicture;
+            }
+        }
+
+        function loadSavedProfileData() {
+            // Load saved profile data from localStorage
+            const savedData = {
+                fullName: localStorage.getItem('user_fullName'),
+                email: localStorage.getItem('user_email'),
+                mobile: localStorage.getItem('user_mobile'),
+                dateOfBirth: localStorage.getItem('user_dateOfBirth'),
+                gender: localStorage.getItem('user_gender')
+            };
+
+            // Update form values if data exists
+            if (savedData.fullName) document.getElementById('fullName').value = savedData.fullName;
+            if (savedData.email) document.getElementById('email').value = savedData.email;
+            if (savedData.mobile) document.getElementById('mobile').value = savedData.mobile;
+            if (savedData.dateOfBirth) document.getElementById('dateOfBirth').value = savedData.dateOfBirth;
+
+            if (savedData.gender) {
+                const genderRadio = document.querySelector(`input[name="gender"][value="${savedData.gender}"]`);
+                if (genderRadio) {
+                    genderRadio.checked = true;
+                }
+            }
+        }
+
+        function editProfilePicture() {
+            resetModalState();
+            document.getElementById('editPictureModal').classList.remove('hidden');
+        }
+
+        function closeEditPictureModal() {
+            stopCameraStream();
+            resetModalState();
+            document.getElementById('editPictureModal').classList.add('hidden');
+        }
+        
+        function resetModalState() {
+            document.getElementById('photoLoadingState').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+            document.getElementById('cameraPreview').classList.add('hidden');
+        }
+        
+        function showPhotoLoading() {
+            document.getElementById('pictureOptions').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('photoLoadingState').classList.remove('hidden');
+        }
+        
+        function showPhotoError(message = 'Failed to update profile picture. Please try again.') {
+            document.getElementById('pictureOptions').classList.add('hidden');
+            document.getElementById('photoLoadingState').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.remove('hidden');
+            document.querySelector('.error-message').textContent = message;
+        }
+        
+        function hidePhotoError() {
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+        }
+
+        function uploadNewPicture() {
+            document.getElementById('photoFileInput').click();
+        }
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showPhotoError('Please select a valid image file.');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showPhotoError('Image size must be less than 5MB.');
+                return;
+            }
+            
+            showPhotoLoading();
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                setTimeout(() => {
+                    try {
+                        const profilePicture = document.getElementById('profilePicture');
+                        profilePicture.src = e.target.result;
+                        localStorage.setItem('userProfilePicture', e.target.result);
+                        showNotification('Profile picture updated successfully!', 'success');
+                        closeEditPictureModal();
+                    } catch (error) {
+                        showPhotoError('Failed to process the image. Please try again.');
+                    }
+                }, 1500);
+            };
+            
+            reader.onerror = function() {
+                showPhotoError('Failed to read the image file.');
+            };
+            
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        async function takePicture() {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showPhotoError('Camera access is not supported on this device.');
+                    return;
+                }
+                
+                document.getElementById('pictureOptions').classList.add('hidden');
+                document.getElementById('cameraPreview').classList.remove('hidden');
+                
+                cameraStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    } 
+                });
+                
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = cameraStream;
+                
+            } catch (error) {
+                console.error('Camera access error:', error);
+                if (error.name === 'NotAllowedError') {
+                    showPhotoError('Camera access denied. Please allow camera permission and try again.');
+                } else if (error.name === 'NotFoundError') {
+                    showPhotoError('No camera found on this device.');
+                } else {
+                    showPhotoError('Failed to access camera. Please try again.');
+                }
+            }
+        }
+        
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+            const imageDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            
+            showPhotoLoading();
+            stopCameraStream();
+            
+            setTimeout(() => {
+                try {
+                    const profilePicture = document.getElementById('profilePicture');
+                    profilePicture.src = imageDataUrl;
+                    localStorage.setItem('userProfilePicture', imageDataUrl);
+                    showNotification('Profile picture captured successfully!', 'success');
+                    closeEditPictureModal();
+                } catch (error) {
+                    showPhotoError('Failed to capture photo. Please try again.');
+                }
+            }, 1000);
+        }
+        
+        function closeCameraPreview() {
+            stopCameraStream();
+            document.getElementById('cameraPreview').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+        }
+        
+        function stopCameraStream() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+        }
+
+        function removePicture() {
+            showPhotoLoading();
+            
+            setTimeout(() => {
+                try {
+                    const profilePicture = document.getElementById('profilePicture');
+                    const defaultAvatar = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face';
+                    profilePicture.src = defaultAvatar;
+                    localStorage.removeItem('userProfilePicture');
+                    showNotification('Profile picture removed successfully!', 'success');
+                    closeEditPictureModal();
+                } catch (error) {
+                    showPhotoError('Failed to remove profile picture. Please try again.');
+                }
+            }, 800);
+        }
+
+        // Notification function
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

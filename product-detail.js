@@ -719,6 +719,8 @@ function handleDropdownItemClick(item) {
     switch(itemId) {
         case 'myProfile':
             showNotification('Opening My Profile...', 'info');
+            // Navigate to profile page
+            window.location.href = 'profile.html';
             break;
 
         case 'myOrders':

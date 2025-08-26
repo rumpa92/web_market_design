@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="profile-page-header">
+        <div class="container">
+            <div class="profile-header-content">
+                <button class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="profile-page-title">Personal Information</h1>
+                <button class="edit-button" onclick="toggleEditMode()" id="editButton">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Personal Information Content -->
+    <main class="personal-info-main">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state hidden">
+                <div class="loading-spinner"></div>
+                <p>Saving your information...</p>
+            </div>
+
+            <!-- View Mode -->
+            <div id="viewMode" class="personal-info-view">
+                <div class="info-card">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                        </div>
+                        <div class="info-value" id="displayName">Rumpa Samanta</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </div>
+                        <div class="info-value" id="displayEmail">rumpa@email.com</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-phone"></i>
+                            Mobile Number
+                        </div>
+                        <div class="info-value" id="displayMobile">+91 9876543210</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-calendar"></i>
+                            Date of Birth
+                        </div>
+                        <div class="info-value" id="displayDOB">15 Aug 1995</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-venus-mars"></i>
+                            Gender
+                        </div>
+                        <div class="info-value" id="displayGender">Female</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-language"></i>
+                            Language Preference
+                        </div>
+                        <div class="info-value" id="displayLanguage">English</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Mode -->
+            <div id="editMode" class="personal-info-edit hidden">
+                <form id="personalInfoForm" class="personal-info-form">
+                    <div class="edit-card">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" id="fullName" name="fullName" class="form-input" value="Rumpa Samanta" required>
+                            <div class="error-message" id="fullNameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" id="email" name="email" class="form-input" value="rumpa@email.com" required>
+                            <div class="input-note">
+                                <i class="fas fa-info-circle"></i>
+                                Changing email will require OTP verification
+                            </div>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile" class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Mobile Number
+                            </label>
+                            <input type="tel" id="mobile" name="mobile" class="form-input" value="+91 9876543210" required>
+                            <div class="input-note">
+                                <i class="fas fa-info-circle"></i>
+                                Changing mobile will require OTP verification
+                            </div>
+                            <div class="error-message" id="mobileError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateOfBirth" class="form-label">
+                                <i class="fas fa-calendar"></i>
+                                Date of Birth
+                            </label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input" value="1995-08-15" required>
+                            <div class="error-message" id="dobError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-venus-mars"></i>
+                                Gender
+                            </label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Male">
+                                    <span class="radio-custom"></span>
+                                    Male
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Female" checked>
+                                    <span class="radio-custom"></span>
+                                    Female
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Custom">
+                                    <span class="radio-custom"></span>
+                                    Custom
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Prefer not to say">
+                                    <span class="radio-custom"></span>
+                                    Prefer not to say
+                                </label>
+                            </div>
+                            <div class="form-group custom-gender-group hidden" id="customGenderGroup">
+                                <input type="text" id="customGender" name="customGender" class="form-input" placeholder="Please specify">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="language" class="form-label">
+                                <i class="fas fa-language"></i>
+                                Language Preference
+                            </label>
+                            <select id="language" name="language" class="form-select" required>
+                                <option value="English" selected>English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Gujarati">Gujarati</option>
+                                <option value="Kannada">Kannada</option>
+                                <option value="Malayalam">Malayalam</option>
+                                <option value="Punjabi">Punjabi</option>
+                            </select>
+                            <div class="error-message" id="languageError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="cancel-button" onclick="cancelEdit()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="save-changes-button">
+                            <i class="fas fa-check"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- OTP Verification Modal -->
+    <div id="otpModal" class="otp-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Verify Changes</h3>
+            </div>
+            <div class="modal-body">
+                <p class="otp-message" id="otpMessage">We've sent a verification code to verify your changes.</p>
+                <div class="otp-input-group">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 1)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 2)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 3)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 4)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 5)">
+                    <input type="text" class="otp-input" maxlength="1" onkeyup="moveToNext(this, 6)">
+                </div>
+                <div class="otp-actions">
+                    <button class="verify-otp-btn" onclick="verifyOTP()">Verify</button>
+                    <button class="resend-otp-btn" onclick="resendOTP()">Resend Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let isEditMode = false;
+        let originalFormData = {};
+        let pendingChanges = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPersonalInfo();
+            setupFormValidation();
+            setupGenderSelection();
+        });
+
+        function goBack() {
+            if (isEditMode && hasUnsavedChanges()) {
+                if (confirm('You have unsaved changes. Are you sure you want to go back?')) {
+                    window.location.href = 'profile.html';
+                }
+            } else {
+                window.location.href = 'profile.html';
+            }
+        }
+
+        function loadPersonalInfo() {
+            // Load saved personal information from localStorage
+            const savedData = {
+                fullName: localStorage.getItem('user_fullName') || 'Rumpa Samanta',
+                email: localStorage.getItem('user_email') || 'rumpa@email.com',
+                mobile: localStorage.getItem('user_mobile') || '+91 9876543210',
+                dateOfBirth: localStorage.getItem('user_dateOfBirth') || '1995-08-15',
+                gender: localStorage.getItem('user_gender') || 'Female',
+                language: localStorage.getItem('user_language') || 'English'
+            };
+
+            // Update display values
+            document.getElementById('displayName').textContent = savedData.fullName;
+            document.getElementById('displayEmail').textContent = savedData.email;
+            document.getElementById('displayMobile').textContent = savedData.mobile;
+            document.getElementById('displayDOB').textContent = formatDate(savedData.dateOfBirth);
+            document.getElementById('displayGender').textContent = savedData.gender;
+            document.getElementById('displayLanguage').textContent = savedData.language;
+
+            // Update form values
+            document.getElementById('fullName').value = savedData.fullName;
+            document.getElementById('email').value = savedData.email;
+            document.getElementById('mobile').value = savedData.mobile;
+            document.getElementById('dateOfBirth').value = savedData.dateOfBirth;
+            document.getElementById('language').value = savedData.language;
+
+            // Set gender radio button
+            const genderRadio = document.querySelector(`input[name="gender"][value="${savedData.gender}"]`);
+            if (genderRadio) {
+                genderRadio.checked = true;
+            }
+
+            storeOriginalFormData();
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('en-GB', options);
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editButton = document.getElementById('editButton');
+            const viewMode = document.getElementById('viewMode');
+            const editMode = document.getElementById('editMode');
+
+            if (isEditMode) {
+                editButton.innerHTML = '<i class="fas fa-times"></i> Cancel';
+                editButton.classList.add('cancel-mode');
+                viewMode.classList.add('hidden');
+                editMode.classList.remove('hidden');
+                storeOriginalFormData();
+            } else {
+                editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                editButton.classList.remove('cancel-mode');
+                viewMode.classList.remove('hidden');
+                editMode.classList.add('hidden');
+                // Reset form to original values
+                resetForm();
+            }
+        }
+
+        function storeOriginalFormData() {
+            const form = document.getElementById('personalInfoForm');
+            const formData = new FormData(form);
+            originalFormData = {};
+            for (let [key, value] of formData.entries()) {
+                originalFormData[key] = value;
+            }
+        }
+
+        function resetForm() {
+            const form = document.getElementById('personalInfoForm');
+            const inputs = form.querySelectorAll('.form-input, .form-select');
+            
+            inputs.forEach(input => {
+                if (originalFormData[input.name]) {
+                    input.value = originalFormData[input.name];
+                }
+                clearFieldError(input);
+            });
+
+            // Reset gender radio buttons
+            const genderRadios = form.querySelectorAll('input[name="gender"]');
+            genderRadios.forEach(radio => {
+                radio.checked = radio.value === originalFormData.gender;
+            });
+        }
+
+        function setupGenderSelection() {
+            const genderRadios = document.querySelectorAll('input[name="gender"]');
+            const customGenderGroup = document.getElementById('customGenderGroup');
+            
+            genderRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'Custom') {
+                        customGenderGroup.classList.remove('hidden');
+                    } else {
+                        customGenderGroup.classList.add('hidden');
+                        document.getElementById('customGender').value = '';
+                    }
+                });
+            });
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('personalInfoForm');
+            const inputs = form.querySelectorAll('.form-input, .form-select');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    clearFieldError(this);
+                });
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateForm()) {
+                    savePersonalInfo();
+                }
+            });
+        }
+
+        function validateField(field) {
+            const fieldName = field.name;
+            const value = field.value.trim();
+            let isValid = true;
+            let errorMessage = '';
+
+            switch(fieldName) {
+                case 'fullName':
+                    if (!value) {
+                        errorMessage = 'Full name is required';
+                        isValid = false;
+                    } else if (value.length < 2) {
+                        errorMessage = 'Name must be at least 2 characters';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!value) {
+                        errorMessage = 'Email is required';
+                        isValid = false;
+                    } else if (!emailRegex.test(value)) {
+                        errorMessage = 'Please enter a valid email address';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'mobile':
+                    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                    if (!value) {
+                        errorMessage = 'Mobile number is required';
+                        isValid = false;
+                    } else if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) {
+                        errorMessage = 'Please enter a valid mobile number';
+                        isValid = false;
+                    }
+                    break;
+                
+                case 'dateOfBirth':
+                    if (!value) {
+                        errorMessage = 'Date of birth is required';
+                        isValid = false;
+                    } else {
+                        const birthDate = new Date(value);
+                        const today = new Date();
+                        const age = today.getFullYear() - birthDate.getFullYear();
+                        if (age < 13) {
+                            errorMessage = 'You must be at least 13 years old';
+                            isValid = false;
+                        }
+                    }
+                    break;
+                
+                case 'language':
+                    if (!value) {
+                        errorMessage = 'Language preference is required';
+                        isValid = false;
+                    }
+                    break;
+            }
+
+            showFieldError(field, isValid ? '' : errorMessage);
+            return isValid;
+        }
+
+        function validateForm() {
+            const form = document.getElementById('personalInfoForm');
+            const inputs = form.querySelectorAll('.form-input[required], .form-select[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+
+            return isValid;
+        }
+
+        function showFieldError(field, message) {
+            const errorElement = document.getElementById(field.name + 'Error');
+            if (errorElement) {
+                errorElement.textContent = message;
+                if (message) {
+                    field.classList.add('error');
+                } else {
+                    field.classList.remove('error');
+                }
+            }
+        }
+
+        function clearFieldError(field) {
+            showFieldError(field, '');
+        }
+
+        function savePersonalInfo() {
+            if (!validateForm()) return;
+
+            const currentFormData = new FormData(document.getElementById('personalInfoForm'));
+            const changes = {};
+            let hasChanges = false;
+            let requiresOTP = false;
+
+            // Check for changes
+            for (let [key, value] of currentFormData.entries()) {
+                if (originalFormData[key] !== value) {
+                    changes[key] = value;
+                    hasChanges = true;
+                    
+                    // Check if email or mobile changed (requires OTP)
+                    if (key === 'email' || key === 'mobile') {
+                        requiresOTP = true;
+                    }
+                }
+            }
+
+            // Check gender radio button
+            const selectedGender = document.querySelector('input[name="gender"]:checked');
+            if (selectedGender && originalFormData.gender !== selectedGender.value) {
+                changes.gender = selectedGender.value;
+                hasChanges = true;
+            }
+
+            if (!hasChanges) {
+                showNotification('No changes to save', 'info');
+                return;
+            }
+
+            pendingChanges = changes;
+
+            if (requiresOTP) {
+                showOTPModal();
+            } else {
+                processSave();
+            }
+        }
+
+        function processSave() {
+            showLoadingState();
+
+            // Simulate API call
+            setTimeout(() => {
+                try {
+                    // Update stored data
+                    for (let [key, value] of Object.entries(pendingChanges)) {
+                        localStorage.setItem('user_' + key, value);
+                    }
+
+                    hideLoadingState();
+                    showNotification('Personal information updated successfully!', 'success');
+                    
+                    // Reload the display values
+                    loadPersonalInfo();
+                    
+                    // Switch back to view mode
+                    setTimeout(() => {
+                        toggleEditMode();
+                    }, 1000);
+
+                } catch (error) {
+                    hideLoadingState();
+                    showNotification('Failed to update personal information. Please try again.', 'error');
+                }
+            }, 2000);
+        }
+
+        function showLoadingState() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('editMode').classList.add('hidden');
+        }
+
+        function hideLoadingState() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('editMode').classList.remove('hidden');
+        }
+
+        function cancelEdit() {
+            if (hasUnsavedChanges()) {
+                if (confirm('You have unsaved changes. Are you sure you want to discard them?')) {
+                    toggleEditMode();
+                }
+            } else {
+                toggleEditMode();
+            }
+        }
+
+        function hasUnsavedChanges() {
+            const currentFormData = new FormData(document.getElementById('personalInfoForm'));
+            for (let [key, value] of currentFormData.entries()) {
+                if (originalFormData[key] !== value) {
+                    return true;
+                }
+            }
+            
+            const selectedGender = document.querySelector('input[name="gender"]:checked');
+            if (selectedGender && originalFormData.gender !== selectedGender.value) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // OTP Modal Functions
+        function showOTPModal() {
+            const otpMessage = document.getElementById('otpMessage');
+            if (pendingChanges.email && pendingChanges.mobile) {
+                otpMessage.textContent = 'We\'ve sent verification codes to your new email and mobile number.';
+            } else if (pendingChanges.email) {
+                otpMessage.textContent = `We've sent a verification code to ${pendingChanges.email}.`;
+            } else if (pendingChanges.mobile) {
+                otpMessage.textContent = `We've sent a verification code to ${pendingChanges.mobile}.`;
+            }
+            
+            document.getElementById('otpModal').classList.remove('hidden');
+        }
+
+        function hideOTPModal() {
+            document.getElementById('otpModal').classList.add('hidden');
+            // Clear OTP inputs
+            document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+        }
+
+        function moveToNext(current, nextIndex) {
+            if (current.value.length === 1 && nextIndex <= 6) {
+                const nextInput = document.querySelectorAll('.otp-input')[nextIndex];
+                if (nextInput) nextInput.focus();
+            }
+        }
+
+        function verifyOTP() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            
+            if (otp.length !== 6) {
+                showNotification('Please enter complete OTP', 'error');
+                return;
+            }
+
+            // Simulate OTP verification
+            showNotification('Verifying OTP...', 'info');
+            setTimeout(() => {
+                hideOTPModal();
+                processSave();
+            }, 1500);
+        }
+
+        function resendOTP() {
+            showNotification('OTP sent successfully!', 'success');
+        }
+
+        // Notification function
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
