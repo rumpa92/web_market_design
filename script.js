@@ -2952,6 +2952,93 @@ const subcategoryItems = {
             category: 'BAGS',
             rating: '★★★★★'
         }
+    ],
+    'Casual Wear': [
+        {
+            id: 'casual1',
+            title: 'Cotton T-Shirt',
+            price: '$29',
+            originalPrice: '$39',
+            image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'CASUAL',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'casual2',
+            title: 'Casual Hoodie',
+            price: '$79',
+            originalPrice: '$99',
+            image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'CASUAL',
+            rating: '★★★★★'
+        },
+        {
+            id: 'casual3',
+            title: 'Casual Shorts',
+            price: '$49',
+            originalPrice: '$65',
+            image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'CASUAL',
+            rating: '★★★★☆'
+        }
+    ],
+    'Outerwear': [
+        {
+            id: 'outer1',
+            title: 'Leather Jacket',
+            price: '$249',
+            originalPrice: '$319',
+            image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'OUTERWEAR',
+            rating: '★★★★★'
+        },
+        {
+            id: 'outer2',
+            title: 'Wool Coat',
+            price: '$199',
+            originalPrice: '$259',
+            image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'OUTERWEAR',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'outer3',
+            title: 'Winter Parka',
+            price: '$179',
+            originalPrice: '$229',
+            image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'OUTERWEAR',
+            rating: '★★★★★'
+        }
+    ],
+    'Activewear': [
+        {
+            id: 'active1',
+            title: 'Athletic Joggers',
+            price: '$69',
+            originalPrice: '$89',
+            image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'ACTIVEWEAR',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'active2',
+            title: 'Performance T-Shirt',
+            price: '$39',
+            originalPrice: '$49',
+            image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'ACTIVEWEAR',
+            rating: '★★★★★'
+        },
+        {
+            id: 'active3',
+            title: 'Athletic Shorts',
+            price: '$45',
+            originalPrice: '$59',
+            image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'ACTIVEWEAR',
+            rating: '★★★★☆'
+        }
     ]
 };
 
