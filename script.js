@@ -393,10 +393,9 @@ function searchProducts(searchTerm) {
 function handleCategoryClick(event) {
     const categoryTitle = event.currentTarget.querySelector('.category-title, .category-circle-title');
     const title = categoryTitle ? categoryTitle.textContent : 'Unknown';
-    showNotification(`Browsing ${title} category`, 'info');
 
-    // Add category filtering logic here
-    filterByCategory(title.toLowerCase());
+    // Navigate to category page with category parameter
+    navigateToCategory(title);
 
     // Add visual feedback
     event.currentTarget.style.transform = 'scale(0.95)';
@@ -405,9 +404,12 @@ function handleCategoryClick(event) {
     }, 150);
 }
 
-function filterByCategory(category) {
-    // This would typically navigate to a category page or filter products
-    console.log(`Filtering by category: ${category}`);
+function navigateToCategory(categoryName) {
+    // Store the selected category in sessionStorage for the category page
+    sessionStorage.setItem('selectedCategory', categoryName);
+
+    // Navigate to category page
+    window.location.href = `category.html?category=${encodeURIComponent(categoryName)}`;
 }
 
 // Mobile Menu Setup
