@@ -1163,6 +1163,11 @@ function setupAdvancedSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchSuggestions = document.getElementById('searchSuggestions');
 
+    // Exit early if elements don't exist
+    if (!searchInput || !searchSuggestions) {
+        return;
+    }
+
     const suggestions = [
         'Women\'s Dresses', 'Men\'s Jackets', 'Nike Sneakers', 'Zara Tops',
         'Designer Handbags', 'Summer Collection', 'Winter Coats', 'Formal Shoes',
@@ -1221,6 +1226,11 @@ function selectSuggestion(suggestion) {
 function setupVoiceSearch() {
     const voiceSearchBtn = document.getElementById('voiceSearchBtn');
     const searchInput = document.getElementById('searchInput');
+
+    // Exit early if elements don't exist
+    if (!voiceSearchBtn || !searchInput) {
+        return;
+    }
 
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3040,7 +3050,7 @@ const subcategoryItems = {
             originalPrice: '$89',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★★☆'
+            rating: '★★★���☆'
         },
         {
             id: 'active2',
