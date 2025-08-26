@@ -654,8 +654,28 @@ function handleSocialAuth(provider) {
 
 function updateUIForLoggedInUser() {
     const profileIcon = document.getElementById('profileIcon');
-    profileIcon.className = 'fas fa-user profile-icon';
-    profileIcon.style.color = '#4CAF50';
+
+    // Only update if the old profile icon exists (for backward compatibility)
+    if (profileIcon) {
+        profileIcon.className = 'fas fa-user profile-icon';
+        profileIcon.style.color = '#4CAF50';
+    }
+
+    // Update the new profile dropdown if it exists
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+        profileSection.classList.add('logged-in');
+        profileSection.classList.remove('guest');
+
+        // Update user name and email in dropdown
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const signInOutText = document.getElementById('signInOutText');
+
+        if (userName) userName.textContent = 'John Doe';
+        if (userEmail) userEmail.textContent = 'john.doe@stylehub.com';
+        if (signInOutText) signInOutText.textContent = 'Sign Out';
+    }
 }
 
 // Location Services
