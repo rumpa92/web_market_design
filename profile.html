@@ -89,7 +89,6 @@
                 <button class="back-button" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <span class="nav-title">My Profile</span>
             </div>
 
             <!-- Profile Title Section -->
@@ -134,19 +133,6 @@
 
             <!-- Profile Menu Cards -->
             <div class="profile-menu">
-                <div class="menu-card" onclick="navigateToPersonalInfo()">
-                    <div class="card-icon personal">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Personal Information</h3>
-                        <p>Update your name, email, phone, gender, and date of birth</p>
-                    </div>
-                    <div class="card-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-
                 <div class="menu-card" onclick="navigateToAddresses()">
                     <div class="card-icon address">
                         <i class="fas fa-map-marker-alt"></i>
@@ -262,12 +248,8 @@
         }
 
         // Navigation functions
-        function navigateToPersonalInfo() {
-            window.location.href = 'personal-info.html';
-        }
-
         function navigateToAddresses() {
-            showNotification('Opening Address Management...', 'info');
+            window.location.href = 'saved-addresses.html';
         }
 
         function accountSettings() {
