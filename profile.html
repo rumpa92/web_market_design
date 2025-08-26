@@ -199,7 +199,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="picture-options">
+                <!-- Loading State -->
+                <div id="photoLoadingState" class="photo-loading-state hidden">
+                    <div class="loading-spinner"></div>
+                    <p>Updating your profile picture...</p>
+                </div>
+
+                <!-- Error State -->
+                <div id="photoErrorState" class="photo-error-state hidden">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <p class="error-message">Failed to update profile picture. Please try again.</p>
+                    <button class="retry-btn" onclick="hidePhotoError()">Try Again</button>
+                </div>
+
+                <!-- Picture Options -->
+                <div id="pictureOptions" class="picture-options">
                     <button class="picture-option-btn" onclick="uploadNewPicture()">
                         <i class="fas fa-upload"></i>
                         Upload New Photo
@@ -212,6 +228,22 @@
                         <i class="fas fa-trash"></i>
                         Remove Photo
                     </button>
+                </div>
+
+                <!-- Hidden File Input -->
+                <input type="file" id="photoFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+
+                <!-- Camera Video Preview -->
+                <div id="cameraPreview" class="camera-preview hidden">
+                    <video id="cameraVideo" autoplay playsinline></video>
+                    <div class="camera-controls">
+                        <button class="camera-btn capture" onclick="capturePhoto()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <button class="camera-btn cancel" onclick="closeCameraPreview()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,27 +264,198 @@
             showNotification('Edit Profile feature coming soon!', 'info');
         }
 
+        let cameraStream = null;
+
         function editProfilePicture() {
+            resetModalState();
             document.getElementById('editPictureModal').classList.remove('hidden');
         }
 
         function closeEditPictureModal() {
+            stopCameraStream();
+            resetModalState();
             document.getElementById('editPictureModal').classList.add('hidden');
         }
 
-        function uploadNewPicture() {
-            showNotification('Photo upload feature coming soon!', 'info');
-            closeEditPictureModal();
+        function resetModalState() {
+            document.getElementById('photoLoadingState').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+            document.getElementById('cameraPreview').classList.add('hidden');
         }
 
-        function takePicture() {
-            showNotification('Camera feature coming soon!', 'info');
-            closeEditPictureModal();
+        function showPhotoLoading() {
+            document.getElementById('pictureOptions').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('photoLoadingState').classList.remove('hidden');
+        }
+
+        function showPhotoError(message = 'Failed to update profile picture. Please try again.') {
+            document.getElementById('pictureOptions').classList.add('hidden');
+            document.getElementById('photoLoadingState').classList.add('hidden');
+            document.getElementById('photoErrorState').classList.remove('hidden');
+            document.querySelector('.error-message').textContent = message;
+        }
+
+        function hidePhotoError() {
+            document.getElementById('photoErrorState').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+        }
+
+        function uploadNewPicture() {
+            document.getElementById('photoFileInput').click();
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showPhotoError('Please select a valid image file.');
+                return;
+            }
+
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showPhotoError('Image size must be less than 5MB.');
+                return;
+            }
+
+            showPhotoLoading();
+
+            // Simulate upload process with FileReader
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                setTimeout(() => {
+                    try {
+                        // Update profile picture
+                        const profilePicture = document.getElementById('profilePicture');
+                        profilePicture.src = e.target.result;
+
+                        // Store in localStorage for persistence
+                        localStorage.setItem('userProfilePicture', e.target.result);
+
+                        showNotification('Profile picture updated successfully!', 'success');
+                        closeEditPictureModal();
+                    } catch (error) {
+                        showPhotoError('Failed to process the image. Please try again.');
+                    }
+                }, 1500); // Simulate upload delay
+            };
+
+            reader.onerror = function() {
+                showPhotoError('Failed to read the image file.');
+            };
+
+            reader.readAsDataURL(file);
+
+            // Reset file input
+            event.target.value = '';
+        }
+
+        async function takePicture() {
+            try {
+                // Check if camera is supported
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showPhotoError('Camera access is not supported on this device.');
+                    return;
+                }
+
+                document.getElementById('pictureOptions').classList.add('hidden');
+                document.getElementById('cameraPreview').classList.remove('hidden');
+
+                // Request camera access
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    }
+                });
+
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = cameraStream;
+
+            } catch (error) {
+                console.error('Camera access error:', error);
+                if (error.name === 'NotAllowedError') {
+                    showPhotoError('Camera access denied. Please allow camera permission and try again.');
+                } else if (error.name === 'NotFoundError') {
+                    showPhotoError('No camera found on this device.');
+                } else {
+                    showPhotoError('Failed to access camera. Please try again.');
+                }
+            }
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw video frame to canvas
+            context.drawImage(video, 0, 0);
+
+            // Get image data
+            const imageDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+            showPhotoLoading();
+            stopCameraStream();
+
+            // Simulate processing delay
+            setTimeout(() => {
+                try {
+                    // Update profile picture
+                    const profilePicture = document.getElementById('profilePicture');
+                    profilePicture.src = imageDataUrl;
+
+                    // Store in localStorage for persistence
+                    localStorage.setItem('userProfilePicture', imageDataUrl);
+
+                    showNotification('Profile picture captured successfully!', 'success');
+                    closeEditPictureModal();
+                } catch (error) {
+                    showPhotoError('Failed to capture photo. Please try again.');
+                }
+            }, 1000);
+        }
+
+        function closeCameraPreview() {
+            stopCameraStream();
+            document.getElementById('cameraPreview').classList.add('hidden');
+            document.getElementById('pictureOptions').classList.remove('hidden');
+        }
+
+        function stopCameraStream() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
         }
 
         function removePicture() {
-            showNotification('Photo removed successfully!', 'success');
-            closeEditPictureModal();
+            showPhotoLoading();
+
+            setTimeout(() => {
+                try {
+                    // Reset to default avatar
+                    const profilePicture = document.getElementById('profilePicture');
+                    const defaultAvatar = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face';
+                    profilePicture.src = defaultAvatar;
+
+                    // Remove from localStorage
+                    localStorage.removeItem('userProfilePicture');
+
+                    showNotification('Profile picture removed successfully!', 'success');
+                    closeEditPictureModal();
+                } catch (error) {
+                    showPhotoError('Failed to remove profile picture. Please try again.');
+                }
+            }, 800);
         }
 
         function navigateToSection(section) {
