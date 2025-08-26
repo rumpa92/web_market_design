@@ -329,23 +329,185 @@ function updateCartBadge() {
 }
 
 function showCartSummary() {
+    openCartModal();
+}
+
+function openCartModal() {
+    const cartModal = document.getElementById('cartModal');
+    const cartItems = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartSummary = document.getElementById('cartSummary');
+
+    cartModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Load cart data
     const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-    
+
     if (cart.length === 0) {
-        showNotification('Your cart is empty. Add some items!', 'info');
-        return;
+        cartItems.style.display = 'none';
+        cartEmpty.classList.remove('hidden');
+        cartSummary.style.display = 'none';
+    } else {
+        cartItems.style.display = 'block';
+        cartEmpty.classList.add('hidden');
+        cartSummary.style.display = 'block';
+
+        // Display cart items
+        displayCartItems(cart);
+        updateCartSummary(cart);
     }
-    
-    const total = cart.reduce((sum, item) => {
+
+    // Setup cart modal event listeners
+    setupCartModalListeners();
+}
+
+function closeCartModal() {
+    const cartModal = document.getElementById('cartModal');
+    cartModal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function displayCartItems(cart) {
+    const cartItems = document.getElementById('cartItems');
+    cartItems.innerHTML = '';
+
+    cart.forEach((item, index) => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.title}">
+            </div>
+            <div class="cart-item-details">
+                <h3 class="item-title">${item.title}</h3>
+                <div class="item-options">
+                    <span class="item-size">Size: ${item.selectedSize}</span>
+                    <span class="item-color">Color: ${item.selectedColor}</span>
+                </div>
+                <div class="item-controls">
+                    <div class="quantity-controls">
+                        <button class="qty-btn decrease" onclick="updateCartItemQuantity(${index}, -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="qty-btn increase" onclick="updateCartItemQuantity(${index}, 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <button class="remove-item" onclick="removeCartItem(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cart-item-price">
+                <span class="item-price">${item.price}</span>
+                <span class="item-original-price">${item.price} each</span>
+            </div>
+        `;
+        cartItems.appendChild(cartItem);
+    });
+}
+
+function updateCartSummary(cart) {
+    const subtotal = cart.reduce((sum, item) => {
         const price = parseFloat(item.price.replace('$', ''));
         return sum + (price * item.quantity);
     }, 0);
-    
-    const cartItems = cart.map(item => 
-        `${item.title} (${item.quantity}x) - ${item.price}`
-    ).join('\\n');
-    
-    showNotification(`Cart Items:\\n${cartItems}\\n\\nTotal: $${total.toFixed(2)}`, 'success');
+
+    const shipping = cart.length > 0 ? 9.99 : 0;
+    const tax = subtotal * 0.08; // 8% tax
+    const total = subtotal + shipping + tax;
+
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    document.getElementById('itemCount').textContent = `(${totalItems} items)`;
+    document.getElementById('subtotalValue').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('taxValue').textContent = `$${tax.toFixed(2)}`;
+    document.getElementById('totalValue').textContent = `$${total.toFixed(2)}`;
+
+    // Update shipping
+    const shippingElement = document.querySelector('.shipping-value');
+    shippingElement.textContent = cart.length > 0 ? '$9.99' : '$0.00';
+}
+
+function setupCartModalListeners() {
+    const closeCart = document.getElementById('closeCart');
+    const continueShopping = document.getElementById('continueShopping');
+    const proceedCheckout = document.getElementById('proceedCheckout');
+    const cartModal = document.getElementById('cartModal');
+
+    // Close modal events
+    closeCart.addEventListener('click', closeCartModal);
+    continueShopping.addEventListener('click', closeCartModal);
+
+    // Close on overlay click
+    cartModal.addEventListener('click', (e) => {
+        if (e.target.classList.contains('cart-modal-overlay')) {
+            closeCartModal();
+        }
+    });
+
+    // Proceed to checkout
+    proceedCheckout.addEventListener('click', () => {
+        const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+        if (cart.length === 0) {
+            showNotification('Your cart is empty!', 'info');
+            return;
+        }
+
+        showNotification('Redirecting to checkout...', 'info');
+        setTimeout(() => {
+            window.location.href = 'checkout.html';
+        }, 1000);
+    });
+}
+
+function updateCartItemQuantity(index, change) {
+    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+
+    if (cart[index]) {
+        cart[index].quantity += change;
+
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+
+        localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+        // Refresh cart display
+        if (cart.length === 0) {
+            closeCartModal();
+            openCartModal();
+        } else {
+            displayCartItems(cart);
+            updateCartSummary(cart);
+        }
+
+        updateCartBadge();
+    }
+}
+
+function removeCartItem(index) {
+    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+
+    if (cart[index]) {
+        const itemName = cart[index].title;
+        cart.splice(index, 1);
+        localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+        // Refresh cart display
+        if (cart.length === 0) {
+            closeCartModal();
+            openCartModal();
+        } else {
+            displayCartItems(cart);
+            updateCartSummary(cart);
+        }
+
+        updateCartBadge();
+        showNotification(`${itemName} removed from cart`, 'info');
+    }
 }
 
 function showNotification(message, type = 'info') {
