@@ -1713,8 +1713,8 @@ function handleDropdownItemClick(item) {
     switch(itemId) {
         case 'myProfile':
             showNotification('Opening My Profile...', 'info');
-            // Navigate to profile page or show profile modal
-            showProfileModal();
+            // Navigate to profile page
+            window.location.href = 'profile.html';
             break;
 
         case 'myOrders':
@@ -1867,7 +1867,7 @@ function showOrdersModal() {
                     <div class="order-details">
                         <h3>Traditional Salwar Kameez Set</h3>
                         <p>Order #12345 • Delivered on Dec 15, 2024</p>
-                        <p class="order-price">₹2,499</p>
+                        <p class="order-price">���2,499</p>
                     </div>
                     <div class="order-actions">
                         <button class="order-action-btn">Track Order</button>
@@ -3108,7 +3108,7 @@ const subcategoryItems = {
             originalPrice: '$319',
             image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★★★'
+            rating: '★★★��★'
         },
         {
             id: 'outer2',
