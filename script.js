@@ -2833,6 +2833,46 @@ const subcategoryItems = {
             image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=800',
             category: 'MEN FASHION',
             rating: '★★★★★'
+        },
+        {
+            id: 'shirt3',
+            title: 'Formal Business Shirt',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Pants & Jeans': [
+        {
+            id: 'pants1',
+            title: 'Classic Denim Jeans',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'pants2',
+            title: 'Formal Dress Pants',
+            price: '$95',
+            originalPrice: '$130',
+            image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Suits & Blazers': [
+        {
+            id: 'suit1',
+            title: 'Premium Business Suit',
+            price: '$299',
+            originalPrice: '$399',
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
         }
     ],
     'Jewelry': [
