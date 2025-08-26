@@ -1490,6 +1490,488 @@ function setupEnhancedFilters() {
     }
 }
 
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    // Initialize user status
+    updateUserStatus('online');
+
+    // Toggle dropdown on click
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfileDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!profileTrigger.contains(e.target) && !profileDropdown.contains(e.target)) {
+            closeProfileDropdown();
+        }
+    });
+
+    // Handle dropdown menu items
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDropdownItemClick(item);
+        });
+    });
+
+    // Simulate status changes every 30 seconds for demo
+    setInterval(() => {
+        const statuses = ['online', 'away', 'busy'];
+        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        updateUserStatus(randomStatus);
+    }, 30000);
+}
+
+function toggleProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    const isOpen = profileDropdown.classList.contains('show');
+
+    if (isOpen) {
+        closeProfileDropdown();
+    } else {
+        openProfileDropdown();
+    }
+}
+
+function openProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.add('active');
+    profileDropdown.classList.add('show');
+    profileArrow.style.transform = 'rotate(180deg)';
+
+    // Add animation delay for menu items
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+            item.style.transition = 'all 0.3s ease';
+        }, index * 50);
+    });
+}
+
+function closeProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.remove('active');
+    profileDropdown.classList.remove('show');
+    profileArrow.style.transform = 'rotate(0deg)';
+
+    // Reset menu items animation
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach(item => {
+        item.style.opacity = '';
+        item.style.transform = '';
+        item.style.transition = '';
+    });
+}
+
+function updateUserStatus(status) {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    // Remove all status classes
+    statusIndicator.className = 'status-indicator';
+    onlineStatus.className = 'online-status';
+
+    // Add new status class
+    if (status !== 'online') {
+        statusIndicator.classList.add(status);
+        onlineStatus.classList.add(status);
+    }
+
+    // Update status text
+    const statusTexts = {
+        'online': 'Online',
+        'away': 'Away',
+        'busy': 'Busy',
+        'offline': 'Offline'
+    };
+
+    statusText.textContent = statusTexts[status] || 'Online';
+    onlineStatus.title = statusTexts[status] || 'Online';
+
+    // Show notification when status changes
+    if (status !== 'online') {
+        showNotification(`Status changed to ${statusTexts[status]}`, 'info');
+    }
+}
+
+function handleDropdownItemClick(item) {
+    const itemId = item.id;
+    const itemText = item.querySelector('span').textContent;
+
+    switch(itemId) {
+        case 'myProfile':
+            showNotification('Opening My Profile...', 'info');
+            // Navigate to profile page or show profile modal
+            showProfileModal();
+            break;
+
+        case 'myOrders':
+            showNotification('Opening My Orders...', 'info');
+            // Navigate to orders page
+            showOrdersModal();
+            break;
+
+        case 'myWishlist':
+            showNotification('Opening My Wishlist...', 'info');
+            showWishlistSummary();
+            break;
+
+        case 'accountSettings':
+            showNotification('Opening Account Settings...', 'info');
+            showAccountSettingsModal();
+            break;
+
+        case 'helpSupport':
+            showNotification('Opening Help & Support...', 'info');
+            showHelpModal();
+            break;
+
+        case 'signInOut':
+            const signInOutText = document.getElementById('signInOutText');
+            if (signInOutText.textContent === 'Sign Out') {
+                handleSignOut();
+            } else {
+                showNotification('Please sign in to access your account', 'info');
+                // Show auth modal
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+            break;
+
+        default:
+            showNotification(`${itemText} clicked`, 'info');
+            break;
+    }
+
+    // Close dropdown after item click
+    closeProfileDropdown();
+
+    // Add click feedback animation
+    item.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        item.style.transform = '';
+    }, 150);
+}
+
+function showProfileModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.innerHTML = `
+        <div class="profile-modal-content">
+            <span class="close-profile-modal">&times;</span>
+            <div class="profile-modal-header">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Profile" class="profile-modal-avatar">
+                <h2>Sarah Johnson</h2>
+                <p>sarah.johnson@stylehub.com</p>
+                <div class="profile-status-selector">
+                    <label>Status:</label>
+                    <select id="statusSelector">
+                        <option value="online">Online</option>
+                        <option value="away">Away</option>
+                        <option value="busy">Busy</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">23</span>
+                        <span class="stat-label">Orders</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">45</span>
+                        <span class="stat-label">Wishlist Items</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">₹25,680</span>
+                        <span class="stat-label">Total Spent</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="profile-action-btn">Edit Profile</button>
+                    <button class="profile-action-btn">Change Password</button>
+                    <button class="profile-action-btn">Privacy Settings</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Style the modal
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '10000'
+    });
+
+    document.body.appendChild(modal);
+
+    // Close functionality
+    const closeBtn = modal.querySelector('.close-profile-modal');
+    closeBtn.addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+
+    // Status selector functionality
+    const statusSelector = modal.querySelector('#statusSelector');
+    statusSelector.addEventListener('change', (e) => {
+        updateUserStatus(e.target.value);
+        showNotification(`Status updated to ${e.target.options[e.target.selectedIndex].text}`, 'success');
+    });
+
+    // Profile action buttons
+    const actionBtns = modal.querySelectorAll('.profile-action-btn');
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            showNotification(`${btn.textContent} - Coming Soon!`, 'info');
+        });
+    });
+}
+
+function showOrdersModal() {
+    const modal = document.createElement('div');
+    modal.className = 'orders-modal';
+    modal.innerHTML = `
+        <div class="orders-modal-content">
+            <span class="close-orders-modal">&times;</span>
+            <h2>My Orders</h2>
+            <div class="orders-list">
+                <div class="order-item">
+                    <div class="order-image">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Order">
+                    </div>
+                    <div class="order-details">
+                        <h3>Traditional Salwar Kameez Set</h3>
+                        <p>Order #12345 • Delivered on Dec 15, 2024</p>
+                        <p class="order-price">₹2,499</p>
+                    </div>
+                    <div class="order-actions">
+                        <button class="order-action-btn">Track Order</button>
+                        <button class="order-action-btn">Reorder</button>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-image">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Order">
+                    </div>
+                    <div class="order-details">
+                        <h3>Designer Anarkali Gown</h3>
+                        <p>Order #12344 • In Transit</p>
+                        <p class="order-price">₹3,999</p>
+                    </div>
+                    <div class="order-actions">
+                        <button class="order-action-btn primary">Track Order</button>
+                        <button class="order-action-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+}
+
+function showAccountSettingsModal() {
+    const modal = document.createElement('div');
+    modal.className = 'settings-modal';
+    modal.innerHTML = `
+        <div class="settings-modal-content">
+            <span class="close-settings-modal">&times;</span>
+            <h2>Account Settings</h2>
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h3>Personal Information</h3>
+                    <div class="settings-item">
+                        <label>Full Name</label>
+                        <input type="text" value="Sarah Johnson" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Email</label>
+                        <input type="email" value="sarah.johnson@stylehub.com" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Phone</label>
+                        <input type="tel" value="+1 (555) 123-4567" />
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Preferences</h3>
+                    <div class="settings-item">
+                        <label>Email Notifications</label>
+                        <input type="checkbox" checked />
+                    </div>
+                    <div class="settings-item">
+                        <label>SMS Notifications</label>
+                        <input type="checkbox" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Marketing Emails</label>
+                        <input type="checkbox" checked />
+                    </div>
+                </div>
+            </div>
+            <div class="settings-actions">
+                <button class="settings-action-btn primary">Save Changes</button>
+                <button class="settings-action-btn">Cancel</button>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+}
+
+function showHelpModal() {
+    const modal = document.createElement('div');
+    modal.className = 'help-modal';
+    modal.innerHTML = `
+        <div class="help-modal-content">
+            <span class="close-help-modal">&times;</span>
+            <h2>Help & Support</h2>
+            <div class="help-sections">
+                <div class="help-section">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-item">
+                        <button class="faq-question">How do I track my order?</button>
+                        <div class="faq-answer">You can track your order in the "My Orders" section or using the tracking link sent to your email.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">What is your return policy?</button>
+                        <div class="faq-answer">We offer 30-day returns for unworn items with original tags.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">How do I change my password?</button>
+                        <div class="faq-answer">Go to Account Settings and click on "Change Password".</div>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>Contact Support</h3>
+                    <div class="contact-options">
+                        <button class="contact-btn">
+                            <i class="fas fa-phone"></i>
+                            Call Us: 1-800-STYLE-HUB
+                        </button>
+                        <button class="contact-btn">
+                            <i class="fas fa-envelope"></i>
+                            Email: support@stylehub.com
+                        </button>
+                        <button class="contact-btn">
+                            <i class="fas fa-comments"></i>
+                            Live Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+
+    // FAQ functionality
+    const faqQuestions = modal.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+}
+
+function showModal(modal) {
+    // Style the modal
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '10000',
+        opacity: '0',
+        transition: 'opacity 0.3s ease'
+    });
+
+    document.body.appendChild(modal);
+
+    // Animate in
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+
+    // Close functionality
+    const closeBtn = modal.querySelector('[class*="close-"]');
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(modal);
+        }, 300);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(modal);
+            }, 300);
+        }
+    });
+}
+
+function handleSignOut() {
+    showNotification('Signing out...', 'info');
+
+    setTimeout(() => {
+        // Reset user data
+        document.getElementById('userName').textContent = 'Guest User';
+        document.getElementById('userEmail').textContent = 'guest@stylehub.com';
+        document.getElementById('signInOutText').textContent = 'Sign In';
+        updateUserStatus('offline');
+
+        showNotification('Successfully signed out!', 'success');
+        closeProfileDropdown();
+    }, 1000);
+}
+
 // Enhanced Category Circle Functionality
 function setupEnhancedCategories() {
     const categoryCards = document.querySelectorAll('.category-circle-card');
