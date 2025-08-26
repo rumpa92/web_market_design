@@ -5727,6 +5727,177 @@ body {
     box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
 }
 
+/* Responsive Design for New Profile Pages */
+@media (max-width: 768px) {
+    .edit-profile-main,
+    .personal-info-main,
+    .saved-addresses-main {
+        padding: 1rem 0;
+    }
+
+    .edit-section,
+    .info-card,
+    .edit-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-button,
+    .save-changes-button {
+        width: 100%;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .address-type-group {
+        justify-content: center;
+    }
+
+    .address-type-custom {
+        min-width: 70px;
+        padding: 0.75rem;
+    }
+
+    .info-item {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .info-label {
+        min-width: auto;
+    }
+
+    .address-card {
+        padding: 1rem;
+    }
+
+    .address-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .address-actions {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .otp-input-group {
+        gap: 0.25rem;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .address-modal {
+        padding: 0.5rem;
+    }
+
+    .address-modal .modal-content {
+        max-height: 95vh;
+    }
+
+    .address-form {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-page-title {
+        font-size: 1.2rem;
+    }
+
+    .save-button,
+    .edit-button,
+    .add-address-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .edit-section,
+    .info-card,
+    .edit-card {
+        padding: 1rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .form-input,
+    .form-select {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .address-type-custom {
+        min-width: 60px;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .address-actions {
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.3rem;
+    }
+
+    .add-first-address-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .otp-input {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .delete-actions {
+        flex-direction: column;
+    }
+
+    .cancel-delete-btn,
+    .confirm-delete-btn {
+        width: 100%;
+    }
+}
+
 /* Responsive Design for Profile Page */
 @media (max-width: 768px) {
     .profile-main {
