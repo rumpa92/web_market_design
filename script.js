@@ -1094,7 +1094,7 @@ function updateTrendingStats() {
             const newSales = currentSales + Math.floor(Math.random() * 3);
 
             viewsElement.textContent = `👁️ ${newViews.toLocaleString()} views`;
-            salesElement.textContent = `💫 ${newSales} sold today`;
+            salesElement.textContent = `��� ${newSales} sold today`;
         }
     });
 }
@@ -2143,4 +2143,326 @@ function updateUIForLoggedInUser() {
         profileIcon.className = 'fas fa-user profile-icon';
         profileIcon.style.color = '#4CAF50';
     }
+}
+
+// Newsletter functionality
+function setupNewsletterForm() {
+    const newsletterForm = document.querySelector('.newsletter-form');
+    const newsletterInput = document.querySelector('.newsletter-input');
+    const newsletterButton = document.querySelector('.newsletter-button');
+
+    if (newsletterButton && newsletterInput) {
+        newsletterButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = newsletterInput.value.trim();
+
+            if (validateEmail(email)) {
+                showNotification('Successfully subscribed to newsletter!', 'success');
+                newsletterInput.value = '';
+
+                // Add animation
+                newsletterButton.style.background = '#4CAF50';
+                newsletterButton.textContent = 'Subscribed!';
+
+                setTimeout(() => {
+                    newsletterButton.style.background = '';
+                    newsletterButton.textContent = 'Subscribe';
+                }, 2000);
+            } else {
+                showNotification('Please enter a valid email address', 'error');
+            }
+        });
+
+        // Allow enter key submission
+        newsletterInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                newsletterButton.click();
+            }
+        });
+    }
+}
+
+// Cart modal functionality
+function showCartSummary() {
+    const cartModal = document.getElementById('cartModal');
+    const cartItems = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+
+    if (!cartModal) return;
+
+    if (cart.length === 0) {
+        cartItems.style.display = 'none';
+        cartEmpty.classList.remove('hidden');
+    } else {
+        cartEmpty.classList.add('hidden');
+        cartItems.style.display = 'block';
+        updateCartModalItems();
+    }
+
+    cartModal.classList.remove('hidden');
+}
+
+function updateCartModalItems() {
+    const cartItemsContainer = document.getElementById('cartItems');
+    if (!cartItemsContainer) return;
+
+    cartItemsContainer.innerHTML = cart.map(item => `
+        <div class="cart-item" data-id="${item.id}">
+            <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.title}">
+            </div>
+            <div class="cart-item-details">
+                <h3 class="item-title">${item.title}</h3>
+                <p class="item-brand">StyleHub</p>
+                <div class="item-options">
+                    <span class="item-size">Size: M</span>
+                    <span class="item-color">Color: Black</span>
+                </div>
+                <div class="item-controls">
+                    <div class="quantity-controls">
+                        <button class="qty-btn decrease" onclick="updateCartQuantity('${item.id}', -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="qty-btn increase" onclick="updateCartQuantity('${item.id}', 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cart-item-price">
+                <span class="item-price">${item.price}</span>
+            </div>
+        </div>
+    `).join('');
+
+    updateCartSummary();
+}
+
+function updateCartQuantity(itemId, change) {
+    const item = cart.find(item => item.id.toString() === itemId.toString());
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(itemId);
+        } else {
+            updateCartModalItems();
+            updateCartCount();
+            saveCartToStorage();
+        }
+    }
+}
+
+function removeFromCart(itemId) {
+    cart = cart.filter(item => item.id.toString() !== itemId.toString());
+    updateCartModalItems();
+    updateCartCount();
+    saveCartToStorage();
+    showNotification('Item removed from cart', 'info');
+}
+
+function updateCartSummary() {
+    const subtotal = cart.reduce((total, item) => {
+        const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+        return total + (price * item.quantity);
+    }, 0);
+
+    const shipping = subtotal > 50 ? 0 : 9.99;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
+
+    const summaryElements = {
+        subtotal: document.querySelector('.summary-row .summary-value'),
+        shipping: document.querySelector('.shipping-value'),
+        tax: document.querySelector('.tax-value'),
+        total: document.querySelector('.total-value'),
+        itemCount: document.querySelector('.item-count')
+    };
+
+    if (summaryElements.subtotal) summaryElements.subtotal.textContent = `$${subtotal.toFixed(2)}`;
+    if (summaryElements.shipping) summaryElements.shipping.textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+    if (summaryElements.tax) summaryElements.tax.textContent = `$${tax.toFixed(2)}`;
+    if (summaryElements.total) summaryElements.total.textContent = `$${total.toFixed(2)}`;
+    if (summaryElements.itemCount) summaryElements.itemCount.textContent = `(${cart.reduce((sum, item) => sum + item.quantity, 0)} items)`;
+}
+
+// Setup cart modal event listeners
+function setupCartModal() {
+    const cartIcon = document.querySelector('.cart-icon-container');
+    const cartModal = document.getElementById('cartModal');
+    const closeCart = document.getElementById('closeCart');
+    const continueShopping = document.getElementById('continueShopping');
+    const proceedCheckout = document.getElementById('proceedCheckout');
+
+    if (cartIcon) {
+        cartIcon.addEventListener('click', showCartSummary);
+    }
+
+    if (closeCart) {
+        closeCart.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+        });
+    }
+
+    if (continueShopping) {
+        continueShopping.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+        });
+    }
+
+    if (proceedCheckout) {
+        proceedCheckout.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        });
+    }
+
+    // Close modal when clicking outside
+    if (cartModal) {
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal || e.target.classList.contains('cart-modal-overlay')) {
+                cartModal.classList.add('hidden');
+            }
+        });
+    }
+}
+
+// Hero slider functionality
+function setupHeroSlider() {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+    const totalSlides = slides.length;
+
+    if (totalSlides === 0) return;
+
+    // Auto-advance slides
+    setInterval(() => {
+        changeSlide(1);
+    }, 5000);
+
+    // Initialize first slide
+    showSlide(0);
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+    let currentSlide = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+
+    // Remove active class from current slide and dot
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    // Calculate next slide
+    currentSlide += direction;
+    if (currentSlide >= slides.length) currentSlide = 0;
+    if (currentSlide < 0) currentSlide = slides.length - 1;
+
+    // Add active class to new slide and dot
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+function currentSlide(n) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    // Remove active from all
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    // Add active to selected
+    slides[n - 1].classList.add('active');
+    dots[n - 1].classList.add('active');
+}
+
+function showSlide(n) {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    if (slides[n]) slides[n].classList.add('active');
+    if (dots[n]) dots[n].classList.add('active');
+}
+
+// Initialize cart modal when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setupCartModal();
+    setupEnhancedFilters();
+});
+
+// Product navigation
+function setupProductNavigation() {
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+
+    productCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Only navigate if not clicking on action buttons
+            if (!e.target.closest('.add-to-cart-btn, .wishlist-btn, .quick-view-btn, .modern-add-to-cart, .modern-wishlist-btn, .colorful-add-to-cart, .colorful-wishlist-btn')) {
+                const productData = extractProductData(card);
+                navigateToProductDetail(productData);
+            }
+        });
+    });
+}
+
+function navigateToProductDetail(product) {
+    const productParam = encodeURIComponent(JSON.stringify({
+        title: product.title,
+        price: product.price,
+        image: product.image
+    }));
+    window.location.href = `product-detail.html?product=${productParam}`;
+}
+
+function showWishlistSummary() {
+    if (wishlist.length === 0) {
+        showNotification('Your wishlist is empty. Add some favorites!', 'info');
+        return;
+    }
+
+    const wishlistItems = wishlist.map(item => `
+        <div style="padding: 10px; border-bottom: 1px solid #eee;">
+            <strong>${item.title}</strong><br>
+            <span>${item.price}</span>
+        </div>
+    `).join('');
+
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5); display: flex; align-items: center;
+        justify-content: center; z-index: 10000;
+    `;
+
+    modal.innerHTML = `
+        <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 90%;">
+            <h3>Your Wishlist (${wishlist.length} items)</h3>
+            <div style="max-height: 300px; overflow-y: auto;">
+                ${wishlistItems}
+            </div>
+            <button onclick="this.closest('.modal').remove()"
+                    style="margin-top: 1rem; padding: 0.5rem 1rem; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Close
+            </button>
+        </div>
+    `;
+
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
 }
