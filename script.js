@@ -2689,3 +2689,360 @@ function showWishlistSummary() {
         }
     });
 }
+
+// Category Page Data and Functionality
+const categoryData = {
+    'Women': {
+        subcategories: [
+            { name: 'Dresses', icon: 'fas fa-tshirt', count: 125 },
+            { name: 'Tops & Blouses', icon: 'fas fa-vest', count: 89 },
+            { name: 'Bottoms', icon: 'fas fa-user-tie', count: 67 },
+            { name: 'Outerwear', icon: 'fas fa-jacket', count: 45 },
+            { name: 'Lingerie', icon: 'fas fa-heart', count: 34 },
+            { name: 'Activewear', icon: 'fas fa-running', count: 28 }
+        ]
+    },
+    'Men': {
+        subcategories: [
+            { name: 'Shirts', icon: 'fas fa-tshirt', count: 98 },
+            { name: 'Pants & Jeans', icon: 'fas fa-user-tie', count: 76 },
+            { name: 'Suits & Blazers', icon: 'fas fa-user-suit', count: 54 },
+            { name: 'Casual Wear', icon: 'fas fa-vest', count: 43 },
+            { name: 'Outerwear', icon: 'fas fa-jacket', count: 32 },
+            { name: 'Activewear', icon: 'fas fa-running', count: 29 }
+        ]
+    },
+    'Accessories': {
+        subcategories: [
+            { name: 'Jewelry', icon: 'fas fa-gem', count: 156 },
+            { name: 'Watches', icon: 'fas fa-clock', count: 87 },
+            { name: 'Belts', icon: 'fas fa-circle', count: 45 },
+            { name: 'Scarves', icon: 'fas fa-wind', count: 38 },
+            { name: 'Sunglasses', icon: 'fas fa-glasses', count: 67 },
+            { name: 'Hats', icon: 'fas fa-hat-cowboy', count: 23 }
+        ]
+    },
+    'Shoes': {
+        subcategories: [
+            { name: 'Sneakers', icon: 'fas fa-shoe-prints', count: 134 },
+            { name: 'Heels', icon: 'fas fa-high-heel', count: 89 },
+            { name: 'Boots', icon: 'fas fa-hiking', count: 76 },
+            { name: 'Flats', icon: 'fas fa-shoe-prints', count: 54 },
+            { name: 'Sandals', icon: 'fas fa-flip-flops', count: 43 },
+            { name: 'Athletic', icon: 'fas fa-running', count: 65 }
+        ]
+    },
+    'Bags': {
+        subcategories: [
+            { name: 'Handbags', icon: 'fas fa-shopping-bag', count: 98 },
+            { name: 'Backpacks', icon: 'fas fa-backpack', count: 67 },
+            { name: 'Clutches', icon: 'fas fa-wallet', count: 45 },
+            { name: 'Totes', icon: 'fas fa-shopping-basket', count: 54 },
+            { name: 'Crossbody', icon: 'fas fa-suitcase', count: 43 },
+            { name: 'Travel Bags', icon: 'fas fa-luggage-cart', count: 32 }
+        ]
+    },
+    'Jewelry': {
+        subcategories: [
+            { name: 'Necklaces', icon: 'fas fa-circle-notch', count: 89 },
+            { name: 'Earrings', icon: 'fas fa-dot-circle', count: 76 },
+            { name: 'Rings', icon: 'fas fa-ring', count: 65 },
+            { name: 'Bracelets', icon: 'fas fa-circle', count: 54 },
+            { name: 'Brooches', icon: 'fas fa-star', count: 23 },
+            { name: 'Sets', icon: 'fas fa-gem', count: 34 }
+        ]
+    }
+};
+
+// Sample items data for subcategories
+const subcategoryItems = {
+    'Dresses': [
+        {
+            id: 'dress1',
+            title: 'Elegant Evening Dress',
+            price: '$189',
+            originalPrice: '$250',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'dress2',
+            title: 'Casual Summer Dress',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'dress3',
+            title: 'Floral Maxi Dress',
+            price: '$129',
+            originalPrice: '$180',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Shirts': [
+        {
+            id: 'shirt1',
+            title: 'Premium Cotton Shirt',
+            price: '$75',
+            originalPrice: '$95',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=800',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'shirt2',
+            title: 'Casual Linen Shirt',
+            price: '$65',
+            originalPrice: '$85',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=800',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Jewelry': [
+        {
+            id: 'jewelry1',
+            title: 'Diamond Necklace',
+            price: '$599',
+            originalPrice: '$799',
+            image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'JEWELRY',
+            rating: '★★★★★'
+        }
+    ],
+    'Sneakers': [
+        {
+            id: 'sneaker1',
+            title: 'Athletic Running Shoes',
+            price: '$120',
+            originalPrice: '$150',
+            image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'SHOES',
+            rating: '★★★★☆'
+        }
+    ],
+    'Handbags': [
+        {
+            id: 'bag1',
+            title: 'Designer Leather Handbag',
+            price: '$299',
+            originalPrice: '$399',
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'BAGS',
+            rating: '★★★★★'
+        }
+    ]
+};
+
+// Initialize category page
+function initializeCategoryPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Categories';
+
+    updatePageTitle(currentCategory);
+    updateBreadcrumb(currentCategory);
+    loadSubcategories(currentCategory);
+    setupProfileDropdown();
+    setupCartModal();
+}
+
+// Update page title and header
+function updatePageTitle(category) {
+    const pageTitle = document.getElementById('categoryPageTitle');
+    if (pageTitle) {
+        pageTitle.textContent = category;
+    }
+    document.title = `${category} - StyleHub`;
+}
+
+// Update breadcrumb navigation
+function updateBreadcrumb(category) {
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+    if (breadcrumbCurrent) {
+        breadcrumbCurrent.textContent = category;
+    }
+}
+
+// Load subcategories for the selected category
+function loadSubcategories(category) {
+    const subcategoriesGrid = document.getElementById('subcategoriesGrid');
+    const subcategoriesSection = document.getElementById('subcategoriesSection');
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+
+    if (!subcategoriesGrid) return;
+
+    // Show subcategories section, hide items section
+    if (subcategoriesSection) subcategoriesSection.classList.remove('hidden');
+    if (categoryItemsSection) categoryItemsSection.classList.add('hidden');
+
+    const categoryInfo = categoryData[category];
+    if (!categoryInfo) {
+        subcategoriesGrid.innerHTML = '<p>No subcategories found for this category.</p>';
+        return;
+    }
+
+    subcategoriesGrid.innerHTML = categoryInfo.subcategories.map(subcategory => `
+        <div class="subcategory-card" onclick="loadCategoryItems('${subcategory.name}')">
+            <div class="subcategory-icon">
+                <i class="${subcategory.icon}"></i>
+            </div>
+            <h3 class="subcategory-title">${subcategory.name}</h3>
+            <p class="subcategory-count">${subcategory.count} items</p>
+        </div>
+    `).join('');
+}
+
+// Load items for a specific subcategory
+function loadCategoryItems(subcategory) {
+    const subcategoriesSection = document.getElementById('subcategoriesSection');
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+    const itemsSectionTitle = document.getElementById('itemsSectionTitle');
+    const categoryItemsGrid = document.getElementById('categoryItemsGrid');
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+    // Update breadcrumb to show subcategory
+    if (breadcrumbCurrent) {
+        breadcrumbCurrent.textContent = subcategory;
+    }
+
+    // Update section title
+    if (itemsSectionTitle) {
+        itemsSectionTitle.textContent = subcategory;
+    }
+
+    // Hide subcategories, show items
+    if (subcategoriesSection) subcategoriesSection.classList.add('hidden');
+    if (categoryItemsSection) categoryItemsSection.classList.remove('hidden');
+
+    // Load items for this subcategory
+    const items = subcategoryItems[subcategory] || [];
+
+    if (items.length === 0) {
+        categoryItemsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <h3>Coming Soon</h3>
+                <p>Items for ${subcategory} will be available soon.</p>
+                <button class="back-btn" onclick="goBackToSubcategories()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Categories</span>
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    categoryItemsGrid.innerHTML = items.map(item => `
+        <div class="colorful-product-card purple-bg">
+            <div class="product-category-tag">${item.category}</div>
+            <div class="colorful-product-image">
+                <img src="${item.image}" alt="${item.title}" class="colorful-product-img">
+                <button class="colorful-wishlist-btn" onclick="addToWishlistFromCategory('${item.id}')">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="colorful-product-info">
+                <h3 class="colorful-product-title">${item.title}</h3>
+                <div class="product-rating">
+                    <span class="stars">${item.rating}</span>
+                </div>
+                <div class="colorful-product-price">
+                    <span class="current-price">${item.price}</span>
+                    ${item.originalPrice ? `<span class="original-price">${item.originalPrice}</span>` : ''}
+                </div>
+                <button class="colorful-add-to-cart" onclick="addToCartFromCategory('${item.id}')">Add to cart</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Store current subcategory for back navigation
+    sessionStorage.setItem('currentSubcategory', subcategory);
+}
+
+// Go back to subcategories view
+function goBackToSubcategories() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCategory = urlParams.get('category') || sessionStorage.getItem('selectedCategory') || 'Categories';
+
+    updateBreadcrumb(currentCategory);
+    loadSubcategories(currentCategory);
+}
+
+// Back button functionality
+function goBack() {
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+
+    // If we're viewing items, go back to subcategories
+    if (categoryItemsSection && !categoryItemsSection.classList.contains('hidden')) {
+        goBackToSubcategories();
+        return;
+    }
+
+    // Otherwise, go back to home page
+    window.location.href = 'index.html';
+}
+
+// Add to cart functionality for category items
+function addToCartFromCategory(itemId) {
+    // Find the item data
+    let item = null;
+    for (const subcategory in subcategoryItems) {
+        const found = subcategoryItems[subcategory].find(i => i.id === itemId);
+        if (found) {
+            item = found;
+            break;
+        }
+    }
+
+    if (item) {
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                image: item.image,
+                quantity: 1
+            });
+        }
+        updateCartCount();
+        saveCartToStorage();
+        showNotification(`${item.title} added to cart!`, 'success');
+    }
+}
+
+// Add to wishlist functionality for category items
+function addToWishlistFromCategory(itemId) {
+    // Find the item data
+    let item = null;
+    for (const subcategory in subcategoryItems) {
+        const found = subcategoryItems[subcategory].find(i => i.id === itemId);
+        if (found) {
+            item = found;
+            break;
+        }
+    }
+
+    if (item) {
+        const existingItem = wishlist.find(wishItem => wishItem.id === item.id);
+        if (!existingItem) {
+            wishlist.push({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                image: item.image
+            });
+            showNotification(`${item.title} added to wishlist!`, 'success');
+        } else {
+            showNotification(`${item.title} is already in your wishlist!`, 'info');
+        }
+    }
+}
