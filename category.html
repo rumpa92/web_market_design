@@ -9,16 +9,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header with Back Navigation -->
-    <header class="category-header">
+    <!-- Header -->
+    <header class="main-header">
         <div class="container">
-            <div class="category-nav">
-                <button class="back-btn" id="backBtn" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back</span>
-                </button>
-                <h1 class="category-page-title" id="categoryPageTitle">Categories</h1>
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
                 <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
                     <div class="action-icons">
                         <i class="far fa-heart wishlist-icon"></i>
                         <div class="cart-icon-container">
@@ -81,6 +91,18 @@
             </div>
         </div>
     </header>
+
+    <!-- Page Title Section -->
+    <div class="page-title-section">
+        <div class="container">
+            <div class="page-title-content">
+                <button class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <h1 class="page-title" id="categoryPageTitle">Categories</h1>
+            </div>
+        </div>
+    </div>
 
     <!-- Category Content -->
     <main class="category-main">
