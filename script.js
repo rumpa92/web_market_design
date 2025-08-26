@@ -628,7 +628,10 @@ function handleSignIn() {
     // Simulate API call
     setTimeout(() => {
         showNotification('Welcome back!', 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
@@ -638,7 +641,10 @@ function handleSignUp() {
     // Simulate API call
     setTimeout(() => {
         showNotification('Account created successfully!', 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
@@ -647,7 +653,10 @@ function handleSocialAuth(provider) {
     showNotification(`Connecting with ${provider}...`, 'info');
     setTimeout(() => {
         showNotification(`Successfully signed in with ${provider}!`, 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
