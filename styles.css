@@ -4682,6 +4682,146 @@ body {
     border-color: #dc3545;
 }
 
+/* Photo Modal States */
+.photo-loading-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+.photo-loading-state p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.photo-error-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-icon {
+    color: #dc3545;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #666;
+    font-size: 1rem;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.4;
+}
+
+.retry-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+/* Camera Preview */
+.camera-preview {
+    text-align: center;
+    padding: 1rem;
+}
+
+.camera-preview video {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 12px;
+    background: #000;
+    margin-bottom: 1rem;
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.camera-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.camera-btn.capture {
+    background: #28a745;
+    color: white;
+}
+
+.camera-btn.capture:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
+
+.camera-btn.cancel {
+    background: #dc3545;
+    color: white;
+}
+
+.camera-btn.cancel:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design for Photo Modal */
+@media (max-width: 480px) {
+    .edit-picture-modal .modal-content {
+        max-width: 95%;
+        margin: 1rem;
+    }
+
+    .camera-preview video {
+        max-width: 100%;
+    }
+
+    .camera-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .photo-loading-state,
+    .photo-error-state {
+        padding: 1.5rem;
+    }
+}
+
 /* Notification Styles */
 .notification {
     position: fixed;
