@@ -4316,6 +4316,24 @@ body {
         padding: 1rem 0;
     }
 
+    .category-banner {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
+    }
+
+    .banner-title {
+        font-size: 1.8rem;
+    }
+
+    .banner-subtitle {
+        font-size: 1rem;
+    }
+
+    .banner-image {
+        width: 120px;
+        height: 100px;
+    }
+
     .subcategories-grid {
         grid-template-columns: 1fr;
     }
