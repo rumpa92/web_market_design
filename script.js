@@ -393,10 +393,9 @@ function searchProducts(searchTerm) {
 function handleCategoryClick(event) {
     const categoryTitle = event.currentTarget.querySelector('.category-title, .category-circle-title');
     const title = categoryTitle ? categoryTitle.textContent : 'Unknown';
-    showNotification(`Browsing ${title} category`, 'info');
 
-    // Add category filtering logic here
-    filterByCategory(title.toLowerCase());
+    // Navigate to category page with category parameter
+    navigateToCategory(title);
 
     // Add visual feedback
     event.currentTarget.style.transform = 'scale(0.95)';
@@ -405,9 +404,12 @@ function handleCategoryClick(event) {
     }, 150);
 }
 
-function filterByCategory(category) {
-    // This would typically navigate to a category page or filter products
-    console.log(`Filtering by category: ${category}`);
+function navigateToCategory(categoryName) {
+    // Store the selected category in sessionStorage for the category page
+    sessionStorage.setItem('selectedCategory', categoryName);
+
+    // Navigate to category page
+    window.location.href = `category.html?category=${encodeURIComponent(categoryName)}`;
 }
 
 // Mobile Menu Setup
@@ -550,21 +552,23 @@ window.addEventListener('resize', function() {
 
 // Authentication Functionality
 function setupAuthentication() {
-    const profileIcon = document.getElementById('profileIcon');
     const authModal = document.getElementById('authModal');
     const closeAuth = document.querySelector('.close-auth');
     const authTabs = document.querySelectorAll('.auth-tab');
     const authForms = document.querySelectorAll('.auth-form');
 
-    // Show auth modal when profile icon is clicked
-    profileIcon.addEventListener('click', () => {
-        authModal.classList.remove('hidden');
-    });
+    // Only setup if auth modal exists
+    if (!authModal) {
+        console.log('Auth modal not found, skipping authentication setup');
+        return;
+    }
 
     // Close modal
-    closeAuth.addEventListener('click', () => {
-        authModal.classList.add('hidden');
-    });
+    if (closeAuth) {
+        closeAuth.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+        });
+    }
 
     // Close on outside click
     authModal.addEventListener('click', (e) => {
@@ -597,15 +601,19 @@ function setupAuthentication() {
     const signinForm = document.getElementById('signinForm');
     const signupForm = document.getElementById('signupForm');
 
-    signinForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSignIn();
-    });
+    if (signinForm) {
+        signinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleSignIn();
+        });
+    }
 
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleSignUp();
-    });
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleSignUp();
+        });
+    }
 
     // Social auth buttons
     const socialBtns = document.querySelectorAll('.social-btn');
@@ -622,7 +630,10 @@ function handleSignIn() {
     // Simulate API call
     setTimeout(() => {
         showNotification('Welcome back!', 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
@@ -632,7 +643,10 @@ function handleSignUp() {
     // Simulate API call
     setTimeout(() => {
         showNotification('Account created successfully!', 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
@@ -641,15 +655,38 @@ function handleSocialAuth(provider) {
     showNotification(`Connecting with ${provider}...`, 'info');
     setTimeout(() => {
         showNotification(`Successfully signed in with ${provider}!`, 'success');
-        document.getElementById('authModal').classList.add('hidden');
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.classList.add('hidden');
+        }
         updateUIForLoggedInUser();
     }, 1500);
 }
 
 function updateUIForLoggedInUser() {
     const profileIcon = document.getElementById('profileIcon');
-    profileIcon.className = 'fas fa-user profile-icon';
-    profileIcon.style.color = '#4CAF50';
+
+    // Only update if the old profile icon exists (for backward compatibility)
+    if (profileIcon) {
+        profileIcon.className = 'fas fa-user profile-icon';
+        profileIcon.style.color = '#4CAF50';
+    }
+
+    // Update the new profile dropdown if it exists
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+        profileSection.classList.add('logged-in');
+        profileSection.classList.remove('guest');
+
+        // Update user name and email in dropdown
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const signInOutText = document.getElementById('signInOutText');
+
+        if (userName) userName.textContent = 'John Doe';
+        if (userEmail) userEmail.textContent = 'john.doe@stylehub.com';
+        if (signInOutText) signInOutText.textContent = 'Sign Out';
+    }
 }
 
 // Location Services
@@ -660,15 +697,25 @@ function setupLocationServices() {
     const detectLocationBtn = document.querySelector('.detect-location-btn');
     const cityBtns = document.querySelectorAll('.city-btn');
 
+    // Only setup if location modal exists
+    if (!locationModal) {
+        console.log('Location modal not found, skipping location services setup');
+        return;
+    }
+
     // Show modal when location trigger is clicked
-    locationTrigger.addEventListener('click', () => {
-        locationModal.classList.remove('hidden');
-    });
+    if (locationTrigger) {
+        locationTrigger.addEventListener('click', () => {
+            locationModal.classList.remove('hidden');
+        });
+    }
 
     // Close modal
-    closeLocation.addEventListener('click', () => {
-        locationModal.classList.add('hidden');
-    });
+    if (closeLocation) {
+        closeLocation.addEventListener('click', () => {
+            locationModal.classList.add('hidden');
+        });
+    }
 
     // Close on outside click
     locationModal.addEventListener('click', (e) => {
@@ -678,9 +725,11 @@ function setupLocationServices() {
     });
 
     // Detect location
-    detectLocationBtn.addEventListener('click', () => {
-        detectUserLocation();
-    });
+    if (detectLocationBtn) {
+        detectLocationBtn.addEventListener('click', () => {
+            detectUserLocation();
+        });
+    }
 
     // City selection
     cityBtns.forEach(btn => {
@@ -1490,6 +1539,494 @@ function setupEnhancedFilters() {
     }
 }
 
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    // Exit early if required elements don't exist
+    if (!profileTrigger || !profileDropdown) {
+        console.log('Profile dropdown elements not found, skipping setup');
+        return;
+    }
+
+    // Initialize user status
+    updateUserStatus('online');
+
+    // Toggle dropdown on click
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfileDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!profileTrigger.contains(e.target) && !profileDropdown.contains(e.target)) {
+            closeProfileDropdown();
+        }
+    });
+
+    // Handle dropdown menu items
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDropdownItemClick(item);
+        });
+    });
+
+    // Simulate status changes every 30 seconds for demo
+    setInterval(() => {
+        const statuses = ['online', 'away', 'busy'];
+        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        updateUserStatus(randomStatus);
+    }, 30000);
+}
+
+function toggleProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    const isOpen = profileDropdown.classList.contains('show');
+
+    if (isOpen) {
+        closeProfileDropdown();
+    } else {
+        openProfileDropdown();
+    }
+}
+
+function openProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.add('active');
+    profileDropdown.classList.add('show');
+    profileArrow.style.transform = 'rotate(180deg)';
+
+    // Add animation delay for menu items
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+            item.style.transition = 'all 0.3s ease';
+        }, index * 50);
+    });
+}
+
+function closeProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.remove('active');
+    profileDropdown.classList.remove('show');
+    profileArrow.style.transform = 'rotate(0deg)';
+
+    // Reset menu items animation
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach(item => {
+        item.style.opacity = '';
+        item.style.transform = '';
+        item.style.transition = '';
+    });
+}
+
+function updateUserStatus(status) {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    // Remove all status classes
+    statusIndicator.className = 'status-indicator';
+    onlineStatus.className = 'online-status';
+
+    // Add new status class
+    if (status !== 'online') {
+        statusIndicator.classList.add(status);
+        onlineStatus.classList.add(status);
+    }
+
+    // Update status text
+    const statusTexts = {
+        'online': 'Online',
+        'away': 'Away',
+        'busy': 'Busy',
+        'offline': 'Offline'
+    };
+
+    statusText.textContent = statusTexts[status] || 'Online';
+    onlineStatus.title = statusTexts[status] || 'Online';
+
+    // Show notification when status changes
+    if (status !== 'online') {
+        showNotification(`Status changed to ${statusTexts[status]}`, 'info');
+    }
+}
+
+function handleDropdownItemClick(item) {
+    const itemId = item.id;
+    const itemText = item.querySelector('span').textContent;
+
+    switch(itemId) {
+        case 'myProfile':
+            showNotification('Opening My Profile...', 'info');
+            // Navigate to profile page or show profile modal
+            showProfileModal();
+            break;
+
+        case 'myOrders':
+            showNotification('Opening My Orders...', 'info');
+            // Navigate to orders page
+            showOrdersModal();
+            break;
+
+        case 'myWishlist':
+            showNotification('Opening My Wishlist...', 'info');
+            showWishlistSummary();
+            break;
+
+        case 'accountSettings':
+            showNotification('Opening Account Settings...', 'info');
+            showAccountSettingsModal();
+            break;
+
+        case 'helpSupport':
+            showNotification('Opening Help & Support...', 'info');
+            showHelpModal();
+            break;
+
+        case 'signInOut':
+            const signInOutText = document.getElementById('signInOutText');
+            if (signInOutText.textContent === 'Sign Out') {
+                handleSignOut();
+            } else {
+                showNotification('Please sign in to access your account', 'info');
+                // Show auth modal
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+            break;
+
+        default:
+            showNotification(`${itemText} clicked`, 'info');
+            break;
+    }
+
+    // Close dropdown after item click
+    closeProfileDropdown();
+
+    // Add click feedback animation
+    item.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        item.style.transform = '';
+    }, 150);
+}
+
+function showProfileModal() {
+    const modal = document.createElement('div');
+    modal.className = 'profile-modal';
+    modal.innerHTML = `
+        <div class="profile-modal-content">
+            <span class="close-profile-modal">&times;</span>
+            <div class="profile-modal-header">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Profile" class="profile-modal-avatar">
+                <h2>Sarah Johnson</h2>
+                <p>sarah.johnson@stylehub.com</p>
+                <div class="profile-status-selector">
+                    <label>Status:</label>
+                    <select id="statusSelector">
+                        <option value="online">Online</option>
+                        <option value="away">Away</option>
+                        <option value="busy">Busy</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">23</span>
+                        <span class="stat-label">Orders</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">45</span>
+                        <span class="stat-label">Wishlist Items</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">₹25,680</span>
+                        <span class="stat-label">Total Spent</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="profile-action-btn">Edit Profile</button>
+                    <button class="profile-action-btn">Change Password</button>
+                    <button class="profile-action-btn">Privacy Settings</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Style the modal
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '10000'
+    });
+
+    document.body.appendChild(modal);
+
+    // Close functionality
+    const closeBtn = modal.querySelector('.close-profile-modal');
+    closeBtn.addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+
+    // Status selector functionality
+    const statusSelector = modal.querySelector('#statusSelector');
+    statusSelector.addEventListener('change', (e) => {
+        updateUserStatus(e.target.value);
+        showNotification(`Status updated to ${e.target.options[e.target.selectedIndex].text}`, 'success');
+    });
+
+    // Profile action buttons
+    const actionBtns = modal.querySelectorAll('.profile-action-btn');
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            showNotification(`${btn.textContent} - Coming Soon!`, 'info');
+        });
+    });
+}
+
+function showOrdersModal() {
+    const modal = document.createElement('div');
+    modal.className = 'orders-modal';
+    modal.innerHTML = `
+        <div class="orders-modal-content">
+            <span class="close-orders-modal">&times;</span>
+            <h2>My Orders</h2>
+            <div class="orders-list">
+                <div class="order-item">
+                    <div class="order-image">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Order">
+                    </div>
+                    <div class="order-details">
+                        <h3>Traditional Salwar Kameez Set</h3>
+                        <p>Order #12345 • Delivered on Dec 15, 2024</p>
+                        <p class="order-price">₹2,499</p>
+                    </div>
+                    <div class="order-actions">
+                        <button class="order-action-btn">Track Order</button>
+                        <button class="order-action-btn">Reorder</button>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-image">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Order">
+                    </div>
+                    <div class="order-details">
+                        <h3>Designer Anarkali Gown</h3>
+                        <p>Order #12344 • In Transit</p>
+                        <p class="order-price">₹3,999</p>
+                    </div>
+                    <div class="order-actions">
+                        <button class="order-action-btn primary">Track Order</button>
+                        <button class="order-action-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+}
+
+function showAccountSettingsModal() {
+    const modal = document.createElement('div');
+    modal.className = 'settings-modal';
+    modal.innerHTML = `
+        <div class="settings-modal-content">
+            <span class="close-settings-modal">&times;</span>
+            <h2>Account Settings</h2>
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h3>Personal Information</h3>
+                    <div class="settings-item">
+                        <label>Full Name</label>
+                        <input type="text" value="Sarah Johnson" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Email</label>
+                        <input type="email" value="sarah.johnson@stylehub.com" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Phone</label>
+                        <input type="tel" value="+1 (555) 123-4567" />
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Preferences</h3>
+                    <div class="settings-item">
+                        <label>Email Notifications</label>
+                        <input type="checkbox" checked />
+                    </div>
+                    <div class="settings-item">
+                        <label>SMS Notifications</label>
+                        <input type="checkbox" />
+                    </div>
+                    <div class="settings-item">
+                        <label>Marketing Emails</label>
+                        <input type="checkbox" checked />
+                    </div>
+                </div>
+            </div>
+            <div class="settings-actions">
+                <button class="settings-action-btn primary">Save Changes</button>
+                <button class="settings-action-btn">Cancel</button>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+}
+
+function showHelpModal() {
+    const modal = document.createElement('div');
+    modal.className = 'help-modal';
+    modal.innerHTML = `
+        <div class="help-modal-content">
+            <span class="close-help-modal">&times;</span>
+            <h2>Help & Support</h2>
+            <div class="help-sections">
+                <div class="help-section">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-item">
+                        <button class="faq-question">How do I track my order?</button>
+                        <div class="faq-answer">You can track your order in the "My Orders" section or using the tracking link sent to your email.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">What is your return policy?</button>
+                        <div class="faq-answer">We offer 30-day returns for unworn items with original tags.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">How do I change my password?</button>
+                        <div class="faq-answer">Go to Account Settings and click on "Change Password".</div>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>Contact Support</h3>
+                    <div class="contact-options">
+                        <button class="contact-btn">
+                            <i class="fas fa-phone"></i>
+                            Call Us: 1-800-STYLE-HUB
+                        </button>
+                        <button class="contact-btn">
+                            <i class="fas fa-envelope"></i>
+                            Email: support@stylehub.com
+                        </button>
+                        <button class="contact-btn">
+                            <i class="fas fa-comments"></i>
+                            Live Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    showModal(modal);
+
+    // FAQ functionality
+    const faqQuestions = modal.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+}
+
+function showModal(modal) {
+    // Style the modal
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '10000',
+        opacity: '0',
+        transition: 'opacity 0.3s ease'
+    });
+
+    document.body.appendChild(modal);
+
+    // Animate in
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+
+    // Close functionality
+    const closeBtn = modal.querySelector('[class*="close-"]');
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(modal);
+        }, 300);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(modal);
+            }, 300);
+        }
+    });
+}
+
+function handleSignOut() {
+    showNotification('Signing out...', 'info');
+
+    setTimeout(() => {
+        // Reset user data
+        document.getElementById('userName').textContent = 'Guest User';
+        document.getElementById('userEmail').textContent = 'guest@stylehub.com';
+        document.getElementById('signInOutText').textContent = 'Sign In';
+        updateUserStatus('offline');
+
+        showNotification('Successfully signed out!', 'success');
+        closeProfileDropdown();
+    }, 1000);
+}
+
 // Enhanced Category Circle Functionality
 function setupEnhancedCategories() {
     const categoryCards = document.querySelectorAll('.category-circle-card');
@@ -1523,7 +2060,8 @@ function setupEnhancedCategories() {
                 ripple.remove();
             }, 600);
 
-            showNotification(`Browsing ${categoryTitle} category`, 'info');
+            // Navigate to category page
+            navigateToCategory(categoryTitle);
         });
     });
 }
@@ -1890,261 +2428,6 @@ function setupTouchControls() {
 window.changeSlide = changeSlide;
 window.currentSlide = currentSlide;
 
-// Profile Dropdown Functionality
-function setupProfileDropdown() {
-    const profileSection = document.getElementById('profileSection');
-    const profileTrigger = document.getElementById('profileTrigger');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const myProfileItem = document.getElementById('myProfile');
-    const myOrdersItem = document.getElementById('myOrders');
-    const signInOutItem = document.getElementById('signInOut');
-
-    if (!profileSection || !profileTrigger) return;
-
-    // Toggle dropdown on profile trigger click
-    profileTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleProfileDropdown();
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!profileSection.contains(e.target)) {
-            closeProfileDropdown();
-        }
-    });
-
-    // Handle menu item clicks
-    if (myProfileItem) {
-        myProfileItem.addEventListener('click', () => {
-            handleMyProfile();
-            closeProfileDropdown();
-        });
-    }
-
-    if (myOrdersItem) {
-        myOrdersItem.addEventListener('click', () => {
-            handleMyOrders();
-            closeProfileDropdown();
-        });
-    }
-
-    if (signInOutItem) {
-        signInOutItem.addEventListener('click', () => {
-            handleSignInOut();
-            closeProfileDropdown();
-        });
-    }
-
-    // Initialize user state
-    initializeUserState();
-}
-
-function toggleProfileDropdown() {
-    const profileSection = document.getElementById('profileSection');
-    const isActive = profileSection.classList.contains('active');
-
-    if (isActive) {
-        closeProfileDropdown();
-    } else {
-        openProfileDropdown();
-    }
-}
-
-function openProfileDropdown() {
-    const profileSection = document.getElementById('profileSection');
-    profileSection.classList.add('active');
-
-    // Add subtle animation to arrow
-    const arrow = document.getElementById('profileArrow');
-    if (arrow) {
-        arrow.style.transform = 'rotate(180deg)';
-    }
-}
-
-function closeProfileDropdown() {
-    const profileSection = document.getElementById('profileSection');
-    profileSection.classList.remove('active');
-
-    // Reset arrow animation
-    const arrow = document.getElementById('profileArrow');
-    if (arrow) {
-        arrow.style.transform = 'rotate(0deg)';
-    }
-}
-
-function handleMyProfile() {
-    const isLoggedIn = checkUserLoginStatus();
-
-    if (!isLoggedIn) {
-        showNotification('Please sign in to view your profile', 'info');
-        // Open authentication modal
-        const authModal = document.getElementById('authModal');
-        if (authModal) {
-            authModal.classList.remove('hidden');
-        }
-        return;
-    }
-
-    showNotification('Opening your profile...', 'success');
-    // In a real app, this would navigate to profile page
-    console.log('Navigate to profile page');
-}
-
-function handleMyOrders() {
-    const isLoggedIn = checkUserLoginStatus();
-
-    if (!isLoggedIn) {
-        showNotification('Please sign in to view your orders', 'info');
-        // Open authentication modal
-        const authModal = document.getElementById('authModal');
-        if (authModal) {
-            authModal.classList.remove('hidden');
-        }
-        return;
-    }
-
-    showNotification('Loading your orders...', 'success');
-    // In a real app, this would navigate to orders page
-    console.log('Navigate to orders page');
-}
-
-function handleSignInOut() {
-    const isLoggedIn = checkUserLoginStatus();
-
-    if (isLoggedIn) {
-        // Sign out
-        signOutUser();
-    } else {
-        // Sign in
-        const authModal = document.getElementById('authModal');
-        if (authModal) {
-            authModal.classList.remove('hidden');
-        }
-    }
-}
-
-function initializeUserState() {
-    const isLoggedIn = checkUserLoginStatus();
-    updateProfileUI(isLoggedIn);
-}
-
-function checkUserLoginStatus() {
-    // Check if user is logged in (in a real app, this would check localStorage, session, etc.)
-    return localStorage.getItem('userLoggedIn') === 'true';
-}
-
-function signOutUser() {
-    localStorage.removeItem('userLoggedIn');
-    localStorage.removeItem('userData');
-
-    // Reset to guest state
-    updateProfileUI(false);
-
-    showNotification('You have been signed out successfully', 'success');
-
-    // Clear any user-specific data
-    clearUserData();
-}
-
-function updateProfileUI(isLoggedIn) {
-    const profileSection = document.getElementById('profileSection');
-    const userName = document.getElementById('userName');
-    const userEmail = document.getElementById('userEmail');
-    const signInOutText = document.getElementById('signInOutText');
-    const signInOutIcon = document.querySelector('#signInOut i');
-
-    if (isLoggedIn) {
-        // User is logged in
-        profileSection.classList.add('logged-in');
-        profileSection.classList.remove('guest');
-
-        // Update user info
-        const userData = getUserData();
-        if (userName) userName.textContent = userData.name;
-        if (userEmail) userEmail.textContent = userData.email;
-
-        // Update sign in/out button
-        if (signInOutText) signInOutText.textContent = 'Sign Out';
-        if (signInOutIcon) signInOutIcon.className = 'fas fa-sign-out-alt';
-
-        // Update profile images
-        updateProfileImages(userData.avatar);
-
-    } else {
-        // User is guest
-        profileSection.classList.add('guest');
-        profileSection.classList.remove('logged-in');
-
-        // Set default guest info
-        if (userName) userName.textContent = 'Guest User';
-        if (userEmail) userEmail.textContent = 'guest@stylehub.com';
-
-        // Update sign in/out button
-        if (signInOutText) signInOutText.textContent = 'Sign In';
-        if (signInOutIcon) signInOutIcon.className = 'fas fa-sign-in-alt';
-
-        // Set default avatar
-        updateProfileImages('https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face');
-    }
-}
-
-function getUserData() {
-    const defaultData = {
-        name: 'Style Enthusiast',
-        email: 'user@stylehub.com',
-        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face'
-    };
-
-    const saved = localStorage.getItem('userData');
-    return saved ? JSON.parse(saved) : defaultData;
-}
-
-function updateProfileImages(avatarUrl) {
-    const profileImage = document.getElementById('profileImage');
-    const dropdownAvatar = document.querySelector('.dropdown-avatar');
-
-    if (profileImage) profileImage.src = avatarUrl;
-    if (dropdownAvatar) dropdownAvatar.src = avatarUrl;
-}
-
-function clearUserData() {
-    // Clear any user-specific data like cart, wishlist, etc.
-    cart = [];
-    wishlist = [];
-    updateCartCount();
-
-    // Update UI elements
-    const cartCount = document.querySelector('.cart-count');
-    if (cartCount) cartCount.textContent = '0';
-}
-
-// Enhanced authentication functions to work with profile dropdown
-function updateUIForLoggedInUser() {
-    const profileIcon = document.getElementById('profileIcon'); // Old profile icon
-    const profileSection = document.getElementById('profileSection'); // New profile section
-
-    // Mark user as logged in
-    localStorage.setItem('userLoggedIn', 'true');
-
-    // Save user data (in a real app, this would come from the server)
-    const userData = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face'
-    };
-    localStorage.setItem('userData', JSON.stringify(userData));
-
-    // Update profile UI
-    updateProfileUI(true);
-
-    // Legacy profile icon update (if still exists)
-    if (profileIcon) {
-        profileIcon.className = 'fas fa-user profile-icon';
-        profileIcon.style.color = '#4CAF50';
-    }
-}
-
 // Newsletter functionality
 function setupNewsletterForm() {
     const newsletterForm = document.querySelector('.newsletter-form');
@@ -2334,66 +2617,6 @@ function setupCartModal() {
 }
 
 // Hero slider functionality
-function setupHeroSlider() {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-    const totalSlides = slides.length;
-
-    if (totalSlides === 0) return;
-
-    // Auto-advance slides
-    setInterval(() => {
-        changeSlide(1);
-    }, 5000);
-
-    // Initialize first slide
-    showSlide(0);
-}
-
-function changeSlide(direction) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-    let currentSlide = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
-
-    // Remove active class from current slide and dot
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-
-    // Calculate next slide
-    currentSlide += direction;
-    if (currentSlide >= slides.length) currentSlide = 0;
-    if (currentSlide < 0) currentSlide = slides.length - 1;
-
-    // Add active class to new slide and dot
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-}
-
-function currentSlide(n) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-
-    // Remove active from all
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-
-    // Add active to selected
-    slides[n - 1].classList.add('active');
-    dots[n - 1].classList.add('active');
-}
-
-function showSlide(n) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-
-    if (slides[n]) slides[n].classList.add('active');
-    if (dots[n]) dots[n].classList.add('active');
-}
-
 // Initialize cart modal when page loads
 document.addEventListener('DOMContentLoaded', function() {
     setupCartModal();
@@ -2465,4 +2688,465 @@ function showWishlistSummary() {
             document.body.removeChild(modal);
         }
     });
+}
+
+// Category Page Data and Functionality
+const categoryData = {
+    'Women': {
+        banner: {
+            title: 'Women Fashion',
+            subtitle: 'Discover elegant and modern styles for every occasion',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F05be5c3bd0814bc2aa6e4c5a61d7cfe1?format=webp&width=800'
+        },
+        subcategories: [
+            { name: 'Dresses', icon: 'fas fa-tshirt', count: 125 },
+            { name: 'Tops & Blouses', icon: 'fas fa-vest', count: 89 },
+            { name: 'Bottoms', icon: 'fas fa-user-tie', count: 67 },
+            { name: 'Outerwear', icon: 'fas fa-jacket', count: 45 },
+            { name: 'Lingerie', icon: 'fas fa-heart', count: 34 },
+            { name: 'Activewear', icon: 'fas fa-running', count: 28 }
+        ]
+    },
+    'Men': {
+        banner: {
+            title: 'Men Fashion',
+            subtitle: 'Sharp and stylish clothing for the modern gentleman',
+            image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90'
+        },
+        subcategories: [
+            { name: 'Shirts', icon: 'fas fa-tshirt', count: 98 },
+            { name: 'Pants & Jeans', icon: 'fas fa-user-tie', count: 76 },
+            { name: 'Suits & Blazers', icon: 'fas fa-user-suit', count: 54 },
+            { name: 'Casual Wear', icon: 'fas fa-vest', count: 43 },
+            { name: 'Outerwear', icon: 'fas fa-jacket', count: 32 },
+            { name: 'Activewear', icon: 'fas fa-running', count: 29 }
+        ]
+    },
+    'Accessories': {
+        banner: {
+            title: 'Accessories Fashion',
+            subtitle: 'Complete your look with our stunning accessory collection',
+            image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop&auto=format&q=90'
+        },
+        subcategories: [
+            { name: 'Jewelry', icon: 'fas fa-gem', count: 156 },
+            { name: 'Watches', icon: 'fas fa-clock', count: 87 },
+            { name: 'Belts', icon: 'fas fa-circle', count: 45 },
+            { name: 'Scarves', icon: 'fas fa-wind', count: 38 },
+            { name: 'Sunglasses', icon: 'fas fa-glasses', count: 67 },
+            { name: 'Hats', icon: 'fas fa-hat-cowboy', count: 23 }
+        ]
+    },
+    'Shoes': {
+        banner: {
+            title: 'Shoes Fashion',
+            subtitle: 'Step in style with our premium footwear collection',
+            image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90'
+        },
+        subcategories: [
+            { name: 'Sneakers', icon: 'fas fa-shoe-prints', count: 134 },
+            { name: 'Heels', icon: 'fas fa-high-heel', count: 89 },
+            { name: 'Boots', icon: 'fas fa-hiking', count: 76 },
+            { name: 'Flats', icon: 'fas fa-shoe-prints', count: 54 },
+            { name: 'Sandals', icon: 'fas fa-flip-flops', count: 43 },
+            { name: 'Athletic', icon: 'fas fa-running', count: 65 }
+        ]
+    },
+    'Bags': {
+        banner: {
+            title: 'Bags Fashion',
+            subtitle: 'Luxury and functional bags for every lifestyle',
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90'
+        },
+        subcategories: [
+            { name: 'Handbags', icon: 'fas fa-shopping-bag', count: 98 },
+            { name: 'Backpacks', icon: 'fas fa-backpack', count: 67 },
+            { name: 'Clutches', icon: 'fas fa-wallet', count: 45 },
+            { name: 'Totes', icon: 'fas fa-shopping-basket', count: 54 },
+            { name: 'Crossbody', icon: 'fas fa-suitcase', count: 43 },
+            { name: 'Travel Bags', icon: 'fas fa-luggage-cart', count: 32 }
+        ]
+    },
+    'Jewelry': {
+        banner: {
+            title: 'Jewelry Fashion',
+            subtitle: 'Sparkle and shine with our exquisite jewelry pieces',
+            image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90'
+        },
+        subcategories: [
+            { name: 'Necklaces', icon: 'fas fa-circle-notch', count: 89 },
+            { name: 'Earrings', icon: 'fas fa-dot-circle', count: 76 },
+            { name: 'Rings', icon: 'fas fa-ring', count: 65 },
+            { name: 'Bracelets', icon: 'fas fa-circle', count: 54 },
+            { name: 'Brooches', icon: 'fas fa-star', count: 23 },
+            { name: 'Sets', icon: 'fas fa-gem', count: 34 }
+        ]
+    }
+};
+
+// Sample items data for subcategories
+const subcategoryItems = {
+    'Dresses': [
+        {
+            id: 'dress1',
+            title: 'Elegant Evening Dress',
+            price: '$189',
+            originalPrice: '$250',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'dress2',
+            title: 'Casual Summer Dress',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'dress3',
+            title: 'Floral Maxi Dress',
+            price: '$129',
+            originalPrice: '$180',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=800',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Shirts': [
+        {
+            id: 'shirt1',
+            title: 'Premium Cotton Shirt',
+            price: '$75',
+            originalPrice: '$95',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=800',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'shirt2',
+            title: 'Casual Linen Shirt',
+            price: '$65',
+            originalPrice: '$85',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=800',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'shirt3',
+            title: 'Formal Business Shirt',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Pants & Jeans': [
+        {
+            id: 'pants1',
+            title: 'Classic Denim Jeans',
+            price: '$89',
+            originalPrice: '$120',
+            image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'pants2',
+            title: 'Formal Dress Pants',
+            price: '$95',
+            originalPrice: '$130',
+            image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Suits & Blazers': [
+        {
+            id: 'suit1',
+            title: 'Premium Business Suit',
+            price: '$299',
+            originalPrice: '$399',
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'MEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Jewelry': [
+        {
+            id: 'jewelry1',
+            title: 'Diamond Necklace',
+            price: '$599',
+            originalPrice: '$799',
+            image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'JEWELRY',
+            rating: '★★★★★'
+        }
+    ],
+    'Sneakers': [
+        {
+            id: 'sneaker1',
+            title: 'Athletic Running Shoes',
+            price: '$120',
+            originalPrice: '$150',
+            image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'SHOES',
+            rating: '★★★★☆'
+        }
+    ],
+    'Handbags': [
+        {
+            id: 'bag1',
+            title: 'Designer Leather Handbag',
+            price: '$299',
+            originalPrice: '$399',
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'BAGS',
+            rating: '★★★★★'
+        }
+    ]
+};
+
+// Initialize category page
+function initializeCategoryPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    const currentCategory = categoryParam || sessionStorage.getItem('selectedCategory') || 'Categories';
+
+    updatePageTitle(currentCategory);
+    updateBreadcrumb(currentCategory);
+    updateCategoryBanner(currentCategory);
+    updateBackButton(currentCategory);
+    loadSubcategories(currentCategory);
+    setupProfileDropdown();
+    setupCartModal();
+}
+
+// Update page title and header
+function updatePageTitle(category) {
+    const pageTitle = document.getElementById('categoryPageTitle');
+    if (pageTitle) {
+        pageTitle.textContent = category;
+    }
+    document.title = `${category} - StyleHub`;
+}
+
+// Update breadcrumb navigation
+function updateBreadcrumb(category) {
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+    if (breadcrumbCurrent) {
+        breadcrumbCurrent.textContent = category;
+    }
+}
+
+// Update category banner
+function updateCategoryBanner(category) {
+    const bannerTitle = document.getElementById('bannerTitle');
+    const bannerSubtitle = document.getElementById('bannerSubtitle');
+    const bannerImage = document.getElementById('bannerImage');
+    const categoryBanner = document.getElementById('categoryBanner');
+
+    const categoryInfo = categoryData[category];
+    if (categoryInfo && categoryInfo.banner) {
+        if (bannerTitle) bannerTitle.textContent = categoryInfo.banner.title;
+        if (bannerSubtitle) bannerSubtitle.textContent = categoryInfo.banner.subtitle;
+        if (bannerImage) {
+            bannerImage.src = categoryInfo.banner.image;
+            bannerImage.alt = `${category} Fashion`;
+        }
+        if (categoryBanner) categoryBanner.style.display = 'flex';
+    } else {
+        // Hide banner if no category info
+        if (categoryBanner) categoryBanner.style.display = 'none';
+    }
+}
+
+// Update back button text
+function updateBackButton(category) {
+    const backBtn = document.getElementById('backBtn');
+    const backBtnSpan = backBtn ? backBtn.querySelector('span') : null;
+
+    if (backBtnSpan) {
+        backBtnSpan.textContent = category;
+    }
+}
+
+// Load subcategories for the selected category
+function loadSubcategories(category) {
+    const subcategoriesGrid = document.getElementById('subcategoriesGrid');
+    const subcategoriesSection = document.getElementById('subcategoriesSection');
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+
+    if (!subcategoriesGrid) return;
+
+    // Show subcategories section, hide items section
+    if (subcategoriesSection) subcategoriesSection.classList.remove('hidden');
+    if (categoryItemsSection) categoryItemsSection.classList.add('hidden');
+
+    const categoryInfo = categoryData[category];
+    if (!categoryInfo) {
+        subcategoriesGrid.innerHTML = '<p>No subcategories found for this category.</p>';
+        return;
+    }
+
+    subcategoriesGrid.innerHTML = categoryInfo.subcategories.map(subcategory => `
+        <div class="subcategory-card" onclick="loadCategoryItems('${subcategory.name}')">
+            <div class="subcategory-icon">
+                <i class="${subcategory.icon}"></i>
+            </div>
+            <h3 class="subcategory-title">${subcategory.name}</h3>
+            <p class="subcategory-count">${subcategory.count} items</p>
+        </div>
+    `).join('');
+}
+
+// Load items for a specific subcategory
+function loadCategoryItems(subcategory) {
+    const subcategoriesSection = document.getElementById('subcategoriesSection');
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+    const itemsSectionTitle = document.getElementById('itemsSectionTitle');
+    const categoryItemsGrid = document.getElementById('categoryItemsGrid');
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+    // Update breadcrumb to show subcategory
+    if (breadcrumbCurrent) {
+        breadcrumbCurrent.textContent = subcategory;
+    }
+
+    // Update section title
+    if (itemsSectionTitle) {
+        itemsSectionTitle.textContent = subcategory;
+    }
+
+    // Hide subcategories, show items
+    if (subcategoriesSection) subcategoriesSection.classList.add('hidden');
+    if (categoryItemsSection) categoryItemsSection.classList.remove('hidden');
+
+    // Load items for this subcategory
+    const items = subcategoryItems[subcategory] || [];
+
+    if (items.length === 0) {
+        categoryItemsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <h3>Coming Soon</h3>
+                <p>Items for ${subcategory} will be available soon.</p>
+                <button class="back-btn" onclick="goBackToSubcategories()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Categories</span>
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    categoryItemsGrid.innerHTML = items.map(item => `
+        <div class="colorful-product-card purple-bg">
+            <div class="product-category-tag">${item.category}</div>
+            <div class="colorful-product-image">
+                <img src="${item.image}" alt="${item.title}" class="colorful-product-img">
+                <button class="colorful-wishlist-btn" onclick="addToWishlistFromCategory('${item.id}')">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="colorful-product-info">
+                <h3 class="colorful-product-title">${item.title}</h3>
+                <div class="product-rating">
+                    <span class="stars">${item.rating}</span>
+                </div>
+                <div class="colorful-product-price">
+                    <span class="current-price">${item.price}</span>
+                    ${item.originalPrice ? `<span class="original-price">${item.originalPrice}</span>` : ''}
+                </div>
+                <button class="colorful-add-to-cart" onclick="addToCartFromCategory('${item.id}')">Add to cart</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Store current subcategory for back navigation
+    sessionStorage.setItem('currentSubcategory', subcategory);
+}
+
+// Go back to subcategories view
+function goBackToSubcategories() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCategory = urlParams.get('category') || sessionStorage.getItem('selectedCategory') || 'Categories';
+
+    updateBreadcrumb(currentCategory);
+    loadSubcategories(currentCategory);
+}
+
+// Back button functionality
+function goBack() {
+    const categoryItemsSection = document.getElementById('categoryItemsSection');
+
+    // If we're viewing items, go back to subcategories
+    if (categoryItemsSection && !categoryItemsSection.classList.contains('hidden')) {
+        goBackToSubcategories();
+        return;
+    }
+
+    // Otherwise, go back to home page
+    window.location.href = 'index.html';
+}
+
+// Add to cart functionality for category items
+function addToCartFromCategory(itemId) {
+    // Find the item data
+    let item = null;
+    for (const subcategory in subcategoryItems) {
+        const found = subcategoryItems[subcategory].find(i => i.id === itemId);
+        if (found) {
+            item = found;
+            break;
+        }
+    }
+
+    if (item) {
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                image: item.image,
+                quantity: 1
+            });
+        }
+        updateCartCount();
+        saveCartToStorage();
+        showNotification(`${item.title} added to cart!`, 'success');
+    }
+}
+
+// Add to wishlist functionality for category items
+function addToWishlistFromCategory(itemId) {
+    // Find the item data
+    let item = null;
+    for (const subcategory in subcategoryItems) {
+        const found = subcategoryItems[subcategory].find(i => i.id === itemId);
+        if (found) {
+            item = found;
+            break;
+        }
+    }
+
+    if (item) {
+        const existingItem = wishlist.find(wishItem => wishItem.id === item.id);
+        if (!existingItem) {
+            wishlist.push({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                image: item.image
+            });
+            showNotification(`${item.title} added to wishlist!`, 'success');
+        } else {
+            showNotification(`${item.title} is already in your wishlist!`, 'info');
+        }
+    }
 }

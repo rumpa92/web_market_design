@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProductData();
     setupProductEventListeners();
     setupRelatedProductsInteraction();
+    setupProfileDropdown();
 });
 
 // Product data for fashion item
@@ -572,3 +573,210 @@ document.addEventListener('click', function(e) {
         return;
     }
 });
+
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    if (!profileTrigger || !profileDropdown) return;
+
+    // Initialize user status
+    updateUserStatus('online');
+
+    // Toggle dropdown on click
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfileDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!profileTrigger.contains(e.target) && !profileDropdown.contains(e.target)) {
+            closeProfileDropdown();
+        }
+    });
+
+    // Handle dropdown menu items
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDropdownItemClick(item);
+        });
+    });
+
+    // Simulate status changes every 30 seconds for demo
+    setInterval(() => {
+        const statuses = ['online', 'away', 'busy'];
+        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        updateUserStatus(randomStatus);
+    }, 30000);
+}
+
+function toggleProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    const isOpen = profileDropdown.classList.contains('show');
+
+    if (isOpen) {
+        closeProfileDropdown();
+    } else {
+        openProfileDropdown();
+    }
+}
+
+function openProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.add('active');
+    profileDropdown.classList.add('show');
+    if (profileArrow) {
+        profileArrow.style.transform = 'rotate(180deg)';
+    }
+
+    // Add animation delay for menu items
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+            item.style.transition = 'all 0.3s ease';
+        }, index * 50);
+    });
+}
+
+function closeProfileDropdown() {
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileArrow = document.getElementById('profileArrow');
+
+    profileTrigger.classList.remove('active');
+    profileDropdown.classList.remove('show');
+    if (profileArrow) {
+        profileArrow.style.transform = 'rotate(0deg)';
+    }
+
+    // Reset menu items animation
+    const menuItems = document.querySelectorAll('.dropdown-item');
+    menuItems.forEach(item => {
+        item.style.opacity = '';
+        item.style.transform = '';
+        item.style.transition = '';
+    });
+}
+
+function updateUserStatus(status) {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const onlineStatus = document.getElementById('onlineStatus');
+
+    if (!statusIndicator || !statusText || !onlineStatus) return;
+
+    // Remove all status classes
+    statusIndicator.className = 'status-indicator';
+    onlineStatus.className = 'online-status';
+
+    // Add new status class
+    if (status !== 'online') {
+        statusIndicator.classList.add(status);
+        onlineStatus.classList.add(status);
+    }
+
+    // Update status text
+    const statusTexts = {
+        'online': 'Online',
+        'away': 'Away',
+        'busy': 'Busy',
+        'offline': 'Offline'
+    };
+
+    statusText.textContent = statusTexts[status] || 'Online';
+    onlineStatus.title = statusTexts[status] || 'Online';
+
+    // Show notification when status changes
+    if (status !== 'online') {
+        showNotification(`Status changed to ${statusTexts[status]}`, 'info');
+    }
+}
+
+function handleDropdownItemClick(item) {
+    const itemId = item.id;
+    const itemText = item.querySelector('span').textContent;
+
+    switch(itemId) {
+        case 'myProfile':
+            showNotification('Opening My Profile...', 'info');
+            break;
+
+        case 'myOrders':
+            showNotification('Opening My Orders...', 'info');
+            break;
+
+        case 'myWishlist':
+            showNotification('Opening My Wishlist...', 'info');
+            showWishlistSummary();
+            break;
+
+        case 'accountSettings':
+            showNotification('Opening Account Settings...', 'info');
+            break;
+
+        case 'helpSupport':
+            showNotification('Opening Help & Support...', 'info');
+            break;
+
+        case 'signInOut':
+            const signInOutText = document.getElementById('signInOutText');
+            if (signInOutText && signInOutText.textContent === 'Sign Out') {
+                handleSignOut();
+            } else {
+                showNotification('Please sign in to access your account', 'info');
+            }
+            break;
+
+        default:
+            showNotification(`${itemText} clicked`, 'info');
+            break;
+    }
+
+    // Close dropdown after item click
+    closeProfileDropdown();
+
+    // Add click feedback animation
+    item.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        item.style.transform = '';
+    }, 150);
+}
+
+function handleSignOut() {
+    showNotification('Signing out...', 'info');
+
+    setTimeout(() => {
+        // Reset user data
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const signInOutText = document.getElementById('signInOutText');
+
+        if (userName) userName.textContent = 'Guest User';
+        if (userEmail) userEmail.textContent = 'guest@stylehub.com';
+        if (signInOutText) signInOutText.textContent = 'Sign In';
+        updateUserStatus('offline');
+
+        showNotification('Successfully signed out!', 'success');
+        closeProfileDropdown();
+    }, 1000);
+}
