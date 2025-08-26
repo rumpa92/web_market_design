@@ -2984,6 +2984,93 @@ const subcategoryItems = {
             rating: '★★★★★'
         }
     ],
+    'Tops & Blouses': [
+        {
+            id: 'top1',
+            title: 'Silk Blouse',
+            price: '$89',
+            originalPrice: '$129',
+            image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'top2',
+            title: 'Cotton Tank Top',
+            price: '$45',
+            originalPrice: '$65',
+            image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'top3',
+            title: 'Elegant Button-Up',
+            price: '$75',
+            originalPrice: '$99',
+            image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Bottoms': [
+        {
+            id: 'bottom1',
+            title: 'High-Waist Jeans',
+            price: '$95',
+            originalPrice: '$129',
+            image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'bottom2',
+            title: 'A-Line Skirt',
+            price: '$65',
+            originalPrice: '$89',
+            image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'bottom3',
+            title: 'Wide-Leg Trousers',
+            price: '$85',
+            originalPrice: '$119',
+            image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
+    'Lingerie': [
+        {
+            id: 'lingerie1',
+            title: 'Lace Bralette Set',
+            price: '$59',
+            originalPrice: '$79',
+            image: 'https://images.unsplash.com/photo-1559582927-47885dc4fc02?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        },
+        {
+            id: 'lingerie2',
+            title: 'Satin Sleepwear',
+            price: '$89',
+            originalPrice: '$119',
+            image: 'https://images.unsplash.com/photo-1582639590011-f1973d2a4497?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★☆'
+        },
+        {
+            id: 'lingerie3',
+            title: 'Comfort Lounge Set',
+            price: '$45',
+            originalPrice: '$69',
+            image: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=400&h=400&fit=crop&auto=format&q=90',
+            category: 'WOMEN FASHION',
+            rating: '★★★★★'
+        }
+    ],
     'Casual Wear': [
         {
             id: 'casual1',
