@@ -2723,6 +2723,11 @@ const categoryData = {
         ]
     },
     'Accessories': {
+        banner: {
+            title: 'Accessories Fashion',
+            subtitle: 'Complete your look with our stunning accessory collection',
+            image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop&auto=format&q=90'
+        },
         subcategories: [
             { name: 'Jewelry', icon: 'fas fa-gem', count: 156 },
             { name: 'Watches', icon: 'fas fa-clock', count: 87 },
@@ -2733,6 +2738,11 @@ const categoryData = {
         ]
     },
     'Shoes': {
+        banner: {
+            title: 'Shoes Fashion',
+            subtitle: 'Step in style with our premium footwear collection',
+            image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90'
+        },
         subcategories: [
             { name: 'Sneakers', icon: 'fas fa-shoe-prints', count: 134 },
             { name: 'Heels', icon: 'fas fa-high-heel', count: 89 },
@@ -2743,6 +2753,11 @@ const categoryData = {
         ]
     },
     'Bags': {
+        banner: {
+            title: 'Bags Fashion',
+            subtitle: 'Luxury and functional bags for every lifestyle',
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90'
+        },
         subcategories: [
             { name: 'Handbags', icon: 'fas fa-shopping-bag', count: 98 },
             { name: 'Backpacks', icon: 'fas fa-backpack', count: 67 },
@@ -2753,6 +2768,11 @@ const categoryData = {
         ]
     },
     'Jewelry': {
+        banner: {
+            title: 'Jewelry Fashion',
+            subtitle: 'Sparkle and shine with our exquisite jewelry pieces',
+            image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90'
+        },
         subcategories: [
             { name: 'Necklaces', icon: 'fas fa-circle-notch', count: 89 },
             { name: 'Earrings', icon: 'fas fa-dot-circle', count: 76 },
@@ -2834,7 +2854,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '★★★★☆'
+            rating: '★★���★☆'
         }
     ],
     'Handbags': [
