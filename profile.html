@@ -498,9 +498,19 @@
             }, 3000);
         }
 
+        // Load saved profile picture
+        function loadSavedProfilePicture() {
+            const savedPicture = localStorage.getItem('userProfilePicture');
+            if (savedPicture) {
+                const profilePicture = document.getElementById('profilePicture');
+                profilePicture.src = savedPicture;
+            }
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Profile page loaded');
+            loadSavedProfilePicture();
         });
     </script>
 </body>
