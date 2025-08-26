@@ -6268,13 +6268,13 @@ body {
     overflow: hidden;
 }
 
-/* Profile Sections */
-.profile-section {
+/* Profile Page Sections */
+.profile-content .profile-section {
     padding: 2rem;
     display: none;
 }
 
-.profile-section.active {
+.profile-content .profile-section.active {
     display: block;
 }
 
