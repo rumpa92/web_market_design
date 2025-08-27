@@ -76,7 +76,7 @@
         .section-title {
             font-size: 1.2rem;
             font-weight: 600;
-            color: #212529;
+            color: #000000;
             margin: 0 0 1.5rem 0;
             display: flex;
             align-items: center;
@@ -86,7 +86,7 @@
         .section-icon {
             width: 24px;
             height: 24px;
-            color: #e91e63;
+            color: #000000;
         }
 
         /* Address Cards */
@@ -102,7 +102,7 @@
             padding: 1rem;
             transition: all 0.3s ease;
             position: relative;
-            background: #f8f9fa;
+            background: white;
         }
 
         .address-card:hover {
@@ -113,7 +113,7 @@
 
         .address-card.default {
             border-color: #28a745;
-            background: #f8fff9;
+            background: white;
         }
 
         .address-header {
@@ -143,19 +143,19 @@
         }
 
         .home-icon {
-            background: #e8f5e8;
-            color: #28a745;
+            background: #28a745;
+            color: white;
         }
 
         .work-icon {
-            background: #f0e6ff;
-            color: #6f42c1;
+            background: #6f42c1;
+            color: white;
         }
 
         .address-label {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #6c757d;
+            color: white;
             letter-spacing: 0.5px;
         }
 
@@ -211,10 +211,18 @@
             justify-content: center;
         }
 
+        .action-btn.edit {
+            color: #ff8c00;
+        }
+
         .action-btn.edit:hover {
-            border-color: #007bff;
-            color: #007bff;
-            background: #f8f9ff;
+            border-color: #ff8c00;
+            color: #ff8c00;
+            background: #fff8f0;
+        }
+
+        .action-btn.delete {
+            color: #dc3545;
         }
 
         .action-btn.delete:hover {
@@ -226,13 +234,15 @@
         /* Add New Address Button */
         .add-address-container {
             position: relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
         .add-address-btn {
-            width: 100%;
-            padding: 1rem;
+            padding: 1rem 2rem;
             border: 2px dashed #e9ecef;
-            background: #f8f9fa;
+            background: white;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -285,7 +295,7 @@
             padding: 1rem;
             border: 1px solid #e9ecef;
             border-radius: 8px;
-            background: #f8f9fa;
+            background: white;
         }
 
         .preference-label {
@@ -647,12 +657,12 @@
     </header>
 
     <!-- Page Header -->
-    <div class="delivery-page-header">
+    <div class="page-header">
         <div class="container">
-            <button class="back-button" onclick="goBack()">
+            <button class="standard-back-button" onclick="goBack()">
                 <i class="fas fa-arrow-left"></i>
             </button>
-            <h1 class="page-title">Delivery Management</h1>
+            <h1 class="standard-page-title">Delivery Management</h1>
         </div>
     </div>
 
@@ -831,10 +841,7 @@
         </div>
     </div>
 
-    <!-- Floating Add Button -->
-    <button class="floating-add-btn" onclick="openAddAddressModal()" title="Add New Address">
-        <i class="fas fa-plus"></i>
-    </button>
+    <!-- Floating Add Button - Removed as requested -->
 
     <!-- Add/Edit Address Modal -->
     <div id="addressModal" class="modal">

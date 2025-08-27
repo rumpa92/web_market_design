@@ -1468,6 +1468,118 @@ body {
     font-weight: 600;
 }
 
+/* Standardized Page Header with Back Button and Page Name */
+.page-header {
+    background: transparent;
+    border-bottom: none;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+/* Remove all colored decorative lines */
+.section::after,
+.section-title::after,
+h1::after,
+h2::after,
+h3::after {
+    display: none !important;
+}
+
+/* Global edit and delete icon colors */
+.action-btn.edit,
+.edit-btn,
+.fas.fa-edit {
+    color: #ff8c00 !important;
+}
+
+.action-btn.delete,
+.delete-btn,
+.fas.fa-trash {
+    color: #dc3545 !important;
+}
+
+/* Global white background for cards */
+.address-card,
+.card,
+.preference-item {
+    background: white !important;
+}
+
+/* Global black section icons and titles */
+.section-icon,
+i.section-icon,
+.fas.fa-map-marker-alt,
+.fas.fa-cog,
+.fas.fa-truck,
+.fas.fa-history {
+    color: #000000 !important;
+}
+
+.section-title,
+h2.section-title,
+h1.section-title,
+h3.section-title {
+    color: #000000 !important;
+}
+
+/* Hide floating add buttons */
+.floating-add-btn {
+    display: none !important;
+}
+
+/* Home and Work label colors */
+.address-label {
+    color: white !important;
+}
+
+.home-icon {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.work-icon {
+    background: #6f42c1 !important;
+    color: white !important;
+}
+
+.page-header .container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.standard-back-button {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5568;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.standard-back-button:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateX(-2px);
+}
+
+.standard-page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+
 /* Profile Section Styles */
 .profile-section {
     position: relative;
