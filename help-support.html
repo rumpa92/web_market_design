@@ -397,6 +397,192 @@
         </div>
     </div>
 
+    <!-- Live Chat Modal -->
+    <div id="liveChatModal" class="live-chat-modal">
+        <div class="live-chat-container">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-title">
+                        <i class="fas fa-comments"></i>
+                        💬 Live Chat Support
+                    </div>
+                    <div class="agent-status" id="agentStatus">
+                        <div class="agent-info">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=40&h=40&fit=crop&crop=face" alt="Agent" class="agent-avatar">
+                            <div class="agent-details">
+                                <span class="agent-name">Riya</span>
+                                <span class="agent-role">(Customer Care)</span>
+                                <div class="agent-online-status">
+                                    <div class="online-indicator"></div>
+                                    Online
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn" id="minimizeChat" title="Minimize">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="chat-action-btn" id="closeChatModal" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-window" id="chatWindow">
+                <!-- Welcome Message -->
+                <div class="message-container bot-message">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=32&h=32&fit=crop&crop=face" alt="Agent" class="message-avatar">
+                    <div class="message-bubble bot-bubble">
+                        <div class="message-text">Hi 👋, how can we help you today?</div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <!-- Quick Reply Buttons -->
+                <div class="quick-replies" id="quickReplies">
+                    <button class="quick-reply-btn" data-message="Track My Order">
+                        📦 Track My Order
+                    </button>
+                    <button class="quick-reply-btn" data-message="Return / Exchange">
+                        🔄 Return / Exchange
+                    </button>
+                    <button class="quick-reply-btn" data-message="Payment / Refund">
+                        💳 Payment / Refund
+                    </button>
+                    <button class="quick-reply-btn" data-message="Account Issues">
+                        👤 Account Issues
+                    </button>
+                    <button class="quick-reply-btn" data-message="Other">
+                        ❓ Other
+                    </button>
+                </div>
+
+                <!-- FAQ Suggestions (Initially hidden) -->
+                <div class="faq-suggestions" id="faqSuggestions" style="display: none;">
+                    <div class="faq-suggestion-header">
+                        <i class="fas fa-lightbulb"></i>
+                        Suggested Help Articles:
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="order-tracking">
+                        🔍 How to track your order
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="returns">
+                        📋 Return and exchange policy
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="shipping">
+                        🚚 Shipping information
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-toolbar">
+                    <button class="input-tool-btn" id="attachmentBtn" title="Attach file">
+                        📎
+                    </button>
+                    <button class="input-tool-btn" id="voiceBtn" title="Voice message">
+                        🎤
+                    </button>
+                    <button class="input-tool-btn" id="emojiBtn" title="Emoji">
+                        😊
+                    </button>
+                </div>
+
+                <div class="chat-input-box">
+                    <textarea id="chatInput" placeholder="Type your message..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- Emoji Picker (Hidden by default) -->
+                <div class="emoji-picker" id="emojiPicker" style="display: none;">
+                    <div class="emoji-grid">
+                        <span class="emoji-option">😊</span>
+                        <span class="emoji-option">😂</span>
+                        <span class="emoji-option">😍</span>
+                        <span class="emoji-option">🤔</span>
+                        <span class="emoji-option">😭</span>
+                        <span class="emoji-option">😡</span>
+                        <span class="emoji-option">👍</span>
+                        <span class="emoji-option">👎</span>
+                        <span class="emoji-option">❤️</span>
+                        <span class="emoji-option">🔥</span>
+                        <span class="emoji-option">💯</span>
+                        <span class="emoji-option">🎉</span>
+                    </div>
+                </div>
+
+                <div class="chat-footer">
+                    <button class="end-chat-btn" id="endChatBtn">
+                        End Chat
+                    </button>
+                    <span class="typing-indicator" id="typingIndicator" style="display: none;">
+                        Riya is typing...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Feedback Modal -->
+    <div id="feedbackModal" class="feedback-modal" style="display: none;">
+        <div class="feedback-container">
+            <div class="feedback-header">
+                <h3>Rate Your Chat Experience</h3>
+                <button class="close-feedback" id="closeFeedback">×</button>
+            </div>
+            <div class="feedback-content">
+                <div class="rating-section">
+                    <p>How would you rate our support?</p>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">⭐</span>
+                        <span class="star" data-rating="2">⭐</span>
+                        <span class="star" data-rating="3">⭐</span>
+                        <span class="star" data-rating="4">⭐</span>
+                        <span class="star" data-rating="5">⭐</span>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <label for="feedbackComment">Additional Comments (Optional):</label>
+                    <textarea id="feedbackComment" placeholder="Tell us how we can improve..."></textarea>
+                </div>
+                <div class="feedback-actions">
+                    <button class="submit-feedback-btn" id="submitFeedback">Submit Feedback</button>
+                    <button class="skip-feedback-btn" id="skipFeedback">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Upload Modal -->
+    <div id="fileUploadModal" class="file-upload-modal" style="display: none;">
+        <div class="file-upload-container">
+            <div class="file-upload-header">
+                <h3>📎 Attach File</h3>
+                <button class="close-file-upload" id="closeFileUpload">×</button>
+            </div>
+            <div class="file-upload-content">
+                <div class="file-drop-zone" id="fileDropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop files here or click to browse</p>
+                    <small>Supported: Images, PDF, DOC (Max 10MB)</small>
+                    <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx" multiple hidden>
+                </div>
+                <div class="file-preview" id="filePreview"></div>
+                <div class="file-upload-actions">
+                    <button class="upload-files-btn" id="uploadFiles">Upload Files</button>
+                    <button class="cancel-upload-btn" id="cancelUpload">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
