@@ -832,8 +832,8 @@ function handleStoryClick(card, index) {
     localStorage.setItem(`story_read_${index}`, 'true');
     card.classList.add('story-read');
 
-    // Show story modal or navigate
-    showStoryModal(storyTitle, storyDescription, index);
+    // Show article page
+    showArticlePage(storyTitle, storyDescription, index);
 
     showNotification(`Opening: ${storyTitle}`, 'info');
 }
