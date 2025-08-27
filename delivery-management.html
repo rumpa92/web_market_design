@@ -1014,6 +1014,10 @@
 
         function reorderItem(productId) {
             showNotification('Adding item to cart...', 'info');
+            // Add item to cart and redirect to checkout after a brief delay
+            setTimeout(() => {
+                window.location.href = 'checkout.html';
+            }, 1000);
         }
 
         function writeReview(productId) {
