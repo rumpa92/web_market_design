@@ -298,6 +298,11 @@
             }, 3000);
         }
 
+        // Add click handler for dropdown item
+        document.getElementById('accountDeletion').addEventListener('click', function() {
+            showDeleteAccountModal();
+        });
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Clean Profile page loaded');
