@@ -1261,11 +1261,6 @@
             // Close chat modal
             document.getElementById('closeChatModal').addEventListener('click', closeLiveChat);
 
-            // Minimize chat (just hide for now)
-            document.getElementById('minimizeChat').addEventListener('click', function() {
-                document.getElementById('liveChatModal').style.display = 'none';
-            });
-
             // Quick reply buttons
             document.querySelectorAll('.quick-reply-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
