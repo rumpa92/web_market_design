@@ -1148,6 +1148,113 @@
         </div>
     </div>
 
+    <!-- Email Support Modal -->
+    <div id="emailSupportModal" class="email-support-modal" style="display: none;">
+        <div class="email-support-container">
+            <div class="email-support-header">
+                <div class="email-header-content">
+                    <h2>📧 Email Support</h2>
+                    <p class="email-help-text">Can't find what you need? Send us an email and our support team will get back to you within 24 hours.</p>
+                </div>
+                <button class="close-email-modal" id="closeEmailModal">×</button>
+            </div>
+
+            <form class="email-support-form" id="emailSupportForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportFullName">Full Name *</label>
+                        <input type="text" id="supportFullName" name="fullName" placeholder="Your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportEmail">Email Address *</label>
+                        <input type="email" id="supportEmail" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportOrderId">Order ID (Optional)</label>
+                        <input type="text" id="supportOrderId" name="orderId" placeholder="ORD123456 (if related to a specific order)">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportCategory">Category *</label>
+                        <select id="supportCategory" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="order-delivery">📦 Order & Delivery Issues</option>
+                            <option value="payment-refunds">💳 Payment & Refunds</option>
+                            <option value="returns-exchanges">🔄 Returns & Exchanges</option>
+                            <option value="account-profile">👤 Account & Profile</option>
+                            <option value="rewards-gifts">🎁 Rewards & Gift Cards</option>
+                            <option value="other">❓ Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportSubject">Subject *</label>
+                        <input type="text" id="supportSubject" name="subject" placeholder="Brief description of your issue" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportMessage">Message / Issue Description *</label>
+                        <textarea id="supportMessage" name="message" rows="6" placeholder="Please provide detailed information about your issue. Include any relevant order numbers, product details, or error messages." required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportAttachments">📎 Attachments (Optional)</label>
+                        <div class="attachment-upload-area" id="attachmentUploadArea">
+                            <div class="attachment-drop-zone" id="attachmentDropZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop files here or <span class="browse-link">browse</span></p>
+                                <small>Supported: Images, PDF, DOC (Max 10MB each)</small>
+                                <input type="file" id="supportAttachments" name="attachments" accept="image/*,.pdf,.doc,.docx" multiple hidden>
+                            </div>
+                            <div class="attachment-preview" id="attachmentPreview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-email-btn" id="cancelEmail">Cancel</button>
+                    <button type="submit" class="send-email-btn" id="sendEmailBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Email
+                    </button>
+                </div>
+            </form>
+
+            <div class="email-support-footer">
+                <div class="alternative-contact">
+                    <h4>Need immediate help?</h4>
+                    <div class="contact-alternatives">
+                        <button class="alt-contact-btn" onclick="openLiveChat()">
+                            <i class="fas fa-comments"></i>
+                            Live Chat
+                        </button>
+                        <button class="alt-contact-btn" onclick="callSupport()">
+                            <i class="fas fa-phone"></i>
+                            Call Support
+                        </button>
+                    </div>
+                </div>
+                <div class="working-hours">
+                    <p><i class="fas fa-clock"></i> Support available Mon–Sat, 9 AM – 8 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
