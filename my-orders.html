@@ -1001,18 +1001,14 @@
 
                         <div class="order-footer">
                             <p class="order-date">${order.displayDate}</p>
-                            <div class="order-actions">
-                                <a href="order-details.html?id=${order.id}" class="view-details-btn">
-                                    View Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                                ${order.status === 'delivered' ? `
+                            ${order.status === 'delivered' ? `
+                                <div class="order-actions">
                                     <button class="return-exchange-btn" onclick="handleReturnExchange('${order.id}', '${order.productName}')">
                                         <i class="fas fa-undo-alt"></i>
                                         Return/Exchange
                                     </button>
-                                ` : ''}
-                            </div>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
