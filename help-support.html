@@ -1234,6 +1234,416 @@
             showNotification('You are already on the Help & Support page', 'info');
         }
 
+        // Live Chat Functionality
+        let chatMessages = [];
+        let currentRating = 0;
+        let chatActive = false;
+
+        function initializeChat() {
+            chatActive = true;
+            chatMessages = [];
+
+            // Reset chat window
+            const chatWindow = document.getElementById('chatWindow');
+            const welcomeMessage = chatWindow.querySelector('.message-container.bot-message');
+            const quickReplies = document.getElementById('quickReplies');
+
+            // Keep welcome message and quick replies, remove others
+            const allMessages = chatWindow.querySelectorAll('.message-container:not(.bot-message)');
+            allMessages.forEach(msg => msg.remove());
+
+            // Reset input
+            document.getElementById('chatInput').value = '';
+            document.getElementById('sendBtn').disabled = true;
+
+            // Setup event listeners
+            setupChatEventListeners();
+        }
+
+        function setupChatEventListeners() {
+            // Close chat modal
+            document.getElementById('closeChatModal').addEventListener('click', closeLiveChat);
+
+            // Minimize chat (just hide for now)
+            document.getElementById('minimizeChat').addEventListener('click', function() {
+                document.getElementById('liveChatModal').style.display = 'none';
+            });
+
+            // Quick reply buttons
+            document.querySelectorAll('.quick-reply-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const message = this.getAttribute('data-message');
+                    sendQuickReply(message);
+                });
+            });
+
+            // Chat input
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+
+            chatInput.addEventListener('input', function() {
+                sendBtn.disabled = this.value.trim() === '';
+                autoResizeTextarea(this);
+            });
+
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendBtn.disabled) {
+                        sendMessage();
+                    }
+                }
+            });
+
+            sendBtn.addEventListener('click', sendMessage);
+
+            // Emoji picker
+            document.getElementById('emojiBtn').addEventListener('click', toggleEmojiPicker);
+            document.querySelectorAll('.emoji-option').forEach(emoji => {
+                emoji.addEventListener('click', function() {
+                    insertEmoji(this.textContent);
+                });
+            });
+
+            // File attachment
+            document.getElementById('attachmentBtn').addEventListener('click', openFileUpload);
+
+            // Voice message (simulation)
+            document.getElementById('voiceBtn').addEventListener('click', startVoiceMessage);
+
+            // End chat
+            document.getElementById('endChatBtn').addEventListener('click', endChat);
+
+            // FAQ suggestions
+            document.querySelectorAll('.faq-suggestion-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const faq = this.getAttribute('data-faq');
+                    showFAQAnswer(faq);
+                });
+            });
+
+            // Feedback modal
+            setupFeedbackModal();
+
+            // File upload modal
+            setupFileUploadModal();
+        }
+
+        function sendQuickReply(message) {
+            addUserMessage(message);
+
+            // Hide quick replies after first use
+            document.getElementById('quickReplies').style.display = 'none';
+
+            // Show FAQ suggestions for certain topics
+            if (message.includes('Track') || message.includes('Return') || message.includes('Payment')) {
+                setTimeout(() => {
+                    document.getElementById('faqSuggestions').style.display = 'block';
+                }, 1000);
+            }
+
+            // Simulate agent response
+            setTimeout(() => {
+                respondToQuickReply(message);
+            }, 1500);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                document.getElementById('sendBtn').disabled = true;
+                autoResizeTextarea(input);
+
+                // Simulate agent typing and response
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    respondToMessage(message);
+                }, 2000);
+            }
+        }
+
+        function addUserMessage(message) {
+            const chatWindow = document.getElementById('chatWindow');
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container user-message';
+
+            messageContainer.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" alt="User" class="message-avatar">
+                <div class="message-bubble user-bubble">
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+
+            chatWindow.appendChild(messageContainer);
+            scrollToBottom();
+        }
+
+        function addBotMessage(message) {
+            const chatWindow = document.getElementById('chatWindow');
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container bot-message';
+
+            messageContainer.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=32&h=32&fit=crop&crop=face" alt="Agent" class="message-avatar">
+                <div class="message-bubble bot-bubble">
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+
+            chatWindow.appendChild(messageContainer);
+            scrollToBottom();
+        }
+
+        function respondToQuickReply(message) {
+            let response = '';
+
+            switch(message) {
+                case 'Track My Order':
+                    response = 'I can help you track your order! Could you please provide your order number? It usually starts with "ORD" followed by numbers.';
+                    break;
+                case 'Return / Exchange':
+                    response = 'I\'d be happy to help with returns or exchanges. Our return policy allows returns within 30 days. Do you have a specific item you\'d like to return?';
+                    break;
+                case 'Payment / Refund':
+                    response = 'I can assist with payment and refund inquiries. What specific issue are you experiencing with your payment?';
+                    break;
+                case 'Account Issues':
+                    response = 'I\'m here to help with your account. What kind of issue are you facing? Login problems, password reset, or something else?';
+                    break;
+                case 'Other':
+                    response = 'I\'m here to help with any questions you have. Please describe your issue and I\'ll do my best to assist you.';
+                    break;
+                default:
+                    response = 'Thank you for your message. How can I assist you further?';
+            }
+
+            addBotMessage(response);
+        }
+
+        function respondToMessage(message) {
+            let response = '';
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                response = 'Hello! I\'m Riya from customer care. How can I help you today? 😊';
+            } else if (lowerMessage.includes('order') && (lowerMessage.includes('track') || lowerMessage.includes('status'))) {
+                response = 'I can help you track your order. Please provide your order number and I\'ll get the latest status for you.';
+            } else if (lowerMessage.includes('return') || lowerMessage.includes('refund')) {
+                response = 'I understand you\'d like to return an item. Our return process is simple - I can guide you through it. Do you have your order number handy?';
+            } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
+                response = 'I can help with delivery and shipping questions. What specific information do you need about your delivery?';
+            } else if (lowerMessage.includes('payment') || lowerMessage.includes('charged')) {
+                response = 'I can assist with payment-related concerns. Could you provide more details about the payment issue you\'re experiencing?';
+            } else {
+                response = 'Thank you for your message. I understand your concern and I\'m here to help. Could you provide a bit more detail so I can assist you better?';
+            }
+
+            addBotMessage(response);
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function toggleEmojiPicker() {
+            const emojiPicker = document.getElementById('emojiPicker');
+            emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById('chatInput');
+            input.value += emoji;
+            document.getElementById('sendBtn').disabled = input.value.trim() === '';
+            toggleEmojiPicker();
+            input.focus();
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        function scrollToBottom() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function startVoiceMessage() {
+            showNotification('🎤 Voice message feature coming soon!', 'info');
+        }
+
+        function openFileUpload() {
+            document.getElementById('fileUploadModal').style.display = 'flex';
+        }
+
+        function showFAQAnswer(faq) {
+            let answer = '';
+            switch(faq) {
+                case 'order-tracking':
+                    answer = 'You can track your order by going to "My Orders" in your account, or by clicking the tracking link in your order confirmation email.';
+                    break;
+                case 'returns':
+                    answer = 'We offer free returns within 30 days. Items must be unworn with original tags. You can initiate a return from your account dashboard.';
+                    break;
+                case 'shipping':
+                    answer = 'We offer free standard shipping on orders over $50. Express shipping is available for $9.99. Most orders are delivered within 3-5 business days.';
+                    break;
+            }
+            addBotMessage(answer);
+            document.getElementById('faqSuggestions').style.display = 'none';
+        }
+
+        function endChat() {
+            chatActive = false;
+            document.getElementById('liveChatModal').style.display = 'none';
+            document.getElementById('feedbackModal').style.display = 'flex';
+        }
+
+        function closeLiveChat() {
+            if (chatActive && chatMessages.length > 0) {
+                if (confirm('Are you sure you want to end this chat session?')) {
+                    endChat();
+                }
+            } else {
+                document.getElementById('liveChatModal').style.display = 'none';
+            }
+        }
+
+        function setupFeedbackModal() {
+            // Star rating
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    updateStarRating();
+                });
+            });
+
+            // Close feedback
+            document.getElementById('closeFeedback').addEventListener('click', function() {
+                document.getElementById('feedbackModal').style.display = 'none';
+            });
+
+            // Submit feedback
+            document.getElementById('submitFeedback').addEventListener('click', function() {
+                const comment = document.getElementById('feedbackComment').value;
+                submitFeedback(currentRating, comment);
+            });
+
+            // Skip feedback
+            document.getElementById('skipFeedback').addEventListener('click', function() {
+                document.getElementById('feedbackModal').style.display = 'none';
+                showNotification('Thank you for using our chat support!', 'info');
+            });
+        }
+
+        function updateStarRating() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        function submitFeedback(rating, comment) {
+            // Simulate feedback submission
+            showNotification(`Thank you for your ${rating}-star rating! Your feedback helps us improve.`, 'success');
+            document.getElementById('feedbackModal').style.display = 'none';
+
+            // Reset feedback form
+            currentRating = 0;
+            updateStarRating();
+            document.getElementById('feedbackComment').value = '';
+        }
+
+        function setupFileUploadModal() {
+            const fileDropZone = document.getElementById('fileDropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            // Click to browse
+            fileDropZone.addEventListener('click', () => fileInput.click());
+
+            // File input change
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // Drag and drop
+            fileDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileDropZone.style.borderColor = '#000000';
+            });
+
+            fileDropZone.addEventListener('dragleave', () => {
+                fileDropZone.style.borderColor = '#e9ecef';
+            });
+
+            fileDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileDropZone.style.borderColor = '#e9ecef';
+                handleFileSelect({ target: { files: e.dataTransfer.files } });
+            });
+
+            // Close file upload
+            document.getElementById('closeFileUpload').addEventListener('click', function() {
+                document.getElementById('fileUploadModal').style.display = 'none';
+            });
+
+            // Upload files
+            document.getElementById('uploadFiles').addEventListener('click', function() {
+                showNotification('📎 Files uploaded successfully!', 'success');
+                document.getElementById('fileUploadModal').style.display = 'none';
+                addBotMessage('I\'ve received your files. Let me review them and get back to you shortly.');
+            });
+
+            // Cancel upload
+            document.getElementById('cancelUpload').addEventListener('click', function() {
+                document.getElementById('fileUploadModal').style.display = 'none';
+            });
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            const filePreview = document.getElementById('filePreview');
+
+            filePreview.innerHTML = '';
+
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem;
+                    background: #f8f9fa;
+                    border-radius: 6px;
+                    margin-bottom: 0.5rem;
+                `;
+
+                fileItem.innerHTML = `
+                    <i class="fas fa-file"></i>
+                    <span>${file.name}</span>
+                    <small>(${(file.size / 1024).toFixed(1)} KB)</small>
+                `;
+
+                filePreview.appendChild(fileItem);
+            });
+        }
+
         // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Profile dropdown functionality
