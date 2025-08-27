@@ -146,15 +146,6 @@
             opacity: 1;
         }
 
-        .address-card.default {
-            background: linear-gradient(135deg, rgba(56, 161, 105, 0.08) 0%, rgba(47, 133, 90, 0.08) 100%);
-            border: 2px solid rgba(56, 161, 105, 0.3);
-        }
-
-        .address-card.default::before {
-            opacity: 1;
-            height: 6px;
-        }
 
         .address-header {
             display: flex;
@@ -192,20 +183,6 @@
             color: #718096;
         }
 
-        .default-badge {
-            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-            color: white;
-            padding: 0.4rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
 
         .address-content {
             margin-bottom: 1.5rem;
@@ -287,16 +264,6 @@
             box-shadow: 0 6px 20px rgba(229, 62, 62, 0.3);
         }
 
-        .default-btn {
-            background: rgba(56, 161, 105, 0.1);
-            color: #38a169;
-        }
-
-        .default-btn:hover {
-            background: rgba(56, 161, 105, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.3);
-        }
 
         .empty-state {
             text-align: center;
@@ -1024,15 +991,14 @@
             grid.style.display = 'grid';
 
             grid.innerHTML = addresses.map(address => `
-                <div class="address-card ${address.isDefault ? 'default' : ''}">
+                <div class="address-card">
                     <div class="address-header">
                         <div class="address-type ${address.type.toLowerCase()}">
                             <i class="fas fa-${getTypeIcon(address.type)}"></i>
                             ${address.type}
                         </div>
-                        ${address.isDefault ? '<div class="default-badge"><i class="fas fa-star"></i>Default</div>' : ''}
                     </div>
-                    
+
                     <div class="address-content">
                         <h4 class="recipient-name">${address.fullName}</h4>
                         <div class="contact-info">
@@ -1045,7 +1011,7 @@
                             ${address.country}
                         </div>
                     </div>
-                    
+
                     <div class="address-actions">
                         <button class="action-btn edit-btn" onclick="editAddress('${address.id}')" title="Edit Address">
                             <i class="fas fa-edit"></i>
@@ -1053,9 +1019,6 @@
                         <button class="action-btn delete-btn" onclick="showDeleteModal('${address.id}')" title="Delete Address">
                             <i class="fas fa-trash"></i>
                         </button>
-                        ${!address.isDefault ? `<button class="action-btn default-btn" onclick="setAsDefault('${address.id}')" title="Set as Default">
-                            <i class="fas fa-star"></i>
-                        </button>` : ''}
                     </div>
                 </div>
             `).join('');
@@ -1205,14 +1168,6 @@
             }, 1500);
         }
 
-        function setAsDefault(id) {
-            addresses.forEach(addr => {
-                addr.isDefault = addr.id === id;
-            });
-            localStorage.setItem('savedAddresses', JSON.stringify(addresses));
-            displayAddresses();
-            showNotification('Default address updated!', 'success');
-        }
 
         function showDeleteModal(id) {
             deleteId = id;
