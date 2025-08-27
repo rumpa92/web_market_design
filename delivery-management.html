@@ -643,30 +643,27 @@
                 <div class="address-card default">
                     <div class="address-header">
                         <div class="address-type">
-                            <span class="address-type-icon">🏠</span>
-                            <span>Home Address</span>
+                            <i class="fas fa-home address-type-icon home-icon"></i>
+                            <span class="address-label">HOME</span>
                         </div>
-                        <span class="default-badge">Default</span>
+                        <div class="address-actions">
+                            <button class="action-btn edit" onclick="editAddress('home')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteAddress('home')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="recipient-name">Sarah Johnson</div>
-                    <div class="address-details">
-                        123 Rose Garden Street, Apartment 4B<br>
-                        Green Valley, Mumbai - 400001<br>
-                        Maharashtra, India
-                    </div>
+                    <div class="recipient-name">Rumpa Samanta</div>
                     <div class="contact-number">
                         <i class="fas fa-phone"></i>
-                        +91 9775637590
+                        +91 9876543210
                     </div>
-                    <div class="address-actions">
-                        <button class="action-btn edit" onclick="editAddress('home')">
-                            <i class="fas fa-edit"></i>
-                            Edit
-                        </button>
-                        <button class="action-btn delete" onclick="deleteAddress('home')">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
+                    <div class="address-details">
+                        Flat 302, Sunrise Apartments, Near Park Street Metro<br>
+                        Kolkata, West Bengal - 700016<br>
+                        India
                     </div>
                 </div>
 
@@ -674,61 +671,27 @@
                 <div class="address-card">
                     <div class="address-header">
                         <div class="address-type">
-                            <span class="address-type-icon">🏢</span>
-                            <span>Work Address</span>
+                            <i class="fas fa-briefcase address-type-icon work-icon"></i>
+                            <span class="address-label">WORK</span>
+                        </div>
+                        <div class="address-actions">
+                            <button class="action-btn edit" onclick="editAddress('work')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteAddress('work')">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="recipient-name">Sarah Johnson</div>
-                    <div class="address-details">
-                        StyleHub Technologies Pvt Ltd<br>
-                        456 Business Park, Tower A, Floor 12<br>
-                        Bandra East, Mumbai - 400051<br>
-                        Maharashtra, India
-                    </div>
-                    <div class="contact-number">
-                        <i class="fas fa-phone"></i>
-                        +91 9775637590
-                    </div>
-                    <div class="address-actions">
-                        <button class="action-btn edit" onclick="editAddress('work')">
-                            <i class="fas fa-edit"></i>
-                            Edit
-                        </button>
-                        <button class="action-btn delete" onclick="deleteAddress('work')">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Other Address -->
-                <div class="address-card">
-                    <div class="address-header">
-                        <div class="address-type">
-                            <span class="address-type-icon">📍</span>
-                            <span>Friend's Place</span>
-                        </div>
-                    </div>
-                    <div class="recipient-name">Emma Wilson</div>
-                    <div class="address-details">
-                        789 Ocean View Residency<br>
-                        Marine Drive, Fort<br>
-                        Mumbai - 400001<br>
-                        Maharashtra, India
-                    </div>
+                    <div class="recipient-name">Rumpa Samanta</div>
                     <div class="contact-number">
                         <i class="fas fa-phone"></i>
                         +91 9876543210
                     </div>
-                    <div class="address-actions">
-                        <button class="action-btn edit" onclick="editAddress('other')">
-                            <i class="fas fa-edit"></i>
-                            Edit
-                        </button>
-                        <button class="action-btn delete" onclick="deleteAddress('other')">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
+                    <div class="address-details">
+                        Tech Tower, 5th Floor, Salt Lake Stadium<br>
+                        Kolkata, West Bengal - 700091<br>
+                        India
                     </div>
                 </div>
 
