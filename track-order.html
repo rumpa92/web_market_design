@@ -1116,12 +1116,22 @@
 
         // Populate order details based on order ID
         function populateOrderDetails(orderId) {
+            console.log('Populating order details for:', orderId);
             const order = orderData[orderId];
 
             if (!order) {
+                console.error('Order not found:', orderId);
                 showNotification('Order not found. Showing default order.', 'warning');
+                // Use default order
+                const defaultOrder = orderData['ORD12345'];
+                if (defaultOrder) {
+                    console.log('Using default order:', defaultOrder.id);
+                    populateOrderDetails('ORD12345');
+                }
                 return;
             }
+
+            console.log('Found order:', order.id, 'for product:', order.products[0].name);
 
             // Update order header
             document.getElementById('orderIdDisplay').textContent = `Order #${order.id}`;
