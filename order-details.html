@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Order Details Comprehensive Design */
         body {
             background: #f8fafc;
             min-height: 100vh;
@@ -17,11 +18,12 @@
         }
 
         .order-details-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
 
+        /* Header Section */
         .details-header {
             display: flex;
             align-items: center;
@@ -52,61 +54,96 @@
         }
 
         .details-title {
-            font-size: 1.75rem;
+            font-size: 1.875rem;
             font-weight: 700;
             margin: 0;
             color: #1a202c;
         }
 
+        /* Card Base Styles */
         .details-card {
             background: white;
             border-radius: 16px;
             border: 1px solid #f0f0f0;
+            margin-bottom: 1.5rem;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
         }
 
-        .order-summary {
-            padding: 2rem;
-            border-bottom: 1px solid #f0f0f0;
+        .details-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .summary-header {
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        /* Order Information Card */
+        .order-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .order-id {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #667eea;
-            margin: 0;
+        .info-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
         }
 
-        .order-status {
+        .info-label {
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .order-id {
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Status Badges */
+        .status-badge {
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.875rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .status-delivered {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-confirmed {
-            background: #cce7ff;
-            color: #0066cc;
-        }
-
-        .status-canceled {
-            background: #f8d7da;
-            color: #721c24;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .status-processing {
@@ -119,138 +156,341 @@
             color: #cc6600;
         }
 
-        .product-details {
+        .status-out-for-delivery {
+            background: #cce7ff;
+            color: #0066cc;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .payment-paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .payment-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .payment-refunded {
+            background: #cce7ff;
+            color: #0066cc;
+        }
+
+        /* Product Details */
+        .product-list {
             display: flex;
+            flex-direction: column;
             gap: 1.5rem;
         }
 
+        .product-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
         .product-image {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 12px;
             object-fit: cover;
-            border: 1px solid #f0f0f0;
+            border: 1px solid #e2e8f0;
             flex-shrink: 0;
         }
 
-        .product-info {
+        .product-details {
             flex: 1;
         }
 
         .product-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1a202c;
-            margin: 0 0 1rem 0;
-            line-height: 1.4;
-        }
-
-        .product-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .meta-item {
-            font-size: 0.875rem;
-            color: #718096;
-        }
-
-        .meta-label {
-            font-weight: 500;
-            color: #4a5568;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a202c;
-            margin: 0;
-        }
-
-        .order-timeline {
-            padding: 2rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .timeline-title {
             font-size: 1.125rem;
             font-weight: 600;
             color: #1a202c;
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 0.75rem 0;
+            line-height: 1.4;
         }
 
-        .timeline-steps {
+        .product-specs {
             display: flex;
-            flex-direction: column;
             gap: 1rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
         }
 
-        .timeline-step {
+        .spec-item {
+            background: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .product-pricing {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-per-item {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .product-total {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        /* Delivery Information */
+        .delivery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .delivery-section {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin: 0 0 1rem 0;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
-        .step-icon {
+        .delivery-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .delivery-label {
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .delivery-value {
+            color: #1a202c;
+            font-weight: 500;
+        }
+
+        .address-text {
+            line-height: 1.5;
+            color: #4a5568;
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row.total {
+            background: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .summary-label {
+            color: #4a5568;
+        }
+
+        .summary-value {
+            color: #1a202c;
+            font-weight: 500;
+        }
+
+        .discount-value {
+            color: #38a169;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            margin: 1rem 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .payment-icon {
             width: 32px;
             height: 32px;
-            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            font-size: 0.875rem;
         }
 
-        .step-icon.completed {
-            background: #48bb78;
-            color: white;
-        }
-
-        .step-icon.current {
-            background: #667eea;
-            color: white;
-        }
-
-        .step-icon.pending {
-            background: #f7fafc;
-            color: #a0aec0;
-            border: 2px solid #e2e8f0;
-        }
-
-        .step-content {
-            flex: 1;
-        }
-
-        .step-title {
-            font-weight: 500;
-            color: #1a202c;
-            margin: 0 0 0.25rem 0;
-        }
-
-        .step-time {
-            font-size: 0.875rem;
-            color: #718096;
-            margin: 0;
-        }
-
-        .order-actions {
-            padding: 2rem;
-        }
-
-        .actions-grid {
+        /* Refund Section */
+        .refund-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
         }
 
-        .action-btn {
-            padding: 0.75rem 1.5rem;
+        .refund-item {
+            background: #f7fafc;
+            padding: 1rem;
             border-radius: 8px;
-            font-size: 0.875rem;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .refund-amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #38a169;
+        }
+
+        /* Order Timeline */
+        .timeline-container {
+            padding: 2rem;
+        }
+
+        .timeline-track {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            border: 3px solid;
+        }
+
+        .step-circle.completed {
+            background: #48bb78;
+            color: white;
+            border-color: #48bb78;
+        }
+
+        .step-circle.current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            animation: pulse 2s infinite;
+        }
+
+        .step-circle.pending {
+            background: white;
+            color: #a0aec0;
+            border-color: #e2e8f0;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: #4a5568;
             font-weight: 500;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-time {
+            font-size: 0.625rem;
+            color: #718096;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Action Buttons */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid;
@@ -259,18 +499,19 @@
             justify-content: center;
             gap: 0.5rem;
             text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border-color: #667eea;
+            border-color: transparent;
         }
 
         .btn-primary:hover {
-            background: #5a67d8;
-            border-color: #5a67d8;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
         .btn-secondary {
@@ -282,6 +523,7 @@
         .btn-secondary:hover {
             background: #f7fafc;
             border-color: #cbd5e0;
+            transform: translateY(-1px);
         }
 
         .btn-danger {
@@ -295,6 +537,67 @@
             border-color: #f56565;
         }
 
+        .btn-success {
+            background: #c6f6d5;
+            color: #38a169;
+            border-color: #9ae6b4;
+        }
+
+        .btn-success:hover {
+            background: #9ae6b4;
+            border-color: #68d391;
+        }
+
+        /* Support Section */
+        .support-section {
+            background: linear-gradient(135deg, #e6f3ff, #cce7ff);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #bee3f8;
+        }
+
+        .support-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2b6cb0;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .support-subtitle {
+            color: #4299e1;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .support-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .support-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #2b6cb0;
+            border: 2px solid #bee3f8;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .support-btn:hover {
+            background: #bee3f8;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .order-details-container {
                 padding: 1rem;
@@ -304,13 +607,21 @@
                 font-size: 1.5rem;
             }
 
-            .order-summary,
-            .order-timeline,
-            .order-actions {
+            .card-content {
                 padding: 1.5rem;
             }
 
-            .product-details {
+            .order-info-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .delivery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .product-item {
                 flex-direction: column;
                 text-align: center;
             }
@@ -321,8 +632,45 @@
                 margin: 0 auto;
             }
 
+            .product-pricing {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .timeline-track {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .timeline-line {
+                display: none;
+            }
+
+            .timeline-progress {
+                display: none;
+            }
+
             .actions-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .support-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header {
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .summary-row {
+                padding: 0.5rem 1rem;
             }
         }
     </style>
@@ -410,105 +758,348 @@
             <h1 class="details-title">Order Details</h1>
         </div>
 
-        <!-- Order Details Card -->
+        <!-- Order Information Card -->
         <div class="details-card">
-            <!-- Order Summary -->
-            <div class="order-summary">
-                <div class="summary-header">
-                    <h2 class="order-id" id="orderIdDisplay">#SH2024001234</h2>
-                    <span class="order-status status-delivered" id="orderStatusDisplay">Delivered</span>
-                </div>
-
-                <div class="product-details">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=120&fit=crop" alt="Premium Cotton T-Shirt" class="product-image" id="productImage">
-                    <div class="product-info">
-                        <h3 class="product-name" id="productName">Premium Cotton T-Shirt</h3>
-                        <div class="product-meta">
-                            <div class="meta-item">
-                                <div class="meta-label">Quantity</div>
-                                <div id="productQuantity">2</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Size</div>
-                                <div id="productSize">M</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Color</div>
-                                <div id="productColor">Navy Blue</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Order Date</div>
-                                <div id="orderDate">Jan 15, 2024</div>
-                            </div>
-                        </div>
-                        <p class="product-price" id="productPrice">₹1,598</p>
-                    </div>
-                </div>
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-receipt"></i>
+                    Order Information
+                </h2>
             </div>
-
-            <!-- Order Timeline -->
-            <div class="order-timeline">
-                <h3 class="timeline-title">Order Timeline</h3>
-                <div class="timeline-steps" id="timelineSteps">
-                    <div class="timeline-step">
-                        <div class="step-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="step-content">
-                            <p class="step-title">Order Placed</p>
-                            <p class="step-time">Jan 15, 2024 at 2:30 PM</p>
+            <div class="card-content">
+                <div class="order-info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Order ID</div>
+                        <div class="info-value order-id" id="orderIdDisplay">#SH2024001234</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Order Date</div>
+                        <div class="info-value" id="orderDateDisplay">January 15, 2024</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Order Status</div>
+                        <div class="info-value">
+                            <span class="status-badge status-delivered" id="orderStatusDisplay">
+                                <i class="fas fa-check-circle"></i>
+                                Delivered
+                            </span>
                         </div>
                     </div>
-                    <div class="timeline-step">
-                        <div class="step-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="step-content">
-                            <p class="step-title">Order Confirmed</p>
-                            <p class="step-time">Jan 15, 2024 at 3:15 PM</p>
-                        </div>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="step-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="step-content">
-                            <p class="step-title">Shipped</p>
-                            <p class="step-time">Jan 16, 2024 at 10:00 AM</p>
-                        </div>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="step-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="step-content">
-                            <p class="step-title">Delivered</p>
-                            <p class="step-time">Jan 20, 2024 at 4:30 PM</p>
+                    <div class="info-item">
+                        <div class="info-label">Payment Status</div>
+                        <div class="info-value">
+                            <span class="status-badge payment-paid" id="paymentStatusDisplay">
+                                <i class="fas fa-credit-card"></i>
+                                Paid
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Order Actions -->
-            <div class="order-actions">
+        <!-- Product Details Card -->
+        <div class="details-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-box"></i>
+                    Product Details
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="product-list" id="productList">
+                    <div class="product-item">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&h=100&fit=crop" alt="Premium Cotton T-Shirt" class="product-image">
+                        <div class="product-details">
+                            <h3 class="product-name">Premium Cotton T-Shirt</h3>
+                            <div class="product-specs">
+                                <span class="spec-item">Size: M</span>
+                                <span class="spec-item">Color: Navy Blue</span>
+                                <span class="spec-item">Quantity: 2</span>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="price-per-item">₹799 × 2</span>
+                                <span class="product-total">₹1,598</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=100&h=100&fit=crop" alt="Casual Denim Jeans" class="product-image">
+                        <div class="product-details">
+                            <h3 class="product-name">Casual Denim Jeans</h3>
+                            <div class="product-specs">
+                                <span class="spec-item">Size: 32</span>
+                                <span class="spec-item">Color: Dark Blue</span>
+                                <span class="spec-item">Quantity: 1</span>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="price-per-item">₹2,499 × 1</span>
+                                <span class="product-total">₹2,499</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Information Card -->
+        <div class="details-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-truck"></i>
+                    Delivery Information
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="delivery-grid">
+                    <div class="delivery-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Recipient Details
+                        </h3>
+                        <div class="delivery-item">
+                            <div class="delivery-label">Full Name</div>
+                            <div class="delivery-value">Sarah Johnson</div>
+                        </div>
+                        <div class="delivery-item">
+                            <div class="delivery-label">Phone Number</div>
+                            <div class="delivery-value">+91 9775637590</div>
+                        </div>
+                        <div class="delivery-item">
+                            <div class="delivery-label">Email</div>
+                            <div class="delivery-value">sarah.johnson@stylehub.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Delivery Address
+                        </h3>
+                        <div class="delivery-item">
+                            <div class="delivery-value address-text">
+                                123 Park Street, Apartment 4B<br>
+                                Near City Mall<br>
+                                Kolkata, West Bengal - 700016<br>
+                                India
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="delivery-grid" style="margin-top: 1.5rem;">
+                    <div class="delivery-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-calendar-alt"></i>
+                            Delivery Timeline
+                        </h3>
+                        <div class="delivery-item">
+                            <div class="delivery-label">Delivered On</div>
+                            <div class="delivery-value">January 20, 2024 at 4:30 PM</div>
+                        </div>
+                        <div class="delivery-item">
+                            <div class="delivery-label">Delivery Partner</div>
+                            <div class="delivery-value">StyleHub Express</div>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-clipboard-list"></i>
+                            Special Instructions
+                        </h3>
+                        <div class="delivery-item">
+                            <div class="delivery-value">
+                                "Please call before delivery. Leave package with security if not available."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Summary Card -->
+        <div class="details-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-credit-card"></i>
+                    Payment Summary
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="payment-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Item Subtotal</span>
+                        <span class="summary-value">₹4,097</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Discount (WELCOME20)</span>
+                        <span class="summary-value discount-value">-₹819</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Shipping Fee</span>
+                        <span class="summary-value">Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Tax (GST 18%)</span>
+                        <span class="summary-value">₹590</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="summary-label">Grand Total</span>
+                        <span class="summary-value">₹3,868</span>
+                    </div>
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: #1a202c;">UPI Payment</div>
+                        <div style="font-size: 0.875rem; color: #718096;">Paid via PhonePe</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refund Section (if applicable) -->
+        <div class="details-card" id="refundSection" style="display: none;">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-undo"></i>
+                    Refund Information
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="refund-grid">
+                    <div class="refund-item">
+                        <div class="info-label">Refund Amount</div>
+                        <div class="refund-amount">₹3,868</div>
+                    </div>
+                    <div class="refund-item">
+                        <div class="info-label">Refund Method</div>
+                        <div class="info-value">UPI (PhonePe)</div>
+                    </div>
+                    <div class="refund-item">
+                        <div class="info-label">Refund Status</div>
+                        <div class="info-value">
+                            <span class="status-badge payment-pending">
+                                <i class="fas fa-clock"></i>
+                                Pending
+                            </span>
+                        </div>
+                    </div>
+                    <div class="refund-item">
+                        <div class="info-label">Expected Credit</div>
+                        <div class="info-value">3-5 Business Days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Timeline Card -->
+        <div class="details-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-route"></i>
+                    Order Timeline
+                </h2>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-track">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-progress" style="width: 100%"></div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-circle completed">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="step-label">Order Placed</div>
+                        <div class="step-time">Jan 15, 2:30 PM</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-circle completed">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="step-label">Packed</div>
+                        <div class="step-time">Jan 16, 10:00 AM</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-circle completed">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="step-label">Shipped</div>
+                        <div class="step-time">Jan 17, 2:00 PM</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-circle completed">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="step-label">Out for Delivery</div>
+                        <div class="step-time">Jan 20, 12:00 PM</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-circle completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Delivered</div>
+                        <div class="step-time">Jan 20, 4:30 PM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons Card -->
+        <div class="details-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-tools"></i>
+                    Order Actions
+                </h2>
+            </div>
+            <div class="card-content">
                 <div class="actions-grid" id="actionsGrid">
-                    <button class="action-btn btn-primary" onclick="trackOrder()">
-                        <i class="fas fa-truck"></i>
-                        Track Order
+                    <button class="action-btn btn-primary" onclick="writeReview()">
+                        <i class="fas fa-star"></i>
+                        Write Review
                     </button>
-                    <button class="action-btn btn-secondary" onclick="downloadInvoice()">
-                        <i class="fas fa-file-download"></i>
-                        Download Invoice
-                    </button>
-                    <button class="action-btn btn-secondary" onclick="contactSupport()">
-                        <i class="fas fa-headset"></i>
-                        Contact Support
+                    <button class="action-btn btn-success" onclick="returnExchange()">
+                        <i class="fas fa-undo"></i>
+                        Return / Exchange
                     </button>
                     <button class="action-btn btn-primary" onclick="reorder()">
                         <i class="fas fa-shopping-cart"></i>
                         Reorder
                     </button>
+                    <button class="action-btn btn-secondary" onclick="downloadInvoice()">
+                        <i class="fas fa-file-download"></i>
+                        Download Invoice
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <h2 class="support-title">Need Help?</h2>
+            <p class="support-subtitle">Our customer support team is here to assist you</p>
+            <div class="support-actions">
+                <a href="tel:+911800STYLEHUB" class="support-btn">
+                    <i class="fas fa-phone"></i>
+                    Call Support
+                </a>
+                <button class="support-btn" onclick="startLiveChat()">
+                    <i class="fas fa-comments"></i>
+                    Live Chat
+                </button>
+                <a href="mailto:support@stylehub.com" class="support-btn">
+                    <i class="fas fa-envelope"></i>
+                    Email Support
+                </a>
             </div>
         </div>
     </div>
@@ -563,42 +1154,66 @@
 
     <script src="script.js"></script>
     <script>
-        // Sample order data
-        const orderData = {
+        // Sample order data with different statuses
+        const orderDataSamples = {
             'SH2024001234': {
                 id: 'SH2024001234',
-                productName: 'Premium Cotton T-Shirt',
-                productImage: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=120&fit=crop',
-                quantity: 2,
-                size: 'M',
-                color: 'Navy Blue',
-                price: 1598,
+                date: 'January 15, 2024',
                 status: 'delivered',
-                orderDate: 'Jan 15, 2024',
+                paymentStatus: 'paid',
+                products: [
+                    {
+                        name: 'Premium Cotton T-Shirt',
+                        image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&h=100&fit=crop',
+                        size: 'M',
+                        color: 'Navy Blue',
+                        quantity: 2,
+                        price: 799,
+                        total: 1598
+                    },
+                    {
+                        name: 'Casual Denim Jeans',
+                        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=100&h=100&fit=crop',
+                        size: '32',
+                        color: 'Dark Blue',
+                        quantity: 1,
+                        price: 2499,
+                        total: 2499
+                    }
+                ],
                 timeline: [
-                    { title: 'Order Placed', time: 'Jan 15, 2024 at 2:30 PM', completed: true },
-                    { title: 'Order Confirmed', time: 'Jan 15, 2024 at 3:15 PM', completed: true },
-                    { title: 'Shipped', time: 'Jan 16, 2024 at 10:00 AM', completed: true },
-                    { title: 'Delivered', time: 'Jan 20, 2024 at 4:30 PM', completed: true }
-                ]
+                    { step: 'placed', completed: true, current: false, time: 'Jan 15, 2:30 PM' },
+                    { step: 'packed', completed: true, current: false, time: 'Jan 16, 10:00 AM' },
+                    { step: 'shipped', completed: true, current: false, time: 'Jan 17, 2:00 PM' },
+                    { step: 'out-for-delivery', completed: true, current: false, time: 'Jan 20, 12:00 PM' },
+                    { step: 'delivered', completed: true, current: false, time: 'Jan 20, 4:30 PM' }
+                ],
+                progressWidth: 100
             },
             'SH2024001198': {
                 id: 'SH2024001198',
-                productName: 'Casual Denim Jeans',
-                productImage: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=120&h=120&fit=crop',
-                quantity: 1,
-                size: '32',
-                color: 'Dark Blue',
-                price: 2499,
-                status: 'processing',
-                orderDate: 'Jan 18, 2024',
+                date: 'January 18, 2024',
+                status: 'shipped',
+                paymentStatus: 'paid',
+                products: [
+                    {
+                        name: 'Winter Wool Sweater',
+                        image: 'https://images.unsplash.com/photo-1520975954732-35dd22299614?w=100&h=100&fit=crop',
+                        size: 'L',
+                        color: 'Grey',
+                        quantity: 1,
+                        price: 2799,
+                        total: 2799
+                    }
+                ],
                 timeline: [
-                    { title: 'Order Placed', time: 'Jan 18, 2024 at 11:00 AM', completed: true },
-                    { title: 'Order Confirmed', time: 'Jan 18, 2024 at 11:30 AM', completed: true },
-                    { title: 'Processing', time: 'Jan 18, 2024 at 2:00 PM', completed: true, current: true },
-                    { title: 'Shipped', time: 'Expected by Jan 22, 2024', completed: false },
-                    { title: 'Delivered', time: 'Expected by Jan 25, 2024', completed: false }
-                ]
+                    { step: 'placed', completed: true, current: false, time: 'Jan 18, 11:00 AM' },
+                    { step: 'packed', completed: true, current: false, time: 'Jan 19, 2:00 PM' },
+                    { step: 'shipped', completed: true, current: true, time: 'Jan 20, 10:00 AM' },
+                    { step: 'out-for-delivery', completed: false, current: false, time: 'Expected Jan 22' },
+                    { step: 'delivered', completed: false, current: false, time: 'Expected Jan 22' }
+                ],
+                progressWidth: 60
             }
         };
 
@@ -646,41 +1261,61 @@
         function loadOrderDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const orderId = urlParams.get('id') || 'SH2024001234';
-            const order = orderData[orderId];
+            const orderData = orderDataSamples[orderId] || orderDataSamples['SH2024001234'];
 
-            if (!order) {
-                showNotification('Order not found', 'error');
-                return;
-            }
-
-            // Update order details
-            document.getElementById('orderIdDisplay').textContent = '#' + order.id;
-            document.getElementById('orderStatusDisplay').textContent = capitalizeFirst(order.status);
-            document.getElementById('orderStatusDisplay').className = `order-status status-${order.status}`;
-            document.getElementById('productImage').src = order.productImage;
-            document.getElementById('productName').textContent = order.productName;
-            document.getElementById('productQuantity').textContent = order.quantity;
-            document.getElementById('productSize').textContent = order.size;
-            document.getElementById('productColor').textContent = order.color;
-            document.getElementById('orderDate').textContent = order.orderDate;
-            document.getElementById('productPrice').textContent = '₹' + order.price.toLocaleString();
-
+            // Update order information
+            document.getElementById('orderIdDisplay').textContent = '#' + orderData.id;
+            document.getElementById('orderDateDisplay').textContent = orderData.date;
+            
+            // Update status displays
+            updateOrderStatus(orderData.status);
+            updatePaymentStatus(orderData.paymentStatus);
+            
             // Update timeline
-            const timelineSteps = document.getElementById('timelineSteps');
-            timelineSteps.innerHTML = order.timeline.map(step => `
-                <div class="timeline-step">
-                    <div class="step-icon ${step.completed ? 'completed' : step.current ? 'current' : 'pending'}">
-                        <i class="fas ${step.completed ? 'fa-check' : step.current ? 'fa-clock' : 'fa-circle'}"></i>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-title">${step.title}</p>
-                        <p class="step-time">${step.time}</p>
-                    </div>
-                </div>
-            `).join('');
+            updateTimeline(orderData.timeline, orderData.progressWidth);
+            
+            // Update action buttons based on status
+            updateActionButtons(orderData.status);
+            
+            // Show refund section if applicable
+            if (orderData.status === 'cancelled' || orderData.status === 'returned') {
+                document.getElementById('refundSection').style.display = 'block';
+            }
+        }
 
-            // Update actions based on status
-            updateActionButtons(order.status);
+        function updateOrderStatus(status) {
+            const statusElement = document.getElementById('orderStatusDisplay');
+            const statusMap = {
+                'processing': { class: 'status-processing', icon: 'fa-clock', text: 'Processing' },
+                'shipped': { class: 'status-shipped', icon: 'fa-shipping-fast', text: 'Shipped' },
+                'out-for-delivery': { class: 'status-out-for-delivery', icon: 'fa-truck', text: 'Out for Delivery' },
+                'delivered': { class: 'status-delivered', icon: 'fa-check-circle', text: 'Delivered' },
+                'cancelled': { class: 'status-cancelled', icon: 'fa-times-circle', text: 'Cancelled' }
+            };
+            
+            const statusInfo = statusMap[status] || statusMap['processing'];
+            statusElement.className = `status-badge ${statusInfo.class}`;
+            statusElement.innerHTML = `<i class="fas ${statusInfo.icon}"></i> ${statusInfo.text}`;
+        }
+
+        function updatePaymentStatus(status) {
+            const paymentElement = document.getElementById('paymentStatusDisplay');
+            const paymentMap = {
+                'paid': { class: 'payment-paid', icon: 'fa-check-circle', text: 'Paid' },
+                'pending': { class: 'payment-pending', icon: 'fa-clock', text: 'Pending' },
+                'refunded': { class: 'payment-refunded', icon: 'fa-undo', text: 'Refunded' }
+            };
+            
+            const paymentInfo = paymentMap[status] || paymentMap['paid'];
+            paymentElement.className = `status-badge ${paymentInfo.class}`;
+            paymentElement.innerHTML = `<i class="fas ${paymentInfo.icon}"></i> ${paymentInfo.text}`;
+        }
+
+        function updateTimeline(timeline, progressWidth) {
+            const progressBar = document.querySelector('.timeline-progress');
+            if (progressBar) {
+                progressBar.style.width = progressWidth + '%';
+            }
         }
 
         function updateActionButtons(status) {
@@ -698,13 +1333,10 @@
                             <i class="fas fa-file-download"></i>
                             Download Invoice
                         </button>
-                        <button class="action-btn btn-secondary" onclick="contactSupport()">
-                            <i class="fas fa-headset"></i>
-                            Contact Support
-                        </button>
                     `;
                     break;
                 case 'shipped':
+                case 'out-for-delivery':
                     actions = `
                         <button class="action-btn btn-primary" onclick="trackOrder()">
                             <i class="fas fa-truck"></i>
@@ -714,10 +1346,6 @@
                             <i class="fas fa-file-download"></i>
                             Download Invoice
                         </button>
-                        <button class="action-btn btn-secondary" onclick="contactSupport()">
-                            <i class="fas fa-headset"></i>
-                            Contact Support
-                        </button>
                     `;
                     break;
                 case 'delivered':
@@ -726,22 +1354,26 @@
                             <i class="fas fa-star"></i>
                             Write Review
                         </button>
-                        <button class="action-btn btn-secondary" onclick="returnOrder()">
+                        <button class="action-btn btn-success" onclick="returnExchange()">
                             <i class="fas fa-undo"></i>
-                            Return/Exchange
-                        </button>
-                        <button class="action-btn btn-secondary" onclick="downloadInvoice()">
-                            <i class="fas fa-file-download"></i>
-                            Download Invoice
+                            Return / Exchange
                         </button>
                         <button class="action-btn btn-primary" onclick="reorder()">
                             <i class="fas fa-shopping-cart"></i>
                             Reorder
+                        </button>
+                        <button class="action-btn btn-secondary" onclick="downloadInvoice()">
+                            <i class="fas fa-file-download"></i>
+                            Download Invoice
                         </button>
                     `;
                     break;
-                case 'canceled':
+                case 'cancelled':
                     actions = `
+                        <button class="action-btn btn-primary" onclick="requestRefund()">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Request Refund
+                        </button>
                         <button class="action-btn btn-primary" onclick="reorder()">
                             <i class="fas fa-shopping-cart"></i>
                             Reorder
@@ -749,18 +1381,14 @@
                         <button class="action-btn btn-secondary" onclick="downloadInvoice()">
                             <i class="fas fa-file-download"></i>
                             Download Invoice
-                        </button>
-                        <button class="action-btn btn-secondary" onclick="contactSupport()">
-                            <i class="fas fa-headset"></i>
-                            Contact Support
                         </button>
                     `;
                     break;
                 default:
                     actions = `
-                        <button class="action-btn btn-secondary" onclick="contactSupport()">
-                            <i class="fas fa-headset"></i>
-                            Contact Support
+                        <button class="action-btn btn-secondary" onclick="downloadInvoice()">
+                            <i class="fas fa-file-download"></i>
+                            Download Invoice
                         </button>
                     `;
             }
@@ -770,37 +1398,54 @@
 
         // Action functions
         function trackOrder() {
-            showNotification('Opening tracking details...', 'info');
+            showNotification('🚚 Opening tracking details...', 'info');
+            setTimeout(() => {
+                window.location.href = 'track-order.html';
+            }, 1000);
         }
 
         function cancelOrder() {
-            if (confirm('Are you sure you want to cancel this order?')) {
-                showNotification('Order cancellation request submitted', 'success');
+            if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+                showNotification('❌ Order cancellation request submitted successfully', 'success');
+                setTimeout(() => {
+                    updateOrderStatus('cancelled');
+                    updateActionButtons('cancelled');
+                    document.getElementById('refundSection').style.display = 'block';
+                }, 2000);
             }
         }
 
-        function downloadInvoice() {
-            showNotification('Downloading invoice...', 'info');
-        }
-
-        function contactSupport() {
-            showNotification('Opening support chat...', 'info');
-        }
-
         function writeReview() {
-            showNotification('Opening review form...', 'info');
+            showNotification('⭐ Opening product review form...', 'info');
         }
 
-        function returnOrder() {
-            showNotification('Opening return/exchange form...', 'info');
+        function returnExchange() {
+            showNotification('🔄 Opening return/exchange request form...', 'info');
+        }
+
+        function requestRefund() {
+            showNotification('💳 Processing refund request...', 'info');
+            setTimeout(() => {
+                showNotification('Refund request submitted. You will receive confirmation shortly.', 'success');
+            }, 2000);
         }
 
         function reorder() {
-            showNotification('Adding items to cart...', 'success');
+            showNotification('🛒 Adding items to cart for reorder...', 'success');
+            setTimeout(() => {
+                showNotification('Items added to cart! Redirecting to checkout...', 'success');
+            }, 1500);
         }
 
-        function capitalizeFirst(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
+        function downloadInvoice() {
+            showNotification('📄 Generating and downloading invoice...', 'info');
+            setTimeout(() => {
+                showNotification('Invoice downloaded successfully!', 'success');
+            }, 1500);
+        }
+
+        function startLiveChat() {
+            showNotification('💬 Connecting you to customer support...', 'info');
         }
 
         function showNotification(message, type = 'info') {
