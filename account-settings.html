@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Account Settings Specific Styles */
+        .settings-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .settings-back-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2d3748;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .settings-back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 55, 72, 0.2);
+        }
+
+        .settings-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .profile-edit-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-edit-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-picture-edit {
+            position: relative;
+        }
+
+        .profile-picture-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #667eea;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picture-edit-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .profile-picture-container:hover .picture-edit-overlay {
+            opacity: 1;
+        }
+
+        .picture-edit-overlay i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .profile-edit-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .profile-edit-details {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .profile-edit-details div {
+            margin-bottom: 0.5rem;
+        }
+
+        .edit-profile-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .edit-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .settings-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .settings-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .settings-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .settings-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .settings-icon.personal { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .settings-icon.address { background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); }
+        .settings-icon.delivery { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+        .settings-icon.payment { background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%); }
+        .settings-icon.orders { background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); }
+        .settings-icon.wishlist { background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); }
+        .settings-icon.rewards { background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); }
+        .settings-icon.security { background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%); }
+        .settings-icon.notifications { background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%); }
+        .settings-icon.language { background: linear-gradient(135deg, #38b2ac 0%, #319795 100%); }
+        .settings-icon.help { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }
+        .settings-icon.preferences { background: linear-gradient(135deg, #718096 0%, #4a5568 100%); }
+
+        .settings-card-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .settings-card-content p {
+            color: #718096;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .settings-card-arrow {
+            margin-left: auto;
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+
+        .settings-toggle-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .toggle-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .toggle-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .toggle-info p {
+            color: #718096;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #cbd5e0;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #667eea;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        .danger-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .logout-btn, .delete-account-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.4);
+        }
+
+        .delete-account-btn {
+            background: rgba(229, 62, 62, 0.1);
+            color: #e53e3e;
+            border: 2px solid rgba(229, 62, 62, 0.3);
+        }
+
+        .delete-account-btn:hover {
+            background: rgba(229, 62, 62, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+        }
+
+        /* Modal Styles */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .confirmation-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .confirmation-modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-icon.warning {
+            color: #ed8936;
+        }
+
+        .modal-icon.danger {
+            color: #e53e3e;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-message {
+            color: #4a5568;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.cancel {
+            background: rgba(74, 85, 104, 0.1);
+            color: #4a5568;
+        }
+
+        .modal-btn.cancel:hover {
+            background: rgba(74, 85, 104, 0.2);
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+        }
+
+        .modal-btn.logout-confirm {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+
+        .modal-btn.logout-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .settings-container {
+                padding: 1rem;
+            }
+
+            .settings-sections {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .profile-edit-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon"></i>
+                        <div class="cart-icon-container">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count">2</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Rumpa Samanta</span>
+                                            <span class="user-email" id="userEmail">rumpa@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myWishlist">
+                                        <i class="fas fa-heart"></i>
+                                        <span>My Wishlist</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountDeletion">
+                                        <i class="fas fa-user-times"></i>
+                                        <span>Account Deletion</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="settings-container">
+        <!-- Header -->
+        <div class="settings-header">
+            <a href="profile.html" class="settings-back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="settings-title">Account Settings</h1>
+        </div>
+
+        <!-- Profile Edit Section -->
+        <div class="profile-edit-section">
+            <div class="profile-edit-content">
+                <div class="profile-picture-edit">
+                    <div class="profile-picture-container">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Profile Picture" class="profile-picture" id="profilePictureMain">
+                        <div class="picture-edit-overlay" onclick="editProfilePicture()">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit-info">
+                    <h3>Rumpa Samanta</h3>
+                    <div class="profile-edit-details">
+                        <div><i class="fas fa-envelope"></i> rumpa@stylehub.com</div>
+                        <div><i class="fas fa-phone"></i> +91 9876543210</div>
+                        <div><i class="fas fa-calendar"></i> Premium Member since 2023</div>
+                    </div>
+                    <button class="edit-profile-btn" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Sections -->
+        <div class="settings-sections">
+            <!-- Personal Information -->
+            <div class="settings-card" onclick="navigateToPersonalInfo()">
+                <div class="settings-card-header">
+                    <div class="settings-icon personal">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Personal Information</h3>
+                        <p>Manage name, email, phone, gender, date of birth</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Addresses -->
+            <div class="settings-card" onclick="navigateToAddresses()">
+                <div class="settings-card-header">
+                    <div class="settings-icon address">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Saved Addresses</h3>
+                        <p>View, add, edit, and delete delivery addresses</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Management -->
+            <div class="settings-card" onclick="navigateToDelivery()">
+                <div class="settings-card-header">
+                    <div class="settings-icon delivery">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Delivery Management</h3>
+                        <p>Default address and delivery preferences</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="settings-card" onclick="navigateToPayment()">
+                <div class="settings-card-header">
+                    <div class="settings-icon payment">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Payment Methods</h3>
+                        <p>Add, remove, set default cards, UPI, and wallet</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders & Returns -->
+            <div class="settings-card" onclick="navigateToOrders()">
+                <div class="settings-card-header">
+                    <div class="settings-icon orders">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Orders & Returns</h3>
+                        <p>Track order history, manage returns and exchanges</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wishlist -->
+            <div class="settings-card" onclick="navigateToWishlist()">
+                <div class="settings-card-header">
+                    <div class="settings-icon wishlist">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Wishlist</h3>
+                        <p>Manage your saved items and favorites</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rewards & Gift Cards -->
+            <div class="settings-card" onclick="navigateToRewards()">
+                <div class="settings-card-header">
+                    <div class="settings-icon rewards">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Rewards & Gift Cards</h3>
+                        <p>Points, vouchers, and gift card balance</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security & Privacy -->
+            <div class="settings-card" onclick="navigateToSecurity()">
+                <div class="settings-card-header">
+                    <div class="settings-icon security">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Security & Privacy</h3>
+                        <p>Change password, enable 2FA, manage permissions</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language & Region -->
+            <div class="settings-card" onclick="navigateToLanguage()">
+                <div class="settings-card-header">
+                    <div class="settings-icon language">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Language & Region</h3>
+                        <p>Select app language and currency</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Support -->
+            <div class="settings-card" onclick="navigateToSupport()">
+                <div class="settings-card-header">
+                    <div class="settings-icon help">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="settings-card-content">
+                        <h3>Help & Support</h3>
+                        <p>FAQ, live chat, call support, raise ticket</p>
+                    </div>
+                    <div class="settings-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Preferences Toggle Section -->
+        <div class="settings-toggle-card">
+            <div class="settings-card-header" style="margin-bottom: 0.5rem;">
+                <div class="settings-icon preferences">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <div class="settings-card-content">
+                    <h3>App Preferences</h3>
+                    <p>Customize your app experience</p>
+                </div>
+            </div>
+            
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h4>Dark Mode</h4>
+                    <p>Switch between light and dark themes</p>
+                </div>
+                <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Settings Toggle Section -->
+        <div class="settings-toggle-card">
+            <div class="settings-card-header" style="margin-bottom: 0.5rem;">
+                <div class="settings-icon notifications">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="settings-card-content">
+                    <h3>Notification Settings</h3>
+                    <p>Manage your notification preferences</p>
+                </div>
+            </div>
+            
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h4>Push Notifications</h4>
+                    <p>Receive push notifications on your device</p>
+                </div>
+                <div class="toggle-switch active" id="pushToggle" onclick="togglePush()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h4>Email Notifications</h4>
+                    <p>Receive updates via email</p>
+                </div>
+                <div class="toggle-switch active" id="emailToggle" onclick="toggleEmail()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <h4>SMS Notifications</h4>
+                    <p>Receive SMS updates for orders</p>
+                </div>
+                <div class="toggle-switch" id="smsToggle" onclick="toggleSMS()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danger Section -->
+        <div class="danger-section">
+            <button class="logout-btn" onclick="showLogoutModal()">
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+            </button>
+            
+            <button class="delete-account-btn" onclick="showDeleteModal()">
+                <i class="fas fa-user-times"></i>
+                Account Deletion
+            </button>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="confirmation-modal">
+        <div class="modal-content">
+            <div class="modal-icon warning">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <h3 class="modal-title">Log Out</h3>
+            <p class="modal-message">Are you sure you want to log out of your account?</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+                <button class="modal-btn logout-confirm" onclick="confirmLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="deleteModal" class="confirmation-modal">
+        <div class="modal-content">
+            <div class="modal-icon danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="modal-title">Delete Account</h3>
+            <p class="modal-message">This action cannot be undone. All your data, orders, and preferences will be permanently deleted.</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="modal-btn confirm" onclick="confirmDelete()">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header Profile Dropdown
+        document.getElementById('myProfile').addEventListener('click', function() {
+            window.location.href = 'profile.html';
+        });
+
+        document.getElementById('accountDeletion').addEventListener('click', function() {
+            window.location.href = 'account-deletion.html';
+        });
+
+        // Profile dropdown toggle
+        document.getElementById('profileTrigger').addEventListener('click', function() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const profileSection = document.getElementById('profileSection');
+            const dropdown = document.getElementById('profileDropdown');
+            if (!profileSection.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Profile Functions
+        function editProfilePicture() {
+            showNotification('Opening camera/gallery picker...', 'info');
+        }
+
+        function editProfile() {
+            window.location.href = 'edit-profile.html';
+        }
+
+        // Navigation Functions
+        function navigateToPersonalInfo() {
+            window.location.href = 'personal-info.html';
+        }
+
+        function navigateToAddresses() {
+            window.location.href = 'saved-addresses.html';
+        }
+
+        function navigateToDelivery() {
+            showNotification('Opening Delivery Management...', 'info');
+        }
+
+        function navigateToPayment() {
+            showNotification('Opening Payment Methods...', 'info');
+        }
+
+        function navigateToOrders() {
+            showNotification('Opening Orders & Returns...', 'info');
+        }
+
+        function navigateToWishlist() {
+            showNotification('Opening Wishlist...', 'info');
+        }
+
+        function navigateToRewards() {
+            showNotification('Opening Rewards & Gift Cards...', 'info');
+        }
+
+        function navigateToSecurity() {
+            showNotification('Opening Security & Privacy...', 'info');
+        }
+
+        function navigateToLanguage() {
+            showNotification('Opening Language & Region...', 'info');
+        }
+
+        function navigateToSupport() {
+            showNotification('Opening Help & Support...', 'info');
+        }
+
+        // Toggle Functions
+        function toggleDarkMode() {
+            const toggle = document.getElementById('darkModeToggle');
+            toggle.classList.toggle('active');
+            showNotification('Dark mode ' + (toggle.classList.contains('active') ? 'enabled' : 'disabled'), 'success');
+        }
+
+        function togglePush() {
+            const toggle = document.getElementById('pushToggle');
+            toggle.classList.toggle('active');
+            showNotification('Push notifications ' + (toggle.classList.contains('active') ? 'enabled' : 'disabled'), 'success');
+        }
+
+        function toggleEmail() {
+            const toggle = document.getElementById('emailToggle');
+            toggle.classList.toggle('active');
+            showNotification('Email notifications ' + (toggle.classList.contains('active') ? 'enabled' : 'disabled'), 'success');
+        }
+
+        function toggleSMS() {
+            const toggle = document.getElementById('smsToggle');
+            toggle.classList.toggle('active');
+            showNotification('SMS notifications ' + (toggle.classList.contains('active') ? 'enabled' : 'disabled'), 'success');
+        }
+
+        // Modal Functions
+        function showLogoutModal() {
+            document.getElementById('logoutModal').classList.add('show');
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('show');
+        }
+
+        function confirmLogout() {
+            showNotification('Logging out...', 'info');
+            closeLogoutModal();
+            // Simulate logout process
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+
+        function showDeleteModal() {
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
+
+        function confirmDelete() {
+            showNotification('Deleting account...', 'error');
+            closeDeleteModal();
+            // Simulate account deletion process
+            setTimeout(() => {
+                showNotification('Account deleted successfully', 'success');
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Notification Function
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+                z-index: 10001;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 350px;
+                border-left: 4px solid ${type === 'success' ? '#38a169' : type === 'error' ? '#e53e3e' : '#667eea'};
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #a0aec0;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Account Settings page loaded');
+        });
+    </script>
+</body>
+</html>

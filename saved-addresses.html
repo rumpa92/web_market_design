@@ -146,15 +146,6 @@
             opacity: 1;
         }
 
-        .address-card.default {
-            background: linear-gradient(135deg, rgba(56, 161, 105, 0.08) 0%, rgba(47, 133, 90, 0.08) 100%);
-            border: 2px solid rgba(56, 161, 105, 0.3);
-        }
-
-        .address-card.default::before {
-            opacity: 1;
-            height: 6px;
-        }
 
         .address-header {
             display: flex;
@@ -192,20 +183,6 @@
             color: #718096;
         }
 
-        .default-badge {
-            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-            color: white;
-            padding: 0.4rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
 
         .address-content {
             margin-bottom: 1.5rem;
@@ -287,16 +264,6 @@
             box-shadow: 0 6px 20px rgba(229, 62, 62, 0.3);
         }
 
-        .default-btn {
-            background: rgba(56, 161, 105, 0.1);
-            color: #38a169;
-        }
-
-        .default-btn:hover {
-            background: rgba(56, 161, 105, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 161, 105, 0.3);
-        }
 
         .empty-state {
             text-align: center;
@@ -778,7 +745,90 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon"></i>
+                        <div class="cart-icon-container">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count">2</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Rumpa Samanta</span>
+                                            <span class="user-email" id="userEmail">rumpa@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myWishlist">
+                                        <i class="fas fa-heart"></i>
+                                        <span>My Wishlist</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountDeletion">
+                                        <i class="fas fa-user-times"></i>
+                                        <span>Account Deletion</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
     <div class="addresses-header">
         <div class="header-container">
             <div class="header-left">
@@ -1024,15 +1074,14 @@
             grid.style.display = 'grid';
 
             grid.innerHTML = addresses.map(address => `
-                <div class="address-card ${address.isDefault ? 'default' : ''}">
+                <div class="address-card">
                     <div class="address-header">
                         <div class="address-type ${address.type.toLowerCase()}">
                             <i class="fas fa-${getTypeIcon(address.type)}"></i>
                             ${address.type}
                         </div>
-                        ${address.isDefault ? '<div class="default-badge"><i class="fas fa-star"></i>Default</div>' : ''}
                     </div>
-                    
+
                     <div class="address-content">
                         <h4 class="recipient-name">${address.fullName}</h4>
                         <div class="contact-info">
@@ -1045,7 +1094,7 @@
                             ${address.country}
                         </div>
                     </div>
-                    
+
                     <div class="address-actions">
                         <button class="action-btn edit-btn" onclick="editAddress('${address.id}')" title="Edit Address">
                             <i class="fas fa-edit"></i>
@@ -1053,9 +1102,6 @@
                         <button class="action-btn delete-btn" onclick="showDeleteModal('${address.id}')" title="Delete Address">
                             <i class="fas fa-trash"></i>
                         </button>
-                        ${!address.isDefault ? `<button class="action-btn default-btn" onclick="setAsDefault('${address.id}')" title="Set as Default">
-                            <i class="fas fa-star"></i>
-                        </button>` : ''}
                     </div>
                 </div>
             `).join('');
@@ -1205,14 +1251,6 @@
             }, 1500);
         }
 
-        function setAsDefault(id) {
-            addresses.forEach(addr => {
-                addr.isDefault = addr.id === id;
-            });
-            localStorage.setItem('savedAddresses', JSON.stringify(addresses));
-            displayAddresses();
-            showNotification('Default address updated!', 'success');
-        }
 
         function showDeleteModal(id) {
             deleteId = id;
@@ -1278,6 +1316,94 @@
         function goBack() {
             window.location.href = 'profile.html';
         }
+
+        // Header Profile Dropdown
+        document.getElementById('myProfile').addEventListener('click', function() {
+            window.location.href = 'profile.html';
+        });
+
+        document.getElementById('myOrders').addEventListener('click', function() {
+            showNotification('Opening My Orders...', 'info');
+        });
+
+        document.getElementById('myWishlist').addEventListener('click', function() {
+            showNotification('Opening My Wishlist...', 'info');
+        });
+
+        document.getElementById('accountDeletion').addEventListener('click', function() {
+            window.location.href = 'account-deletion.html';
+        });
+
+        document.getElementById('helpSupport').addEventListener('click', function() {
+            showNotification('Opening Help & Support...', 'info');
+        });
+
+        document.getElementById('signInOut').addEventListener('click', function() {
+            showNotification('Signing out...', 'info');
+        });
+
+        // Profile dropdown toggle
+        document.getElementById('profileTrigger').addEventListener('click', function() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const profileSection = document.getElementById('profileSection');
+            const dropdown = document.getElementById('profileDropdown');
+            if (!profileSection.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
     </script>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
