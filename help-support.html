@@ -452,8 +452,9 @@
         }
 
         function openLiveChat() {
-            showNotification('Opening live chat...', 'info');
-            // Integrate with your live chat service here
+            document.getElementById('liveChatModal').style.display = 'flex';
+            // Initialize chat
+            initializeChat();
         }
 
         function sendEmail() {
