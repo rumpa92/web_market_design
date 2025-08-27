@@ -1080,54 +1080,8 @@ function addComment(commentText) {
 }
 
 function addScrollIndicators() {
-    const storiesContainer = document.querySelector('.stories-container');
-    if (!storiesContainer) return;
-
-    const leftIndicator = document.createElement('div');
-    const rightIndicator = document.createElement('div');
-
-    leftIndicator.className = 'scroll-indicator left';
-    rightIndicator.className = 'scroll-indicator right';
-
-    leftIndicator.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    rightIndicator.innerHTML = '<i class="fas fa-chevron-right"></i>';
-
-    // Style indicators
-    [leftIndicator, rightIndicator].forEach(indicator => {
-        Object.assign(indicator.style, {
-            position: 'absolute',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: '40px',
-            height: '40px',
-            background: 'rgba(0,0,0,0.5)',
-            color: 'white',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            zIndex: '10',
-            transition: 'all 0.3s ease'
-        });
-    });
-
-    leftIndicator.style.left = '10px';
-    rightIndicator.style.right = '10px';
-
-    const storiesSection = document.querySelector('.fashion-stories-section');
-    storiesSection.style.position = 'relative';
-    storiesSection.appendChild(leftIndicator);
-    storiesSection.appendChild(rightIndicator);
-
-    // Scroll functionality
-    leftIndicator.addEventListener('click', () => {
-        storiesContainer.scrollBy({ left: -300, behavior: 'smooth' });
-    });
-
-    rightIndicator.addEventListener('click', () => {
-        storiesContainer.scrollBy({ left: 300, behavior: 'smooth' });
-    });
+    // Scroll indicators disabled as requested - no icons needed
+    return;
 }
 
 // Recommendations
