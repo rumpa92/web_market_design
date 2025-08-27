@@ -102,7 +102,7 @@
             padding: 1rem;
             transition: all 0.3s ease;
             position: relative;
-            background: #f8f9fa;
+            background: white;
         }
 
         .address-card:hover {
@@ -113,7 +113,7 @@
 
         .address-card.default {
             border-color: #28a745;
-            background: #f8fff9;
+            background: white;
         }
 
         .address-header {
@@ -143,19 +143,19 @@
         }
 
         .home-icon {
-            background: #e8f5e8;
-            color: #28a745;
+            background: white;
+            color: white;
         }
 
         .work-icon {
-            background: #f0e6ff;
-            color: #6f42c1;
+            background: white;
+            color: white;
         }
 
         .address-label {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #6c757d;
+            color: white;
             letter-spacing: 0.5px;
         }
 
@@ -211,10 +211,18 @@
             justify-content: center;
         }
 
+        .action-btn.edit {
+            color: #ff8c00;
+        }
+
         .action-btn.edit:hover {
-            border-color: #007bff;
-            color: #007bff;
-            background: #f8f9ff;
+            border-color: #ff8c00;
+            color: #ff8c00;
+            background: #fff8f0;
+        }
+
+        .action-btn.delete {
+            color: #dc3545;
         }
 
         .action-btn.delete:hover {
@@ -226,13 +234,15 @@
         /* Add New Address Button */
         .add-address-container {
             position: relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
         .add-address-btn {
-            width: 100%;
-            padding: 1rem;
+            padding: 1rem 2rem;
             border: 2px dashed #e9ecef;
-            background: #f8f9fa;
+            background: white;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -285,7 +295,7 @@
             padding: 1rem;
             border: 1px solid #e9ecef;
             border-radius: 8px;
-            background: #f8f9fa;
+            background: white;
         }
 
         .preference-label {
