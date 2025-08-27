@@ -1209,7 +1209,9 @@
         }
 
         function sendEmail() {
-            window.location.href = 'mailto:support@stylehub.com?subject=Support Request';
+            document.getElementById('emailSupportModal').style.display = 'flex';
+            // Pre-fill user email if available
+            document.getElementById('supportEmail').value = 'rumpa14@yopmail.com';
         }
 
         function callSupport() {
