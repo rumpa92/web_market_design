@@ -1705,8 +1705,12 @@ function updateUserStatus(status) {
         'offline': 'Offline'
     };
 
-    statusText.textContent = statusTexts[status] || 'Online';
-    onlineStatus.title = statusTexts[status] || 'Online';
+    if (statusText) {
+        statusText.textContent = statusTexts[status] || 'Online';
+    }
+    if (onlineStatus) {
+        onlineStatus.title = statusTexts[status] || 'Online';
+    }
 
     // Show notification when status changes
     if (status !== 'online') {
