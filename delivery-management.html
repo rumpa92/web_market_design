@@ -963,17 +963,28 @@
         function editAddress(type) {
             document.getElementById('modalTitle').textContent = 'Edit Address';
             document.getElementById('addressModal').style.display = 'block';
-            
-            // Populate form with existing data (demo)
+
+            // Populate form with existing data
             if (type === 'home') {
-                document.getElementById('recipientName').value = 'Sarah Johnson';
-                document.getElementById('phoneNumber').value = '+91 9775637590';
-                document.getElementById('address').value = '123 Rose Garden Street, Apartment 4B';
-                document.getElementById('city').value = 'Mumbai';
-                document.getElementById('state').value = 'Maharashtra';
-                document.getElementById('pincode').value = '400001';
-                document.getElementById('addressLabel').value = 'Home Address';
+                document.getElementById('recipientName').value = 'Rumpa Samanta';
+                document.getElementById('phoneNumber').value = '+91 9876543210';
+                document.getElementById('address').value = 'Flat 302, Sunrise Apartments';
+                document.getElementById('landmark').value = 'Near Park Street Metro';
+                document.getElementById('city').value = 'Kolkata';
+                document.getElementById('state').value = 'West Bengal';
+                document.getElementById('pincode').value = '700016';
+                document.getElementById('addressLabel').value = 'HOME';
                 document.getElementById('setDefault').checked = true;
+            } else if (type === 'work') {
+                document.getElementById('recipientName').value = 'Rumpa Samanta';
+                document.getElementById('phoneNumber').value = '+91 9876543210';
+                document.getElementById('address').value = 'Tech Tower, 5th Floor';
+                document.getElementById('landmark').value = 'Salt Lake Stadium';
+                document.getElementById('city').value = 'Kolkata';
+                document.getElementById('state').value = 'West Bengal';
+                document.getElementById('pincode').value = '700091';
+                document.getElementById('addressLabel').value = 'WORK';
+                document.getElementById('setDefault').checked = false;
             }
         }
 
