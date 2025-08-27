@@ -54,7 +54,7 @@
         .page-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #e91e63;
+            color: #000000;
             margin: 0;
         }
 
@@ -1009,7 +1009,7 @@
 
         // Order Actions
         function trackOrder(orderId) {
-            window.location.href = 'track-order.html';
+            window.location.href = `track-order.html?orderId=${orderId}`;
         }
 
         function reorderItem(productId) {
