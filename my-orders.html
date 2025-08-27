@@ -1038,7 +1038,7 @@
                             <p class="order-id">#${order.id}</p>
                             <span class="order-status status-${order.status}">${capitalizeFirst(order.status)}</span>
                         </div>
-                        
+
                         <div class="product-section">
                             <img src="${order.productImage}" alt="${order.productName}" class="product-image">
                             <div class="product-details">
@@ -1050,13 +1050,21 @@
                                 <p class="product-price">₹${order.price.toLocaleString()}</p>
                             </div>
                         </div>
-                        
+
                         <div class="order-footer">
                             <p class="order-date">${order.displayDate}</p>
-                            <a href="order-details.html?id=${order.id}" class="view-details-btn">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <div class="order-actions">
+                                <a href="order-details.html?id=${order.id}" class="view-details-btn">
+                                    View Details
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                                ${order.status === 'delivered' ? `
+                                    <button class="return-exchange-btn" onclick="handleReturnExchange('${order.id}', '${order.productName}')">
+                                        <i class="fas fa-undo-alt"></i>
+                                        Return/Exchange
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
                     </div>
                 </div>
