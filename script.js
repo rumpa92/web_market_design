@@ -1718,9 +1718,8 @@ function handleDropdownItemClick(item) {
             break;
 
         case 'myOrders':
-            showNotification('Opening My Orders...', 'info');
             // Navigate to orders page
-            showOrdersModal();
+            window.location.href = 'my-orders.html';
             break;
 
         case 'myWishlist':
