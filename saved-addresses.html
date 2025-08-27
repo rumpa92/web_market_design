@@ -1330,8 +1330,18 @@
             showNotification('Opening My Wishlist...', 'info');
         });
 
-        document.getElementById('accountSettings').addEventListener('click', function() {
-            showNotification('Opening Account Settings...', 'info');
+        document.getElementById('accountDeletion').addEventListener('click', function() {
+            const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone. All your data, orders, and preferences will be permanently deleted.');
+            if (confirmed) {
+                const finalConfirm = confirm('This is your final warning. Clicking OK will permanently delete your account. Are you absolutely sure?');
+                if (finalConfirm) {
+                    showNotification('Account deletion process initiated...', 'error');
+                    setTimeout(() => {
+                        showNotification('Account deleted successfully', 'success');
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            }
         });
 
         document.getElementById('helpSupport').addEventListener('click', function() {
