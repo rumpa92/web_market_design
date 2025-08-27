@@ -1020,6 +1020,267 @@
 
     <script src="script.js"></script>
     <script>
+        // Edit Profile Modal Functionality
+        function populateEditForm() {
+            // Pre-fill form with current user data
+            document.getElementById('editFullName').value = 'Sarah Johnson';
+            document.getElementById('editEmail').value = 'sarah.johnson@stylehub.com';
+            document.getElementById('editMobile').value = '+91 9775637590';
+            document.getElementById('editGender').value = 'female';
+            document.getElementById('editDateOfBirth').value = '1995-06-15';
+
+            // Set notification preferences
+            document.getElementById('emailNotifications').checked = true;
+            document.getElementById('smsNotifications').checked = true;
+            document.getElementById('pushNotifications').checked = false;
+
+            // Set language preference
+            document.getElementById('languagePreference').value = 'en';
+        }
+
+        function setupEditProfileModal() {
+            const modal = document.getElementById('editProfileModal');
+            const closeBtn = document.getElementById('closeEditModal');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            const form = document.getElementById('editProfileForm');
+            const photoUploadBtn = document.getElementById('uploadPhotoBtn');
+            const removePhotoBtn = document.getElementById('removePhotoBtn');
+            const photoInput = document.getElementById('photoInput');
+            const currentPhoto = document.getElementById('currentPhoto');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closeEditProfileModal);
+            cancelBtn.addEventListener('click', closeEditProfileModal);
+
+            // Form submission
+            form.addEventListener('submit', handleProfileUpdate);
+
+            // Photo upload functionality
+            photoUploadBtn.addEventListener('click', () => photoInput.click());
+            removePhotoBtn.addEventListener('click', removeProfilePhoto);
+            photoInput.addEventListener('change', handlePhotoUpload);
+            currentPhoto.addEventListener('click', () => photoInput.click());
+
+            // Mobile verification
+            document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeEditProfileModal();
+                }
+            });
+        }
+
+        function closeEditProfileModal() {
+            const modal = document.getElementById('editProfileModal');
+            modal.style.display = 'none';
+
+            // Reset form if needed
+            // document.getElementById('editProfileForm').reset();
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    showNotification('Photo size should be less than 5MB', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                    showNotification('Photo uploaded successfully', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeProfilePhoto() {
+            // Reset to default avatar
+            document.getElementById('profilePhotoPreview').src = 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face';
+            document.getElementById('photoInput').value = '';
+            showNotification('Profile photo removed', 'info');
+        }
+
+        function verifyMobileNumber() {
+            const mobileInput = document.getElementById('editMobile');
+            const mobile = mobileInput.value;
+
+            if (!mobile || mobile.length < 10) {
+                showNotification('Please enter a valid mobile number', 'error');
+                return;
+            }
+
+            // Simulate OTP verification
+            showOTPModal(mobile);
+        }
+
+        function showOTPModal(mobile) {
+            const otpModal = document.createElement('div');
+            otpModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 10001;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+
+            otpModal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 2rem; width: 90%; max-width: 400px;">
+                    <h3 style="margin: 0 0 1rem 0; text-align: center;">Verify Mobile Number</h3>
+                    <p style="text-align: center; color: #6c757d; margin-bottom: 1.5rem;">OTP sent to ${mobile}</p>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="this.closest('div').parentElement.remove()" style="flex: 1; background: #6c757d; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Cancel</button>
+                        <button onclick="verifyOTP()" style="flex: 1; background: #28a745; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Verify</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(otpModal);
+
+            // Auto-focus and navigation for OTP inputs
+            const otpInputs = otpModal.querySelectorAll('.otp-digit');
+            otpInputs[0].focus();
+
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !this.value && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+            });
+
+            // Make verifyOTP function globally accessible
+            window.verifyOTP = function() {
+                showNotification('Mobile number verified successfully!', 'success');
+                otpModal.remove();
+            };
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const profileData = {
+                fullName: formData.get('fullName'),
+                gender: formData.get('gender'),
+                dateOfBirth: formData.get('dateOfBirth'),
+                email: formData.get('email'),
+                mobile: formData.get('mobile'),
+                emailNotifications: formData.get('emailNotifications') === 'on',
+                smsNotifications: formData.get('smsNotifications') === 'on',
+                pushNotifications: formData.get('pushNotifications') === 'on',
+                language: formData.get('language')
+            };
+
+            // Simulate profile update
+            updateProfile(profileData);
+        }
+
+        function updateProfile(profileData) {
+            // Show loading state
+            const submitBtn = document.getElementById('saveProfileBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Update profile display
+                updateProfileDisplay(profileData);
+
+                // Close modal
+                closeEditProfileModal();
+
+                // Show success notification
+                showProfileUpdateConfirmation();
+
+                console.log('Profile updated:', profileData);
+            }, 2000);
+        }
+
+        function updateProfileDisplay(profileData) {
+            // Update the main profile display with new data
+            document.querySelector('.user-name').textContent = profileData.fullName;
+            document.querySelector('.contact-item span').textContent = profileData.email;
+            document.querySelectorAll('.contact-item span')[1].textContent = profileData.mobile;
+        }
+
+        function showProfileUpdateConfirmation() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-check" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">✅ Profile Updated!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">Your profile has been updated successfully.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function navigateToDeliveryManagement() {
+            window.location.href = 'delivery-management.html';
+        }
+
+        function changePassword() {
+            showNotification('🔒 Change Password feature coming soon!', 'info');
+        }
+
+        function setup2FA() {
+            showNotification('🛡️ Two-Factor Authentication setup coming soon!', 'info');
+        }
+
         // Profile page functions
         function goBack() {
             window.history.back();
