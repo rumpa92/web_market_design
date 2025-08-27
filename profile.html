@@ -89,12 +89,10 @@
                 <button class="back-button" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-            </div>
-
-            <!-- Profile Title Section -->
-            <div class="profile-title-section">
-                <h1 class="main-title">My Profile</h1>
-                <p class="subtitle">Manage your account settings and preferences</p>
+                <div class="profile-title-section">
+                    <h1 class="main-title">My Profile</h1>
+                    <p class="subtitle">Manage your account settings and preferences</p>
+                </div>
             </div>
 
             <!-- Profile Info Card -->
@@ -257,11 +255,11 @@
         }
 
         function customerSupport() {
-            showNotification('Opening Customer Support...', 'info');
+            window.location.href = 'help-support.html';
         }
 
         function deliveryManagement() {
-            showNotification('Opening Delivery Management...', 'info');
+            window.location.href = 'delivery-management.html';
         }
 
         // Notification function
@@ -284,9 +282,13 @@
             }, 3000);
         }
 
-        // Add click handler for dropdown item
+        // Add click handlers for dropdown items
         document.getElementById('accountDeletion').addEventListener('click', function() {
             window.location.href = 'account-deletion.html';
+        });
+
+        document.getElementById('helpSupport').addEventListener('click', function() {
+            window.location.href = 'help-support.html';
         });
 
         // Initialize page
