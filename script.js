@@ -51,6 +51,7 @@ function initializeApp() {
     enableGuestBrowsing();
     setupHeroSlider();
     setupCollectionPage();
+    setupCollectionNavigation();
 }
 
 // Event Listeners Setup
