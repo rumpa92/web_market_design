@@ -1011,17 +1011,6 @@
             }, 4000);
         }
 
-        // Update timeline progress based on current status
-        function updateTimelineProgress() {
-            const currentStep = 3; // Out for delivery (0-indexed)
-            const totalSteps = 5;
-            const progressPercentage = (currentStep / (totalSteps - 1)) * 100;
-            
-            const progressBar = document.querySelector('.timeline-progress');
-            if (progressBar) {
-                progressBar.style.width = progressPercentage + '%';
-            }
-        }
 
         // Simulate real-time updates
         function simulateRealTimeUpdates() {
