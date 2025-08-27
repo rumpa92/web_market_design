@@ -1504,7 +1504,7 @@
                         <span class="star" data-rating="1">⭐</span>
                         <span class="star" data-rating="2">⭐</span>
                         <span class="star" data-rating="3">⭐</span>
-                        <span class="star" data-rating="4">⭐</span>
+                        <span class="star" data-rating="4">��</span>
                         <span class="star" data-rating="5">⭐</span>
                     </div>
                 </div>
@@ -2475,7 +2475,7 @@
             }, 3000);
         }
 
-        // Add styles for animation
+        // Add styles for animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideInRight {
@@ -2487,6 +2487,12 @@
                     transform: translateX(0);
                     opacity: 1;
                 }
+            }
+
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
             }
         `;
         document.head.appendChild(style);
