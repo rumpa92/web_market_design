@@ -46,8 +46,9 @@
 
 /* Profile Title Section */
 .profile-title-section {
-    padding: 0 2rem;
-    margin-bottom: 2rem;
+    flex: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .main-title {
