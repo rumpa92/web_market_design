@@ -50,6 +50,7 @@ function initializeApp() {
     setupEnhancedNavigation();
     enableGuestBrowsing();
     setupHeroSlider();
+    setupCollectionPage();
 }
 
 // Event Listeners Setup
@@ -797,8 +798,18 @@ function setupFashionStories() {
     const storyCards = document.querySelectorAll('.story-card');
     const storiesContainer = document.querySelector('.stories-container');
 
-    // Add click handlers to story cards
+    // Add click handlers to Read More buttons specifically
     storyCards.forEach((card, index) => {
+        const readMoreBtn = card.querySelector('.story-cta');
+        if (readMoreBtn) {
+            readMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleStoryClick(card, index);
+            });
+        }
+
+        // Also allow clicking the entire card as fallback
         card.addEventListener('click', () => {
             handleStoryClick(card, index);
         });
@@ -832,152 +843,246 @@ function handleStoryClick(card, index) {
     localStorage.setItem(`story_read_${index}`, 'true');
     card.classList.add('story-read');
 
-    // Show story modal or navigate
-    showStoryModal(storyTitle, storyDescription, index);
+    // Show article page
+    showArticlePage(storyTitle, storyDescription, index);
 
     showNotification(`Opening: ${storyTitle}`, 'info');
 }
 
-function showStoryModal(title, description, index) {
-    const modal = document.createElement('div');
-    modal.className = 'story-modal';
-    modal.innerHTML = `
-        <div class="story-modal-content">
-            <span class="close-story-modal">&times;</span>
-            <div class="story-modal-header">
-                <h2>${title}</h2>
-                <div class="story-progress">
-                    <div class="story-progress-bar" style="width: 0%"></div>
-                </div>
+function showArticlePage(title, description, index) {
+    // Hide the fashion stories section
+    const fashionStoriesSection = document.querySelector('.fashion-stories-section');
+    const seasonalSection = document.querySelector('.seasonal-collections-section');
+    const trendingSection = document.querySelector('.trending-popular-section');
+    const recommendationsSection = document.querySelector('.recommendations-section');
+    const categoriesSection = document.querySelector('.categories-section');
+    const arrivalsSection = document.querySelector('.new-arrivals-section');
+    const newsletterSection = document.querySelector('.newsletter-section');
+
+    // Hide all other sections
+    [fashionStoriesSection, seasonalSection, trendingSection, recommendationsSection,
+     categoriesSection, arrivalsSection, newsletterSection].forEach(section => {
+        if (section) section.style.display = 'none';
+    });
+
+    // Show the article page
+    const articlePage = document.getElementById('articlePage');
+    articlePage.style.display = 'block';
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+
+    // Populate article content based on the story clicked
+    populateArticleContent(title, description, index);
+
+    // Setup article page event listeners
+    setupArticlePageListeners();
+}
+
+function populateArticleContent(title, description, index) {
+    const storyData = {
+        'Street Style Guide': {
+            category: 'STYLE GUIDE',
+            author: 'Sarah Mitchell',
+            heroImage: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&h=600&fit=crop&auto=format&q=80',
+            intro: 'Discover the art of street style and how to master effortless urban fashion that turns heads and expresses your unique personality.',
+            quote: 'Street style is about confidence and authenticity. It\'s not about following trends, but creating your own.',
+            body: 'Street style has evolved from a subcultural expression to a mainstream fashion phenomenon that influences runways and retail stores worldwide. It\'s about more than just clothing—it\'s a form of self-expression that tells your story without words.'
+        },
+        'Seasonal Must-Haves': {
+            category: 'SEASONAL GUIDE',
+            author: 'Emma Chen',
+            heroImage: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=600&fit=crop&auto=format&q=80',
+            intro: 'Essential pieces for your wardrobe this season that will keep you stylish and comfortable through every weather change.',
+            quote: 'A well-curated seasonal wardrobe is like a reliable friend - always there when you need it most.',
+            body: 'Building a seasonal wardrobe isn\'t about having the most clothes, it\'s about having the right pieces that work together seamlessly. Focus on versatile items that can be layered and mixed to create multiple looks.'
+        },
+        'Designer Spotlight': {
+            category: 'DESIGNER FOCUS',
+            author: 'Michael Rodriguez',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F80e47675174d4bea93d80b11131ee500?format=webp&width=1200',
+            intro: 'Featured collections from top designers who are reshaping the fashion landscape with innovative designs and sustainable practices.',
+            quote: 'Design is not just what it looks like and feels like. Design is how it works in people\'s lives.',
+            body: 'Today\'s fashion designers are more than just creators of beautiful garments - they\'re storytellers, innovators, and advocates for positive change in the industry. Their collections reflect not just aesthetic vision, but also values and purpose.'
+        }
+    };
+
+    const data = storyData[title] || storyData['Street Style Guide'];
+
+    // Update article content
+    document.getElementById('articleCategory').textContent = data.category;
+    document.getElementById('articleTitle').textContent = title;
+    document.getElementById('authorName').textContent = data.author;
+    document.getElementById('articleHeroImage').src = data.heroImage;
+    document.getElementById('articleIntro').textContent = data.intro;
+    document.getElementById('articleQuote').textContent = data.quote;
+
+    // Update article body with more detailed content
+    const articleBody = document.getElementById('articleBody');
+    articleBody.innerHTML = `
+        <p>${data.body}</p>
+
+        <h3>The Fundamentals</h3>
+        <p>Understanding the core principles behind ${title.toLowerCase()} starts with recognizing that fashion is deeply personal. Each choice you make - from color palette to silhouette - communicates something about who you are and how you want to be perceived.</p>
+
+        <div class="article-quote">
+            <blockquote>${data.quote}</blockquote>
+            <cite>- ${data.author}, Fashion Expert</cite>
+        </div>
+
+        <div class="article-image">
+            <img src="${data.heroImage}" alt="${title}" class="content-image">
+            <figcaption>Exploring the essence of ${title.toLowerCase()}</figcaption>
+        </div>
+
+        <h3>Building Your Style</h3>
+        <p>The key to mastering any fashion approach is understanding your personal style DNA. Start with pieces that make you feel confident and authentic, then build from there. Quality over quantity should always be your guiding principle.</p>
+
+        <h3>Expert Tips</h3>
+        <ul>
+            <li>Invest in versatile basics that work across seasons</li>
+            <li>Don't be afraid to mix high and low-end pieces</li>
+            <li>Pay attention to fit - it can make or break any outfit</li>
+            <li>Develop a signature style element that's uniquely you</li>
+            <li>Stay inspired but don't feel pressured to follow every trend</li>
+        </ul>
+    `;
+
+    // Update the date to current date
+    const today = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('articleDate').textContent = today.toLocaleDateString('en-US', options);
+}
+
+function setupArticlePageListeners() {
+    // Back to stories buttons
+    const backButtons = document.querySelectorAll('.back-to-stories-btn, .back-to-stories-btn-bottom');
+    backButtons.forEach(btn => {
+        btn.addEventListener('click', hideArticlePage);
+    });
+
+    // Continue shopping button
+    const continueShoppingBtn = document.querySelector('.continue-shopping-btn');
+    if (continueShoppingBtn) {
+        continueShoppingBtn.addEventListener('click', () => {
+            hideArticlePage();
+            // Scroll to trending section
+            const trendingSection = document.querySelector('.trending-popular-section');
+            if (trendingSection) {
+                trendingSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    // Share buttons
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const platform = btn.classList.contains('facebook') ? 'Facebook' :
+                           btn.classList.contains('instagram') ? 'Instagram' :
+                           btn.classList.contains('twitter') ? 'Twitter' : 'Link';
+
+            if (platform === 'Link') {
+                navigator.clipboard.writeText(window.location.href);
+                showNotification('Link copied to clipboard!', 'success');
+            } else {
+                showNotification(`Shared on ${platform}!`, 'success');
+            }
+        });
+    });
+
+    // Add to cart buttons in Shop This Look section
+    const addToCartBtns = document.querySelectorAll('.look-product-card .add-to-cart-btn');
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productCard = btn.closest('.look-product-card');
+            const productName = productCard.querySelector('.product-name').textContent;
+            addToCart({ name: productName, price: 129.99, image: 'product-image.jpg' });
+        });
+    });
+
+    // Wishlist buttons in Shop This Look section
+    const wishlistBtns = document.querySelectorAll('.look-product-card .add-to-wishlist-btn');
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productCard = btn.closest('.look-product-card');
+            const productName = productCard.querySelector('.product-name').textContent;
+            addToWishlist({ name: productName, price: 129.99, image: 'product-image.jpg' });
+            btn.innerHTML = '<i class="fas fa-heart"></i>';
+            btn.style.color = '#ff4444';
+        });
+    });
+
+    // Comment submission
+    const submitCommentBtn = document.querySelector('.submit-comment-btn');
+    const commentInput = document.querySelector('.comment-input');
+
+    if (submitCommentBtn && commentInput) {
+        submitCommentBtn.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                addComment(commentText);
+                commentInput.value = '';
+                showNotification('Comment posted!', 'success');
+            }
+        });
+    }
+}
+
+function hideArticlePage() {
+    // Hide article page
+    const articlePage = document.getElementById('articlePage');
+    articlePage.style.display = 'none';
+
+    // Show all other sections
+    const fashionStoriesSection = document.querySelector('.fashion-stories-section');
+    const seasonalSection = document.querySelector('.seasonal-collections-section');
+    const trendingSection = document.querySelector('.trending-popular-section');
+    const recommendationsSection = document.querySelector('.recommendations-section');
+    const categoriesSection = document.querySelector('.categories-section');
+    const arrivalsSection = document.querySelector('.new-arrivals-section');
+    const newsletterSection = document.querySelector('.newsletter-section');
+
+    [fashionStoriesSection, seasonalSection, trendingSection, recommendationsSection,
+     categoriesSection, arrivalsSection, newsletterSection].forEach(section => {
+        if (section) section.style.display = 'block';
+    });
+
+    // Scroll back to fashion stories section
+    if (fashionStoriesSection) {
+        fashionStoriesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function addComment(commentText) {
+    const commentsList = document.querySelector('.comments-list');
+    const newComment = document.createElement('div');
+    newComment.className = 'comment';
+
+    const currentUser = document.getElementById('userName').textContent || 'Anonymous User';
+    const userAvatar = document.getElementById('profileImage').src || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face';
+
+    newComment.innerHTML = `
+        <div class="comment-avatar">
+            <img src="${userAvatar}" alt="User" class="commenter-avatar">
+        </div>
+        <div class="comment-content">
+            <div class="comment-header">
+                <span class="commenter-name">${currentUser}</span>
+                <span class="comment-date">Just now</span>
             </div>
-            <div class="story-modal-body">
-                <p>${description}</p>
-                <div class="story-images">
-                    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&h=800&fit=crop"
-                         alt="Fashion Story" class="story-modal-image">
-                </div>
-                <div class="story-actions">
-                    <button class="story-action-btn like-btn">
-                        <i class="far fa-heart"></i> Like
-                    </button>
-                    <button class="story-action-btn share-btn">
-                        <i class="fas fa-share"></i> Share
-                    </button>
-                    <button class="story-action-btn save-btn">
-                        <i class="far fa-bookmark"></i> Save
-                    </button>
-                </div>
-            </div>
+            <p class="comment-text">${commentText}</p>
         </div>
     `;
 
-    // Style the modal
-    Object.assign(modal.style, {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        height: '100%',
-        background: 'rgba(0,0,0,0.9)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: '10000'
-    });
-
-    document.body.appendChild(modal);
-
-    // Progress bar animation
-    const progressBar = modal.querySelector('.story-progress-bar');
-    let progress = 0;
-    const progressInterval = setInterval(() => {
-        progress += 2;
-        progressBar.style.width = progress + '%';
-        if (progress >= 100) {
-            clearInterval(progressInterval);
-            setTimeout(() => {
-                if (document.body.contains(modal)) {
-                    document.body.removeChild(modal);
-                }
-            }, 500);
-        }
-    }, 100);
-
-    // Close functionality
-    const closeBtn = modal.querySelector('.close-story-modal');
-    closeBtn.addEventListener('click', () => {
-        clearInterval(progressInterval);
-        document.body.removeChild(modal);
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            clearInterval(progressInterval);
-            document.body.removeChild(modal);
-        }
-    });
-
-    // Action buttons
-    const actionBtns = modal.querySelectorAll('.story-action-btn');
-    actionBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const action = btn.classList.contains('like-btn') ? 'liked' :
-                          btn.classList.contains('share-btn') ? 'shared' : 'saved';
-            showNotification(`Story ${action}!`, 'success');
-        });
-    });
+    commentsList.insertBefore(newComment, commentsList.firstChild);
 }
 
 function addScrollIndicators() {
-    const storiesContainer = document.querySelector('.stories-container');
-    if (!storiesContainer) return;
-
-    const leftIndicator = document.createElement('div');
-    const rightIndicator = document.createElement('div');
-
-    leftIndicator.className = 'scroll-indicator left';
-    rightIndicator.className = 'scroll-indicator right';
-
-    leftIndicator.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    rightIndicator.innerHTML = '<i class="fas fa-chevron-right"></i>';
-
-    // Style indicators
-    [leftIndicator, rightIndicator].forEach(indicator => {
-        Object.assign(indicator.style, {
-            position: 'absolute',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: '40px',
-            height: '40px',
-            background: 'rgba(0,0,0,0.5)',
-            color: 'white',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            zIndex: '10',
-            transition: 'all 0.3s ease'
-        });
-    });
-
-    leftIndicator.style.left = '10px';
-    rightIndicator.style.right = '10px';
-
-    const storiesSection = document.querySelector('.fashion-stories-section');
-    storiesSection.style.position = 'relative';
-    storiesSection.appendChild(leftIndicator);
-    storiesSection.appendChild(rightIndicator);
-
-    // Scroll functionality
-    leftIndicator.addEventListener('click', () => {
-        storiesContainer.scrollBy({ left: -300, behavior: 'smooth' });
-    });
-
-    rightIndicator.addEventListener('click', () => {
-        storiesContainer.scrollBy({ left: 300, behavior: 'smooth' });
-    });
+    // Scroll indicators disabled as requested - no icons needed
+    return;
 }
 
 // Recommendations
