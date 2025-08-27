@@ -700,121 +700,99 @@
                     <h4>Categories</h4>
                     <div class="category-filters">
                         <button class="category-filter active" data-category="all">All Items</button>
+                        <button class="category-filter" data-category="coats">Coats</button>
+                        <button class="category-filter" data-category="jackets">Jackets</button>
+                        <button class="category-filter" data-category="sweaters">Sweaters</button>
                         <button class="category-filter" data-category="dresses">Dresses</button>
-                        <button class="category-filter" data-category="tops">Tops</button>
-                        <button class="category-filter" data-category="outerwear">Outerwear</button>
                         <button class="category-filter" data-category="accessories">Accessories</button>
-                        <button class="category-filter" data-category="footwear">Footwear</button>
                     </div>
                 </div>
 
                 <div class="advanced-filters">
-                    <div class="filter-group">
-                        <label for="sizeFilter">Size</label>
-                        <select id="sizeFilter" class="filter-select">
-                            <option value="">All Sizes</option>
-                            <option value="xs">XS</option>
-                            <option value="s">S</option>
-                            <option value="m">M</option>
-                            <option value="l">L</option>
-                            <option value="xl">XL</option>
-                            <option value="xxl">XXL</option>
-                        </select>
-                    </div>
 
-                    <div class="filter-group">
-                        <label for="colorFilter">Color</label>
-                        <select id="colorFilter" class="filter-select">
-                            <option value="">All Colors</option>
-                            <option value="black">Black</option>
-                            <option value="white">White</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="brown">Brown</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="priceFilter">Price Range</label>
-                        <select id="priceFilter" class="filter-select">
-                            <option value="">All Prices</option>
-                            <option value="0-50">$0 - $50</option>
-                            <option value="50-100">$50 - $100</option>
-                            <option value="100-200">$100 - $200</option>
-                            <option value="200-500">$200 - $500</option>
-                            <option value="500+">$500+</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="materialFilter">Material</label>
-                        <select id="materialFilter" class="filter-select">
-                            <option value="">All Materials</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="wool">Wool</option>
-                            <option value="silk">Silk</option>
-                            <option value="leather">Leather</option>
-                            <option value="polyester">Polyester</option>
-                            <option value="denim">Denim</option>
-                        </select>
-                    </div>
 
                     <div class="filter-group">
                         <label for="sortFilter">Sort By</label>
                         <select id="sortFilter" class="filter-select">
-                            <option value="newest">Newest</option>
+                            <option value="new-arrivals">New Arrivals</option>
                             <option value="bestsellers">Bestsellers</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="rating">Highest Rated</option>
+                            <option value="price-low">Price: Low → High</option>
+                            <option value="price-high">Price: High → Low</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Special Highlights -->
-            <div class="special-highlights">
+            <!-- Top Picks for Winter -->
+            <div class="winter-highlights">
                 <div class="highlight-section">
-                    <h3 class="highlight-title">Editor's Picks</h3>
-                    <div class="editors-picks-grid">
-                        <div class="editors-pick-card">
-                            <div class="pick-badge">Editor's Choice</div>
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Editor's Pick" class="pick-image">
-                            <div class="pick-info">
-                                <h4 class="pick-title">Luxe Winter Coat</h4>
-                                <p class="pick-price">$299.99</p>
-                                <button class="pick-shop-btn">Shop Now</button>
+                    <h3 class="highlight-title">Top Picks for Winter ❄️</h3>
+                    <div class="top-picks-carousel">
+                        <div class="carousel-container" id="topPicksCarousel">
+                            <div class="carousel-track" id="topPicksTrack">
+                                <div class="top-pick-card">
+                                    <div class="pick-badge">Bestseller</div>
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Wool Blend Overcoat" class="pick-image">
+                                    <div class="pick-info">
+                                        <h4 class="pick-title">Wool Blend Overcoat</h4>
+                                        <div class="pick-rating">★★★★★</div>
+                                        <p class="pick-price">₹4,999</p>
+                                        <div class="pick-actions">
+                                            <button class="pick-wishlist-btn"><i class="far fa-heart"></i></button>
+                                            <button class="pick-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                            <button class="pick-view-btn"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="top-pick-card">
+                                    <div class="pick-badge">Trending</div>
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Cashmere Sweater" class="pick-image">
+                                    <div class="pick-info">
+                                        <h4 class="pick-title">Cashmere Turtleneck</h4>
+                                        <div class="pick-rating">★★★★☆</div>
+                                        <p class="pick-price">₹2,899</p>
+                                        <div class="pick-actions">
+                                            <button class="pick-wishlist-btn"><i class="far fa-heart"></i></button>
+                                            <button class="pick-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                            <button class="pick-view-btn"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="top-pick-card">
+                                    <div class="pick-badge">Hot Deal</div>
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400" alt="Puffer Jacket" class="pick-image">
+                                    <div class="pick-info">
+                                        <h4 class="pick-title">Quilted Puffer Jacket</h4>
+                                        <div class="pick-rating">★★★★★</div>
+                                        <p class="pick-price">₹3,499</p>
+                                        <div class="pick-actions">
+                                            <button class="pick-wishlist-btn"><i class="far fa-heart"></i></button>
+                                            <button class="pick-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                            <button class="pick-view-btn"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="top-pick-card">
+                                    <div class="pick-badge">New</div>
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400" alt="Winter Dress" class="pick-image">
+                                    <div class="pick-info">
+                                        <h4 class="pick-title">Knit Winter Dress</h4>
+                                        <div class="pick-rating">★★★★☆</div>
+                                        <p class="pick-price">₹2,199</p>
+                                        <div class="pick-actions">
+                                            <button class="pick-wishlist-btn"><i class="far fa-heart"></i></button>
+                                            <button class="pick-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                            <button class="pick-view-btn"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="editors-pick-card">
-                            <div class="pick-badge">Trending</div>
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Trending Pick" class="pick-image">
-                            <div class="pick-info">
-                                <h4 class="pick-title">Cashmere Sweater</h4>
-                                <p class="pick-price">$189.99</p>
-                                <button class="pick-shop-btn">Shop Now</button>
-                            </div>
+                            <button class="carousel-nav prev" id="topPicksPrev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="carousel-nav next" id="topPicksNext"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <div class="highlight-section">
-                    <h3 class="highlight-title">Shop the Look</h3>
-                    <div class="shop-look-bundles">
-                        <div class="look-bundle">
-                            <div class="bundle-images">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=300" alt="Look 1" class="bundle-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=300" alt="Look 2" class="bundle-image">
-                            </div>
-                            <div class="bundle-info">
-                                <h4 class="bundle-title">Cozy Winter Ensemble</h4>
-                                <p class="bundle-price">$459.99 <span class="bundle-savings">Save $50</span></p>
-                                <button class="bundle-shop-btn">Shop This Look</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Interactive Features -->
@@ -861,141 +839,180 @@
 
             <!-- Product Grid Section -->
             <div class="collection-products">
-                <div class="products-header">
-                    <h3>All Products</h3>
-                    <span class="products-count" id="productsCount">48 items</span>
-                </div>
-
                 <div class="collection-products-grid" id="collectionProductsGrid">
                     <!-- Winter Collection Products -->
-                    <div class="collection-product-card" data-category="outerwear" data-price="299">
+                    <div class="collection-product-card" data-category="coats" data-price="4999">
                         <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Luxe Winter Coat" class="product-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400" alt="Wool Blend Overcoat" class="product-image">
                             <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Luxe Winter Coat Alt" class="hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Wool Blend Overcoat Alt" class="hover-image">
                             </div>
                             <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
                         </div>
                         <div class="product-info">
-                            <h4 class="product-name">Luxe Winter Coat</h4>
+                            <h4 class="product-name">Wool Blend Overcoat</h4>
                             <div class="product-rating">
                                 <span class="stars">★★★★★</span>
                                 <span class="rating-count">(124)</span>
                             </div>
-                            <p class="product-price">$299.99</p>
+                            <p class="product-price">₹4,999</p>
                             <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="collection-product-card" data-category="tops" data-price="189">
+                    <div class="collection-product-card" data-category="sweaters" data-price="2899">
                         <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Cashmere Sweater" class="product-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400" alt="Cashmere Turtleneck Sweater" class="product-image">
                             <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400" alt="Cashmere Sweater Alt" class="hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400" alt="Cashmere Turtleneck Sweater Alt" class="hover-image">
                             </div>
                             <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
                         </div>
                         <div class="product-info">
-                            <h4 class="product-name">Cashmere Sweater</h4>
+                            <h4 class="product-name">Cashmere Turtleneck Sweater</h4>
                             <div class="product-rating">
                                 <span class="stars">★★★★☆</span>
                                 <span class="rating-count">(89)</span>
                             </div>
-                            <p class="product-price">$189.99</p>
+                            <p class="product-price">₹2,899</p>
                             <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="collection-product-card" data-category="dresses" data-price="159">
+                    <div class="collection-product-card" data-category="jackets" data-price="3499">
                         <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400" alt="Winter Midi Dress" class="product-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400" alt="Quilted Puffer Jacket" class="product-image">
                             <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=400" alt="Winter Midi Dress Alt" class="hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=400" alt="Quilted Puffer Jacket Alt" class="hover-image">
                             </div>
                             <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
                         </div>
                         <div class="product-info">
-                            <h4 class="product-name">Winter Midi Dress</h4>
+                            <h4 class="product-name">Quilted Puffer Jacket</h4>
                             <div class="product-rating">
                                 <span class="stars">★★★★★</span>
                                 <span class="rating-count">(156)</span>
                             </div>
-                            <p class="product-price">$159.99</p>
+                            <p class="product-price">₹3,499</p>
                             <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="collection-product-card" data-category="accessories" data-price="89">
+                    <div class="collection-product-card" data-category="dresses" data-price="2199">
                         <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400" alt="Winter Scarf Set" class="product-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400" alt="Knit Winter Dress" class="product-image">
                             <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400" alt="Winter Scarf Set Alt" class="hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=400" alt="Knit Winter Dress Alt" class="hover-image">
                             </div>
                             <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
                         </div>
                         <div class="product-info">
-                            <h4 class="product-name">Winter Scarf Set</h4>
+                            <h4 class="product-name">Knit Winter Dress</h4>
                             <div class="product-rating">
                                 <span class="stars">★★★★☆</span>
                                 <span class="rating-count">(67)</span>
                             </div>
-                            <p class="product-price">$89.99</p>
+                            <p class="product-price">₹2,199</p>
                             <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="collection-product-card" data-category="footwear" data-price="249">
+                    <div class="collection-product-card" data-category="accessories" data-price="1299">
                         <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400" alt="Winter Boots" class="product-image">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400" alt="Designer Wool Scarf" class="product-image">
                             <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400" alt="Winter Boots Alt" class="hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400" alt="Designer Wool Scarf Alt" class="hover-image">
                             </div>
                             <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
                         </div>
                         <div class="product-info">
-                            <h4 class="product-name">Winter Boots</h4>
-                            <div class="product-rating">
-                                <span class="stars">★★★★★</span>
-                                <span class="rating-count">(203)</span>
-                            </div>
-                            <p class="product-price">$249.99</p>
-                            <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="collection-product-card" data-category="tops" data-price="129">
-                        <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400" alt="Thermal Top" class="product-image">
-                            <div class="product-hover-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400" alt="Thermal Top Alt" class="hover-image">
-                            </div>
-                            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-name">Thermal Top</h4>
+                            <h4 class="product-name">Designer Wool Scarf</h4>
                             <div class="product-rating">
                                 <span class="stars">★★★★☆</span>
+                                <span class="rating-count">(203)</span>
+                            </div>
+                            <p class="product-price">₹1,299</p>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collection-product-card" data-category="accessories" data-price="899">
+                        <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400" alt="Leather Winter Gloves" class="product-image">
+                            <div class="product-hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400" alt="Leather Winter Gloves Alt" class="hover-image">
+                            </div>
+                            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">Leather Winter Gloves</h4>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
                                 <span class="rating-count">(94)</span>
                             </div>
-                            <p class="product-price">$129.99</p>
+                            <p class="product-price">₹899</p>
                             <div class="product-actions">
-                                <button class="add-to-cart-btn">Add to Cart</button>
-                                <button class="quick-view-btn">Quick View</button>
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collection-product-card" data-category="jackets" data-price="3899">
+                        <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400" alt="Premium Bomber Jacket" class="product-image">
+                            <div class="product-hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400" alt="Premium Bomber Jacket Alt" class="hover-image">
+                            </div>
+                            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">Premium Bomber Jacket</h4>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-count">(182)</span>
+                            </div>
+                            <p class="product-price">₹3,899</p>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collection-product-card" data-category="sweaters" data-price="2499">
+                        <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400" alt="Merino Wool Cardigan" class="product-image">
+                            <div class="product-hover-image">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400" alt="Merino Wool Cardigan Alt" class="hover-image">
+                            </div>
+                            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">Merino Wool Cardigan</h4>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-count">(76)</span>
+                            </div>
+                            <p class="product-price">₹2,499</p>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
                             </div>
                         </div>
                     </div>
@@ -1004,38 +1021,54 @@
 
             <!-- Bottom CTAs -->
             <div class="collection-bottom-cta">
-                <div class="cta-buttons">
-                    <button class="continue-shopping-btn">Continue Shopping</button>
-                    <button class="view-all-collections-btn">View All Seasonal Collections</button>
-                </div>
 
-                <!-- Personalized Recommendations -->
-                <div class="personalized-recommendations">
+                <!-- Cross-Season Recommendations -->
+                <div class="cross-season-recommendations">
                     <h3 class="section-title">You May Also Like</h3>
                     <div class="recommendations-grid">
-                        <div class="recommendation-card">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=300" alt="Recommended Item" class="recommendation-image">
+                        <div class="recommendation-card spring-preview">
+                            <div class="season-badge">Coming Soon</div>
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F72f8c53f7fb240f78689e888234308cb?format=webp&width=300" alt="Spring Preview" class="recommendation-image">
                             <div class="recommendation-content">
                                 <h4 class="recommendation-title">Spring Preview Collection</h4>
-                                <p class="recommendation-excerpt">Get ready for spring with our latest previews</p>
-                                <button class="recommendation-btn">Explore</button>
+                                <p class="recommendation-excerpt">Get ready for spring with our latest light fabrics and fresh colors</p>
+                                <div class="recommendation-price">Starting ₹999</div>
+                                <button class="recommendation-btn">Explore Spring →</button>
                             </div>
                         </div>
-                        <div class="recommendation-card">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=300" alt="Recommended Item" class="recommendation-image">
+                        <div class="recommendation-card limited-offers">
+                            <div class="season-badge special">Limited Offer</div>
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=300" alt="Limited Offers" class="recommendation-image">
                             <div class="recommendation-content">
-                                <h4 class="recommendation-title">Casual Winter Wear</h4>
-                                <p class="recommendation-excerpt">Comfortable pieces for everyday winter style</p>
-                                <button class="recommendation-btn">Explore</button>
+                                <h4 class="recommendation-title">Winter Clearance Sale</h4>
+                                <p class="recommendation-excerpt">Up to 50% off on selected winter items. Limited time only!</p>
+                                <div class="recommendation-price">Save up to ₹2,500</div>
+                                <button class="recommendation-btn special">Shop Sale →</button>
                             </div>
                         </div>
-                        <div class="recommendation-card">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=300" alt="Recommended Item" class="recommendation-image">
+                        <div class="recommendation-card accessories-focus">
+                            <div class="season-badge">Hot</div>
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=300" alt="Winter Accessories" class="recommendation-image">
                             <div class="recommendation-content">
-                                <h4 class="recommendation-title">Winter Accessories</h4>
-                                <p class="recommendation-excerpt">Complete your winter look with our accessories</p>
-                                <button class="recommendation-btn">Explore</button>
+                                <h4 class="recommendation-title">Winter Accessories Hub</h4>
+                                <p class="recommendation-excerpt">Complete your winter look with matching accessories and warmwear</p>
+                                <div class="recommendation-price">From ₹499</div>
+                                <button class="recommendation-btn">View All →</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Shop Best Deals CTA -->
+                    <div class="best-deals-cta">
+                        <div class="deals-cta-content">
+                            <div class="deals-cta-text">
+                                <h3>Don't Miss Out! 🔥</h3>
+                                <p>Discover exclusive winter deals and limited-time offers on premium fashion</p>
+                            </div>
+                            <button class="shop-best-deals-btn">
+                                <span>Shop Best Deals</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
