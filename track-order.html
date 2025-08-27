@@ -1093,7 +1093,10 @@
         // Get order ID from URL parameters
         function getOrderIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('orderId') || 'ORD12345'; // Default fallback
+            const orderId = urlParams.get('orderId');
+            console.log('URL search params:', window.location.search);
+            console.log('Extracted orderId:', orderId);
+            return orderId || 'ORD12345'; // Default fallback
         }
 
         // Populate order details based on order ID
