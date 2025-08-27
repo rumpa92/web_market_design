@@ -3254,7 +3254,7 @@ const subcategoryItems = {
             originalPrice: '$89',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★�����☆'
+            rating: '★��★�����☆'
         },
         {
             id: 'active2',
@@ -3515,5 +3515,479 @@ function addToWishlistFromCategory(itemId) {
         } else {
             showNotification(`${item.title} is already in your wishlist!`, 'info');
         }
+    }
+}
+
+// Collection Page Navigation and Setup
+function setupCollectionNavigation() {
+    // Handle hero slider CTA buttons navigation to collection page
+    const heroCtaBtns = document.querySelectorAll('.slide-cta-btn');
+
+    heroCtaBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const slideContent = btn.closest('.slide-content');
+            const slideTitle = slideContent.querySelector('.title-main').textContent;
+            const collectionType = determineCollectionType(btn.textContent, slideTitle);
+
+            navigateToCollectionPage(collectionType);
+        });
+    });
+
+    // Handle seasonal collection buttons
+    const seasonalBtns = document.querySelectorAll('.seasonal-card-button');
+    seasonalBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const seasonTitle = btn.closest('.seasonal-card').querySelector('.seasonal-card-title').textContent;
+            const collectionType = seasonTitle.toLowerCase().replace(' collection', '');
+
+            navigateToCollectionPage(collectionType);
+        });
+    });
+}
+
+function determineCollectionType(btnText, slideTitle) {
+    if (btnText.includes('Winter') || slideTitle.includes('WINTER')) {
+        return 'winter';
+    } else if (btnText.includes('Spring') || slideTitle.includes('SPRING')) {
+        return 'spring';
+    } else if (btnText.includes('Summer') || slideTitle.includes('SUMMER')) {
+        return 'summer';
+    } else if (btnText.includes('Exclusive') || slideTitle.includes('DESIGNER')) {
+        return 'exclusive';
+    } else {
+        return 'winter'; // Default to winter
+    }
+}
+
+function navigateToCollectionPage(collectionType) {
+    // Hide all main page sections
+    const sectionsToHide = [
+        '.hero-slider-section',
+        '.fashion-stories-section',
+        '.seasonal-collections-section',
+        '.trending-popular-section',
+        '.recommendations-section',
+        '.categories-section',
+        '.new-arrivals-section',
+        '.newsletter-section'
+    ];
+
+    sectionsToHide.forEach(selector => {
+        const section = document.querySelector(selector);
+        if (section) section.style.display = 'none';
+    });
+
+    // Show collection page
+    const collectionPage = document.getElementById('collectionPage');
+    if (collectionPage) {
+        collectionPage.style.display = 'block';
+        loadCollectionContent(collectionType);
+        window.scrollTo(0, 0);
+
+        showNotification(`Welcome to ${collectionType.charAt(0).toUpperCase() + collectionType.slice(1)} Collection!`, 'success');
+    }
+}
+
+function loadCollectionContent(collectionType) {
+    const collectionData = getCollectionData(collectionType);
+
+    // Update collection header
+    const collectionTitle = document.getElementById('collectionTitle');
+    const collectionTagline = document.getElementById('collectionTagline');
+    const collectionHeroImage = document.querySelector('#collectionHeroImage img');
+
+    if (collectionTitle) collectionTitle.textContent = collectionData.title;
+    if (collectionTagline) collectionTagline.textContent = collectionData.tagline;
+    if (collectionHeroImage) collectionHeroImage.src = collectionData.heroImage;
+
+    // Update active collection tab
+    const collectionTabs = document.querySelectorAll('.collection-tab');
+    collectionTabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.collection === collectionType) {
+            tab.classList.add('active');
+        }
+    });
+
+    // Load products for this collection
+    loadCollectionProducts(collectionType);
+
+    // Update styling and content based on collection
+    updateCollectionStyling(collectionType);
+}
+
+function getCollectionData(collectionType) {
+    const collections = {
+        winter: {
+            title: 'Winter Collection 2025',
+            tagline: 'Stay stylish and cozy with our curated winter looks',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200',
+            theme: 'winter'
+        },
+        spring: {
+            title: 'Spring Collection 2025',
+            tagline: 'Fresh styles for the new season ahead',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F72f8c53f7fb240f78689e888234308cb?format=webp&width=1200',
+            theme: 'spring'
+        },
+        summer: {
+            title: 'Summer Collection 2025',
+            tagline: 'Light, breezy styles for sunny days',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2Fb0bd47d0cef64e398781bc1c01fbde2e?format=webp&width=1200',
+            theme: 'summer'
+        },
+        exclusive: {
+            title: 'Exclusive Designer Collection',
+            tagline: 'Luxury pieces for the discerning fashionista',
+            heroImage: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&h=600&fit=crop&auto=format&q=80',
+            theme: 'exclusive'
+        }
+    };
+
+    return collections[collectionType] || collections.winter;
+}
+
+function loadCollectionProducts(collectionType) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    const productsCount = document.getElementById('productsCount');
+
+    if (!productsGrid) return;
+
+    // Generate dynamic products based on collection type
+    const products = generateCollectionProducts(collectionType);
+
+    // Update products count
+    if (productsCount) productsCount.textContent = `${products.length} items`;
+
+    // Clear existing products and add new ones
+    const existingProducts = productsGrid.querySelectorAll('.collection-product-card');
+    existingProducts.forEach(product => product.style.display = 'block');
+
+    // Filter products based on collection type
+    existingProducts.forEach((product, index) => {
+        if (index >= products.length) {
+            product.style.display = 'none';
+        }
+    });
+}
+
+function generateCollectionProducts(collectionType) {
+    // This would typically come from an API, but for demo purposes we'll use the existing products
+    const baseProducts = [
+        { name: 'Luxe Winter Coat', price: 299, category: 'outerwear' },
+        { name: 'Cashmere Sweater', price: 189, category: 'tops' },
+        { name: 'Winter Midi Dress', price: 159, category: 'dresses' },
+        { name: 'Winter Scarf Set', price: 89, category: 'accessories' },
+        { name: 'Winter Boots', price: 249, category: 'footwear' },
+        { name: 'Thermal Top', price: 129, category: 'tops' }
+    ];
+
+    // Adjust products based on collection type
+    if (collectionType === 'spring') {
+        return [
+            { name: 'Spring Floral Dress', price: 139, category: 'dresses' },
+            { name: 'Light Cotton Blazer', price: 169, category: 'outerwear' },
+            { name: 'Pastel Cardigan', price: 99, category: 'tops' },
+            { name: 'Spring Ankle Boots', price: 179, category: 'footwear' },
+            { name: 'Silk Scarf', price: 69, category: 'accessories' },
+            { name: 'Cropped Denim Jacket', price: 119, category: 'outerwear' }
+        ];
+    } else if (collectionType === 'summer') {
+        return [
+            { name: 'Maxi Summer Dress', price: 119, category: 'dresses' },
+            { name: 'Linen Blouse', price: 89, category: 'tops' },
+            { name: 'Wide-Leg Pants', price: 109, category: 'bottoms' },
+            { name: 'Summer Sandals', price: 159, category: 'footwear' },
+            { name: 'Beach Tote Bag', price: 79, category: 'accessories' },
+            { name: 'Lightweight Kimono', price: 99, category: 'outerwear' }
+        ];
+    } else if (collectionType === 'exclusive') {
+        return [
+            { name: 'Designer Evening Gown', price: 599, category: 'dresses' },
+            { name: 'Luxury Silk Blouse', price: 399, category: 'tops' },
+            { name: 'Italian Leather Jacket', price: 899, category: 'outerwear' },
+            { name: 'Designer Handbag', price: 1299, category: 'accessories' },
+            { name: 'Premium Wool Coat', price: 799, category: 'outerwear' },
+            { name: 'Couture Cocktail Dress', price: 1099, category: 'dresses' }
+        ];
+    }
+
+    return baseProducts;
+}
+
+function updateCollectionStyling(collectionType) {
+    const collectionPage = document.getElementById('collectionPage');
+    if (!collectionPage) return;
+
+    // Remove existing theme classes
+    collectionPage.classList.remove('winter-theme', 'spring-theme', 'summer-theme', 'exclusive-theme');
+
+    // Add theme class
+    collectionPage.classList.add(`${collectionType}-theme`);
+}
+
+// Enhanced Collection Page Setup
+function setupCollectionPage() {
+    setupCollectionTabs();
+    setupCollectionFilters();
+    setupCollectionSort();
+    setupBackNavigation();
+    setupFloatingButton();
+    setupQuickActions();
+}
+
+function setupCollectionTabs() {
+    const collectionTabs = document.querySelectorAll('.collection-tab');
+
+    collectionTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const collectionType = tab.dataset.collection;
+
+            // Update active tab
+            collectionTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Load new collection content
+            loadCollectionContent(collectionType);
+
+            showNotification(`Switched to ${collectionType.charAt(0).toUpperCase() + collectionType.slice(1)} Collection`, 'info');
+        });
+    });
+}
+
+function setupCollectionFilters() {
+    // Category filters
+    const categoryFilters = document.querySelectorAll('.category-filter');
+    categoryFilters.forEach(filter => {
+        filter.addEventListener('click', () => {
+            // Remove active from all filters
+            categoryFilters.forEach(f => f.classList.remove('active'));
+            // Add active to clicked filter
+            filter.classList.add('active');
+
+            const category = filter.dataset.category;
+            filterProductsByCategory(category);
+
+            showNotification(`Filtering by: ${filter.textContent}`, 'info');
+        });
+    });
+
+    // Advanced filters
+    const advancedFilters = document.querySelectorAll('#sizeFilter, #colorFilter, #priceFilter, #materialFilter');
+    advancedFilters.forEach(filter => {
+        filter.addEventListener('change', () => {
+            applyAdvancedFilters();
+        });
+    });
+}
+
+function filterProductsByCategory(category) {
+    const productCards = document.querySelectorAll('.collection-product-card');
+
+    productCards.forEach(card => {
+        if (category === 'all') {
+            card.style.display = 'block';
+        } else {
+            const productCategory = card.dataset.category;
+            card.style.display = productCategory === category ? 'block' : 'none';
+        }
+    });
+
+    updateProductsCount();
+}
+
+function applyAdvancedFilters() {
+    const sizeFilter = document.getElementById('sizeFilter').value;
+    const colorFilter = document.getElementById('colorFilter').value;
+    const priceFilter = document.getElementById('priceFilter').value;
+    const materialFilter = document.getElementById('materialFilter').value;
+
+    const productCards = document.querySelectorAll('.collection-product-card');
+
+    productCards.forEach(card => {
+        let shouldShow = true;
+
+        // Apply price filter
+        if (priceFilter) {
+            const price = parseInt(card.dataset.price);
+            const [min, max] = priceFilter.includes('-') ?
+                priceFilter.split('-').map(p => parseInt(p)) :
+                [parseInt(priceFilter.replace('+', '')), Infinity];
+
+            if (price < min || price > max) {
+                shouldShow = false;
+            }
+        }
+
+        // Apply other filters (simplified for demo)
+        if (sizeFilter && !shouldShow) shouldShow = false;
+        if (colorFilter && !shouldShow) shouldShow = false;
+        if (materialFilter && !shouldShow) shouldShow = false;
+
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+
+    updateProductsCount();
+    showNotification('Filters applied', 'success');
+}
+
+function setupCollectionSort() {
+    const sortFilter = document.getElementById('sortFilter');
+
+    if (sortFilter) {
+        sortFilter.addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            sortProducts(sortBy);
+            showNotification(`Sorted by: ${e.target.options[e.target.selectedIndex].text}`, 'info');
+        });
+    }
+}
+
+function sortProducts(sortBy) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    const productCards = Array.from(productsGrid.querySelectorAll('.collection-product-card'));
+
+    productCards.sort((a, b) => {
+        switch (sortBy) {
+            case 'price-low':
+                return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+            case 'price-high':
+                return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+            case 'newest':
+                return Math.random() - 0.5; // Random for demo
+            case 'bestsellers':
+                return Math.random() - 0.5; // Random for demo
+            case 'rating':
+                return Math.random() - 0.5; // Random for demo
+            default:
+                return 0;
+        }
+    });
+
+    // Reorder in DOM
+    productCards.forEach(card => {
+        productsGrid.appendChild(card);
+    });
+}
+
+function setupBackNavigation() {
+    const backToHomeBtn = document.getElementById('backToHome');
+
+    if (backToHomeBtn) {
+        backToHomeBtn.addEventListener('click', () => {
+            hideCollectionPage();
+        });
+    }
+}
+
+function hideCollectionPage() {
+    // Hide collection page
+    const collectionPage = document.getElementById('collectionPage');
+    if (collectionPage) {
+        collectionPage.style.display = 'none';
+    }
+
+    // Show all main page sections
+    const sectionsToShow = [
+        '.hero-slider-section',
+        '.fashion-stories-section',
+        '.seasonal-collections-section',
+        '.trending-popular-section',
+        '.recommendations-section',
+        '.categories-section',
+        '.new-arrivals-section',
+        '.newsletter-section'
+    ];
+
+    sectionsToShow.forEach(selector => {
+        const section = document.querySelector(selector);
+        if (section) section.style.display = 'block';
+    });
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+
+    showNotification('Back to homepage', 'info');
+}
+
+function setupFloatingButton() {
+    // Create floating "Shop Bestsellers" button
+    const floatingButton = document.createElement('div');
+    floatingButton.className = 'floating-shop-btn';
+    floatingButton.innerHTML = `
+        <button class="shop-bestsellers-btn">
+            <i class="fas fa-star"></i>
+            Shop Bestsellers
+        </button>
+    `;
+
+    // Add to collection page
+    const collectionPage = document.getElementById('collectionPage');
+    if (collectionPage) {
+        collectionPage.appendChild(floatingButton);
+
+        // Add click handler
+        const btn = floatingButton.querySelector('.shop-bestsellers-btn');
+        btn.addEventListener('click', () => {
+            // Filter to show bestsellers
+            const sortFilter = document.getElementById('sortFilter');
+            if (sortFilter) {
+                sortFilter.value = 'bestsellers';
+                sortProducts('bestsellers');
+            }
+
+            // Scroll to products
+            const productsSection = document.querySelector('.collection-products');
+            if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            showNotification('Showing bestsellers!', 'success');
+        });
+    }
+}
+
+function setupQuickActions() {
+    // Add to cart buttons
+    const addToCartBtns = document.querySelectorAll('.collection-product-card .add-to-cart-btn');
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleAddToCart(e);
+        });
+    });
+
+    // Wishlist buttons
+    const wishlistBtns = document.querySelectorAll('.collection-product-card .product-wishlist-btn');
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleWishlist(e);
+        });
+    });
+
+    // Quick view buttons
+    const quickViewBtns = document.querySelectorAll('.collection-product-card .quick-view-btn');
+    quickViewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleQuickView(e);
+        });
+    });
+}
+
+function updateProductsCount() {
+    const visibleProducts = document.querySelectorAll('.collection-product-card[style*="block"], .collection-product-card:not([style*="none"])');
+    const productsCount = document.getElementById('productsCount');
+
+    if (productsCount) {
+        const count = visibleProducts.length;
+        productsCount.textContent = `${count} item${count !== 1 ? 's' : ''}`;
     }
 }
