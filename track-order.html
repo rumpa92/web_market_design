@@ -1199,12 +1199,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Get order ID from URL and populate details
             const orderId = getOrderIdFromURL();
+            console.log('Retrieved order ID:', orderId);
+            console.log('Available order data:', Object.keys(orderData));
+            console.log('Order exists:', !!orderData[orderId]);
+
             populateOrderDetails(orderId);
 
             // Show notification for which order is being tracked
             const order = orderData[orderId];
             if (order) {
                 showNotification(`Tracking order: ${order.products[0].name}`, 'info');
+            } else {
+                console.error('Order not found for ID:', orderId);
             }
             // Profile dropdown functionality
             const profileTrigger = document.getElementById('profileTrigger');
