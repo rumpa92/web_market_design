@@ -442,6 +442,89 @@
     </style>
 </head>
 <body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon"></i>
+                        <div class="cart-icon-container">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count">2</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Rumpa Samanta</span>
+                                            <span class="user-email" id="userEmail">rumpa@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myWishlist">
+                                        <i class="fas fa-heart"></i>
+                                        <span>My Wishlist</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountDeletion">
+                                        <i class="fas fa-user-times"></i>
+                                        <span>Account Deletion</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <a href="profile.html" class="back-button">
         <i class="fas fa-arrow-left"></i>
     </a>
