@@ -2140,6 +2140,249 @@
             });
         }
 
+        // Email Support Functionality
+        let emailAttachments = [];
+
+        function setupEmailSupportModal() {
+            const modal = document.getElementById('emailSupportModal');
+            const closeBtn = document.getElementById('closeEmailModal');
+            const cancelBtn = document.getElementById('cancelEmail');
+            const form = document.getElementById('emailSupportForm');
+            const attachmentDropZone = document.getElementById('attachmentDropZone');
+            const attachmentInput = document.getElementById('supportAttachments');
+            const browseLink = attachmentDropZone.querySelector('.browse-link');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closeEmailModal);
+            cancelBtn.addEventListener('click', closeEmailModal);
+
+            // Form submission
+            form.addEventListener('submit', handleEmailSubmit);
+
+            // Browse link click
+            browseLink.addEventListener('click', (e) => {
+                e.stopPropagation();
+                attachmentInput.click();
+            });
+
+            // Drop zone click
+            attachmentDropZone.addEventListener('click', () => {
+                attachmentInput.click();
+            });
+
+            // File input change
+            attachmentInput.addEventListener('change', handleEmailFileSelect);
+
+            // Drag and drop events
+            attachmentDropZone.addEventListener('dragover', handleEmailDragOver);
+            attachmentDropZone.addEventListener('dragleave', handleEmailDragLeave);
+            attachmentDropZone.addEventListener('drop', handleEmailDrop);
+
+            // Category change - auto-suggest subject
+            document.getElementById('supportCategory').addEventListener('change', handleCategoryChange);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeEmailModal();
+                }
+            });
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailSupportModal').style.display = 'none';
+            // Reset form
+            document.getElementById('emailSupportForm').reset();
+            emailAttachments = [];
+            updateAttachmentPreview();
+        }
+
+        function handleEmailSubmit(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const emailData = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                orderId: formData.get('orderId'),
+                category: formData.get('category'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                attachments: emailAttachments
+            };
+
+            // Simulate email submission
+            submitEmailSupport(emailData);
+        }
+
+        function submitEmailSupport(emailData) {
+            // Show loading state
+            const submitBtn = document.getElementById('sendEmailBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Close modal
+                closeEmailModal();
+
+                // Show success notification
+                showEmailConfirmation();
+
+                console.log('Email support request:', emailData);
+            }, 2000);
+        }
+
+        function showEmailConfirmation() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-check" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">Email Sent Successfully!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">Your request has been submitted. We'll respond via email soon.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function handleEmailFileSelect(event) {
+            const files = Array.from(event.target.files);
+            processEmailFiles(files);
+        }
+
+        function handleEmailDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleEmailDragLeave(e) {
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleEmailDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files);
+            processEmailFiles(files);
+        }
+
+        function processEmailFiles(files) {
+            const validFiles = files.filter(file => {
+                const validTypes = ['image/', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const isValidType = validTypes.some(type => file.type.startsWith(type) || file.type === type);
+                const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
+
+                if (!isValidType) {
+                    showNotification(`${file.name} is not a supported file type`, 'error');
+                    return false;
+                }
+                if (!isValidSize) {
+                    showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    return false;
+                }
+                return true;
+            });
+
+            emailAttachments.push(...validFiles);
+            updateAttachmentPreview();
+        }
+
+        function updateAttachmentPreview() {
+            const preview = document.getElementById('attachmentPreview');
+
+            if (emailAttachments.length === 0) {
+                preview.classList.remove('has-files');
+                preview.innerHTML = '';
+                return;
+            }
+
+            preview.classList.add('has-files');
+            preview.innerHTML = emailAttachments.map((file, index) => `
+                <div class="attachment-item">
+                    <div class="attachment-icon">
+                        <i class="fas ${getFileIcon(file.type)}"></i>
+                    </div>
+                    <div class="attachment-info">
+                        <div class="attachment-name">${file.name}</div>
+                        <div class="attachment-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button type="button" class="remove-attachment" onclick="removeEmailAttachment(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeEmailAttachment(index) {
+            emailAttachments.splice(index, 1);
+            updateAttachmentPreview();
+        }
+
+        function getFileIcon(fileType) {
+            if (fileType.startsWith('image/')) return 'fa-image';
+            if (fileType === 'application/pdf') return 'fa-file-pdf';
+            if (fileType.includes('word')) return 'fa-file-word';
+            return 'fa-file';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function handleCategoryChange(e) {
+            const category = e.target.value;
+            const subjectField = document.getElementById('supportSubject');
+
+            // Auto-suggest subject based on category
+            const suggestions = {
+                'order-delivery': 'Issue with my order delivery',
+                'payment-refunds': 'Payment or refund inquiry',
+                'returns-exchanges': 'Return or exchange request',
+                'account-profile': 'Account or profile issue',
+                'rewards-gifts': 'Rewards or gift card question',
+                'other': ''
+            };
+
+            if (suggestions[category] && !subjectField.value) {
+                subjectField.value = suggestions[category];
+            }
+        }
+
         // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Profile dropdown functionality
