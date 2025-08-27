@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete My Account - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Account Deletion Specific Styles */
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: #2d3748;
+        }
+
+        .deletion-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .deletion-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .deletion-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #e53e3e;
+        }
+
+        .deletion-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.5px;
+        }
+
+        .deletion-description {
+            font-size: 1.1rem;
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        .deletion-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .info-box {
+            background: #fffbf5;
+            border: 1px solid #fed7aa;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            background: #ed8936;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: white;
+        }
+
+        .info-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #c05621;
+            margin: 0;
+        }
+
+        .info-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #92400e;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .info-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-list li::before {
+            content: '•';
+            color: #ed8936;
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .confirmation-section {
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .password-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-weight: 500;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #e53e3e;
+            box-shadow: 0 0 0 0.25rem rgba(229, 62, 62, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #a0aec0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #4a5568;
+        }
+
+        .otp-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .radio-input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+        }
+
+        .radio-label {
+            color: #4a5568;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .send-otp-btn {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .send-otp-btn:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .send-otp-btn.show {
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #cbd5e0;
+            color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .support-section {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .support-text {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .support-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .support-link:hover {
+            color: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            max-width: 300px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #e53e3e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        /* Success State */
+        .success-message {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-icon {
+            width: 24px;
+            height: 24px;
+            background: #38a169;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: white;
+        }
+
+        .success-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #276749;
+            margin: 0;
+        }
+
+        .success-text {
+            color: #2f855a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .deletion-container {
+                padding: 1rem;
+            }
+
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+            }
+
+            .deletion-title {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .deletion-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="profile.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <div class="deletion-container">
+        <!-- Header Section -->
+        <div class="deletion-header">
+            <div class="deletion-icon">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <h1 class="deletion-title">Delete My Account</h1>
+            <p class="deletion-description">
+                Request to delete your account. Once deleted, all your saved information including orders, addresses, wishlist, and rewards will be permanently removed.
+            </p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="deletion-card">
+            <!-- Information Box -->
+            <div class="info-box">
+                <div class="info-box-header">
+                    <div class="info-icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <h3 class="info-title">What you'll lose by deleting your account:</h3>
+                </div>
+                <ul class="info-list">
+                    <li>You will lose access to past order history and tracking information</li>
+                    <li>Saved addresses & payment methods will be permanently erased</li>
+                    <li>Rewards, gift cards, and coupons will be forfeited and cannot be recovered</li>
+                    <li>All wishlist items and personal preferences will be deleted</li>
+                    <li>StyleHub Premium membership benefits will be canceled immediately</li>
+                </ul>
+            </div>
+
+            <!-- Success Message (Hidden by default) -->
+            <div class="success-message" id="successMessage">
+                <div class="success-header">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3 class="success-title">Deletion Request Submitted</h3>
+                </div>
+                <p class="success-text">
+                    Your account deletion request has been submitted successfully. You will receive a confirmation email within 24 hours with further instructions.
+                </p>
+            </div>
+
+            <!-- Confirmation Section -->
+            <div class="confirmation-section" id="confirmationSection">
+                <h3 class="confirmation-title">Confirm your identity to proceed:</h3>
+                
+                <!-- Password Option -->
+                <div class="otp-option">
+                    <input type="radio" id="passwordOption" name="confirmMethod" value="password" class="radio-input" checked>
+                    <label for="passwordOption" class="radio-label">Verify with password</label>
+                </div>
+                
+                <!-- OTP Option -->
+                <div class="otp-option">
+                    <input type="radio" id="otpOption" name="confirmMethod" value="otp" class="radio-input">
+                    <label for="otpOption" class="radio-label">Verify with OTP sent to rumpa@stylehub.com</label>
+                    <button class="send-otp-btn" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
+                </div>
+
+                <!-- Input Field -->
+                <div class="password-input-group">
+                    <input 
+                        type="password" 
+                        id="confirmationInput" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        required
+                    >
+                    <button class="password-toggle" id="passwordToggle" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="profile.html" class="btn btn-secondary">
+                    <i class="fas fa-shield-alt"></i>
+                    Cancel / Keep My Account
+                </a>
+                <button class="btn btn-primary" id="deleteBtn" onclick="submitDeletionRequest()" disabled>
+                    <i class="fas fa-trash"></i>
+                    Request Account Deletion
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <p class="support-text">Need help or have concerns about deleting your account?</p>
+            <a href="#" class="support-link" onclick="contactSupport()">
+                <i class="fas fa-life-ring"></i>
+                Contact Support
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Processing your request...</p>
+        </div>
+    </div>
+
+    <script>
+        let otpSent = false;
+        let confirmationMethod = 'password';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            validateForm();
+        });
+
+        function setupEventListeners() {
+            // Radio button changes
+            document.querySelectorAll('input[name="confirmMethod"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    confirmationMethod = this.value;
+                    updateConfirmationUI();
+                    validateForm();
+                });
+            });
+
+            // Input validation
+            document.getElementById('confirmationInput').addEventListener('input', validateForm);
+        }
+
+        function updateConfirmationUI() {
+            const input = document.getElementById('confirmationInput');
+            const passwordToggle = document.getElementById('passwordToggle');
+            const sendOtpBtn = document.getElementById('sendOtpBtn');
+
+            if (confirmationMethod === 'password') {
+                input.type = 'password';
+                input.placeholder = 'Enter your password';
+                passwordToggle.style.display = 'block';
+                sendOtpBtn.classList.remove('show');
+            } else {
+                input.type = 'text';
+                input.placeholder = otpSent ? 'Enter 6-digit OTP' : 'Click "Send OTP" first';
+                input.disabled = !otpSent;
+                passwordToggle.style.display = 'none';
+                sendOtpBtn.classList.add('show');
+            }
+            
+            input.value = '';
+            validateForm();
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('confirmationInput');
+            const toggle = document.getElementById('passwordToggle');
+            const icon = toggle.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function sendOTP() {
+            const btn = document.getElementById('sendOtpBtn');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            // Simulate OTP sending
+            setTimeout(() => {
+                otpSent = true;
+                btn.textContent = 'Resend OTP';
+                btn.disabled = false;
+                updateConfirmationUI();
+                showNotification('OTP sent to rumpa@stylehub.com', 'success');
+            }, 2000);
+        }
+
+        function validateForm() {
+            const input = document.getElementById('confirmationInput');
+            const deleteBtn = document.getElementById('deleteBtn');
+            let isValid = false;
+
+            if (confirmationMethod === 'password') {
+                isValid = input.value.length >= 6;
+            } else {
+                isValid = otpSent && input.value.length === 6 && /^\d{6}$/.test(input.value);
+            }
+
+            deleteBtn.disabled = !isValid;
+        }
+
+        function submitDeletionRequest() {
+            const input = document.getElementById('confirmationInput');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const confirmationSection = document.getElementById('confirmationSection');
+            const successMessage = document.getElementById('successMessage');
+
+            // Show loading
+            loadingOverlay.classList.add('show');
+
+            // Simulate API call
+            setTimeout(() => {
+                loadingOverlay.classList.remove('show');
+                
+                // Simulate validation
+                const isValid = confirmationMethod === 'password' ? 
+                    input.value === 'password123' : // Demo password
+                    input.value === '123456'; // Demo OTP
+
+                if (isValid) {
+                    // Hide confirmation section and show success
+                    confirmationSection.style.display = 'none';
+                    successMessage.classList.add('show');
+                    
+                    // Update action buttons
+                    const actionButtons = document.querySelector('.action-buttons');
+                    actionButtons.innerHTML = `
+                        <a href="profile.html" class="btn btn-secondary" style="margin: 0 auto; max-width: 300px;">
+                            <i class="fas fa-home"></i>
+                            Return to Profile
+                        </a>
+                    `;
+
+                    showNotification('Account deletion request submitted successfully', 'success');
+                } else {
+                    const errorMessage = confirmationMethod === 'password' ? 
+                        'Incorrect password. Please try again.' : 
+                        'Invalid OTP. Please check and try again.';
+                    showNotification(errorMessage, 'error');
+                    
+                    // Shake animation for input
+                    input.style.animation = 'shake 0.5s ease-in-out';
+                    setTimeout(() => {
+                        input.style.animation = '';
+                    }, 500);
+                }
+            }, 3000);
+        }
+
+        function contactSupport() {
+            showNotification('Redirecting to customer support...', 'info');
+            // Simulate redirect
+            setTimeout(() => {
+                window.open('mailto:support@stylehub.com?subject=Account Deletion Inquiry', '_blank');
+            }, 1000);
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+                z-index: 10001;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 350px;
+                border-left: 4px solid ${type === 'success' ? '#38a169' : type === 'error' ? '#e53e3e' : '#667eea'};
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #a0aec0;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 4000);
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
