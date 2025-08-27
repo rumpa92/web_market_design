@@ -298,39 +298,6 @@
                 </div>
             </div>
 
-            <!-- Additional Resources -->
-            <div class="support-section">
-                <h2 class="section-title">
-                    <i class="fas fa-book section-icon"></i>
-                    Additional Resources
-                </h2>
-                
-                <div class="contact-options">
-                    <div class="contact-option" onclick="viewSizeGuide()">
-                        <div class="contact-icon">
-                            <i class="fas fa-ruler"></i>
-                        </div>
-                        <h3 class="contact-title">Size Guide</h3>
-                        <p class="contact-desc">Find the perfect fit with our comprehensive size guide</p>
-                    </div>
-
-                    <div class="contact-option" onclick="viewShippingInfo()">
-                        <div class="contact-icon">
-                            <i class="fas fa-shipping-fast"></i>
-                        </div>
-                        <h3 class="contact-title">Shipping Info</h3>
-                        <p class="contact-desc">Learn about our shipping options and delivery times</p>
-                    </div>
-
-                    <div class="contact-option" onclick="viewTerms()">
-                        <div class="contact-icon">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <h3 class="contact-title">Terms & Conditions</h3>
-                        <p class="contact-desc">Read our terms of service and privacy policy</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -353,17 +320,6 @@
             // Could open a modal with phone number or initiate a callback
         }
 
-        function viewSizeGuide() {
-            showNotification('Opening size guide...', 'info');
-        }
-
-        function viewShippingInfo() {
-            showNotification('Opening shipping information...', 'info');
-        }
-
-        function viewTerms() {
-            showNotification('Opening terms and conditions...', 'info');
-        }
 
         function showNotification(message, type) {
             const notification = document.createElement('div');
