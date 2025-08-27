@@ -3018,7 +3018,7 @@ const subcategoryItems = {
             originalPrice: '$100',
             image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★���★☆'
+            rating: '★★★★☆'
         }
     ],
     'Suits & Blazers': [
@@ -4035,5 +4035,217 @@ function updateProductsCount() {
     if (productsCount) {
         const count = visibleProducts.length;
         productsCount.textContent = `${count} item${count !== 1 ? 's' : ''}`;
+    }
+}
+
+// Additional filtering functions
+function filterProductsByColor(color) {
+    const productCards = document.querySelectorAll('.collection-product-card');
+
+    productCards.forEach(card => {
+        // For demo purposes, we'll show/hide products randomly
+        // In a real app, this would filter by actual product color data
+        const shouldShow = Math.random() > 0.3; // Show 70% of products
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+
+    updateProductsCount();
+}
+
+function filterProductsByPrice(maxPrice) {
+    const productCards = document.querySelectorAll('.collection-product-card');
+
+    productCards.forEach(card => {
+        const price = parseInt(card.dataset.price);
+        card.style.display = price <= maxPrice ? 'block' : 'none';
+    });
+
+    updateProductsCount();
+}
+
+function showAllProducts() {
+    const productCards = document.querySelectorAll('.collection-product-card');
+
+    productCards.forEach(card => {
+        card.style.display = 'block';
+    });
+
+    updateProductsCount();
+}
+
+// Carousel functionality
+function setupCarousels() {
+    setupTopPicksCarousel();
+}
+
+function setupTopPicksCarousel() {
+    const track = document.getElementById('topPicksTrack');
+    const prevBtn = document.getElementById('topPicksPrev');
+    const nextBtn = document.getElementById('topPicksNext');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    let currentPosition = 0;
+    const cardWidth = 280 + 24; // card width + gap
+    const visibleCards = Math.floor(track.parentElement.offsetWidth / cardWidth);
+    const totalCards = track.children.length;
+    const maxPosition = Math.max(0, totalCards - visibleCards);
+
+    prevBtn.addEventListener('click', () => {
+        if (currentPosition > 0) {
+            currentPosition--;
+            updateCarouselPosition();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPosition < maxPosition) {
+            currentPosition++;
+            updateCarouselPosition();
+        }
+    });
+
+    function updateCarouselPosition() {
+        const translateX = -currentPosition * cardWidth;
+        track.style.transform = `translateX(${translateX}px)`;
+
+        // Update button states
+        prevBtn.style.opacity = currentPosition === 0 ? '0.5' : '1';
+        nextBtn.style.opacity = currentPosition === maxPosition ? '0.5' : '1';
+    }
+
+    // Initialize button states
+    updateCarouselPosition();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const newVisibleCards = Math.floor(track.parentElement.offsetWidth / cardWidth);
+        const newMaxPosition = Math.max(0, totalCards - newVisibleCards);
+
+        if (currentPosition > newMaxPosition) {
+            currentPosition = newMaxPosition;
+            updateCarouselPosition();
+        }
+    });
+}
+
+// Enhanced collection page setup
+function setupCollectionPage() {
+    setupCollectionTabs();
+    setupCollectionFilters();
+    setupCollectionSort();
+    setupBackNavigation();
+    setupFloatingButton();
+    setupQuickActions();
+    setupCarousels();
+    setupWinterFeatures();
+}
+
+function setupWinterFeatures() {
+    // Top picks carousel interactions
+    const pickCards = document.querySelectorAll('.top-pick-card');
+    pickCards.forEach(card => {
+        const wishlistBtn = card.querySelector('.pick-wishlist-btn');
+        const cartBtn = card.querySelector('.pick-cart-btn');
+        const viewBtn = card.querySelector('.pick-view-btn');
+
+        if (wishlistBtn) {
+            wishlistBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const icon = wishlistBtn.querySelector('i');
+                const isLiked = icon.classList.contains('fas');
+
+                if (isLiked) {
+                    icon.className = 'far fa-heart';
+                    showNotification('Removed from wishlist', 'info');
+                } else {
+                    icon.className = 'fas fa-heart';
+                    showNotification('Added to wishlist!', 'success');
+                }
+            });
+        }
+
+        if (cartBtn) {
+            cartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productName = card.querySelector('.pick-title').textContent;
+                showNotification(`${productName} added to cart!`, 'success');
+
+                // Add cart animation
+                cartBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    cartBtn.style.transform = 'scale(1)';
+                }, 150);
+            });
+        }
+
+        if (viewBtn) {
+            viewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productName = card.querySelector('.pick-title').textContent;
+                showNotification(`Quick view: ${productName}`, 'info');
+            });
+        }
+    });
+
+    // Complete your look suggestions
+    const suggestionCards = document.querySelectorAll('.suggestion-card');
+    suggestionCards.forEach(card => {
+        const addBtn = card.querySelector('.suggestion-add-btn');
+
+        if (addBtn) {
+            addBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productName = card.querySelector('h5').textContent;
+                showNotification(`${productName} added to cart!`, 'success');
+
+                // Change button text temporarily
+                const originalText = addBtn.textContent;
+                addBtn.textContent = '✓ Added';
+                addBtn.style.background = '#28a745';
+
+                setTimeout(() => {
+                    addBtn.textContent = originalText;
+                    addBtn.style.background = '';
+                }, 1500);
+            });
+        }
+    });
+
+    // Cross-season recommendations
+    const recBtns = document.querySelectorAll('.recommendation-btn');
+    recBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const title = btn.closest('.recommendation-card').querySelector('.recommendation-title').textContent;
+            showNotification(`Exploring: ${title}`, 'info');
+        });
+    });
+
+    // Shop Best Deals CTA
+    const bestDealsBtn = document.querySelector('.shop-best-deals-btn');
+    if (bestDealsBtn) {
+        bestDealsBtn.addEventListener('click', () => {
+            // Scroll to products and show sale items
+            const productsSection = document.querySelector('.collection-products');
+            if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            showNotification('Showing best deals! 🔥', 'success');
+
+            // Add special highlighting to products
+            const productCards = document.querySelectorAll('.collection-product-card');
+            productCards.forEach((card, index) => {
+                if (index < 3) { // Highlight first 3 as "deals"
+                    card.style.borderColor = '#ff6b6b';
+                    card.style.borderWidth = '2px';
+                    card.style.borderStyle = 'solid';
+
+                    setTimeout(() => {
+                        card.style.border = '';
+                    }, 3000);
+                }
+            });
+        });
     }
 }
