@@ -462,6 +462,76 @@
             // Could open a modal with phone number or initiate a callback
         }
 
+        // Header navigation functions
+        function navigateToProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function navigateToAccountDeletion() {
+            window.location.href = 'account-deletion.html';
+        }
+
+        function navigateToHelpSupport() {
+            // Already on help support page
+            showNotification('You are already on the Help & Support page', 'info');
+        }
+
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile dropdown functionality
+            const profileTrigger = document.getElementById('profileTrigger');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileArrow = document.getElementById('profileArrow');
+
+            if (profileTrigger && profileDropdown) {
+                profileTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isOpen = profileDropdown.style.display === 'block';
+                    profileDropdown.style.display = isOpen ? 'none' : 'block';
+                    profileArrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    profileDropdown.style.display = 'none';
+                    profileArrow.style.transform = 'rotate(0deg)';
+                });
+
+                // Dropdown item handlers
+                document.getElementById('myProfile').addEventListener('click', navigateToProfile);
+                document.getElementById('accountDeletion').addEventListener('click', navigateToAccountDeletion);
+                document.getElementById('helpSupport').addEventListener('click', navigateToHelpSupport);
+            }
+
+            // Location trigger (placeholder)
+            const locationTrigger = document.getElementById('locationTrigger');
+            if (locationTrigger) {
+                locationTrigger.addEventListener('click', function() {
+                    showNotification('Location selection coming soon...', 'info');
+                });
+            }
+
+            // Search functionality (placeholder)
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        showNotification('Search functionality coming soon...', 'info');
+                    }
+                });
+            }
+
+            // Voice search (placeholder)
+            const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+            if (voiceSearchBtn) {
+                voiceSearchBtn.addEventListener('click', function() {
+                    showNotification('Voice search coming soon...', 'info');
+                });
+            }
+
+            console.log('Help & Support page with header/footer loaded');
+        });
+
 
         function showNotification(message, type) {
             const notification = document.createElement('div');
