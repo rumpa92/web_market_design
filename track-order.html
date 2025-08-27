@@ -711,36 +711,20 @@
                 <div class="order-info">
                     <div class="order-header">
                         <div class="order-id-date">
-                            <div class="order-id">Order #ORD12345</div>
-                            <div class="order-date">Placed on March 18, 2024</div>
+                            <div class="order-id" id="orderIdDisplay">Order #ORD12345</div>
+                            <div class="order-date" id="orderDateDisplay">Placed on March 18, 2024</div>
                         </div>
                         <div class="payment-status payment-paid">Paid</div>
                     </div>
                     
-                    <div class="product-list">
-                        <div class="product-item">
-                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=60&h=60&fit=crop" alt="Product" class="product-image">
-                            <div class="product-details">
-                                <div class="product-name">Women's Floral Summer Dress</div>
-                                <div class="product-variant">Size: M, Color: Blue</div>
-                                <div class="product-price">₹2,499</div>
-                            </div>
-                        </div>
-                        
-                        <div class="product-item">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" alt="Product" class="product-image">
-                            <div class="product-details">
-                                <div class="product-name">Classic Leather Watch</div>
-                                <div class="product-variant">Color: Brown</div>
-                                <div class="product-price">₹3,999</div>
-                            </div>
-                        </div>
+                    <div class="product-list" id="productList">
+                        <!-- Products will be populated based on order ID -->
                     </div>
                 </div>
                 
                 <div class="order-total">
                     <div class="total-label">Total Amount</div>
-                    <div class="total-amount">₹6,498</div>
+                    <div class="total-amount" id="orderTotalDisplay">₹6,498</div>
                 </div>
             </div>
         </div>
@@ -1057,8 +1041,182 @@
             }, 8000);
         }
 
+        // Order data structure
+        const orderData = {
+            'ORD12345': {
+                id: 'ORD12345',
+                date: 'March 18, 2024',
+                status: 'Out for Delivery',
+                paymentStatus: 'Paid',
+                currentStep: 3,
+                products: [
+                    {
+                        name: 'Women\'s Floral Summer Dress',
+                        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=60&h=60&fit=crop',
+                        variant: 'Size: M, Color: Blue',
+                        price: '₹2,499'
+                    }
+                ],
+                total: '₹2,499',
+                estimatedDelivery: {
+                    date: 'Today, March 20',
+                    time: '2:00 PM - 6:00 PM'
+                },
+                courier: {
+                    name: 'Rajesh Kumar',
+                    distance: '5.2 km away'
+                },
+                address: {
+                    type: 'Home Address',
+                    recipient: 'Rumpa Samanta',
+                    phone: '+91 9876543210',
+                    details: 'Flat 302, Sunrise Apartments, Near Park Street Metro<br>Kolkata, West Bengal - 700016<br>India'
+                },
+                timeline: [
+                    { label: 'Order Placed', time: 'Mar 18, 10:30 AM', icon: 'fas fa-check', completed: true },
+                    { label: 'Packed', time: 'Mar 18, 2:15 PM', icon: 'fas fa-box', completed: true },
+                    { label: 'Shipped', time: 'Mar 19, 9:00 AM', icon: 'fas fa-shipping-fast', completed: true },
+                    { label: 'Out for Delivery', time: 'Today, 11:30 AM', icon: 'fas fa-map-marker-alt', current: true },
+                    { label: 'Delivered', time: 'Pending', icon: 'fas fa-gift', completed: false }
+                ]
+            },
+            'ORD12346': {
+                id: 'ORD12346',
+                date: 'March 19, 2024',
+                status: 'In Transit',
+                paymentStatus: 'Paid',
+                currentStep: 2,
+                products: [
+                    {
+                        name: 'Men\'s Classic Leather Watch',
+                        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop',
+                        variant: 'Color: Brown',
+                        price: '₹3,999'
+                    }
+                ],
+                total: '₹3,999',
+                estimatedDelivery: {
+                    date: 'Tomorrow, March 21',
+                    time: '10:00 AM - 2:00 PM'
+                },
+                courier: {
+                    name: 'Amit Singh',
+                    distance: '12.5 km away'
+                },
+                address: {
+                    type: 'Home Address',
+                    recipient: 'Rumpa Samanta',
+                    phone: '+91 9876543210',
+                    details: 'Flat 302, Sunrise Apartments, Near Park Street Metro<br>Kolkata, West Bengal - 700016<br>India'
+                },
+                timeline: [
+                    { label: 'Order Placed', time: 'Mar 19, 2:15 PM', icon: 'fas fa-check', completed: true },
+                    { label: 'Packed', time: 'Mar 19, 5:30 PM', icon: 'fas fa-box', completed: true },
+                    { label: 'Shipped', time: 'Mar 20, 8:00 AM', icon: 'fas fa-shipping-fast', current: true },
+                    { label: 'Out for Delivery', time: 'Pending', icon: 'fas fa-map-marker-alt', completed: false },
+                    { label: 'Delivered', time: 'Pending', icon: 'fas fa-gift', completed: false }
+                ]
+            }
+        };
+
+        // Get order ID from URL parameters
+        function getOrderIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('orderId') || 'ORD12345'; // Default fallback
+        }
+
+        // Populate order details based on order ID
+        function populateOrderDetails(orderId) {
+            const order = orderData[orderId];
+
+            if (!order) {
+                showNotification('Order not found. Showing default order.', 'warning');
+                return;
+            }
+
+            // Update order header
+            document.getElementById('orderIdDisplay').textContent = `Order #${order.id}`;
+            document.getElementById('orderDateDisplay').textContent = `Placed on ${order.date}`;
+            document.getElementById('orderTotalDisplay').textContent = order.total;
+
+            // Update payment status
+            const paymentStatusElement = document.querySelector('.payment-status');
+            paymentStatusElement.textContent = order.paymentStatus;
+            paymentStatusElement.className = `payment-status ${order.paymentStatus.toLowerCase() === 'paid' ? 'payment-paid' : 'payment-cod'}`;
+
+            // Populate products
+            const productList = document.getElementById('productList');
+            productList.innerHTML = order.products.map(product => `
+                <div class="product-item">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-details">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-variant">${product.variant}</div>
+                        <div class="product-price">${product.price}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update estimated delivery
+            const estimateDate = document.querySelector('.estimate-date');
+            const estimateTime = document.querySelector('.estimate-time');
+            estimateDate.textContent = order.estimatedDelivery.date;
+            estimateTime.textContent = order.estimatedDelivery.time;
+
+            // Update courier info
+            const courierName = document.querySelector('.courier-name');
+            const courierContact = document.querySelector('.courier-contact');
+            courierName.textContent = order.courier.name;
+            courierContact.textContent = `Delivery Partner • ${order.courier.distance}`;
+
+            // Update delivery address
+            const recipientName = document.querySelector('.recipient-name');
+            const addressDetails = document.querySelector('.address-details');
+            recipientName.textContent = order.address.recipient;
+            addressDetails.innerHTML = order.address.details;
+
+            // Update timeline
+            updateTimeline(order.timeline, order.currentStep);
+
+            // Update page title
+            document.title = `Track Order ${order.id} - StyleHub`;
+        }
+
+        // Update timeline based on order data
+        function updateTimeline(timeline, currentStep) {
+            const timelineContainer = document.querySelector('.timeline');
+
+            // Update progress bar
+            const progressPercentage = (currentStep / (timeline.length - 1)) * 100;
+            const progressBar = document.querySelector('.timeline-progress');
+            progressBar.style.width = progressPercentage + '%';
+
+            // Update timeline steps
+            timelineContainer.innerHTML = `
+                <div class="timeline-progress" style="width: ${progressPercentage}%;"></div>
+                ${timeline.map((step, index) => `
+                    <div class="timeline-step">
+                        <div class="step-icon ${step.completed ? 'completed' : ''} ${step.current ? 'current' : ''}">
+                            <i class="${step.icon}"></i>
+                        </div>
+                        <div class="step-label">${step.label}</div>
+                        <div class="step-time">${step.time}</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
         // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Get order ID from URL and populate details
+            const orderId = getOrderIdFromURL();
+            populateOrderDetails(orderId);
+
+            // Show notification for which order is being tracked
+            const order = orderData[orderId];
+            if (order) {
+                showNotification(`Tracking order: ${order.products[0].name}`, 'info');
+            }
             // Profile dropdown functionality
             const profileTrigger = document.getElementById('profileTrigger');
             const profileDropdown = document.getElementById('profileDropdown');
@@ -1082,8 +1240,7 @@
                 document.getElementById('helpSupport').addEventListener('click', navigateToHelpSupport);
             }
 
-            // Initialize timeline and real-time updates
-            updateTimelineProgress();
+            // Initialize real-time updates
             simulateRealTimeUpdates();
 
             console.log('Track Order page loaded');
