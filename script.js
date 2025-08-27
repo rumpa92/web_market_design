@@ -2980,7 +2980,7 @@ const subcategoryItems = {
             originalPrice: '$85',
             image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=800',
             category: 'MEN FASHION',
-            rating: '★★��★★'
+            rating: '★★★★★'
         },
         {
             id: 'shirt3',
@@ -3018,7 +3018,7 @@ const subcategoryItems = {
             originalPrice: '$100',
             image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★☆'
+            rating: '★★���★☆'
         }
     ],
     'Suits & Blazers': [
@@ -3777,13 +3777,57 @@ function setupCollectionFilters() {
         });
     });
 
-    // Advanced filters
-    const advancedFilters = document.querySelectorAll('#sizeFilter, #colorFilter, #priceFilter, #materialFilter');
-    advancedFilters.forEach(filter => {
-        filter.addEventListener('change', () => {
-            applyAdvancedFilters();
+    // Color swatches
+    const colorSwatches = document.querySelectorAll('.color-swatch');
+    colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            // Toggle active state
+            const isActive = swatch.classList.contains('active');
+
+            // Remove active from all swatches
+            colorSwatches.forEach(s => s.classList.remove('active'));
+
+            // Add active to clicked swatch if it wasn't active
+            if (!isActive) {
+                swatch.classList.add('active');
+                const color = swatch.dataset.color;
+                filterProductsByColor(color);
+                showNotification(`Filtering by color: ${color}`, 'info');
+            } else {
+                // If clicking an active swatch, show all colors
+                showAllProducts();
+                showNotification('Showing all colors', 'info');
+            }
         });
     });
+
+    // Price range slider
+    const priceSlider = document.getElementById('priceRange');
+    const currentPriceValue = document.getElementById('currentPriceValue');
+
+    if (priceSlider && currentPriceValue) {
+        priceSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            currentPriceValue.textContent = `₹${value.toLocaleString()}`;
+            filterProductsByPrice(value);
+        });
+    }
+
+    // Size filter
+    const sizeFilter = document.getElementById('sizeFilter');
+    if (sizeFilter) {
+        sizeFilter.addEventListener('change', () => {
+            applyAdvancedFilters();
+        });
+    }
+
+    // Sort filter
+    const sortFilter = document.getElementById('sortFilter');
+    if (sortFilter) {
+        sortFilter.addEventListener('change', () => {
+            applyAdvancedFilters();
+        });
+    }
 }
 
 function filterProductsByCategory(category) {
