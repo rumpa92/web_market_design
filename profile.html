@@ -188,6 +188,201 @@
         </div>
     </main>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="edit-profile-modal" style="display: none;">
+        <div class="edit-profile-container">
+            <div class="edit-profile-header">
+                <h2>👤 Edit Profile</h2>
+                <button class="close-edit-modal" id="closeEditModal">×</button>
+            </div>
+
+            <form class="edit-profile-form" id="editProfileForm">
+                <!-- Profile Photo Section -->
+                <div class="profile-photo-section">
+                    <div class="photo-upload-container">
+                        <div class="current-photo" id="currentPhoto">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Profile Photo" id="profilePhotoPreview">
+                            <div class="photo-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="photo-actions">
+                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn">
+                                <i class="fas fa-upload"></i>
+                                Upload Photo
+                            </button>
+                            <button type="button" class="remove-photo-btn" id="removePhotoBtn">
+                                <i class="fas fa-trash"></i>
+                                Remove
+                            </button>
+                            <input type="file" id="photoInput" accept="image/*" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editFullName">Full Name *</label>
+                            <input type="text" id="editFullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editGender">Gender</label>
+                            <select id="editGender" name="gender">
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDateOfBirth">Date of Birth</label>
+                            <input type="date" id="editDateOfBirth" name="dateOfBirth">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editEmail">Email Address *</label>
+                            <input type="email" id="editEmail" name="email" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group mobile-group">
+                            <label for="editMobile">Mobile Number *</label>
+                            <div class="mobile-input-container">
+                                <input type="tel" id="editMobile" name="mobile" placeholder="+91 9876543210" required>
+                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn">
+                                    Verify
+                                </button>
+                            </div>
+                            <small class="input-hint">OTP verification required for changes</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Address Information</h3>
+                    <div class="address-shortcut">
+                        <div class="shortcut-content">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="shortcut-info">
+                                <h4>Saved Addresses</h4>
+                                <p>Manage your delivery addresses and set defaults</p>
+                            </div>
+                        </div>
+                        <button type="button" class="shortcut-btn" onclick="navigateToDeliveryManagement()">
+                            <span>Manage Addresses</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Preferences</h3>
+
+                    <div class="preferences-grid">
+                        <div class="preference-item">
+                            <div class="preference-info">
+                                <h4>Communication Preferences</h4>
+                                <p>Choose how you'd like to receive notifications</p>
+                            </div>
+                            <div class="preference-controls">
+                                <div class="toggle-group">
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="emailNotifications" name="emailNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">Email</span>
+                                    </label>
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="smsNotifications" name="smsNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">SMS</span>
+                                    </label>
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="pushNotifications" name="pushNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">Push</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preference-item">
+                            <div class="preference-info">
+                                <h4>Language Selection</h4>
+                                <p>Choose your preferred language</p>
+                            </div>
+                            <div class="preference-controls">
+                                <select id="languagePreference" name="language" class="language-select">
+                                    <option value="en">English</option>
+                                    <option value="hi">हिंदी (Hindi)</option>
+                                    <option value="bn">বাংলা (Bengali)</option>
+                                    <option value="ta">தமிழ் (Tamil)</option>
+                                    <option value="te">తెలుగు (Telugu)</option>
+                                    <option value="mr">मराठी (Marathi)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Security</h3>
+
+                    <div class="security-options">
+                        <div class="security-item">
+                            <div class="security-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="security-info">
+                                <h4>Change Password</h4>
+                                <p>Update your account password</p>
+                            </div>
+                            <button type="button" class="security-btn" onclick="changePassword()">
+                                <span>Change</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="security-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="security-info">
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security to your account</p>
+                            </div>
+                            <button type="button" class="security-btn" onclick="setup2FA()">
+                                <span>Setup</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancelEditBtn">
+                        Cancel
+                    </button>
+                    <button type="submit" class="save-profile-btn" id="saveProfileBtn">
+                        <i class="fas fa-check"></i>
+                        Save Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
