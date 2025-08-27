@@ -1505,6 +1505,20 @@ h3::after {
     background: white !important;
 }
 
+/* Global black section icons and titles */
+.section-icon {
+    color: #000000 !important;
+}
+
+.section-title {
+    color: #000000 !important;
+}
+
+/* Hide floating add buttons */
+.floating-add-btn {
+    display: none !important;
+}
+
 /* Home and Work label colors */
 .address-label {
     color: white !important;
