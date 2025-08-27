@@ -497,7 +497,7 @@
         }
 
         .save-profile-btn {
-            flex: 2;
+            flex: 1;
             background: #000000;
             color: white;
             border: none;
@@ -863,110 +863,6 @@
                     </div>
                 </div>
 
-                <!-- Address Information Section -->
-                <div class="form-section">
-                    <h3 class="section-title">Address Information</h3>
-                    <div class="address-shortcut">
-                        <div class="shortcut-content">
-                            <div class="shortcut-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="shortcut-info">
-                                <h4>Saved Addresses</h4>
-                                <p>Manage your delivery addresses and set defaults</p>
-                            </div>
-                        </div>
-                        <button type="button" class="shortcut-btn" onclick="navigateToDeliveryManagement()">
-                            <span>Manage Addresses</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Preferences Section -->
-                <div class="form-section">
-                    <h3 class="section-title">Preferences</h3>
-
-                    <div class="preferences-grid">
-                        <div class="preference-item">
-                            <div class="preference-info">
-                                <h4>Communication Preferences</h4>
-                                <p>Choose how you'd like to receive notifications</p>
-                            </div>
-                            <div class="preference-controls">
-                                <div class="toggle-group">
-                                    <label class="toggle-item">
-                                        <input type="checkbox" id="emailNotifications" name="emailNotifications">
-                                        <span class="toggle-switch"></span>
-                                        <span class="toggle-label">Email</span>
-                                    </label>
-                                    <label class="toggle-item">
-                                        <input type="checkbox" id="smsNotifications" name="smsNotifications">
-                                        <span class="toggle-switch"></span>
-                                        <span class="toggle-label">SMS</span>
-                                    </label>
-                                    <label class="toggle-item">
-                                        <input type="checkbox" id="pushNotifications" name="pushNotifications">
-                                        <span class="toggle-switch"></span>
-                                        <span class="toggle-label">Push</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="preference-item">
-                            <div class="preference-info">
-                                <h4>Language Selection</h4>
-                                <p>Choose your preferred language</p>
-                            </div>
-                            <div class="preference-controls">
-                                <select id="languagePreference" name="language" class="language-select">
-                                    <option value="en">English</option>
-                                    <option value="hi">हिंदी (Hindi)</option>
-                                    <option value="bn">বাংলা (Bengali)</option>
-                                    <option value="ta">தமிழ் (Tamil)</option>
-                                    <option value="te">తెలుగు (Telugu)</option>
-                                    <option value="mr">मराठी (Marathi)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Security Section -->
-                <div class="form-section">
-                    <h3 class="section-title">Security</h3>
-
-                    <div class="security-options">
-                        <div class="security-item">
-                            <div class="security-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div class="security-info">
-                                <h4>Change Password</h4>
-                                <p>Update your account password</p>
-                            </div>
-                            <button type="button" class="security-btn" onclick="changePassword()">
-                                <span>Change</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-
-                        <div class="security-item">
-                            <div class="security-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="security-info">
-                                <h4>Two-Factor Authentication</h4>
-                                <p>Add an extra layer of security to your account</p>
-                            </div>
-                            <button type="button" class="security-btn" onclick="setup2FA()">
-                                <span>Setup</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Form Actions -->
                 <div class="form-actions">
