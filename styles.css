@@ -1645,6 +1645,47 @@ h3::after {
     gap: 1.5rem;
 }
 
+.modern-sort-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.sort-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: auto;
+    max-width: 200px;
+}
+
+.sort-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.modern-sort-select {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    font-family: Arial, sans-serif;
+    font-weight: 400;
+    transition: border-color 0.3s;
+    padding: 12px;
+    background: white;
+    cursor: pointer;
+}
+
+.modern-sort-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
 .filter-group {
     display: flex;
     flex-direction: column;
