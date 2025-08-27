@@ -4,6 +4,48 @@ body {
     min-height: 100vh;
 }
 
+/* Checkout Page Header */
+.checkout-page-header {
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.checkout-page-header .container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.back-button {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+.back-button:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateX(-2px);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e91e63;
+    margin: 0;
+}
+
 /* Checkout Header */
 .checkout-header {
     background: white;
