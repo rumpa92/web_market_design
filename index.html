@@ -700,11 +700,11 @@
                     <h4>Categories</h4>
                     <div class="category-filters">
                         <button class="category-filter active" data-category="all">All Items</button>
+                        <button class="category-filter" data-category="coats">Coats</button>
+                        <button class="category-filter" data-category="jackets">Jackets</button>
+                        <button class="category-filter" data-category="sweaters">Sweaters</button>
                         <button class="category-filter" data-category="dresses">Dresses</button>
-                        <button class="category-filter" data-category="tops">Tops</button>
-                        <button class="category-filter" data-category="outerwear">Outerwear</button>
                         <button class="category-filter" data-category="accessories">Accessories</button>
-                        <button class="category-filter" data-category="footwear">Footwear</button>
                     </div>
                 </div>
 
@@ -718,56 +718,43 @@
                             <option value="m">M</option>
                             <option value="l">L</option>
                             <option value="xl">XL</option>
-                            <option value="xxl">XXL</option>
+                            <option value="plus">Plus Sizes</option>
                         </select>
                     </div>
 
                     <div class="filter-group">
-                        <label for="colorFilter">Color</label>
-                        <select id="colorFilter" class="filter-select">
-                            <option value="">All Colors</option>
-                            <option value="black">Black</option>
-                            <option value="white">White</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="brown">Brown</option>
-                        </select>
+                        <label>Color</label>
+                        <div class="color-swatches">
+                            <div class="color-swatch" data-color="black" style="background-color: #000000" title="Black"></div>
+                            <div class="color-swatch" data-color="white" style="background-color: #ffffff; border: 1px solid #ddd" title="White"></div>
+                            <div class="color-swatch" data-color="grey" style="background-color: #808080" title="Grey"></div>
+                            <div class="color-swatch" data-color="red" style="background-color: #dc3545" title="Red"></div>
+                            <div class="color-swatch" data-color="beige" style="background-color: #f5f5dc" title="Beige"></div>
+                            <div class="color-swatch" data-color="navy" style="background-color: #000080" title="Navy"></div>
+                            <div class="color-swatch" data-color="brown" style="background-color: #8b4513" title="Brown"></div>
+                            <div class="color-swatch" data-color="green" style="background-color: #28a745" title="Green"></div>
+                        </div>
                     </div>
 
-                    <div class="filter-group">
-                        <label for="priceFilter">Price Range</label>
-                        <select id="priceFilter" class="filter-select">
-                            <option value="">All Prices</option>
-                            <option value="0-50">$0 - $50</option>
-                            <option value="50-100">$50 - $100</option>
-                            <option value="100-200">$100 - $200</option>
-                            <option value="200-500">$200 - $500</option>
-                            <option value="500+">$500+</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="materialFilter">Material</label>
-                        <select id="materialFilter" class="filter-select">
-                            <option value="">All Materials</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="wool">Wool</option>
-                            <option value="silk">Silk</option>
-                            <option value="leather">Leather</option>
-                            <option value="polyester">Polyester</option>
-                            <option value="denim">Denim</option>
-                        </select>
+                    <div class="filter-group price-range-group">
+                        <label for="priceRange">Price Range</label>
+                        <div class="price-slider-container">
+                            <input type="range" id="priceRange" min="500" max="10000" step="100" value="10000" class="price-slider">
+                            <div class="price-range-labels">
+                                <span>₹500</span>
+                                <span id="currentPriceValue">₹10,000</span>
+                                <span>₹10,000+</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="filter-group">
                         <label for="sortFilter">Sort By</label>
                         <select id="sortFilter" class="filter-select">
-                            <option value="newest">Newest</option>
+                            <option value="new-arrivals">New Arrivals</option>
                             <option value="bestsellers">Bestsellers</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="rating">Highest Rated</option>
+                            <option value="price-low">Price: Low → High</option>
+                            <option value="price-high">Price: High → Low</option>
                         </select>
                     </div>
                 </div>
@@ -1120,7 +1107,7 @@
                         <div class="colorful-product-info">
                             <h3 class="colorful-product-title">Designer Anarkali Gown</h3>
                             <div class="product-rating">
-                                <span class="stars">★★★★★</span>
+                                <span class="stars">★★★★���</span>
                             </div>
                             <div class="colorful-product-price">
                                 <span class="current-price">$198</span>
