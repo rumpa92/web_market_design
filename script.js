@@ -797,8 +797,18 @@ function setupFashionStories() {
     const storyCards = document.querySelectorAll('.story-card');
     const storiesContainer = document.querySelector('.stories-container');
 
-    // Add click handlers to story cards
+    // Add click handlers to Read More buttons specifically
     storyCards.forEach((card, index) => {
+        const readMoreBtn = card.querySelector('.story-cta');
+        if (readMoreBtn) {
+            readMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleStoryClick(card, index);
+            });
+        }
+
+        // Also allow clicking the entire card as fallback
         card.addEventListener('click', () => {
             handleStoryClick(card, index);
         });
