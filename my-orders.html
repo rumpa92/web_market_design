@@ -146,10 +146,6 @@
             position: relative;
         }
 
-        .order-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
 
         .order-card-content {
             padding: 1.5rem;
@@ -274,30 +270,6 @@
             flex-wrap: wrap;
         }
 
-        .view-details-btn {
-            padding: 0.5rem 1rem;
-            background: white;
-            border: 2px solid #667eea;
-            color: #667eea;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex: 1;
-            justify-content: center;
-            min-width: 120px;
-        }
-
-        .view-details-btn:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-1px);
-        }
 
         .return-exchange-btn {
             padding: 0.5rem 1rem;
@@ -322,6 +294,8 @@
             background: linear-gradient(135deg, #38a169, #2f855a);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            color: white;
+            text-decoration: none;
         }
 
         .return-exchange-btn i {
@@ -479,10 +453,6 @@
                 align-items: stretch;
             }
 
-            .view-details-btn {
-                justify-content: center;
-                padding: 0.75rem 1rem;
-            }
 
             .empty-illustration {
                 width: 150px;
@@ -583,7 +553,7 @@
     <div class="orders-container">
         <!-- Header Section -->
         <div class="orders-header">
-            <a href="account-settings.html" class="back-button">
+            <a href="index.html" class="back-button">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <h1 class="orders-title">My Orders</h1>
@@ -639,14 +609,10 @@
                     <div class="order-footer">
                         <p class="order-date">Delivered on Jan 20, 2024</p>
                         <div class="order-actions">
-                            <a href="order-details.html?id=SH2024001234" class="view-details-btn">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                            <button class="return-exchange-btn" onclick="handleReturnExchange('SH2024001234', 'Premium Cotton T-Shirt')">
+                            <a href="return-exchange.html?orderId=SH2024001234&productName=Premium%20Cotton%20T-Shirt" class="return-exchange-btn">
                                 <i class="fas fa-undo-alt"></i>
                                 Return/Exchange
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -675,10 +641,6 @@
                     
                     <div class="order-footer">
                         <p class="order-date">Ordered on Jan 18, 2024</p>
-                        <a href="order-details.html?id=SH2024001198" class="view-details-btn">
-                            View Details
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -705,10 +667,6 @@
                     
                     <div class="order-footer">
                         <p class="order-date">Ordered on Jan 15, 2024</p>
-                        <a href="order-details.html?id=SH2024001156" class="view-details-btn">
-                            View Details
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -735,10 +693,6 @@
                     
                     <div class="order-footer">
                         <p class="order-date">Shipped on Jan 12, 2024</p>
-                        <a href="order-details.html?id=SH2024001089" class="view-details-btn">
-                            View Details
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -766,10 +720,6 @@
                     
                     <div class="order-footer">
                         <p class="order-date">Canceled on Jan 10, 2024</p>
-                        <a href="order-details.html?id=SH2024001023" class="view-details-btn">
-                            View Details
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -797,14 +747,10 @@
                     <div class="order-footer">
                         <p class="order-date">Delivered on Jan 5, 2024</p>
                         <div class="order-actions">
-                            <a href="order-details.html?id=SH2024000967" class="view-details-btn">
-                                View Details
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                            <button class="return-exchange-btn" onclick="handleReturnExchange('SH2024000967', 'Premium Sneakers')">
+                            <a href="return-exchange.html?orderId=SH2024000967&productName=Premium%20Sneakers" class="return-exchange-btn">
                                 <i class="fas fa-undo-alt"></i>
                                 Return/Exchange
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1053,18 +999,14 @@
 
                         <div class="order-footer">
                             <p class="order-date">${order.displayDate}</p>
-                            <div class="order-actions">
-                                <a href="order-details.html?id=${order.id}" class="view-details-btn">
-                                    View Details
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                                ${order.status === 'delivered' ? `
-                                    <button class="return-exchange-btn" onclick="handleReturnExchange('${order.id}', '${order.productName}')">
+                            ${order.status === 'delivered' ? `
+                                <div class="order-actions">
+                                    <a href="return-exchange.html?orderId=${order.id}&productName=${encodeURIComponent(order.productName)}" class="return-exchange-btn">
                                         <i class="fas fa-undo-alt"></i>
                                         Return/Exchange
-                                    </button>
-                                ` : ''}
-                            </div>
+                                    </a>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
@@ -1103,16 +1045,12 @@
                                             <span class="product-quantity">Quantity: ${order.quantity}</span>
                                             <span>Size: ${order.size}, Color: ${order.color}</span>
                                         </div>
-                                        <p class="product-price">��${order.price.toLocaleString()}</p>
+                                        <p class="product-price">₹${order.price.toLocaleString()}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div class="order-footer">
                                     <p class="order-date">${order.displayDate}</p>
-                                    <a href="order-details.html?id=${order.id}" class="view-details-btn">
-                                        View Details
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
                                 </div>
                             </div>
                         </div>
