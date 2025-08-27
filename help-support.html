@@ -2885,6 +2885,160 @@
             }
         }
 
+        // Phone Support Functionality
+        function setupPhoneSupportModal() {
+            const modal = document.getElementById('phoneSupportModal');
+            const closeBtn = document.getElementById('closePhoneModal');
+            const callbackForm = document.getElementById('callbackForm');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closePhoneModal);
+
+            // Form submission
+            callbackForm.addEventListener('submit', handleCallbackSubmit);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePhoneModal();
+                }
+            });
+        }
+
+        function closePhoneModal() {
+            document.getElementById('phoneSupportModal').style.display = 'none';
+            // Reset callback form
+            document.getElementById('callbackForm').reset();
+        }
+
+        function makeCall(phoneNumber) {
+            // For mobile devices, this will trigger the phone app
+            window.location.href = `tel:${phoneNumber}`;
+
+            // Show confirmation for desktop users
+            if (!isMobileDevice()) {
+                showNotification(`📞 Call ${phoneNumber} on your mobile device`, 'info');
+            } else {
+                showNotification('📞 Initiating call...', 'info');
+            }
+        }
+
+        function quickCall(category) {
+            let phoneNumber = '';
+            let message = '';
+
+            switch(category) {
+                case 'track-order':
+                    phoneNumber = '+911800DELIVERY';
+                    message = '📦 Connecting you to Order & Delivery support...';
+                    break;
+                case 'return-exchange':
+                    phoneNumber = '+911800RETURNS';
+                    message = '🔄 Connecting you to Returns & Refunds support...';
+                    break;
+                case 'payment-refunds':
+                    phoneNumber = '+911800RETURNS';
+                    message = '💳 Connecting you to Payment & Refunds support...';
+                    break;
+                case 'account-issues':
+                    phoneNumber = '+911800STYLEHUB';
+                    message = '👤 Connecting you to General support for account issues...';
+                    break;
+                default:
+                    phoneNumber = '+911800STYLEHUB';
+                    message = '📞 Connecting you to General support...';
+            }
+
+            showNotification(message, 'info');
+            setTimeout(() => {
+                makeCall(phoneNumber);
+            }, 1000);
+        }
+
+        function handleCallbackSubmit(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const callbackData = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                timeSlot: formData.get('timeSlot'),
+                reason: formData.get('reason')
+            };
+
+            // Simulate callback request submission
+            submitCallbackRequest(callbackData);
+        }
+
+        function submitCallbackRequest(callbackData) {
+            // Show loading state
+            const submitBtn = document.querySelector('.request-callback-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting Callback...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Close modal
+                closePhoneModal();
+
+                // Show success notification
+                showCallbackConfirmation(callbackData);
+
+                console.log('Callback request:', callbackData);
+            }, 2000);
+        }
+
+        function showCallbackConfirmation(callbackData) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-phone" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">Callback Requested!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">We'll call you at ${callbackData.phone} during your preferred ${callbackData.timeSlot} time slot.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function raiseTicket() {
+            showNotification('🎟 Ticket system coming soon! For now, please use Live Chat or Email Support.', 'info');
+        }
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
         // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Profile dropdown functionality
