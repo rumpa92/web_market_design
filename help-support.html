@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Help & Support Specific Styles */
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: #2d3748;
+        }
+
+        .support-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .support-header {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 7rem;
+            left: 2rem;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .back-button:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+            transform: translateX(-2px);
+        }
+
+        .support-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e91e63;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .support-subtitle {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .support-content {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .support-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #e91e63;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 0.5rem 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            color: #6c757d;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .contact-option {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-option:hover {
+            border-color: #e91e63;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-title {
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .contact-desc {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .support-action {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .support-action:hover {
+            background: #c2185b;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .support-container {
+                padding: 1rem;
+            }
+
+            .back-button {
+                top: 6rem;
+                left: 1rem;
+            }
+
+            .support-header {
+                padding: 1.5rem;
+            }
+
+            .support-title {
+                font-size: 1.7rem;
+            }
+
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- Support Container -->
+    <div class="support-container">
+        <!-- Support Header -->
+        <div class="support-header">
+            <h1 class="support-title">Help & Support</h1>
+            <p class="support-subtitle">We're here to help! Find answers to common questions or contact our support team.</p>
+        </div>
+
+        <!-- Support Content -->
+        <div class="support-content">
+            <!-- FAQ Section -->
+            <div class="support-section">
+                <h2 class="section-title">
+                    <i class="fas fa-question-circle section-icon"></i>
+                    Frequently Asked Questions
+                </h2>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        How do I track my order?
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <p class="faq-answer">You can track your order by logging into your account and visiting the "My Orders" section. You'll also receive email updates with tracking information.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        What is your return policy?
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <p class="faq-answer">We offer a 30-day return policy for unworn items with original tags. Returns are free, and you can initiate a return from your account dashboard.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        How do I change my delivery address?
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <p class="faq-answer">You can update your delivery address in the "Saved Addresses" section of your profile before placing an order, or during checkout.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        What payment methods do you accept?
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <p class="faq-answer">We accept all major credit cards, debit cards, PayPal, and digital wallets like Apple Pay and Google Pay.</p>
+                </div>
+            </div>
+
+            <!-- Contact Options -->
+            <div class="support-section">
+                <h2 class="section-title">
+                    <i class="fas fa-headset section-icon"></i>
+                    Contact Our Support Team
+                </h2>
+                
+                <div class="contact-options">
+                    <div class="contact-option" onclick="openLiveChat()">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="contact-title">Live Chat</h3>
+                        <p class="contact-desc">Chat with our support team in real-time</p>
+                        <p class="contact-desc"><strong>Available 24/7</strong></p>
+                    </div>
+
+                    <div class="contact-option" onclick="sendEmail()">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="contact-title">Email Support</h3>
+                        <p class="contact-desc">Send us an email and we'll respond within 24 hours</p>
+                        <p class="contact-desc"><strong>support@stylehub.com</strong></p>
+                    </div>
+
+                    <div class="contact-option" onclick="callSupport()">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3 class="contact-title">Phone Support</h3>
+                        <p class="contact-desc">Speak directly with our support team</p>
+                        <p class="contact-desc"><strong>1-800-STYLE-HUB</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Resources -->
+            <div class="support-section">
+                <h2 class="section-title">
+                    <i class="fas fa-book section-icon"></i>
+                    Additional Resources
+                </h2>
+                
+                <div class="contact-options">
+                    <div class="contact-option" onclick="viewSizeGuide()">
+                        <div class="contact-icon">
+                            <i class="fas fa-ruler"></i>
+                        </div>
+                        <h3 class="contact-title">Size Guide</h3>
+                        <p class="contact-desc">Find the perfect fit with our comprehensive size guide</p>
+                    </div>
+
+                    <div class="contact-option" onclick="viewShippingInfo()">
+                        <div class="contact-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h3 class="contact-title">Shipping Info</h3>
+                        <p class="contact-desc">Learn about our shipping options and delivery times</p>
+                    </div>
+
+                    <div class="contact-option" onclick="viewTerms()">
+                        <div class="contact-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3 class="contact-title">Terms & Conditions</h3>
+                        <p class="contact-desc">Read our terms of service and privacy policy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function openLiveChat() {
+            showNotification('Opening live chat...', 'info');
+            // Integrate with your live chat service here
+        }
+
+        function sendEmail() {
+            window.location.href = 'mailto:support@stylehub.com?subject=Support Request';
+        }
+
+        function callSupport() {
+            showNotification('Redirecting to phone support...', 'info');
+            // Could open a modal with phone number or initiate a callback
+        }
+
+        function viewSizeGuide() {
+            showNotification('Opening size guide...', 'info');
+        }
+
+        function viewShippingInfo() {
+            showNotification('Opening shipping information...', 'info');
+        }
+
+        function viewTerms() {
+            showNotification('Opening terms and conditions...', 'info');
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 8px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10001;
+                border-left: 4px solid #007bff;
+                max-width: 350px;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Add styles for animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
