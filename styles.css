@@ -1476,6 +1476,43 @@ body {
     margin-bottom: 2rem;
 }
 
+/* Remove all colored decorative lines */
+.section::after,
+.section-title::after,
+h1::after,
+h2::after,
+h3::after {
+    display: none !important;
+}
+
+/* Global edit and delete icon colors */
+.action-btn.edit,
+.edit-btn,
+.fas.fa-edit {
+    color: #ff8c00 !important;
+}
+
+.action-btn.delete,
+.delete-btn,
+.fas.fa-trash {
+    color: #dc3545 !important;
+}
+
+/* Global white background for cards */
+.address-card,
+.card,
+.preference-item {
+    background: white !important;
+}
+
+/* Home and Work label colors */
+.address-label,
+.home-icon,
+.work-icon {
+    color: white !important;
+    background: white !important;
+}
+
 .page-header .container {
     display: flex;
     align-items: center;
