@@ -50,6 +50,7 @@ function initializeApp() {
     setupEnhancedNavigation();
     enableGuestBrowsing();
     setupHeroSlider();
+    setupCollectionPage();
 }
 
 // Event Listeners Setup
