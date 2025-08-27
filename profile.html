@@ -64,9 +64,9 @@
                                         <i class="fas fa-user-circle"></i>
                                         <span>My Profile</span>
                                     </li>
-                                    <li class="dropdown-item" id="accountSettings">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Account Settings</span>
+                                    <li class="dropdown-item" id="accountDeletion">
+                                        <i class="fas fa-user-times"></i>
+                                        <span>Account Deletion</span>
                                     </li>
                                     <li class="dropdown-item" id="helpSupport">
                                         <i class="fas fa-question-circle"></i>
@@ -146,13 +146,13 @@
                     </div>
                 </div>
 
-                <div class="menu-card" onclick="accountSettings()">
+                <div class="menu-card" onclick="accountDeletion()">
                     <div class="card-icon settings">
-                        <i class="fas fa-cog"></i>
+                        <i class="fas fa-user-times"></i>
                     </div>
                     <div class="card-content">
-                        <h3>Account Settings</h3>
-                        <p>Change password, update notifications, and app preferences</p>
+                        <h3>Account Deletion</h3>
+                        <p>Permanently delete your account and all associated data</p>
                     </div>
                     <div class="card-arrow">
                         <i class="fas fa-chevron-right"></i>
@@ -252,8 +252,22 @@
             window.location.href = 'saved-addresses.html';
         }
 
-        function accountSettings() {
-            window.location.href = 'account-settings.html';
+        function accountDeletion() {
+            showDeleteAccountModal();
+        }
+
+        function showDeleteAccountModal() {
+            const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone. All your data, orders, and preferences will be permanently deleted.');
+            if (confirmed) {
+                const finalConfirm = confirm('This is your final warning. Clicking OK will permanently delete your account. Are you absolutely sure?');
+                if (finalConfirm) {
+                    showNotification('Account deletion process initiated...', 'error');
+                    setTimeout(() => {
+                        showNotification('Account deleted successfully', 'success');
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            }
         }
 
         function customerSupport() {
