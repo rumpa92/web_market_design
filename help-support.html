@@ -1616,6 +1616,158 @@
         </div>
     </div>
 
+    <!-- Phone Support Modal -->
+    <div id="phoneSupportModal" class="phone-support-modal" style="display: none;">
+        <div class="phone-support-container">
+            <div class="phone-support-header">
+                <div class="phone-header-content">
+                    <h2>📞 Phone Support</h2>
+                    <p class="phone-help-text">Need urgent help? Call our support team directly.</p>
+                    <p class="phone-availability">Available Mon–Sat, 9 AM – 8 PM</p>
+                </div>
+                <button class="close-phone-modal" id="closePhoneModal">×</button>
+            </div>
+
+            <div class="phone-support-content">
+                <!-- Support Numbers Section -->
+                <div class="support-numbers-section">
+                    <h3 class="section-heading">Support Numbers</h3>
+
+                    <div class="support-numbers-grid">
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>General Support</h4>
+                                <p class="number-description">For all general inquiries and assistance</p>
+                                <a href="tel:+911800STYLEHUB" class="phone-number">+91-1800-STYLE-HUB</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800STYLEHUB')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>Order & Delivery Issues</h4>
+                                <p class="number-description">Track orders, delivery updates, shipping queries</p>
+                                <a href="tel:+911800DELIVERY" class="phone-number">+91-1800-DELIVERY</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800DELIVERY')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>Returns & Refunds</h4>
+                                <p class="number-description">Return products, refund status, exchange requests</p>
+                                <a href="tel:+911800RETURNS" class="phone-number">+91-1800-RETURNS</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800RETURNS')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Call Options -->
+                <div class="quick-call-section">
+                    <h3 class="section-heading">Quick Call Options</h3>
+
+                    <div class="quick-call-grid">
+                        <button class="quick-call-btn" onclick="quickCall('track-order')">
+                            📦 Track Order
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('return-exchange')">
+                            🔄 Return / Exchange
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('payment-refunds')">
+                            💳 Payment / Refunds
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('account-issues')">
+                            👤 Account Issues
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Callback Request -->
+                <div class="callback-section">
+                    <h3 class="section-heading">Request a Callback</h3>
+                    <p class="callback-description">Can't call right now? We'll call you back at your preferred time.</p>
+
+                    <form class="callback-form" id="callbackForm">
+                        <div class="callback-form-grid">
+                            <div class="callback-form-group">
+                                <label for="callbackName">Name *</label>
+                                <input type="text" id="callbackName" name="name" placeholder="Your full name" required>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackPhone">Phone Number *</label>
+                                <input type="tel" id="callbackPhone" name="phone" placeholder="+91 9876543210" required>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackTime">Preferred Time Slot *</label>
+                                <select id="callbackTime" name="timeSlot" required>
+                                    <option value="">Select time slot</option>
+                                    <option value="morning">Morning (9 AM - 12 PM)</option>
+                                    <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                                    <option value="evening">Evening (4 PM - 8 PM)</option>
+                                </select>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackReason">Reason for Call (Optional)</label>
+                                <select id="callbackReason" name="reason">
+                                    <option value="">Select reason</option>
+                                    <option value="order-tracking">Order Tracking</option>
+                                    <option value="return-exchange">Return/Exchange</option>
+                                    <option value="payment-refund">Payment/Refund</option>
+                                    <option value="account-issue">Account Issue</option>
+                                    <option value="general-inquiry">General Inquiry</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="request-callback-btn">
+                            <i class="fas fa-phone-alt"></i>
+                            Request a Callback
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Alternative Contact Options -->
+                <div class="phone-alternative-contact">
+                    <h4>Other ways to reach us:</h4>
+                    <div class="phone-contact-alternatives">
+                        <button class="phone-alt-btn" onclick="openLiveChat()">
+                            💬 Live Chat
+                        </button>
+                        <button class="phone-alt-btn" onclick="sendEmail()">
+                            ��� Email Support
+                        </button>
+                        <button class="phone-alt-btn" onclick="raiseTicket()">
+                            🎟 Raise a Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
