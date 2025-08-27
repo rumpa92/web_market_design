@@ -1506,11 +1506,18 @@ h3::after {
 }
 
 /* Home and Work label colors */
-.address-label,
-.home-icon,
-.work-icon {
+.address-label {
     color: white !important;
-    background: white !important;
+}
+
+.home-icon {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.work-icon {
+    background: #6f42c1 !important;
+    color: white !important;
 }
 
 .page-header .container {
