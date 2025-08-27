@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Management - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Delivery Management Specific Styles */
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: #2d3748;
+        }
+
+        .delivery-page-header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .delivery-page-header .container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-button {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .back-button:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+            transform: translateX(-2px);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e91e63;
+            margin: 0;
+        }
+
+        .delivery-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #e91e63;
+        }
+
+        /* Address Cards */
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .address-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #f8f9fa;
+        }
+
+        .address-card:hover {
+            border-color: #e91e63;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1);
+        }
+
+        .address-card.default {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .address-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .address-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .address-type-icon {
+            font-size: 1.2rem;
+        }
+
+        .default-badge {
+            background: #28a745;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .recipient-name {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
+        }
+
+        .address-details {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-number {
+            color: #495057;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .action-btn.edit:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .action-btn.delete:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        /* Add New Address Button */
+        .add-address-container {
+            position: relative;
+        }
+
+        .add-address-btn {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed #e9ecef;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .add-address-btn:hover {
+            border-color: #e91e63;
+            color: #e91e63;
+            background: #fff5f8;
+        }
+
+        .floating-add-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-add-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        /* Delivery Preferences */
+        .preferences-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .preference-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .preference-label {
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .preference-control {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .time-slot {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .time-slot.active {
+            background: #e91e63;
+            color: white;
+            border-color: #e91e63;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #e91e63;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(26px);
+        }
+
+        .delivery-instructions {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Delivery Lists */
+        .delivery-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-item:hover {
+            border-color: #e91e63;
+            transform: translateY(-1px);
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #e9ecef;
+        }
+
+        .delivery-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+
+        .delivery-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .delivery-status {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-in-transit {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-out-for-delivery {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .delivery-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .track-btn, .reorder-btn, .review-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e91e63;
+            background: white;
+            color: #e91e63;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .track-btn:hover, .reorder-btn:hover, .review-btn:hover {
+            background: #e91e63;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #c2185b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .delivery-container {
+                padding: 0 1rem 2rem;
+            }
+
+            .address-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .delivery-actions {
+                flex-direction: row;
+                width: 100%;
+            }
+
+            .floating-add-btn {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon"></i>
+                        <div class="cart-icon-container">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count">2</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Sarah Johnson</span>
+                                            <span class="user-email" id="userEmail">sarah.johnson@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountDeletion">
+                                        <i class="fas fa-user-times"></i>
+                                        <span>Account Deletion</span>
+                                    </li>
+                                    <li class="dropdown-item" id="helpSupport">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span>Help & Support</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="delivery-page-header">
+        <div class="container">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="page-title">Delivery Management</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="delivery-container">
+        <!-- Saved Delivery Addresses -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-map-marker-alt section-icon"></i>
+                Saved Delivery Addresses
+            </h2>
+            
+            <div class="address-grid">
+                <!-- Home Address -->
+                <div class="address-card default">
+                    <div class="address-header">
+                        <div class="address-type">
+                            <span class="address-type-icon">🏠</span>
+                            <span>Home Address</span>
+                        </div>
+                        <span class="default-badge">Default</span>
+                    </div>
+                    <div class="recipient-name">Sarah Johnson</div>
+                    <div class="address-details">
+                        123 Rose Garden Street, Apartment 4B<br>
+                        Green Valley, Mumbai - 400001<br>
+                        Maharashtra, India
+                    </div>
+                    <div class="contact-number">
+                        <i class="fas fa-phone"></i>
+                        +91 9775637590
+                    </div>
+                    <div class="address-actions">
+                        <button class="action-btn edit" onclick="editAddress('home')">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="action-btn delete" onclick="deleteAddress('home')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Work Address -->
+                <div class="address-card">
+                    <div class="address-header">
+                        <div class="address-type">
+                            <span class="address-type-icon">🏢</span>
+                            <span>Work Address</span>
+                        </div>
+                    </div>
+                    <div class="recipient-name">Sarah Johnson</div>
+                    <div class="address-details">
+                        StyleHub Technologies Pvt Ltd<br>
+                        456 Business Park, Tower A, Floor 12<br>
+                        Bandra East, Mumbai - 400051<br>
+                        Maharashtra, India
+                    </div>
+                    <div class="contact-number">
+                        <i class="fas fa-phone"></i>
+                        +91 9775637590
+                    </div>
+                    <div class="address-actions">
+                        <button class="action-btn edit" onclick="editAddress('work')">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="action-btn delete" onclick="deleteAddress('work')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Other Address -->
+                <div class="address-card">
+                    <div class="address-header">
+                        <div class="address-type">
+                            <span class="address-type-icon">📍</span>
+                            <span>Friend's Place</span>
+                        </div>
+                    </div>
+                    <div class="recipient-name">Emma Wilson</div>
+                    <div class="address-details">
+                        789 Ocean View Residency<br>
+                        Marine Drive, Fort<br>
+                        Mumbai - 400001<br>
+                        Maharashtra, India
+                    </div>
+                    <div class="contact-number">
+                        <i class="fas fa-phone"></i>
+                        +91 9876543210
+                    </div>
+                    <div class="address-actions">
+                        <button class="action-btn edit" onclick="editAddress('other')">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="action-btn delete" onclick="deleteAddress('other')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add New Address -->
+                <div class="add-address-container">
+                    <button class="add-address-btn" onclick="openAddAddressModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Address
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Preferences -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-cog section-icon"></i>
+                Delivery Preferences
+            </h2>
+            
+            <div class="preferences-grid">
+                <!-- Time Slot Preference -->
+                <div class="preference-item">
+                    <div class="preference-label">Preferred Delivery Time Slot</div>
+                    <div class="preference-control">
+                        <button class="time-slot active" onclick="selectTimeSlot(this, 'morning')">Morning</button>
+                        <button class="time-slot" onclick="selectTimeSlot(this, 'afternoon')">Afternoon</button>
+                        <button class="time-slot" onclick="selectTimeSlot(this, 'evening')">Evening</button>
+                    </div>
+                </div>
+
+                <!-- Contactless Delivery -->
+                <div class="preference-item">
+                    <div class="preference-label">Contactless Delivery</div>
+                    <div class="toggle-switch active" onclick="toggleContactless(this)"></div>
+                </div>
+
+                <!-- Delivery Instructions -->
+                <div class="preference-item" style="flex-direction: column; align-items: flex-start; gap: 1rem;">
+                    <div class="preference-label">Delivery Instructions</div>
+                    <textarea class="delivery-instructions" placeholder="Add any special delivery instructions (e.g., 'Leave at security gate', 'Ring doorbell twice')...">Leave package at the security gate if not available. Contact before delivery.</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Deliveries -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-truck section-icon"></i>
+                Upcoming Deliveries
+            </h2>
+            
+            <div class="delivery-item">
+                <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=60&h=60&fit=crop" alt="Product" class="product-image">
+                <div class="delivery-details">
+                    <div class="product-name">Women's Floral Summer Dress</div>
+                    <div class="delivery-date">Estimated Delivery: Today, 2:00 PM - 6:00 PM</div>
+                    <span class="delivery-status status-out-for-delivery">Out for Delivery</span>
+                </div>
+                <div class="delivery-actions">
+                    <a href="#" class="track-btn" onclick="trackOrder('ORD12345')">Track Order</a>
+                </div>
+            </div>
+
+            <div class="delivery-item">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" alt="Product" class="product-image">
+                <div class="delivery-details">
+                    <div class="product-name">Men's Classic Leather Watch</div>
+                    <div class="delivery-date">Estimated Delivery: Tomorrow, 10:00 AM - 2:00 PM</div>
+                    <span class="delivery-status status-in-transit">In Transit</span>
+                </div>
+                <div class="delivery-actions">
+                    <a href="#" class="track-btn" onclick="trackOrder('ORD12346')">Track Order</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Deliveries -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-history section-icon"></i>
+                Past Deliveries
+            </h2>
+            
+            <div class="delivery-item">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=60&h=60&fit=crop" alt="Product" class="product-image">
+                <div class="delivery-details">
+                    <div class="product-name">Nike Running Shoes - Air Max</div>
+                    <div class="delivery-date">Delivered on: March 15, 2024</div>
+                    <span class="delivery-status status-delivered">Delivered</span>
+                </div>
+                <div class="delivery-actions">
+                    <a href="#" class="reorder-btn" onclick="reorderItem('PROD001')">Reorder</a>
+                    <a href="#" class="review-btn" onclick="writeReview('PROD001')">Write Review</a>
+                </div>
+            </div>
+
+            <div class="delivery-item">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=60&h=60&fit=crop" alt="Product" class="product-image">
+                <div class="delivery-details">
+                    <div class="product-name">Wireless Bluetooth Headphones</div>
+                    <div class="delivery-date">Delivered on: March 12, 2024</div>
+                    <span class="delivery-status status-delivered">Delivered</span>
+                </div>
+                <div class="delivery-actions">
+                    <a href="#" class="reorder-btn" onclick="reorderItem('PROD002')">Reorder</a>
+                    <a href="#" class="review-btn" onclick="writeReview('PROD002')">Write Review</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Add Button -->
+    <button class="floating-add-btn" onclick="openAddAddressModal()" title="Add New Address">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Add/Edit Address Modal -->
+    <div id="addressModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Address</h3>
+                <button class="close-modal" onclick="closeAddressModal()">&times;</button>
+            </div>
+            
+            <form id="addressForm">
+                <div class="form-group">
+                    <label class="form-label">Recipient Name</label>
+                    <input type="text" class="form-input" id="recipientName" placeholder="Full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phoneNumber" placeholder="+91 9999999999" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-input" id="address" placeholder="House/Building name and number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Landmark</label>
+                    <input type="text" class="form-input" id="landmark" placeholder="Nearby landmark (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">PIN Code</label>
+                    <input type="text" class="form-input" id="pincode" placeholder="400001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-input" id="city" placeholder="Mumbai" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-input" id="state" placeholder="Maharashtra" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Address Label</label>
+                    <input type="text" class="form-input" id="addressLabel" placeholder="Home, Work, Friend's Place, etc.">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="setDefault">
+                    <label for="setDefault">Set as default address</label>
+                </div>
+                
+                <button type="submit" class="submit-btn">Save Address</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = 'profile.html';
+        }
+
+        // Address Management
+        function openAddAddressModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Address';
+            document.getElementById('addressForm').reset();
+            document.getElementById('addressModal').style.display = 'block';
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').style.display = 'none';
+        }
+
+        function editAddress(type) {
+            document.getElementById('modalTitle').textContent = 'Edit Address';
+            document.getElementById('addressModal').style.display = 'block';
+            
+            // Populate form with existing data (demo)
+            if (type === 'home') {
+                document.getElementById('recipientName').value = 'Sarah Johnson';
+                document.getElementById('phoneNumber').value = '+91 9775637590';
+                document.getElementById('address').value = '123 Rose Garden Street, Apartment 4B';
+                document.getElementById('city').value = 'Mumbai';
+                document.getElementById('state').value = 'Maharashtra';
+                document.getElementById('pincode').value = '400001';
+                document.getElementById('addressLabel').value = 'Home Address';
+                document.getElementById('setDefault').checked = true;
+            }
+        }
+
+        function deleteAddress(type) {
+            if (confirm('Are you sure you want to delete this address?')) {
+                showNotification('Address deleted successfully', 'success');
+            }
+        }
+
+        // Delivery Preferences
+        function selectTimeSlot(element, slot) {
+            document.querySelectorAll('.time-slot').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            showNotification(`Preferred time slot updated to ${slot}`, 'info');
+        }
+
+        function toggleContactless(element) {
+            element.classList.toggle('active');
+            const isActive = element.classList.contains('active');
+            showNotification(`Contactless delivery ${isActive ? 'enabled' : 'disabled'}`, 'info');
+        }
+
+        // Order Actions
+        function trackOrder(orderId) {
+            showNotification(`Opening tracking for order ${orderId}...`, 'info');
+        }
+
+        function reorderItem(productId) {
+            showNotification('Adding item to cart...', 'info');
+        }
+
+        function writeReview(productId) {
+            showNotification('Opening review form...', 'info');
+        }
+
+        // Form Submission
+        document.getElementById('addressForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const addressData = Object.fromEntries(formData);
+            
+            console.log('Address Data:', addressData);
+            showNotification('Address saved successfully!', 'success');
+            closeAddressModal();
+        });
+
+        // Header functionality
+        function navigateToProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function navigateToAccountDeletion() {
+            window.location.href = 'account-deletion.html';
+        }
+
+        function navigateToHelpSupport() {
+            window.location.href = 'help-support.html';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('addressModal');
+            if (e.target === modal) {
+                closeAddressModal();
+            }
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 8px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10001;
+                border-left: 4px solid ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                max-width: 350px;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile dropdown functionality
+            const profileTrigger = document.getElementById('profileTrigger');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileArrow = document.getElementById('profileArrow');
+
+            if (profileTrigger && profileDropdown) {
+                profileTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isOpen = profileDropdown.style.display === 'block';
+                    profileDropdown.style.display = isOpen ? 'none' : 'block';
+                    profileArrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                });
+
+                document.addEventListener('click', function() {
+                    profileDropdown.style.display = 'none';
+                    profileArrow.style.transform = 'rotate(0deg)';
+                });
+
+                document.getElementById('myProfile').addEventListener('click', navigateToProfile);
+                document.getElementById('accountDeletion').addEventListener('click', navigateToAccountDeletion);
+                document.getElementById('helpSupport').addEventListener('click', navigateToHelpSupport);
+            }
+
+            console.log('Delivery Management page loaded');
+        });
+
+        // Add styles for animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
