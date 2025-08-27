@@ -198,6 +198,1184 @@
             transform: translateY(-1px);
         }
 
+        /* Live Chat Modal Styles */
+        .live-chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .live-chat-container {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .agent-status {
+            margin-top: 0.5rem;
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .agent-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .agent-details {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+        }
+
+        .agent-name {
+            font-weight: 600;
+        }
+
+        .agent-role {
+            color: #ccc;
+            font-size: 0.7rem;
+        }
+
+        .agent-online-status {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.7rem;
+            color: #90EE90;
+        }
+
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: #90EE90;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-action-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-action-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .chat-window {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .message-container.user-message {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .bot-bubble {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 6px;
+        }
+
+        .user-bubble {
+            background: #000000;
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .message-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quick-reply-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .quick-reply-btn:hover {
+            background: #000000;
+            color: white;
+            border-color: #000000;
+        }
+
+        .faq-suggestions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .faq-suggestion-header {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .faq-suggestion-item {
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        .faq-suggestion-item:hover {
+            background: #ffeaa7;
+        }
+
+        .chat-input-container {
+            border-top: 1px solid #e9ecef;
+            padding: 1rem;
+            background: white;
+        }
+
+        .chat-input-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-tool-btn {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .input-tool-btn:hover {
+            background: #e9ecef;
+        }
+
+        .chat-input-box {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+
+        #chatInput {
+            flex: 1;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            padding: 0.75rem 1rem;
+            resize: none;
+            max-height: 100px;
+            min-height: 44px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        #chatInput:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        .send-btn {
+            background: #000000;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .send-btn:not(:disabled):hover {
+            background: #333333;
+            transform: scale(1.05);
+        }
+
+        .emoji-picker {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+        }
+
+        .emoji-option {
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .emoji-option:hover {
+            background: #f8f9fa;
+            transform: scale(1.2);
+        }
+
+        .chat-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .end-chat-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .end-chat-btn:hover {
+            background: #c82333;
+        }
+
+        .typing-indicator {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Feedback Modal */
+        .feedback-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feedback-container {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feedback-header h3 {
+            margin: 0;
+            color: #212529;
+        }
+
+        .close-feedback {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .rating-section {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+        }
+
+        .star:hover,
+        .star.selected {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .comment-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .feedback-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .submit-feedback-btn {
+            flex: 1;
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .submit-feedback-btn:hover {
+            background: #333333;
+        }
+
+        .skip-feedback-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .skip-feedback-btn:hover {
+            background: #545b62;
+        }
+
+        /* File Upload Modal */
+        .file-upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .file-upload-container {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .file-upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-drop-zone {
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .file-drop-zone:hover {
+            border-color: #000000;
+            background: #f8f9fa;
+        }
+
+        .file-drop-zone i {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .file-preview {
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .upload-files-btn {
+            flex: 1;
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .cancel-upload-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Email Support Modal Styles */
+        .email-support-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .email-support-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+        }
+
+        .email-support-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        .email-header-content h2 {
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .email-help-text {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #e9ecef;
+        }
+
+        .close-email-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-email-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .email-support-form {
+            padding: 1.5rem;
+        }
+
+        .form-row {
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 300px;
+            box-sizing: border-box;
+            min-height: 44px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            appearance: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.4;
+        }
+
+        .attachment-upload-area {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            box-sizing: border-box;
+        }
+
+        .attachment-drop-zone {
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .attachment-drop-zone:hover {
+            background: #e9ecef;
+            border-color: #000000;
+        }
+
+        .attachment-drop-zone.dragover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .attachment-drop-zone i {
+            font-size: 2rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .attachment-drop-zone p {
+            margin: 0 0 0.5rem 0;
+            color: #495057;
+        }
+
+        .browse-link {
+            color: #000000;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .browse-link:hover {
+            color: #333333;
+        }
+
+        .attachment-drop-zone small {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .attachment-preview {
+            background: white;
+            border-top: 1px solid #e9ecef;
+            padding: 1rem;
+            display: none;
+        }
+
+        .attachment-preview.has-files {
+            display: block;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .attachment-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .attachment-icon {
+            width: 32px;
+            height: 32px;
+            background: #000000;
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .attachment-info {
+            flex: 1;
+        }
+
+        .attachment-name {
+            font-weight: 500;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+
+        .attachment-size {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .remove-attachment {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-attachment:hover {
+            background: #c82333;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .cancel-email-btn {
+            flex: 1;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-email-btn:hover {
+            background: #c82333;
+        }
+
+        .send-email-btn {
+            flex: 1;
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .send-email-btn:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+
+        .send-email-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .email-support-footer {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 16px 16px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .working-hours {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .working-hours p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .working-hours i {
+            color: #000000;
+        }
+
+        /* Phone Support Modal Styles */
+        .phone-support-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .phone-support-container {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .phone-support-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .phone-header-content h2 {
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .phone-help-text {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #e9ecef;
+        }
+
+        .phone-availability {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #90EE90;
+            font-weight: 500;
+        }
+
+        .close-phone-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-phone-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .phone-support-content {
+            padding: 2rem;
+        }
+
+        .section-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .support-numbers-section {
+            margin-bottom: 2rem;
+        }
+
+        .support-numbers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .support-number-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .support-number-card:hover {
+            border-color: #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .number-icon {
+            width: 48px;
+            height: 48px;
+            background: #000000;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .number-info {
+            flex: 1;
+        }
+
+        .number-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .number-description {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+            line-height: 1.3;
+        }
+
+        .phone-number {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .phone-number:hover {
+            color: #333333;
+        }
+
+        .call-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .call-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .quick-call-section {
+            margin-bottom: 2rem;
+        }
+
+        .quick-call-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-call-btn {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #495057;
+        }
+
+        .quick-call-btn:hover {
+            border-color: #000000;
+            color: #000000;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .callback-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .callback-description {
+            margin: 0 0 1.5rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .callback-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .callback-form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .callback-form-group label {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .callback-form-group input,
+        .callback-form-group select {
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .callback-form-group input:focus,
+        .callback-form-group select:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+
+        .callback-form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .request-callback-btn {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .request-callback-btn:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+
+        .request-callback-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
         @media (max-width: 768px) {
             .support-container {
                 padding: 1rem;
@@ -222,6 +1400,112 @@
             .contact-options {
                 grid-template-columns: 1fr;
             }
+
+            .live-chat-container {
+                width: 95%;
+                height: 90%;
+                max-height: 600px;
+            }
+
+            .feedback-container,
+            .file-upload-container {
+                width: 95%;
+            }
+
+            .email-support-modal {
+                padding: 1rem;
+            }
+
+            .email-support-container {
+                width: 100%;
+                max-height: 95vh;
+            }
+
+            .email-support-header {
+                padding: 1.5rem;
+            }
+
+            .email-header-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .email-support-form {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cancel-email-btn,
+            .send-email-btn {
+                flex: 1;
+                padding: 1rem;
+                min-width: 140px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .attachment-upload-area {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .email-support-footer {
+                padding: 1.5rem;
+            }
+
+            .phone-support-modal {
+                padding: 1rem;
+            }
+
+            .phone-support-container {
+                width: 100%;
+                max-height: 95vh;
+            }
+
+            .phone-support-header {
+                padding: 1.5rem;
+            }
+
+            .phone-header-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .phone-support-content {
+                padding: 1.5rem;
+            }
+
+            .support-number-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .number-info {
+                order: 1;
+            }
+
+            .call-btn {
+                order: 2;
+                align-self: stretch;
+                justify-content: center;
+            }
+
+            .quick-call-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .callback-form-grid {
+                grid-template-columns: 1fr;
+            }
+
         }
     </style>
 </head>
@@ -397,6 +1681,420 @@
         </div>
     </div>
 
+    <!-- Live Chat Modal -->
+    <div id="liveChatModal" class="live-chat-modal">
+        <div class="live-chat-container">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-title">
+                        <i class="fas fa-comments"></i>
+                        💬 Live Chat Support
+                    </div>
+                    <div class="agent-status" id="agentStatus">
+                        <div class="agent-info">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=40&h=40&fit=crop&crop=face" alt="Agent" class="agent-avatar">
+                            <div class="agent-details">
+                                <span class="agent-name">Riya</span>
+                                <span class="agent-role">(Customer Care)</span>
+                                <div class="agent-online-status">
+                                    <div class="online-indicator"></div>
+                                    Online
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn" id="closeChatModal" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-window" id="chatWindow">
+                <!-- Welcome Message -->
+                <div class="message-container bot-message">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=32&h=32&fit=crop&crop=face" alt="Agent" class="message-avatar">
+                    <div class="message-bubble bot-bubble">
+                        <div class="message-text">Hi 👋, how can we help you today?</div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <!-- Quick Reply Buttons -->
+                <div class="quick-replies" id="quickReplies">
+                    <button class="quick-reply-btn" data-message="Track My Order">
+                        📦 Track My Order
+                    </button>
+                    <button class="quick-reply-btn" data-message="Return / Exchange">
+                        🔄 Return / Exchange
+                    </button>
+                    <button class="quick-reply-btn" data-message="Payment / Refund">
+                        💳 Payment / Refund
+                    </button>
+                    <button class="quick-reply-btn" data-message="Account Issues">
+                        👤 Account Issues
+                    </button>
+                    <button class="quick-reply-btn" data-message="Other">
+                        ❓ Other
+                    </button>
+                </div>
+
+                <!-- FAQ Suggestions (Initially hidden) -->
+                <div class="faq-suggestions" id="faqSuggestions" style="display: none;">
+                    <div class="faq-suggestion-header">
+                        <i class="fas fa-lightbulb"></i>
+                        Suggested Help Articles:
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="order-tracking">
+                        🔍 How to track your order
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="returns">
+                        📋 Return and exchange policy
+                    </div>
+                    <div class="faq-suggestion-item" data-faq="shipping">
+                        🚚 Shipping information
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-toolbar">
+                    <button class="input-tool-btn" id="attachmentBtn" title="Attach file">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button class="input-tool-btn" id="voiceBtn" title="Voice message">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="input-tool-btn" id="emojiBtn" title="Emoji">
+                        😊
+                    </button>
+                </div>
+
+                <div class="chat-input-box">
+                    <textarea id="chatInput" placeholder="Type your message..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- Emoji Picker (Hidden by default) -->
+                <div class="emoji-picker" id="emojiPicker" style="display: none;">
+                    <div class="emoji-grid">
+                        <span class="emoji-option">😊</span>
+                        <span class="emoji-option">😂</span>
+                        <span class="emoji-option">😍</span>
+                        <span class="emoji-option">🤔</span>
+                        <span class="emoji-option">😭</span>
+                        <span class="emoji-option">😡</span>
+                        <span class="emoji-option">👍</span>
+                        <span class="emoji-option">👎</span>
+                        <span class="emoji-option">❤️</span>
+                        <span class="emoji-option">🔥</span>
+                        <span class="emoji-option">💯</span>
+                        <span class="emoji-option">🎉</span>
+                    </div>
+                </div>
+
+                <div class="chat-footer">
+                    <button class="end-chat-btn" id="endChatBtn">
+                        End Chat
+                    </button>
+                    <span class="typing-indicator" id="typingIndicator" style="display: none;">
+                        Riya is typing...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Feedback Modal -->
+    <div id="feedbackModal" class="feedback-modal" style="display: none;">
+        <div class="feedback-container">
+            <div class="feedback-header">
+                <h3>Rate Your Chat Experience</h3>
+                <button class="close-feedback" id="closeFeedback">×</button>
+            </div>
+            <div class="feedback-content">
+                <div class="rating-section">
+                    <p>How would you rate our support?</p>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">⭐</span>
+                        <span class="star" data-rating="2">⭐</span>
+                        <span class="star" data-rating="3">⭐</span>
+                        <span class="star" data-rating="4">⭐</span>
+                        <span class="star" data-rating="5">⭐</span>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <label for="feedbackComment">Additional Comments (Optional):</label>
+                    <textarea id="feedbackComment" placeholder="Tell us how we can improve..."></textarea>
+                </div>
+                <div class="feedback-actions">
+                    <button class="submit-feedback-btn" id="submitFeedback">Submit Feedback</button>
+                    <button class="skip-feedback-btn" id="skipFeedback">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Upload Modal -->
+    <div id="fileUploadModal" class="file-upload-modal" style="display: none;">
+        <div class="file-upload-container">
+            <div class="file-upload-header">
+                <h3>📎 Attach File</h3>
+                <button class="close-file-upload" id="closeFileUpload">×</button>
+            </div>
+            <div class="file-upload-content">
+                <div class="file-drop-zone" id="fileDropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop files here or click to browse</p>
+                    <small>Supported: Images, PDF, DOC (Max 10MB)</small>
+                    <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx" multiple hidden>
+                </div>
+                <div class="file-preview" id="filePreview"></div>
+                <div class="file-upload-actions">
+                    <button class="upload-files-btn" id="uploadFiles">Upload Files</button>
+                    <button class="cancel-upload-btn" id="cancelUpload">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Support Modal -->
+    <div id="emailSupportModal" class="email-support-modal" style="display: none;">
+        <div class="email-support-container">
+            <div class="email-support-header">
+                <div class="email-header-content">
+                    <h2>📧 Email Support</h2>
+                    <p class="email-help-text">Can't find what you need? Send us an email and our support team will get back to you within 24 hours.</p>
+                </div>
+                <button class="close-email-modal" id="closeEmailModal">×</button>
+            </div>
+
+            <form class="email-support-form" id="emailSupportForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportFullName">Full Name *</label>
+                        <input type="text" id="supportFullName" name="fullName" placeholder="Your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportEmail">Email Address *</label>
+                        <input type="email" id="supportEmail" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportOrderId">Order ID (Optional)</label>
+                        <input type="text" id="supportOrderId" name="orderId" placeholder="ORD123456 (if related to a specific order)">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportCategory">Category *</label>
+                        <select id="supportCategory" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="order-delivery">📦 Order & Delivery Issues</option>
+                            <option value="payment-refunds">💳 Payment & Refunds</option>
+                            <option value="returns-exchanges">🔄 Returns & Exchanges</option>
+                            <option value="account-profile">👤 Account & Profile</option>
+                            <option value="rewards-gifts">🎁 Rewards & Gift Cards</option>
+                            <option value="other">❓ Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportSubject">Subject *</label>
+                        <input type="text" id="supportSubject" name="subject" placeholder="Brief description of your issue" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportMessage">Message / Issue Description *</label>
+                        <textarea id="supportMessage" name="message" rows="6" placeholder="Please provide detailed information about your issue. Include any relevant order numbers, product details, or error messages." required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supportAttachments">📎 Attachments (Optional)</label>
+                        <div class="attachment-upload-area" id="attachmentUploadArea">
+                            <div class="attachment-drop-zone" id="attachmentDropZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop files here or <span class="browse-link">browse</span></p>
+                                <small>Supported: Images, PDF, DOC (Max 10MB each)</small>
+                                <input type="file" id="supportAttachments" name="attachments" accept="image/*,.pdf,.doc,.docx" multiple hidden>
+                            </div>
+                            <div class="attachment-preview" id="attachmentPreview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-email-btn" id="cancelEmail">Cancel</button>
+                    <button type="submit" class="send-email-btn" id="sendEmailBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Email
+                    </button>
+                </div>
+            </form>
+
+            <div class="email-support-footer">
+                <div class="working-hours">
+                    <p><i class="fas fa-clock"></i> Support available Mon–Sat, 9 AM – 8 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phone Support Modal -->
+    <div id="phoneSupportModal" class="phone-support-modal" style="display: none;">
+        <div class="phone-support-container">
+            <div class="phone-support-header">
+                <div class="phone-header-content">
+                    <h2>📞 Phone Support</h2>
+                    <p class="phone-help-text">Need urgent help? Call our support team directly.</p>
+                    <p class="phone-availability">Available Mon–Sat, 9 AM – 8 PM</p>
+                </div>
+                <button class="close-phone-modal" id="closePhoneModal">×</button>
+            </div>
+
+            <div class="phone-support-content">
+                <!-- Support Numbers Section -->
+                <div class="support-numbers-section">
+                    <h3 class="section-heading">Support Numbers</h3>
+
+                    <div class="support-numbers-grid">
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>General Support</h4>
+                                <p class="number-description">For all general inquiries and assistance</p>
+                                <a href="tel:+911800STYLEHUB" class="phone-number">+91-1800-STYLE-HUB</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800STYLEHUB')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>Order & Delivery Issues</h4>
+                                <p class="number-description">Track orders, delivery updates, shipping queries</p>
+                                <a href="tel:+911800DELIVERY" class="phone-number">+91-1800-DELIVERY</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800DELIVERY')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+
+                        <div class="support-number-card">
+                            <div class="number-icon">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                            <div class="number-info">
+                                <h4>Returns & Refunds</h4>
+                                <p class="number-description">Return products, refund status, exchange requests</p>
+                                <a href="tel:+911800RETURNS" class="phone-number">+91-1800-RETURNS</a>
+                            </div>
+                            <button class="call-btn" onclick="makeCall('+911800RETURNS')">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Call Options -->
+                <div class="quick-call-section">
+                    <h3 class="section-heading">Quick Call Options</h3>
+
+                    <div class="quick-call-grid">
+                        <button class="quick-call-btn" onclick="quickCall('track-order')">
+                            📦 Track Order
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('return-exchange')">
+                            🔄 Return / Exchange
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('payment-refunds')">
+                            💳 Payment / Refunds
+                        </button>
+                        <button class="quick-call-btn" onclick="quickCall('account-issues')">
+                            👤 Account Issues
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Callback Request -->
+                <div class="callback-section">
+                    <h3 class="section-heading">Request a Callback</h3>
+                    <p class="callback-description">Can't call right now? We'll call you back at your preferred time.</p>
+
+                    <form class="callback-form" id="callbackForm">
+                        <div class="callback-form-grid">
+                            <div class="callback-form-group">
+                                <label for="callbackName">Name *</label>
+                                <input type="text" id="callbackName" name="name" placeholder="Your full name" required>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackPhone">Phone Number *</label>
+                                <input type="tel" id="callbackPhone" name="phone" placeholder="+91 9876543210" required>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackTime">Preferred Time Slot *</label>
+                                <select id="callbackTime" name="timeSlot" required>
+                                    <option value="">Select time slot</option>
+                                    <option value="morning">Morning (9 AM - 12 PM)</option>
+                                    <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                                    <option value="evening">Evening (4 PM - 8 PM)</option>
+                                </select>
+                            </div>
+
+                            <div class="callback-form-group">
+                                <label for="callbackReason">Reason for Call (Optional)</label>
+                                <select id="callbackReason" name="reason">
+                                    <option value="">Select reason</option>
+                                    <option value="order-tracking">Order Tracking</option>
+                                    <option value="return-exchange">Return/Exchange</option>
+                                    <option value="payment-refund">Payment/Refund</option>
+                                    <option value="account-issue">Account Issue</option>
+                                    <option value="general-inquiry">General Inquiry</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="request-callback-btn">
+                            <i class="fas fa-phone-alt"></i>
+                            Request a Callback
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
@@ -452,17 +2150,19 @@
         }
 
         function openLiveChat() {
-            showNotification('Opening live chat...', 'info');
-            // Integrate with your live chat service here
+            document.getElementById('liveChatModal').style.display = 'flex';
+            // Initialize chat
+            initializeChat();
         }
 
         function sendEmail() {
-            window.location.href = 'mailto:support@stylehub.com?subject=Support Request';
+            document.getElementById('emailSupportModal').style.display = 'flex';
+            // Pre-fill user email if available
+            document.getElementById('supportEmail').value = 'rumpa14@yopmail.com';
         }
 
         function callSupport() {
-            showNotification('Redirecting to phone support...', 'info');
-            // Could open a modal with phone number or initiate a callback
+            document.getElementById('phoneSupportModal').style.display = 'flex';
         }
 
         // Header navigation functions
@@ -477,6 +2177,808 @@
         function navigateToHelpSupport() {
             // Already on help support page
             showNotification('You are already on the Help & Support page', 'info');
+        }
+
+        // Live Chat Functionality
+        let chatMessages = [];
+        let currentRating = 0;
+        let chatActive = false;
+
+        function initializeChat() {
+            chatActive = true;
+            chatMessages = [];
+
+            // Reset chat window
+            const chatWindow = document.getElementById('chatWindow');
+            const welcomeMessage = chatWindow.querySelector('.message-container.bot-message');
+            const quickReplies = document.getElementById('quickReplies');
+
+            // Keep welcome message and quick replies, remove others
+            const allMessages = chatWindow.querySelectorAll('.message-container:not(.bot-message)');
+            allMessages.forEach(msg => msg.remove());
+
+            // Reset input
+            document.getElementById('chatInput').value = '';
+            document.getElementById('sendBtn').disabled = true;
+
+            // Setup event listeners
+            setupChatEventListeners();
+        }
+
+        function setupChatEventListeners() {
+            // Close chat modal
+            document.getElementById('closeChatModal').addEventListener('click', closeLiveChat);
+
+            // Quick reply buttons
+            document.querySelectorAll('.quick-reply-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const message = this.getAttribute('data-message');
+                    sendQuickReply(message);
+                });
+            });
+
+            // Chat input
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+
+            chatInput.addEventListener('input', function() {
+                sendBtn.disabled = this.value.trim() === '';
+                autoResizeTextarea(this);
+            });
+
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendBtn.disabled) {
+                        sendMessage();
+                    }
+                }
+            });
+
+            sendBtn.addEventListener('click', sendMessage);
+
+            // Emoji picker
+            document.getElementById('emojiBtn').addEventListener('click', toggleEmojiPicker);
+            document.querySelectorAll('.emoji-option').forEach(emoji => {
+                emoji.addEventListener('click', function() {
+                    insertEmoji(this.textContent);
+                });
+            });
+
+            // File attachment
+            document.getElementById('attachmentBtn').addEventListener('click', openFileUpload);
+
+            // Voice message (simulation)
+            document.getElementById('voiceBtn').addEventListener('click', startVoiceMessage);
+
+            // End chat
+            document.getElementById('endChatBtn').addEventListener('click', endChat);
+
+            // FAQ suggestions
+            document.querySelectorAll('.faq-suggestion-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const faq = this.getAttribute('data-faq');
+                    showFAQAnswer(faq);
+                });
+            });
+
+            // Feedback modal
+            setupFeedbackModal();
+
+            // File upload modal
+            setupFileUploadModal();
+        }
+
+        function sendQuickReply(message) {
+            addUserMessage(message);
+
+            // Hide quick replies after first use
+            document.getElementById('quickReplies').style.display = 'none';
+
+            // Show FAQ suggestions for certain topics
+            if (message.includes('Track') || message.includes('Return') || message.includes('Payment')) {
+                setTimeout(() => {
+                    document.getElementById('faqSuggestions').style.display = 'block';
+                }, 1000);
+            }
+
+            // Simulate agent response
+            setTimeout(() => {
+                respondToQuickReply(message);
+            }, 1500);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                document.getElementById('sendBtn').disabled = true;
+                autoResizeTextarea(input);
+
+                // Simulate agent typing and response
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    respondToMessage(message);
+                }, 2000);
+            }
+        }
+
+        function addUserMessage(message) {
+            const chatWindow = document.getElementById('chatWindow');
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container user-message';
+
+            messageContainer.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" alt="User" class="message-avatar">
+                <div class="message-bubble user-bubble">
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+
+            chatWindow.appendChild(messageContainer);
+            scrollToBottom();
+        }
+
+        function addBotMessage(message) {
+            const chatWindow = document.getElementById('chatWindow');
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container bot-message';
+
+            messageContainer.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=32&h=32&fit=crop&crop=face" alt="Agent" class="message-avatar">
+                <div class="message-bubble bot-bubble">
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+
+            chatWindow.appendChild(messageContainer);
+            scrollToBottom();
+        }
+
+        function respondToQuickReply(message) {
+            let response = '';
+
+            switch(message) {
+                case 'Track My Order':
+                    response = 'I can help you track your order! Could you please provide your order number? It usually starts with "ORD" followed by numbers.';
+                    break;
+                case 'Return / Exchange':
+                    response = 'I\'d be happy to help with returns or exchanges. Our return policy allows returns within 30 days. Do you have a specific item you\'d like to return?';
+                    break;
+                case 'Payment / Refund':
+                    response = 'I can assist with payment and refund inquiries. What specific issue are you experiencing with your payment?';
+                    break;
+                case 'Account Issues':
+                    response = 'I\'m here to help with your account. What kind of issue are you facing? Login problems, password reset, or something else?';
+                    break;
+                case 'Other':
+                    response = 'I\'m here to help with any questions you have. Please describe your issue and I\'ll do my best to assist you.';
+                    break;
+                default:
+                    response = 'Thank you for your message. How can I assist you further?';
+            }
+
+            addBotMessage(response);
+        }
+
+        function respondToMessage(message) {
+            let response = '';
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                response = 'Hello! I\'m Riya from customer care. How can I help you today? 😊';
+            } else if (lowerMessage.includes('order') && (lowerMessage.includes('track') || lowerMessage.includes('status'))) {
+                response = 'I can help you track your order. Please provide your order number and I\'ll get the latest status for you.';
+            } else if (lowerMessage.includes('return') || lowerMessage.includes('refund')) {
+                response = 'I understand you\'d like to return an item. Our return process is simple - I can guide you through it. Do you have your order number handy?';
+            } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
+                response = 'I can help with delivery and shipping questions. What specific information do you need about your delivery?';
+            } else if (lowerMessage.includes('payment') || lowerMessage.includes('charged')) {
+                response = 'I can assist with payment-related concerns. Could you provide more details about the payment issue you\'re experiencing?';
+            } else {
+                response = 'Thank you for your message. I understand your concern and I\'m here to help. Could you provide a bit more detail so I can assist you better?';
+            }
+
+            addBotMessage(response);
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function toggleEmojiPicker() {
+            const emojiPicker = document.getElementById('emojiPicker');
+            emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById('chatInput');
+            input.value += emoji;
+            document.getElementById('sendBtn').disabled = input.value.trim() === '';
+            toggleEmojiPicker();
+            input.focus();
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        function scrollToBottom() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function startVoiceMessage() {
+            showNotification('🎤 Voice message feature coming soon!', 'info');
+        }
+
+        function openFileUpload() {
+            document.getElementById('fileUploadModal').style.display = 'flex';
+        }
+
+        function showFAQAnswer(faq) {
+            let answer = '';
+            switch(faq) {
+                case 'order-tracking':
+                    answer = 'You can track your order by going to "My Orders" in your account, or by clicking the tracking link in your order confirmation email.';
+                    break;
+                case 'returns':
+                    answer = 'We offer free returns within 30 days. Items must be unworn with original tags. You can initiate a return from your account dashboard.';
+                    break;
+                case 'shipping':
+                    answer = 'We offer free standard shipping on orders over $50. Express shipping is available for $9.99. Most orders are delivered within 3-5 business days.';
+                    break;
+            }
+            addBotMessage(answer);
+            document.getElementById('faqSuggestions').style.display = 'none';
+        }
+
+        function endChat() {
+            chatActive = false;
+            document.getElementById('liveChatModal').style.display = 'none';
+            document.getElementById('feedbackModal').style.display = 'flex';
+        }
+
+        function closeLiveChat() {
+            if (chatActive && chatMessages.length > 0) {
+                if (confirm('Are you sure you want to end this chat session?')) {
+                    endChat();
+                }
+            } else {
+                document.getElementById('liveChatModal').style.display = 'none';
+            }
+        }
+
+        function setupFeedbackModal() {
+            // Star rating
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    updateStarRating();
+                });
+            });
+
+            // Close feedback
+            document.getElementById('closeFeedback').addEventListener('click', function() {
+                document.getElementById('feedbackModal').style.display = 'none';
+            });
+
+            // Submit feedback
+            document.getElementById('submitFeedback').addEventListener('click', function() {
+                const comment = document.getElementById('feedbackComment').value;
+                submitFeedback(currentRating, comment);
+            });
+
+            // Skip feedback
+            document.getElementById('skipFeedback').addEventListener('click', function() {
+                document.getElementById('feedbackModal').style.display = 'none';
+                showNotification('Thank you for using our chat support!', 'info');
+            });
+        }
+
+        function updateStarRating() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        function submitFeedback(rating, comment) {
+            // Simulate feedback submission
+            showNotification(`Thank you for your ${rating}-star rating! Your feedback helps us improve.`, 'success');
+            document.getElementById('feedbackModal').style.display = 'none';
+
+            // Reset feedback form
+            currentRating = 0;
+            updateStarRating();
+            document.getElementById('feedbackComment').value = '';
+        }
+
+        function setupFileUploadModal() {
+            const fileDropZone = document.getElementById('fileDropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            // Click to browse
+            fileDropZone.addEventListener('click', () => fileInput.click());
+
+            // File input change
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // Drag and drop
+            fileDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileDropZone.style.borderColor = '#000000';
+            });
+
+            fileDropZone.addEventListener('dragleave', () => {
+                fileDropZone.style.borderColor = '#e9ecef';
+            });
+
+            fileDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileDropZone.style.borderColor = '#e9ecef';
+                handleFileSelect({ target: { files: e.dataTransfer.files } });
+            });
+
+            // Close file upload
+            document.getElementById('closeFileUpload').addEventListener('click', function() {
+                document.getElementById('fileUploadModal').style.display = 'none';
+            });
+
+            // Upload files
+            document.getElementById('uploadFiles').addEventListener('click', function() {
+                showNotification('📎 Files uploaded successfully!', 'success');
+                document.getElementById('fileUploadModal').style.display = 'none';
+                addBotMessage('I\'ve received your files. Let me review them and get back to you shortly.');
+            });
+
+            // Cancel upload
+            document.getElementById('cancelUpload').addEventListener('click', function() {
+                document.getElementById('fileUploadModal').style.display = 'none';
+            });
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            const filePreview = document.getElementById('filePreview');
+
+            filePreview.innerHTML = '';
+
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem;
+                    background: #f8f9fa;
+                    border-radius: 6px;
+                    margin-bottom: 0.5rem;
+                `;
+
+                fileItem.innerHTML = `
+                    <i class="fas fa-file"></i>
+                    <span>${file.name}</span>
+                    <small>(${(file.size / 1024).toFixed(1)} KB)</small>
+                `;
+
+                filePreview.appendChild(fileItem);
+            });
+        }
+
+        // Email Support Functionality
+        let emailAttachments = [];
+
+        function setupEmailSupportModal() {
+            const modal = document.getElementById('emailSupportModal');
+            const closeBtn = document.getElementById('closeEmailModal');
+            const cancelBtn = document.getElementById('cancelEmail');
+            const form = document.getElementById('emailSupportForm');
+            const attachmentDropZone = document.getElementById('attachmentDropZone');
+            const attachmentInput = document.getElementById('supportAttachments');
+            const browseLink = attachmentDropZone.querySelector('.browse-link');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closeEmailModal);
+            cancelBtn.addEventListener('click', closeEmailModal);
+
+            // Form submission
+            form.addEventListener('submit', handleEmailSubmit);
+
+            // Browse link click
+            browseLink.addEventListener('click', (e) => {
+                e.stopPropagation();
+                attachmentInput.click();
+            });
+
+            // Drop zone click
+            attachmentDropZone.addEventListener('click', () => {
+                attachmentInput.click();
+            });
+
+            // File input change
+            attachmentInput.addEventListener('change', handleEmailFileSelect);
+
+            // Drag and drop events
+            attachmentDropZone.addEventListener('dragover', handleEmailDragOver);
+            attachmentDropZone.addEventListener('dragleave', handleEmailDragLeave);
+            attachmentDropZone.addEventListener('drop', handleEmailDrop);
+
+            // Category change - auto-suggest subject
+            document.getElementById('supportCategory').addEventListener('change', handleCategoryChange);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeEmailModal();
+                }
+            });
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailSupportModal').style.display = 'none';
+            // Reset form
+            document.getElementById('emailSupportForm').reset();
+            emailAttachments = [];
+            updateAttachmentPreview();
+        }
+
+        function handleEmailSubmit(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const emailData = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                orderId: formData.get('orderId'),
+                category: formData.get('category'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                attachments: emailAttachments
+            };
+
+            // Simulate email submission
+            submitEmailSupport(emailData);
+        }
+
+        function submitEmailSupport(emailData) {
+            // Show loading state
+            const submitBtn = document.getElementById('sendEmailBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Close modal
+                closeEmailModal();
+
+                // Show success notification
+                showEmailConfirmation();
+
+                console.log('Email support request:', emailData);
+            }, 2000);
+        }
+
+        function showEmailConfirmation() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-check" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">Email Sent Successfully!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">Your request has been submitted. We'll respond via email soon.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function handleEmailFileSelect(event) {
+            const files = Array.from(event.target.files);
+            processEmailFiles(files);
+        }
+
+        function handleEmailDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleEmailDragLeave(e) {
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleEmailDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files);
+            processEmailFiles(files);
+        }
+
+        function processEmailFiles(files) {
+            const validFiles = files.filter(file => {
+                const validTypes = ['image/', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const isValidType = validTypes.some(type => file.type.startsWith(type) || file.type === type);
+                const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
+
+                if (!isValidType) {
+                    showNotification(`${file.name} is not a supported file type`, 'error');
+                    return false;
+                }
+                if (!isValidSize) {
+                    showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    return false;
+                }
+                return true;
+            });
+
+            emailAttachments.push(...validFiles);
+            updateAttachmentPreview();
+        }
+
+        function updateAttachmentPreview() {
+            const preview = document.getElementById('attachmentPreview');
+
+            if (emailAttachments.length === 0) {
+                preview.classList.remove('has-files');
+                preview.innerHTML = '';
+                return;
+            }
+
+            preview.classList.add('has-files');
+            preview.innerHTML = emailAttachments.map((file, index) => `
+                <div class="attachment-item">
+                    <div class="attachment-icon">
+                        <i class="fas ${getFileIcon(file.type)}"></i>
+                    </div>
+                    <div class="attachment-info">
+                        <div class="attachment-name">${file.name}</div>
+                        <div class="attachment-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button type="button" class="remove-attachment" onclick="removeEmailAttachment(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeEmailAttachment(index) {
+            emailAttachments.splice(index, 1);
+            updateAttachmentPreview();
+        }
+
+        function getFileIcon(fileType) {
+            if (fileType.startsWith('image/')) return 'fa-image';
+            if (fileType === 'application/pdf') return 'fa-file-pdf';
+            if (fileType.includes('word')) return 'fa-file-word';
+            return 'fa-file';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function handleCategoryChange(e) {
+            const category = e.target.value;
+            const subjectField = document.getElementById('supportSubject');
+
+            // Auto-suggest subject based on category
+            const suggestions = {
+                'order-delivery': 'Issue with my order delivery',
+                'payment-refunds': 'Payment or refund inquiry',
+                'returns-exchanges': 'Return or exchange request',
+                'account-profile': 'Account or profile issue',
+                'rewards-gifts': 'Rewards or gift card question',
+                'other': ''
+            };
+
+            if (suggestions[category] && !subjectField.value) {
+                subjectField.value = suggestions[category];
+            }
+        }
+
+        // Phone Support Functionality
+        function setupPhoneSupportModal() {
+            const modal = document.getElementById('phoneSupportModal');
+            const closeBtn = document.getElementById('closePhoneModal');
+            const callbackForm = document.getElementById('callbackForm');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closePhoneModal);
+
+            // Form submission
+            callbackForm.addEventListener('submit', handleCallbackSubmit);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePhoneModal();
+                }
+            });
+        }
+
+        function closePhoneModal() {
+            document.getElementById('phoneSupportModal').style.display = 'none';
+            // Reset callback form
+            document.getElementById('callbackForm').reset();
+        }
+
+        function makeCall(phoneNumber) {
+            // For mobile devices, this will trigger the phone app
+            window.location.href = `tel:${phoneNumber}`;
+
+            // Show confirmation for desktop users
+            if (!isMobileDevice()) {
+                showNotification(`📞 Call ${phoneNumber} on your mobile device`, 'info');
+            } else {
+                showNotification('📞 Initiating call...', 'info');
+            }
+        }
+
+        function quickCall(category) {
+            let phoneNumber = '';
+            let message = '';
+
+            switch(category) {
+                case 'track-order':
+                    phoneNumber = '+911800DELIVERY';
+                    message = '📦 Connecting you to Order & Delivery support...';
+                    break;
+                case 'return-exchange':
+                    phoneNumber = '+911800RETURNS';
+                    message = '🔄 Connecting you to Returns & Refunds support...';
+                    break;
+                case 'payment-refunds':
+                    phoneNumber = '+911800RETURNS';
+                    message = '💳 Connecting you to Payment & Refunds support...';
+                    break;
+                case 'account-issues':
+                    phoneNumber = '+911800STYLEHUB';
+                    message = '👤 Connecting you to General support for account issues...';
+                    break;
+                default:
+                    phoneNumber = '+911800STYLEHUB';
+                    message = '📞 Connecting you to General support...';
+            }
+
+            showNotification(message, 'info');
+            setTimeout(() => {
+                makeCall(phoneNumber);
+            }, 1000);
+        }
+
+        function handleCallbackSubmit(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const callbackData = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                timeSlot: formData.get('timeSlot'),
+                reason: formData.get('reason')
+            };
+
+            // Simulate callback request submission
+            submitCallbackRequest(callbackData);
+        }
+
+        function submitCallbackRequest(callbackData) {
+            // Show loading state
+            const submitBtn = document.querySelector('.request-callback-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting Callback...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Close modal
+                closePhoneModal();
+
+                // Show success notification
+                showCallbackConfirmation(callbackData);
+
+                console.log('Callback request:', callbackData);
+            }, 2000);
+        }
+
+        function showCallbackConfirmation(callbackData) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-phone" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">Callback Requested!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">We'll call you at ${callbackData.phone} during your preferred ${callbackData.timeSlot} time slot.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function raiseTicket() {
+            showNotification('🎟 Ticket system coming soon! For now, please use Live Chat or Email Support.', 'info');
+        }
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
         // Initialize page functionality
@@ -532,6 +3034,12 @@
                 });
             }
 
+            // Initialize email support modal
+            setupEmailSupportModal();
+
+            // Initialize phone support modal
+            setupPhoneSupportModal();
+
             console.log('Help & Support page with header/footer loaded');
         });
 
@@ -568,7 +3076,7 @@
             }, 3000);
         }
 
-        // Add styles for animation
+        // Add styles for animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideInRight {
@@ -580,6 +3088,12 @@
                     transform: translateX(0);
                     opacity: 1;
                 }
+            }
+
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
             }
         `;
         document.head.appendChild(style);

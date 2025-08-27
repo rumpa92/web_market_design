@@ -106,13 +106,13 @@
         }
 
         .address-card:hover {
-            border-color: #e91e63;
+            border-color: #000000;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .address-card.default {
-            border-color: #28a745;
+            border-color: #e9ecef;
             background: white;
         }
 
@@ -212,30 +212,30 @@
         }
 
         .action-btn.edit {
-            color: #ff8c00;
+            color: #000000;
         }
 
         .action-btn.edit:hover {
-            border-color: #ff8c00;
-            color: #ff8c00;
-            background: #fff8f0;
+            border-color: #000000;
+            color: #000000;
+            background: #f5f5f5;
         }
 
         .action-btn.delete {
-            color: #dc3545;
+            color: #000000;
         }
 
         .action-btn.delete:hover {
-            border-color: #dc3545;
-            color: #dc3545;
-            background: #fff5f5;
+            border-color: #000000;
+            color: #000000;
+            background: #f5f5f5;
         }
 
         /* Add New Address Button */
         .add-address-container {
             position: relative;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             width: 100%;
         }
 
@@ -252,12 +252,13 @@
             gap: 0.5rem;
             color: #6c757d;
             font-weight: 500;
+            margin-right: auto;
         }
 
         .add-address-btn:hover {
-            border-color: #e91e63;
-            color: #e91e63;
-            background: #fff5f8;
+            border-color: #000000;
+            color: #000000;
+            background: #f5f5f5;
         }
 
         .floating-add-btn {
@@ -319,9 +320,9 @@
         }
 
         .time-slot.active {
-            background: #e91e63;
+            background: #000000;
             color: white;
-            border-color: #e91e63;
+            border-color: #000000;
         }
 
         .toggle-switch {
@@ -335,7 +336,7 @@
         }
 
         .toggle-switch.active {
-            background: #e91e63;
+            background: #000000;
         }
 
         .toggle-switch::after {
@@ -378,7 +379,7 @@
         }
 
         .delivery-item:hover {
-            border-color: #e91e63;
+            border-color: #000000;
             transform: translateY(-1px);
         }
 
@@ -437,9 +438,9 @@
 
         .track-btn, .reorder-btn, .review-btn {
             padding: 0.5rem 1rem;
-            border: 1px solid #e91e63;
+            border: 1px solid #000000;
             background: white;
-            color: #e91e63;
+            color: #000000;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -449,7 +450,7 @@
         }
 
         .track-btn:hover, .reorder-btn:hover, .review-btn:hover {
-            background: #e91e63;
+            background: #000000;
             color: white;
         }
 
@@ -522,8 +523,8 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #e91e63;
-            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
 
         .checkbox-group {
@@ -536,7 +537,7 @@
         .submit-btn {
             width: 100%;
             padding: 0.75rem;
-            background: #e91e63;
+            background: #000000;
             color: white;
             border: none;
             border-radius: 6px;
@@ -548,7 +549,7 @@
         }
 
         .submit-btn:hover {
-            background: #c2185b;
+            background: #333333;
         }
 
         /* Responsive Design */
@@ -806,39 +807,6 @@
             </div>
         </div>
 
-        <!-- Past Deliveries -->
-        <div class="section">
-            <h2 class="section-title">
-                <i class="fas fa-history section-icon"></i>
-                Past Deliveries
-            </h2>
-            
-            <div class="delivery-item">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=60&h=60&fit=crop" alt="Product" class="product-image">
-                <div class="delivery-details">
-                    <div class="product-name">Nike Running Shoes - Air Max</div>
-                    <div class="delivery-date">Delivered on: March 15, 2024</div>
-                    <span class="delivery-status status-delivered">Delivered</span>
-                </div>
-                <div class="delivery-actions">
-                    <a href="#" class="reorder-btn" onclick="reorderItem('PROD001')">Reorder</a>
-                    <a href="#" class="review-btn" onclick="writeReview('PROD001')">Write Review</a>
-                </div>
-            </div>
-
-            <div class="delivery-item">
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=60&h=60&fit=crop" alt="Product" class="product-image">
-                <div class="delivery-details">
-                    <div class="product-name">Wireless Bluetooth Headphones</div>
-                    <div class="delivery-date">Delivered on: March 12, 2024</div>
-                    <span class="delivery-status status-delivered">Delivered</span>
-                </div>
-                <div class="delivery-actions">
-                    <a href="#" class="reorder-btn" onclick="reorderItem('PROD002')">Reorder</a>
-                    <a href="#" class="review-btn" onclick="writeReview('PROD002')">Write Review</a>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Floating Add Button - Removed as requested -->
@@ -1076,7 +1044,7 @@
                 padding: 1rem 1.5rem;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                 z-index: 10001;
-                border-left: 4px solid ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                border-left: 4px solid ${type === 'success' ? '#000000' : type === 'error' ? '#000000' : '#000000'};
                 max-width: 350px;
                 animation: slideInRight 0.3s ease;
             `;

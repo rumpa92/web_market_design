@@ -8,6 +8,605 @@
     <link rel="stylesheet" href="profile-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Edit Profile Modal Styles */
+        .edit-profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .edit-profile-container {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .edit-profile-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .edit-profile-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-edit-modal {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-edit-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .edit-profile-form {
+            padding: 2rem;
+        }
+
+        /* Profile Photo Section */
+        .profile-photo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .photo-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .current-photo {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .current-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .current-photo:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .current-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .upload-photo-btn,
+        .remove-photo-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .upload-photo-btn {
+            background: #000000;
+            color: white;
+        }
+
+        .upload-photo-btn:hover {
+            background: #333333;
+        }
+
+        .remove-photo-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .remove-photo-btn:hover {
+            background: #c82333;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .mobile-group .mobile-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mobile-input-container input {
+            flex: 1;
+        }
+
+        .verify-mobile-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .verify-mobile-btn:hover {
+            background: #218838;
+        }
+
+        .input-hint {
+            color: #6c757d;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Address Shortcut */
+        .address-shortcut {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .address-shortcut:hover {
+            border-color: #000000;
+            background: #ffffff;
+        }
+
+        .shortcut-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .shortcut-icon {
+            width: 40px;
+            height: 40px;
+            background: #000000;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .shortcut-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            color: #212529;
+        }
+
+        .shortcut-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .shortcut-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            color: #495057;
+        }
+
+        .shortcut-btn:hover {
+            border-color: #000000;
+            color: #000000;
+        }
+
+        /* Preferences */
+        .preferences-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .preference-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .preference-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            color: #212529;
+        }
+
+        .preference-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #495057;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-item input:checked + .toggle-switch {
+            background: #000000;
+        }
+
+        .toggle-item input:checked + .toggle-switch::after {
+            transform: translateX(20px);
+        }
+
+        .toggle-item input {
+            display: none;
+        }
+
+        .language-select {
+            min-width: 150px;
+        }
+
+        /* Security Options */
+        .security-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .security-item:hover {
+            border-color: #000000;
+            background: white;
+        }
+
+        .security-icon {
+            width: 40px;
+            height: 40px;
+            background: #000000;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            color: #212529;
+        }
+
+        .security-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .security-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            color: #495057;
+        }
+
+        .security-btn:hover {
+            border-color: #000000;
+            color: #000000;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #c82333;
+        }
+
+        .save-profile-btn {
+            flex: 2;
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .save-profile-btn:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+
+        .save-profile-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Animations */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .edit-profile-modal {
+                padding: 1rem;
+            }
+
+            .edit-profile-container {
+                width: 100%;
+                max-height: 95vh;
+            }
+
+            .edit-profile-header {
+                padding: 1.5rem;
+            }
+
+            .edit-profile-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .edit-profile-form {
+                padding: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .upload-photo-btn,
+            .remove-photo-btn {
+                justify-content: center;
+            }
+
+            .mobile-input-container {
+                flex-direction: column;
+            }
+
+            .verify-mobile-btn {
+                align-self: flex-start;
+            }
+
+            .address-shortcut {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .preference-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .toggle-group {
+                justify-content: center;
+            }
+
+            .security-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -188,6 +787,201 @@
         </div>
     </main>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="edit-profile-modal" style="display: none;">
+        <div class="edit-profile-container">
+            <div class="edit-profile-header">
+                <h2>👤 Edit Profile</h2>
+                <button class="close-edit-modal" id="closeEditModal">×</button>
+            </div>
+
+            <form class="edit-profile-form" id="editProfileForm">
+                <!-- Profile Photo Section -->
+                <div class="profile-photo-section">
+                    <div class="photo-upload-container">
+                        <div class="current-photo" id="currentPhoto">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Profile Photo" id="profilePhotoPreview">
+                            <div class="photo-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="photo-actions">
+                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn">
+                                <i class="fas fa-upload"></i>
+                                Upload Photo
+                            </button>
+                            <button type="button" class="remove-photo-btn" id="removePhotoBtn">
+                                <i class="fas fa-trash"></i>
+                                Remove
+                            </button>
+                            <input type="file" id="photoInput" accept="image/*" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editFullName">Full Name *</label>
+                            <input type="text" id="editFullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editGender">Gender</label>
+                            <select id="editGender" name="gender">
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDateOfBirth">Date of Birth</label>
+                            <input type="date" id="editDateOfBirth" name="dateOfBirth">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editEmail">Email Address *</label>
+                            <input type="email" id="editEmail" name="email" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group mobile-group">
+                            <label for="editMobile">Mobile Number *</label>
+                            <div class="mobile-input-container">
+                                <input type="tel" id="editMobile" name="mobile" placeholder="+91 9876543210" required>
+                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn">
+                                    Verify
+                                </button>
+                            </div>
+                            <small class="input-hint">OTP verification required for changes</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Address Information</h3>
+                    <div class="address-shortcut">
+                        <div class="shortcut-content">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="shortcut-info">
+                                <h4>Saved Addresses</h4>
+                                <p>Manage your delivery addresses and set defaults</p>
+                            </div>
+                        </div>
+                        <button type="button" class="shortcut-btn" onclick="navigateToDeliveryManagement()">
+                            <span>Manage Addresses</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Preferences</h3>
+
+                    <div class="preferences-grid">
+                        <div class="preference-item">
+                            <div class="preference-info">
+                                <h4>Communication Preferences</h4>
+                                <p>Choose how you'd like to receive notifications</p>
+                            </div>
+                            <div class="preference-controls">
+                                <div class="toggle-group">
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="emailNotifications" name="emailNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">Email</span>
+                                    </label>
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="smsNotifications" name="smsNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">SMS</span>
+                                    </label>
+                                    <label class="toggle-item">
+                                        <input type="checkbox" id="pushNotifications" name="pushNotifications">
+                                        <span class="toggle-switch"></span>
+                                        <span class="toggle-label">Push</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preference-item">
+                            <div class="preference-info">
+                                <h4>Language Selection</h4>
+                                <p>Choose your preferred language</p>
+                            </div>
+                            <div class="preference-controls">
+                                <select id="languagePreference" name="language" class="language-select">
+                                    <option value="en">English</option>
+                                    <option value="hi">हिंदी (Hindi)</option>
+                                    <option value="bn">বাংলা (Bengali)</option>
+                                    <option value="ta">தமிழ் (Tamil)</option>
+                                    <option value="te">తెలుగు (Telugu)</option>
+                                    <option value="mr">मराठी (Marathi)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Security</h3>
+
+                    <div class="security-options">
+                        <div class="security-item">
+                            <div class="security-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="security-info">
+                                <h4>Change Password</h4>
+                                <p>Update your account password</p>
+                            </div>
+                            <button type="button" class="security-btn" onclick="changePassword()">
+                                <span>Change</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="security-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="security-info">
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security to your account</p>
+                            </div>
+                            <button type="button" class="security-btn" onclick="setup2FA()">
+                                <span>Setup</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancelEditBtn">
+                        Cancel
+                    </button>
+                    <button type="submit" class="save-profile-btn" id="saveProfileBtn">
+                        <i class="fas fa-check"></i>
+                        Save Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
@@ -238,13 +1032,276 @@
 
     <script src="script.js"></script>
     <script>
+        // Edit Profile Modal Functionality
+        function populateEditForm() {
+            // Pre-fill form with current user data
+            document.getElementById('editFullName').value = 'Sarah Johnson';
+            document.getElementById('editEmail').value = 'sarah.johnson@stylehub.com';
+            document.getElementById('editMobile').value = '+91 9775637590';
+            document.getElementById('editGender').value = 'female';
+            document.getElementById('editDateOfBirth').value = '1995-06-15';
+
+            // Set notification preferences
+            document.getElementById('emailNotifications').checked = true;
+            document.getElementById('smsNotifications').checked = true;
+            document.getElementById('pushNotifications').checked = false;
+
+            // Set language preference
+            document.getElementById('languagePreference').value = 'en';
+        }
+
+        function setupEditProfileModal() {
+            const modal = document.getElementById('editProfileModal');
+            const closeBtn = document.getElementById('closeEditModal');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            const form = document.getElementById('editProfileForm');
+            const photoUploadBtn = document.getElementById('uploadPhotoBtn');
+            const removePhotoBtn = document.getElementById('removePhotoBtn');
+            const photoInput = document.getElementById('photoInput');
+            const currentPhoto = document.getElementById('currentPhoto');
+
+            // Close modal events
+            closeBtn.addEventListener('click', closeEditProfileModal);
+            cancelBtn.addEventListener('click', closeEditProfileModal);
+
+            // Form submission
+            form.addEventListener('submit', handleProfileUpdate);
+
+            // Photo upload functionality
+            photoUploadBtn.addEventListener('click', () => photoInput.click());
+            removePhotoBtn.addEventListener('click', removeProfilePhoto);
+            photoInput.addEventListener('change', handlePhotoUpload);
+            currentPhoto.addEventListener('click', () => photoInput.click());
+
+            // Mobile verification
+            document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeEditProfileModal();
+                }
+            });
+        }
+
+        function closeEditProfileModal() {
+            const modal = document.getElementById('editProfileModal');
+            modal.style.display = 'none';
+
+            // Reset form if needed
+            // document.getElementById('editProfileForm').reset();
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    showNotification('Photo size should be less than 5MB', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                    showNotification('Photo uploaded successfully', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeProfilePhoto() {
+            // Reset to default avatar
+            document.getElementById('profilePhotoPreview').src = 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face';
+            document.getElementById('photoInput').value = '';
+            showNotification('Profile photo removed', 'info');
+        }
+
+        function verifyMobileNumber() {
+            const mobileInput = document.getElementById('editMobile');
+            const mobile = mobileInput.value;
+
+            if (!mobile || mobile.length < 10) {
+                showNotification('Please enter a valid mobile number', 'error');
+                return;
+            }
+
+            // Simulate OTP verification
+            showOTPModal(mobile);
+        }
+
+        function showOTPModal(mobile) {
+            const otpModal = document.createElement('div');
+            otpModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 10001;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+
+            otpModal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 2rem; width: 90%; max-width: 400px;">
+                    <h3 style="margin: 0 0 1rem 0; text-align: center;">Verify Mobile Number</h3>
+                    <p style="text-align: center; color: #6c757d; margin-bottom: 1.5rem;">OTP sent to ${mobile}</p>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="this.closest('div').parentElement.remove()" style="flex: 1; background: #6c757d; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Cancel</button>
+                        <button onclick="verifyOTP()" style="flex: 1; background: #28a745; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Verify</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(otpModal);
+
+            // Auto-focus and navigation for OTP inputs
+            const otpInputs = otpModal.querySelectorAll('.otp-digit');
+            otpInputs[0].focus();
+
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !this.value && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+            });
+
+            // Make verifyOTP function globally accessible
+            window.verifyOTP = function() {
+                showNotification('Mobile number verified successfully!', 'success');
+                otpModal.remove();
+            };
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const profileData = {
+                fullName: formData.get('fullName'),
+                gender: formData.get('gender'),
+                dateOfBirth: formData.get('dateOfBirth'),
+                email: formData.get('email'),
+                mobile: formData.get('mobile'),
+                emailNotifications: formData.get('emailNotifications') === 'on',
+                smsNotifications: formData.get('smsNotifications') === 'on',
+                pushNotifications: formData.get('pushNotifications') === 'on',
+                language: formData.get('language')
+            };
+
+            // Simulate profile update
+            updateProfile(profileData);
+        }
+
+        function updateProfile(profileData) {
+            // Show loading state
+            const submitBtn = document.getElementById('saveProfileBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Update profile display
+                updateProfileDisplay(profileData);
+
+                // Close modal
+                closeEditProfileModal();
+
+                // Show success notification
+                showProfileUpdateConfirmation();
+
+                console.log('Profile updated:', profileData);
+            }, 2000);
+        }
+
+        function updateProfileDisplay(profileData) {
+            // Update the main profile display with new data
+            document.querySelector('.user-name').textContent = profileData.fullName;
+            document.querySelector('.contact-item span').textContent = profileData.email;
+            document.querySelectorAll('.contact-item span')[1].textContent = profileData.mobile;
+        }
+
+        function showProfileUpdateConfirmation() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10002;
+                border-left: 4px solid #28a745;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="background: #28a745; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-check" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #212529; font-size: 1rem;">✅ Profile Updated!</h4>
+                        <p style="margin: 0; color: #6c757d; font-size: 0.9rem; line-height: 1.4;">Your profile has been updated successfully.</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6c757d; flex-shrink: 0;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function navigateToDeliveryManagement() {
+            window.location.href = 'delivery-management.html';
+        }
+
+        function changePassword() {
+            showNotification('🔒 Change Password feature coming soon!', 'info');
+        }
+
+        function setup2FA() {
+            showNotification('🛡️ Two-Factor Authentication setup coming soon!', 'info');
+        }
+
         // Profile page functions
         function goBack() {
             window.history.back();
         }
 
         function editProfile() {
-            showNotification('Opening Profile Editor...', 'info');
+            document.getElementById('editProfileModal').style.display = 'flex';
+            // Pre-fill form with current user data
+            populateEditForm();
         }
 
         // Navigation functions
@@ -295,6 +1352,9 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize edit profile modal
+            setupEditProfileModal();
+
             console.log('Clean Profile page loaded');
         });
     </script>
