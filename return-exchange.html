@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return / Exchange - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Return/Exchange Page Styles */
+        body {
+            background: #f8fafc;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: #2d3748;
+        }
+
+        .return-exchange-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header Section */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-button {
+            background: white;
+            border: 2px solid #e2e8f0;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            transform: translateX(-2px);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: #1a202c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-title i {
+            color: #667eea;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .progress-step {
+            background: white;
+            border: 3px solid #e2e8f0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #a0aec0;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .progress-step.completed {
+            background: #48bb78;
+            border-color: #48bb78;
+            color: white;
+        }
+
+        .step-label {
+            text-align: center;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            color: #718096;
+        }
+
+        .step-label.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Main Form */
+        .return-form {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+        }
+
+        /* Order Summary Card */
+        .order-summary {
+            padding: 2rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin: 0;
+        }
+
+        .product-summary {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .order-price {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        /* Form Sections */
+        .form-section {
+            padding: 2rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .radio-option:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .radio-option.selected {
+            background: #edf2f7;
+            border-color: #667eea;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .radio-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option.selected .radio-indicator {
+            border-color: #667eea;
+            background: #667eea;
+        }
+
+        .radio-option.selected .radio-indicator::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .radio-content {
+            flex: 1;
+        }
+
+        .radio-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-description {
+            font-size: 0.875rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Dropdown */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            color: #4a5568;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            color: #4a5568;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Exchange Options */
+        .exchange-options {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .exchange-options.show {
+            display: block;
+        }
+
+        .variant-selectors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .variant-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .variant-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .variant-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .variant-option:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .variant-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .availability-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .availability-indicator.in-stock {
+            color: #38a169;
+        }
+
+        .availability-indicator.out-of-stock {
+            color: #e53e3e;
+        }
+
+        /* Refund Options */
+        .refund-options {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .refund-options.show {
+            display: block;
+        }
+
+        .refund-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refund-method:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .refund-method.selected {
+            background: #edf2f7;
+            border-color: #667eea;
+        }
+
+        .refund-icon {
+            width: 40px;
+            height: 40px;
+            background: #f7fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+
+        /* Pickup Options */
+        .pickup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .pickup-option {
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .pickup-option:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .pickup-option.selected {
+            background: #edf2f7;
+            border-color: #667eea;
+        }
+
+        .pickup-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .pickup-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .pickup-description {
+            font-size: 0.875rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Date & Time Slots */
+        .datetime-selector {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .datetime-selector.show {
+            display: block;
+        }
+
+        .date-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .time-slot {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .time-slot:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .time-slot.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .time-slot.unavailable {
+            background: #f7fafc;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        /* Submit Button */
+        .submit-section {
+            padding: 2rem;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Confirmation Modal */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .confirmation-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin: 0 0 1rem 0;
+        }
+
+        .modal-message {
+            color: #718096;
+            margin: 0 0 2rem 0;
+            line-height: 1.6;
+        }
+
+        .request-id {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .request-id-label {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+        }
+
+        .request-id-value {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.125rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .modal-button.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+        }
+
+        .modal-button.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-button.secondary {
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .modal-button.secondary:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .return-exchange-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .order-summary {
+                padding: 1.5rem;
+            }
+
+            .product-summary {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .radio-group {
+                gap: 0.75rem;
+            }
+
+            .radio-option {
+                padding: 0.875rem;
+            }
+
+            .variant-selectors {
+                grid-template-columns: 1fr;
+            }
+
+            .pickup-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .date-time-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .progress-step {
+                width: 35px;
+                height: 35px;
+                font-size: 0.875rem;
+            }
+
+            .time-slots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-tshirt"></i>
+                        StyleHub
+                    </a>
+                </div>
+
+                <div class="search-section">
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" placeholder="Search for clothes, brands, and more..." class="search-input" id="searchInput">
+                            <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <div class="location-section" id="locationTrigger">
+                        <i class="fas fa-map-marker-alt location-icon"></i>
+                        <div class="location-info">
+                            <span class="location-label">Deliver to</span>
+                            <span class="location-value">Kolkata 700001</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-section" id="profileSection">
+                        <div class="profile-trigger" id="profileTrigger">
+                            <div class="profile-avatar">
+                                <img src="https://cdn.builder.io/api/v1/image/assets%2F3bfc87a33d0e478bbf3e2900f481bf1d%2Ff093e49432c544f0a80a8ee9e70d5976?format=webp&width=40" alt="Profile" class="profile-image" id="profileImage">
+                                <div class="online-status" id="onlineStatus" title="Online"></div>
+                            </div>
+                            <div class="profile-info">
+                                <span class="profile-name">Sarah Johnson</span>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                        </div>
+
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-content">
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountSettings">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Account Settings</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="return-exchange-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <a href="my-orders.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="page-title">
+                <i class="fas fa-undo-alt"></i>
+                Return / Exchange
+            </h1>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-steps">
+                <div>
+                    <div class="progress-step active">1</div>
+                    <div class="step-label active">Request Details</div>
+                </div>
+                <div>
+                    <div class="progress-step">2</div>
+                    <div class="step-label">Review & Submit</div>
+                </div>
+                <div>
+                    <div class="progress-step">3</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return/Exchange Form -->
+        <form class="return-form" id="returnExchangeForm">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="summary-header">
+                    <i class="fas fa-box summary-icon"></i>
+                    <h3 class="summary-title">Order & Product Summary</h3>
+                </div>
+                
+                <div class="product-summary">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&h=100&fit=crop" alt="Product" class="product-image" id="productImage">
+                    <div class="product-info">
+                        <h4 class="product-name" id="productName">Premium Cotton T-Shirt</h4>
+                        <div class="product-details">
+                            <span id="productQuantity">Quantity: 2</span>
+                            <span id="productSize">Size: M</span>
+                            <span id="productColor">Color: Navy Blue</span>
+                        </div>
+                        <div class="order-meta">
+                            <div>
+                                <div class="order-id" id="orderId">#SH2024001234</div>
+                                <div style="font-size: 0.875rem; color: #718096;">Delivered on Jan 20, 2024</div>
+                            </div>
+                            <div class="order-price" id="orderPrice">₹1,598</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return/Exchange Selection -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-exchange-alt"></i>
+                    Choose Action
+                </h3>
+                
+                <div class="radio-group">
+                    <label class="radio-option" for="return-option">
+                        <input type="radio" name="action" value="return" id="return-option">
+                        <div class="radio-indicator"></div>
+                        <div class="radio-content">
+                            <div class="radio-title">
+                                <i class="fas fa-undo"></i>
+                                Return Product
+                            </div>
+                            <p class="radio-description">Get a full refund to your original payment method</p>
+                        </div>
+                    </label>
+                    
+                    <label class="radio-option" for="exchange-option">
+                        <input type="radio" name="action" value="exchange" id="exchange-option">
+                        <div class="radio-indicator"></div>
+                        <div class="radio-content">
+                            <div class="radio-title">
+                                <i class="fas fa-exchange-alt"></i>
+                                Exchange Product
+                            </div>
+                            <p class="radio-description">Replace with different size, color, or variant</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Reason for Return -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-list-ul"></i>
+                    Reason for Return/Exchange
+                </h3>
+                
+                <div class="form-group">
+                    <label for="reason" class="form-label">Please select a reason</label>
+                    <select id="reason" name="reason" class="form-select" required>
+                        <option value="">Choose a reason...</option>
+                        <option value="wrong-size">Wrong size</option>
+                        <option value="wrong-color">Wrong color/product received</option>
+                        <option value="damaged">Damaged/Defective item</option>
+                        <option value="quality">Quality not as expected</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherReasonGroup" style="display: none;">
+                    <label for="otherReason" class="form-label">Please specify</label>
+                    <textarea id="otherReason" name="otherReason" class="form-textarea" placeholder="Describe your reason..."></textarea>
+                </div>
+            </div>
+
+            <!-- Exchange Options -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-palette"></i>
+                    Exchange Options
+                </h3>
+                
+                <div class="exchange-options" id="exchangeOptions">
+                    <div class="variant-selectors">
+                        <div class="variant-group">
+                            <label class="form-label">Select Size</label>
+                            <div class="variant-options">
+                                <div class="variant-option" data-variant="size" data-value="XS">XS</div>
+                                <div class="variant-option" data-variant="size" data-value="S">S</div>
+                                <div class="variant-option selected" data-variant="size" data-value="M">M</div>
+                                <div class="variant-option" data-variant="size" data-value="L">L</div>
+                                <div class="variant-option" data-variant="size" data-value="XL">XL</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variant-group">
+                            <label class="form-label">Select Color</label>
+                            <div class="variant-options">
+                                <div class="variant-option" data-variant="color" data-value="Navy Blue">Navy Blue</div>
+                                <div class="variant-option" data-variant="color" data-value="Black">Black</div>
+                                <div class="variant-option" data-variant="color" data-value="White">White</div>
+                                <div class="variant-option" data-variant="color" data-value="Gray">Gray</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="availability-indicator in-stock">
+                        <i class="fas fa-check-circle"></i>
+                        <span>In Stock - Ready to ship</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refund Method -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-credit-card"></i>
+                    Refund Method
+                </h3>
+                
+                <div class="refund-options" id="refundOptions">
+                    <div class="refund-method selected" data-method="original">
+                        <div class="refund-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 0.25rem;">Original Payment Method</div>
+                            <div style="font-size: 0.875rem; color: #718096;">Refund to your card ending in ****4567</div>
+                        </div>
+                    </div>
+                    
+                    <div class="refund-method" data-method="credits">
+                        <div class="refund-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 0.25rem;">Store Credits</div>
+                            <div style="font-size: 0.875rem; color: #718096;">Get 5% bonus credits for future purchases</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pickup Options -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-truck"></i>
+                    Pickup / Drop-off Options
+                </h3>
+                
+                <div class="pickup-grid">
+                    <div class="pickup-option selected" data-pickup="home">
+                        <div class="pickup-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="pickup-title">Schedule Pickup</div>
+                        <p class="pickup-description">We'll collect the item from your address</p>
+                    </div>
+                    
+                    <div class="pickup-option" data-pickup="store">
+                        <div class="pickup-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="pickup-title">Drop at Store</div>
+                        <p class="pickup-description">Visit any StyleHub store near you</p>
+                    </div>
+                </div>
+
+                <!-- Date & Time Selector -->
+                <div class="datetime-selector show" id="datetimeSelector">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            Select Pickup Date & Time
+                        </label>
+                    </div>
+                    
+                    <div class="date-time-grid">
+                        <div class="form-group">
+                            <label for="pickupDate" class="form-label">Preferred Date</label>
+                            <input type="date" id="pickupDate" name="pickupDate" class="form-select" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Time Slot</label>
+                            <div class="time-slots">
+                                <div class="time-slot" data-time="09:00-12:00">9 AM - 12 PM</div>
+                                <div class="time-slot selected" data-time="12:00-15:00">12 PM - 3 PM</div>
+                                <div class="time-slot" data-time="15:00-18:00">3 PM - 6 PM</div>
+                                <div class="time-slot" data-time="18:00-21:00">6 PM - 9 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Notes -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-sticky-note"></i>
+                    Additional Instructions
+                </h3>
+                
+                <div class="form-group">
+                    <label for="instructions" class="form-label">Special instructions for pickup (Optional)</label>
+                    <textarea 
+                        id="instructions" 
+                        name="instructions" 
+                        class="form-textarea" 
+                        placeholder="Add instructions for courier (e.g., Ring doorbell, Call before arriving, etc.)"
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-check"></i>
+                    Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            
+            <h2 class="modal-title">Request Submitted Successfully!</h2>
+            <p class="modal-message">
+                Your return/exchange request has been submitted and is being processed. 
+                You'll receive a confirmation email shortly with tracking details.
+            </p>
+            
+            <div class="request-id">
+                <div class="request-id-label">Request ID</div>
+                <div class="request-id-value" id="generatedRequestId">#RE2024001234</div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-button primary" onclick="trackRequest()">
+                    <i class="fas fa-search"></i>
+                    Track Request
+                </button>
+                <a href="my-orders.html" class="modal-button secondary">
+                    Back to Orders
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Return/Exchange Form Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeReturnExchangeForm();
+            
+            // Get URL parameters to populate form
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+            const productName = urlParams.get('productName');
+            
+            if (orderId && productName) {
+                populateOrderData(orderId, productName);
+            }
+        });
+
+        function initializeReturnExchangeForm() {
+            // Action selection (Return/Exchange)
+            const actionRadios = document.querySelectorAll('input[name="action"]');
+            actionRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateFormSections(this.value);
+                    updateRadioSelection(this);
+                });
+            });
+
+            // Reason dropdown
+            const reasonSelect = document.getElementById('reason');
+            reasonSelect.addEventListener('change', function() {
+                const otherReasonGroup = document.getElementById('otherReasonGroup');
+                otherReasonGroup.style.display = this.value === 'other' ? 'block' : 'none';
+            });
+
+            // Variant selection
+            const variantOptions = document.querySelectorAll('.variant-option');
+            variantOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const variantType = this.dataset.variant;
+                    const siblings = document.querySelectorAll(`[data-variant="${variantType}"]`);
+                    siblings.forEach(sibling => sibling.classList.remove('selected'));
+                    this.classList.add('selected');
+                    updateAvailability();
+                });
+            });
+
+            // Refund method selection
+            const refundMethods = document.querySelectorAll('.refund-method');
+            refundMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    refundMethods.forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Pickup option selection
+            const pickupOptions = document.querySelectorAll('.pickup-option');
+            pickupOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    pickupOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    updatePickupOptions(this.dataset.pickup);
+                });
+            });
+
+            // Time slot selection
+            const timeSlots = document.querySelectorAll('.time-slot:not(.unavailable)');
+            timeSlots.forEach(slot => {
+                slot.addEventListener('click', function() {
+                    timeSlots.forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Set minimum date to tomorrow
+            const pickupDateInput = document.getElementById('pickupDate');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            pickupDateInput.min = tomorrow.toISOString().split('T')[0];
+            pickupDateInput.value = tomorrow.toISOString().split('T')[0];
+
+            // Form submission
+            const form = document.getElementById('returnExchangeForm');
+            form.addEventListener('submit', handleFormSubmission);
+        }
+
+        function updateFormSections(action) {
+            const exchangeOptions = document.getElementById('exchangeOptions');
+            const refundOptions = document.getElementById('refundOptions');
+            
+            if (action === 'exchange') {
+                exchangeOptions.classList.add('show');
+                refundOptions.classList.remove('show');
+            } else if (action === 'return') {
+                exchangeOptions.classList.remove('show');
+                refundOptions.classList.add('show');
+            }
+        }
+
+        function updateRadioSelection(selectedRadio) {
+            const radioOptions = document.querySelectorAll('.radio-option');
+            radioOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            selectedRadio.closest('.radio-option').classList.add('selected');
+        }
+
+        function updatePickupOptions(pickupType) {
+            const datetimeSelector = document.getElementById('datetimeSelector');
+            
+            if (pickupType === 'home') {
+                datetimeSelector.classList.add('show');
+            } else {
+                datetimeSelector.classList.remove('show');
+            }
+        }
+
+        function updateAvailability() {
+            const selectedSize = document.querySelector('[data-variant="size"].selected')?.dataset.value;
+            const selectedColor = document.querySelector('[data-variant="color"].selected')?.dataset.value;
+            
+            const availabilityIndicator = document.querySelector('.availability-indicator');
+            
+            // Simulate availability check
+            const unavailableCombinations = [
+                { size: 'XS', color: 'Black' },
+                { size: 'XL', color: 'White' }
+            ];
+            
+            const isUnavailable = unavailableCombinations.some(combo => 
+                combo.size === selectedSize && combo.color === selectedColor
+            );
+            
+            if (isUnavailable) {
+                availabilityIndicator.className = 'availability-indicator out-of-stock';
+                availabilityIndicator.innerHTML = '<i class="fas fa-times-circle"></i><span>Out of Stock - Choose different variant</span>';
+            } else {
+                availabilityIndicator.className = 'availability-indicator in-stock';
+                availabilityIndicator.innerHTML = '<i class="fas fa-check-circle"></i><span>In Stock - Ready to ship</span>';
+            }
+        }
+
+        function populateOrderData(orderId, productName) {
+            // Simulate order data population
+            document.getElementById('orderId').textContent = `#${orderId}`;
+            document.getElementById('productName').textContent = decodeURIComponent(productName);
+            
+            // You can add more logic here to fetch actual order data
+            console.log('Populating order data for:', orderId, productName);
+        }
+
+        function handleFormSubmission(e) {
+            e.preventDefault();
+            
+            // Validate form
+            const selectedAction = document.querySelector('input[name="action"]:checked');
+            const selectedReason = document.getElementById('reason').value;
+            
+            if (!selectedAction) {
+                showNotification('Please select return or exchange option', 'error');
+                return;
+            }
+            
+            if (!selectedReason) {
+                showNotification('Please select a reason', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = document.querySelector('.submit-button');
+            const originalContent = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitButton.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                submitButton.innerHTML = originalContent;
+                submitButton.disabled = false;
+                
+                // Generate request ID
+                const requestId = '#RE' + Date.now().toString().slice(-8);
+                document.getElementById('generatedRequestId').textContent = requestId;
+                
+                // Show confirmation modal
+                document.getElementById('confirmationModal').classList.add('show');
+            }, 2000);
+        }
+
+        function trackRequest() {
+            const requestId = document.getElementById('generatedRequestId').textContent;
+            showNotification(`Tracking request ${requestId}...`, 'info');
+            
+            // Redirect to tracking page (you can implement this)
+            setTimeout(() => {
+                window.location.href = 'track-order.html?requestId=' + requestId.substring(1);
+            }, 1500);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                z-index: 10000;
+                border-left: 4px solid ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#4299e1'};
+                max-width: 400px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="color: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#4299e1'};">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    </div>
+                    <span style="color: #2d3748; font-size: 0.9rem;">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #a0aec0; margin-left: auto;">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 4000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('confirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
