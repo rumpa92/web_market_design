@@ -940,51 +940,89 @@
 
     <script src="script.js"></script>
     <script>
-        // Force immediate execution - this runs as soon as the script loads
-        window.addEventListener('load', function() {
-            // Get order ID from URL
+        // Immediate execution - run as soon as script loads
+        (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const orderId = urlParams.get('orderId');
-            console.log('IMMEDIATE: URL params:', window.location.search);
-            console.log('IMMEDIATE: Order ID:', orderId);
+            console.log('IMMEDIATE EXECUTION - Order ID:', orderId);
 
-            if (orderId === 'ORD12346') {
-                // Force update to Men's Classic Leather Watch
-                setTimeout(() => {
-                    const orderIdEl = document.getElementById('orderIdDisplay');
-                    const orderDateEl = document.getElementById('orderDateDisplay');
-                    const orderTotalEl = document.getElementById('orderTotalDisplay');
-                    const productListEl = document.getElementById('productList');
+            // Define order data locally
+            const orders = {
+                'ORD12345': {
+                    id: 'ORD12345',
+                    date: 'March 18, 2024',
+                    total: '₹2,499',
+                    product: {
+                        name: 'Women\'s Floral Summer Dress',
+                        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=60&h=60&fit=crop',
+                        variant: 'Size: M, Color: Blue',
+                        price: '₹2,499'
+                    },
+                    delivery: { date: 'Today, March 20', time: '2:00 PM - 6:00 PM' }
+                },
+                'ORD12346': {
+                    id: 'ORD12346',
+                    date: 'March 19, 2024',
+                    total: '₹3,999',
+                    product: {
+                        name: 'Men\'s Classic Leather Watch',
+                        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop',
+                        variant: 'Color: Brown',
+                        price: '₹3,999'
+                    },
+                    delivery: { date: 'Tomorrow, March 21', time: '10:00 AM - 2:00 PM' }
+                }
+            };
 
-                    if (orderIdEl) orderIdEl.textContent = 'Order #ORD12346';
-                    if (orderDateEl) orderDateEl.textContent = 'Placed on March 19, 2024';
-                    if (orderTotalEl) orderTotalEl.textContent = '₹3,999';
-                    if (productListEl) {
-                        productListEl.innerHTML = `
-                            <div class="product-item">
-                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" alt="Men's Classic Leather Watch" class="product-image">
-                                <div class="product-details">
-                                    <div class="product-name">Men's Classic Leather Watch</div>
-                                    <div class="product-variant">Color: Brown</div>
-                                    <div class="product-price">₹3,999</div>
-                                </div>
+            const targetOrder = orders[orderId] || orders['ORD12345'];
+
+            // Update as soon as DOM is available
+            function updateOrderDisplay() {
+                console.log('Updating display for order:', targetOrder.id);
+
+                const elements = {
+                    orderIdDisplay: document.getElementById('orderIdDisplay'),
+                    orderDateDisplay: document.getElementById('orderDateDisplay'),
+                    orderTotalDisplay: document.getElementById('orderTotalDisplay'),
+                    productList: document.getElementById('productList'),
+                    estimateDate: document.querySelector('.estimate-date'),
+                    estimateTime: document.querySelector('.estimate-time')
+                };
+
+                if (elements.orderIdDisplay) elements.orderIdDisplay.textContent = `Order #${targetOrder.id}`;
+                if (elements.orderDateDisplay) elements.orderDateDisplay.textContent = `Placed on ${targetOrder.date}`;
+                if (elements.orderTotalDisplay) elements.orderTotalDisplay.textContent = targetOrder.total;
+                if (elements.estimateDate) elements.estimateDate.textContent = targetOrder.delivery.date;
+                if (elements.estimateTime) elements.estimateTime.textContent = targetOrder.delivery.time;
+
+                if (elements.productList) {
+                    elements.productList.innerHTML = `
+                        <div class="product-item">
+                            <img src="${targetOrder.product.image}" alt="${targetOrder.product.name}" class="product-image">
+                            <div class="product-details">
+                                <div class="product-name">${targetOrder.product.name}</div>
+                                <div class="product-variant">${targetOrder.product.variant}</div>
+                                <div class="product-price">${targetOrder.product.price}</div>
                             </div>
-                        `;
-                    }
+                        </div>
+                    `;
+                }
 
-                    // Update estimated delivery
-                    const estimateDate = document.querySelector('.estimate-date');
-                    const estimateTime = document.querySelector('.estimate-time');
-                    if (estimateDate) estimateDate.textContent = 'Tomorrow, March 21';
-                    if (estimateTime) estimateTime.textContent = '10:00 AM - 2:00 PM';
-
-                    // Update page title
-                    document.title = 'Track Order ORD12346 - StyleHub';
-
-                    console.log('FORCED UPDATE: Updated to Men\'s Classic Leather Watch');
-                }, 500);
+                document.title = `Track Order ${targetOrder.id} - StyleHub`;
+                console.log('Display updated successfully for:', targetOrder.product.name);
             }
-        });
+
+            // Try immediate update
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateOrderDisplay);
+            } else {
+                updateOrderDisplay();
+            }
+
+            // Also try after a short delay to ensure elements are available
+            setTimeout(updateOrderDisplay, 100);
+            setTimeout(updateOrderDisplay, 500);
+        })();
     </script>
     <script>
         function goBack() {
