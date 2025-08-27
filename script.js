@@ -1679,14 +1679,22 @@ function updateUserStatus(status) {
     const statusText = document.getElementById('statusText');
     const onlineStatus = document.getElementById('onlineStatus');
 
-    // Remove all status classes
-    statusIndicator.className = 'status-indicator';
-    onlineStatus.className = 'online-status';
+    // Remove all status classes (only if elements exist)
+    if (statusIndicator) {
+        statusIndicator.className = 'status-indicator';
+    }
+    if (onlineStatus) {
+        onlineStatus.className = 'online-status';
+    }
 
     // Add new status class
     if (status !== 'online') {
-        statusIndicator.classList.add(status);
-        onlineStatus.classList.add(status);
+        if (statusIndicator) {
+            statusIndicator.classList.add(status);
+        }
+        if (onlineStatus) {
+            onlineStatus.classList.add(status);
+        }
     }
 
     // Update status text
@@ -3136,7 +3144,7 @@ const subcategoryItems = {
             originalPrice: '$89',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★���☆'
+            rating: '★★★�����☆'
         },
         {
             id: 'active2',
