@@ -1470,8 +1470,8 @@ body {
 
 /* Standardized Page Header with Back Button and Page Name */
 .page-header {
-    background: white;
-    border-bottom: 1px solid #e9ecef;
+    background: transparent;
+    border-bottom: none;
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
