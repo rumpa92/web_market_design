@@ -940,89 +940,99 @@
 
     <script src="script.js"></script>
     <script>
-        // Immediate execution - run as soon as script loads
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('orderId');
-            console.log('IMMEDIATE EXECUTION - Order ID:', orderId);
+        // Get URL parameter immediately
+        const currentURL = new URL(window.location.href);
+        const orderIdParam = currentURL.searchParams.get('orderId');
 
-            // Define order data locally
-            const orders = {
-                'ORD12345': {
-                    id: 'ORD12345',
-                    date: 'March 18, 2024',
-                    total: '₹2,499',
-                    product: {
-                        name: 'Women\'s Floral Summer Dress',
-                        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=60&h=60&fit=crop',
-                        variant: 'Size: M, Color: Blue',
-                        price: '₹2,499'
-                    },
-                    delivery: { date: 'Today, March 20', time: '2:00 PM - 6:00 PM' }
-                },
-                'ORD12346': {
-                    id: 'ORD12346',
-                    date: 'March 19, 2024',
-                    total: '₹3,999',
-                    product: {
-                        name: 'Men\'s Classic Leather Watch',
-                        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop',
-                        variant: 'Color: Brown',
-                        price: '₹3,999'
-                    },
-                    delivery: { date: 'Tomorrow, March 21', time: '10:00 AM - 2:00 PM' }
-                }
+        console.log('URL:', window.location.href);
+        console.log('Order ID from URL:', orderIdParam);
+
+        // Force immediate update for Men's Classic Leather Watch
+        if (orderIdParam === 'ORD12346') {
+            console.log('Detected Men\'s Classic Leather Watch order - forcing update');
+
+            // Define the watch order data
+            const watchOrder = {
+                id: 'ORD12346',
+                date: 'March 19, 2024',
+                total: '₹3,999',
+                productName: 'Men\'s Classic Leather Watch',
+                productImage: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop',
+                productVariant: 'Color: Brown',
+                productPrice: '₹3,999',
+                deliveryDate: 'Tomorrow, March 21',
+                deliveryTime: '10:00 AM - 2:00 PM'
             };
 
-            const targetOrder = orders[orderId] || orders['ORD12345'];
+            // Function to force update the page content
+            function forceUpdateToWatch() {
+                console.log('Running force update for watch order');
 
-            // Update as soon as DOM is available
-            function updateOrderDisplay() {
-                console.log('Updating display for order:', targetOrder.id);
+                // Update order header
+                const orderIdEl = document.getElementById('orderIdDisplay');
+                const orderDateEl = document.getElementById('orderDateDisplay');
+                const orderTotalEl = document.getElementById('orderTotalDisplay');
 
-                const elements = {
-                    orderIdDisplay: document.getElementById('orderIdDisplay'),
-                    orderDateDisplay: document.getElementById('orderDateDisplay'),
-                    orderTotalDisplay: document.getElementById('orderTotalDisplay'),
-                    productList: document.getElementById('productList'),
-                    estimateDate: document.querySelector('.estimate-date'),
-                    estimateTime: document.querySelector('.estimate-time')
-                };
+                if (orderIdEl) {
+                    orderIdEl.textContent = `Order #${watchOrder.id}`;
+                    console.log('Updated order ID');
+                }
+                if (orderDateEl) {
+                    orderDateEl.textContent = `Placed on ${watchOrder.date}`;
+                    console.log('Updated order date');
+                }
+                if (orderTotalEl) {
+                    orderTotalEl.textContent = watchOrder.total;
+                    console.log('Updated order total');
+                }
 
-                if (elements.orderIdDisplay) elements.orderIdDisplay.textContent = `Order #${targetOrder.id}`;
-                if (elements.orderDateDisplay) elements.orderDateDisplay.textContent = `Placed on ${targetOrder.date}`;
-                if (elements.orderTotalDisplay) elements.orderTotalDisplay.textContent = targetOrder.total;
-                if (elements.estimateDate) elements.estimateDate.textContent = targetOrder.delivery.date;
-                if (elements.estimateTime) elements.estimateTime.textContent = targetOrder.delivery.time;
-
-                if (elements.productList) {
-                    elements.productList.innerHTML = `
+                // Update product
+                const productListEl = document.getElementById('productList');
+                if (productListEl) {
+                    productListEl.innerHTML = `
                         <div class="product-item">
-                            <img src="${targetOrder.product.image}" alt="${targetOrder.product.name}" class="product-image">
+                            <img src="${watchOrder.productImage}" alt="${watchOrder.productName}" class="product-image">
                             <div class="product-details">
-                                <div class="product-name">${targetOrder.product.name}</div>
-                                <div class="product-variant">${targetOrder.product.variant}</div>
-                                <div class="product-price">${targetOrder.product.price}</div>
+                                <div class="product-name">${watchOrder.productName}</div>
+                                <div class="product-variant">${watchOrder.productVariant}</div>
+                                <div class="product-price">${watchOrder.productPrice}</div>
                             </div>
                         </div>
                     `;
+                    console.log('Updated product list');
                 }
 
-                document.title = `Track Order ${targetOrder.id} - StyleHub`;
-                console.log('Display updated successfully for:', targetOrder.product.name);
+                // Update delivery estimate
+                const estimateDateEl = document.querySelector('.estimate-date');
+                const estimateTimeEl = document.querySelector('.estimate-time');
+                if (estimateDateEl) {
+                    estimateDateEl.textContent = watchOrder.deliveryDate;
+                    console.log('Updated delivery date');
+                }
+                if (estimateTimeEl) {
+                    estimateTimeEl.textContent = watchOrder.deliveryTime;
+                    console.log('Updated delivery time');
+                }
+
+                // Update page title
+                document.title = `Track Order ${watchOrder.id} - StyleHub`;
+
+                console.log('Force update completed for Men\'s Classic Leather Watch');
             }
 
-            // Try immediate update
+            // Run immediately if DOM is ready, otherwise wait for it
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', updateOrderDisplay);
+                document.addEventListener('DOMContentLoaded', forceUpdateToWatch);
             } else {
-                updateOrderDisplay();
+                forceUpdateToWatch();
             }
 
-            // Also try after a short delay to ensure elements are available
-            setTimeout(updateOrderDisplay, 100);
-            setTimeout(updateOrderDisplay, 500);
-        })();
+            // Also run with delays to ensure it works
+            setTimeout(forceUpdateToWatch, 50);
+            setTimeout(forceUpdateToWatch, 200);
+            setTimeout(forceUpdateToWatch, 500);
+            setTimeout(forceUpdateToWatch, 1000);
+        }
     </script>
     <script>
         function goBack() {
