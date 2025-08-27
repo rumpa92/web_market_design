@@ -1236,6 +1236,28 @@
             console.log('Track Order page loaded');
         });
 
+        // Immediate test - run this right away
+        console.log('Immediate test - URL:', window.location.href);
+        console.log('Immediate test - Search params:', window.location.search);
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                const statuses = [
+                    "📍 Your delivery partner is 5.2 km away",
+                    "🚚 Your order is out for delivery and will arrive today!",
+                    "📞 Delivery partner may call you before delivery",
+                    "🎯 Preparing for delivery in your area"
+                ];
+
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                const statusElement = document.querySelector('.real-time-status');
+                if (statusElement) {
+                    statusElement.textContent = randomStatus;
+                }
+            }, 8000);
+        }
+
         // Add styles for animation
         const style = document.createElement('style');
         style.textContent = `
