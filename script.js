@@ -2713,7 +2713,7 @@ function showCartSummary() {
 
     if (cart.length === 0) {
         cartItems.style.display = 'none';
-        cartEmpty.classList.add('hidden');
+        cartEmpty.classList.remove('hidden');
         if (cartSummary) cartSummary.style.display = 'none';
         if (cartActions) cartActions.style.display = 'none';
     } else {
