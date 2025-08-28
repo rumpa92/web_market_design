@@ -308,6 +308,9 @@ function setupQuantityControls() {
             e.preventDefault();
             e.stopPropagation();
 
+            // Simple alert to test if click is working
+            alert('Remove button clicked!');
+
             // Add click animation
             removeIcon.style.transform = 'scale(0.8)';
             setTimeout(() => {
@@ -337,6 +340,8 @@ function setupQuantityControls() {
                 showNotification(`${itemName} removed from cart`, 'success');
             }
         });
+    } else {
+        console.log('Remove icon NOT found!');
     }
 }
 
