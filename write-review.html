@@ -192,10 +192,18 @@
 
             // Update UI with product data
             if (productData) {
-                document.getElementById('productTitle').textContent = productData.title || 'Product';
+                const productTitle = productData.title || 'Product';
+                document.getElementById('productTitle').textContent = productTitle;
                 document.getElementById('selectedColor').textContent = productData.selectedColor || 'Black';
                 document.getElementById('selectedSize').textContent = productData.selectedSize || 'M';
-                console.log('Loaded product for review:', productData.title);
+
+                // Update page title
+                const pageTitle = document.getElementById('pageTitle');
+                if (pageTitle) {
+                    pageTitle.textContent = `Write Review: ${productTitle} - StyleHub`;
+                }
+
+                console.log('Loaded product for review:', productTitle);
             } else {
                 console.log('No product data found, using defaults');
             }
