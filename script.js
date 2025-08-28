@@ -1697,8 +1697,13 @@ function setupProfileDropdown() {
         return;
     }
 
-    // Initialize user status
+    // Initialize user status to always stay online
     updateUserStatus('online');
+
+    // Ensure status stays online every 5 seconds
+    setInterval(() => {
+        updateUserStatus('online');
+    }, 5000);
 
     // Toggle dropdown on click
     profileTrigger.addEventListener('click', (e) => {
@@ -1722,12 +1727,12 @@ function setupProfileDropdown() {
         });
     });
 
-    // Simulate status changes every 30 seconds for demo
-    setInterval(() => {
-        const statuses = ['online', 'away', 'busy'];
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        updateUserStatus(randomStatus);
-    }, 30000);
+    // Keep status always online - commented out random status changes
+    // setInterval(() => {
+    //     const statuses = ['online', 'away', 'busy'];
+    //     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    //     updateUserStatus(randomStatus);
+    // }, 30000);
 }
 
 function toggleProfileDropdown() {
