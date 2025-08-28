@@ -249,20 +249,34 @@ function setupQuantityControls() {
 
 function setupAddToCart() {
     const addToCartBtn = document.getElementById('addToCartBtn');
-    
+
     addToCartBtn.addEventListener('click', () => {
+        // Disable button to prevent double clicks
+        addToCartBtn.disabled = true;
+
         // Animation effect
         addToCartBtn.style.transform = 'scale(0.95)';
         addToCartBtn.textContent = 'Adding...';
-        
+        addToCartBtn.style.opacity = '0.8';
+
         setTimeout(() => {
             addToCart(currentProduct);
             updateCartBadge();
-            showNotification(`${currentProduct.title} added to cart!`, 'success');
-            
-            // Reset button
+            showNotification(`${currentProduct.title} (${currentProduct.selectedColor}, ${currentProduct.selectedSize}) added to cart!`, 'success');
+
+            // Success animation
+            addToCartBtn.textContent = 'Added!';
+            addToCartBtn.style.backgroundColor = '#4CAF50';
             addToCartBtn.style.transform = 'scale(1)';
-            addToCartBtn.textContent = 'Add to Cart';
+
+            setTimeout(() => {
+                // Reset button
+                addToCartBtn.style.transform = '';
+                addToCartBtn.style.opacity = '';
+                addToCartBtn.style.backgroundColor = '';
+                addToCartBtn.textContent = 'Add to Cart';
+                addToCartBtn.disabled = false;
+            }, 1000);
         }, 500);
     });
 }
