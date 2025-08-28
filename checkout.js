@@ -704,7 +704,7 @@ function generateUpiOrderSummary() {
                 </div>
             </div>
 
-            <!-- Place Order Button -->
+            <!-- Pay Button -->
             <button class="place-order-btn" onclick="initiateUpiPayment()">
                 <i class="fas fa-lock"></i>
                 Pay $${total.toFixed(2)}
