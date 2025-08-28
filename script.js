@@ -2260,77 +2260,153 @@ function setupNewsletterForm() {
 
 // Product Navigation Setup
 function setupProductNavigation() {
+    console.log('Setting up product navigation...');
     const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
+    console.log(`Found ${productCards.length} product cards`);
 
-    productCards.forEach(card => {
+    productCards.forEach((card, index) => {
+        console.log(`Setting up card ${index}:`, card.className);
+
         // Make entire card clickable except for buttons
         card.addEventListener('click', (e) => {
+            console.log('Product card clicked:', e.target);
+
             // Don't navigate if clicking on buttons
-            if (e.target.closest('button')) {
+            if (e.target.closest('button') || e.target.closest('.colorful-wishlist-btn') || e.target.closest('.colorful-add-to-cart')) {
+                console.log('Button clicked, not navigating');
                 return;
             }
 
             const productData = extractProductDataForNavigation(card);
+            console.log('Extracted product data:', productData);
             navigateToProductDetail(productData);
         });
 
         // Add hover effect to indicate clickability
         card.style.cursor = 'pointer';
+
+        // Add visual feedback for hover
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-2px)';
+            card.style.transition = 'transform 0.3s ease';
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
     });
 }
 
 function extractProductDataForNavigation(productCard) {
     let title, price, image, brand = 'StyleHub';
+    console.log('Extracting data from card:', productCard.className);
 
     // Handle different card types
     if (productCard.classList.contains('colorful-product-card')) {
-        title = productCard.querySelector('.colorful-product-title').textContent;
+        const titleEl = productCard.querySelector('.colorful-product-title');
+        title = titleEl ? titleEl.textContent : 'Fashion Item';
+
         const currentPriceEl = productCard.querySelector('.current-price');
         const originalPriceEl = productCard.querySelector('.original-price');
 
         price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 250;
         const originalPrice = originalPriceEl ? parseInt(originalPriceEl.textContent.replace('$', '')) : price + 50;
 
-        image = productCard.querySelector('.colorful-product-img').src;
+        const imageEl = productCard.querySelector('.colorful-product-img');
+        image = imageEl ? imageEl.src : '';
+
+        console.log('Colorful product card data:', { title, price, originalPrice, image });
 
         return {
+            id: Date.now() + Math.random(),
             title,
             currentPrice: price,
             originalPrice: originalPrice,
             image,
             brand,
             tagline: getTaglineForProduct(title),
-            discount: Math.round(((originalPrice - price) / originalPrice) * 100)
+            discount: Math.round(((originalPrice - price) / originalPrice) * 100),
+            rating: 4.8,
+            reviewCount: Math.floor(Math.random() * 500) + 100,
+            images: {
+                main: image,
+                side: image,
+                back: image,
+                detail: image,
+                fabric: image
+            },
+            colors: ['black', 'blue', 'red', 'green'],
+            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+            inStock: true
         };
     } else if (productCard.classList.contains('modern-product-card')) {
-        title = productCard.querySelector('.modern-product-title').textContent;
-        price = parseInt(productCard.querySelector('.modern-product-price').textContent.replace('$', ''));
-        image = productCard.querySelector('.modern-product-img').src;
+        const titleEl = productCard.querySelector('.modern-product-title');
+        title = titleEl ? titleEl.textContent : 'Modern Fashion Item';
+
+        const priceEl = productCard.querySelector('.modern-product-price');
+        price = priceEl ? parseInt(priceEl.textContent.replace('$', '')) : 200;
+
+        const imageEl = productCard.querySelector('.modern-product-img');
+        image = imageEl ? imageEl.src : '';
+
+        console.log('Modern product card data:', { title, price, image });
 
         return {
+            id: Date.now() + Math.random(),
             title,
             currentPrice: price,
             originalPrice: price + 50,
             image,
             brand,
             tagline: getTaglineForProduct(title),
-            discount: Math.round((50 / (price + 50)) * 100)
+            discount: Math.round((50 / (price + 50)) * 100),
+            rating: 4.5,
+            reviewCount: Math.floor(Math.random() * 300) + 50,
+            images: {
+                main: image,
+                side: image,
+                back: image,
+                detail: image,
+                fabric: image
+            },
+            colors: ['black', 'blue', 'red', 'green'],
+            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+            inStock: true
         };
     } else {
         // Regular product card
-        title = productCard.querySelector('.product-title')?.textContent || 'Fashion Item';
+        const titleEl = productCard.querySelector('.product-title');
+        title = titleEl ? titleEl.textContent : 'Fashion Item';
+
         const currentPriceEl = productCard.querySelector('.current-price');
         price = currentPriceEl ? parseInt(currentPriceEl.textContent.replace('$', '')) : 200;
-        image = productCard.querySelector('.product-image, img')?.src || '';
+
+        const imageEl = productCard.querySelector('.product-image, img');
+        image = imageEl ? imageEl.src : '';
+
+        console.log('Regular product card data:', { title, price, image });
 
         return {
+            id: Date.now() + Math.random(),
             title,
             currentPrice: price,
             originalPrice: price + 40,
             image,
             brand,
             tagline: getTaglineForProduct(title),
-            discount: Math.round((40 / (price + 40)) * 100)
+            discount: Math.round((40 / (price + 40)) * 100),
+            rating: 4.6,
+            reviewCount: Math.floor(Math.random() * 400) + 80,
+            images: {
+                main: image,
+                side: image,
+                back: image,
+                detail: image,
+                fabric: image
+            },
+            colors: ['black', 'blue', 'red', 'green'],
+            sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+            inStock: true
         };
     }
 }
@@ -2338,14 +2414,15 @@ function extractProductDataForNavigation(productCard) {
 function getTaglineForProduct(title) {
     const taglines = {
         'Traditional Salwar Kameez Set': 'Elegant Traditional Wear for Special Occasions',
-        'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
-        'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
-        'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
-        'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
-        'Premium Navy Formal Shirt': 'Professional Style for Modern Men',
-        'Teal Cotton Casual Shirt': 'Comfortable Casual Wear for Every Day',
-        'Mustard Yellow Anarkali Dress': 'Vibrant Colors for Joyful Occasions',
-        'Traditional Red Silk Saree': 'Timeless Grace in Pure Silk',
+        'Designer Anarkali Gown': 'Premium Designer Collection for Festive Occasions',
+        'Embroidered Kurta Set': 'Handcrafted Elegance with Traditional Touch',
+        'Navy Embroidered Anarkali Gown': 'Sophisticated Navy Collection',
+        'Golden Yellow Lehenga Set': 'Radiant Festival Wear Collection',
+        'Premium Navy Formal Shirt': 'Professional Wardrobe Essential',
+        'Teal Cotton Casual Shirt': 'Comfort Meets Style',
+        'Mustard Yellow Anarkali Dress': 'Vibrant Traditional Elegance',
+        'Traditional Red Silk Saree': 'Timeless Classic Beauty',
+        'Churidar': 'Traditional Comfort and Style',
         'Silk Blend Maxi Dress': 'Luxurious Comfort for Special Events',
         'Traditional Anarkali Set': 'Classic Design with Modern Fit',
         'Designer Footwear Collection': 'Step in Style with Premium Comfort'
@@ -2734,29 +2811,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEnhancedFilters();
 });
 
-// Product navigation
-function setupProductNavigation() {
-    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
 
-    productCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            // Only navigate if not clicking on action buttons
-            if (!e.target.closest('.add-to-cart-btn, .wishlist-btn, .quick-view-btn, .modern-add-to-cart, .modern-wishlist-btn, .colorful-add-to-cart, .colorful-wishlist-btn')) {
-                const productData = extractProductData(card);
-                navigateToProductDetail(productData);
-            }
-        });
-    });
-}
-
-function navigateToProductDetail(product) {
-    const productParam = encodeURIComponent(JSON.stringify({
-        title: product.title,
-        price: product.price,
-        image: product.image
-    }));
-    window.location.href = `product-detail.html?product=${productParam}`;
-}
 
 function showWishlistSummary() {
     if (wishlist.length === 0) {

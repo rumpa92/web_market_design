@@ -6,13 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     try {
         initializeProductDetail();
-        loadProductData();
-        setupProductEventListeners();
-        setupRelatedProductsInteraction();
-        setupProfileDropdown();
-        initializeCartModal();
 
-        console.log('Product detail page initialized successfully');
+        // Give a small delay to ensure URL parsing and DOM updates are complete
+        setTimeout(() => {
+            loadProductData();
+            setupProductEventListeners();
+            setupRelatedProductsInteraction();
+            setupProfileDropdown();
+            initializeCartModal();
+
+            console.log('Product detail page initialized successfully');
+        }, 200);
+
     } catch (error) {
         console.error('Error initializing product detail page:', error);
     }
@@ -28,6 +33,7 @@ let currentProduct = {
     discount: 25,
     rating: 4.8,
     reviewCount: 384,
+    tagline: 'Traditional Comfort and Style',
     images: {
         main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
         side: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
@@ -45,45 +51,187 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
+    console.log('Initializing product detail page...');
+    console.log('Current URL:', window.location.href);
+    console.log('Search params:', window.location.search);
+
     // Check if product data is passed from main page
     const urlParams = new URLSearchParams(window.location.search);
     const productData = urlParams.get('product');
-    
+
+    console.log('Raw URL product data:', productData);
+
+    // Additional debugging - log all URL parameters
+    console.log('All URL params:');
+    for (const [key, value] of urlParams.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+    // Fallback URL parsing method
+    if (!productData && window.location.search) {
+        const urlSearch = window.location.search;
+        const productMatch = urlSearch.match(/product=([^&]*)/);
+        if (productMatch) {
+            const fallbackProductData = productMatch[1];
+            console.log('Fallback product data found:', fallbackProductData);
+        }
+    }
+
+    // Add alert for debugging (will remove later)
+    if (productData) {
+        alert('Product data found in URL: ' + productData.substring(0, 100) + '...');
+    } else {
+        alert('No product data found in URL');
+    }
+
     if (productData) {
         try {
-            currentProduct = { ...currentProduct, ...JSON.parse(decodeURIComponent(productData)) };
+            const parsedData = JSON.parse(decodeURIComponent(productData));
+            console.log('Parsed product data:', parsedData);
+
+            // Create comprehensive product data by merging
+            currentProduct = {
+                ...currentProduct,
+                id: parsedData.id || currentProduct.id,
+                title: parsedData.title || currentProduct.title,
+                brand: parsedData.brand || currentProduct.brand,
+                currentPrice: parsedData.currentPrice || currentProduct.currentPrice,
+                originalPrice: parsedData.originalPrice || currentProduct.originalPrice,
+                discount: parsedData.discount || currentProduct.discount,
+                rating: parsedData.rating || currentProduct.rating,
+                reviewCount: parsedData.reviewCount || currentProduct.reviewCount,
+                tagline: parsedData.tagline || currentProduct.tagline,
+                // Handle images - use passed image for all views if images object not provided
+                images: parsedData.images || {
+                    main: parsedData.image || currentProduct.images.main,
+                    side: parsedData.image || currentProduct.images.side,
+                    back: parsedData.image || currentProduct.images.back,
+                    detail: parsedData.image || currentProduct.images.detail,
+                    fabric: parsedData.image || currentProduct.images.fabric
+                },
+                colors: parsedData.colors || currentProduct.colors,
+                sizes: parsedData.sizes || currentProduct.sizes,
+                selectedColor: parsedData.selectedColor || currentProduct.selectedColor,
+                selectedSize: parsedData.selectedSize || currentProduct.selectedSize,
+                quantity: parsedData.quantity || currentProduct.quantity,
+                inStock: parsedData.inStock !== undefined ? parsedData.inStock : currentProduct.inStock,
+                stockCount: parsedData.stockCount || currentProduct.stockCount
+            };
+
+            console.log('Updated current product:', currentProduct);
+
+            // Immediately update the page with new data
+            setTimeout(() => {
+                loadProductData();
+            }, 100);
+
         } catch (e) {
+            console.error('Error parsing product data:', e);
             console.log('Using default product data');
         }
+    } else {
+        console.log('No product data in URL, using default');
     }
 }
 
 function loadProductData() {
+    console.log('Loading product data:', currentProduct);
+
     // Update product information
-    document.getElementById('productTitle').textContent = currentProduct.title;
-    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
-    
+    const productTitle = document.getElementById('productTitle');
+    if (productTitle) {
+        productTitle.textContent = currentProduct.title;
+        console.log('Updated title to:', currentProduct.title);
+
+        // Force a DOM update
+        productTitle.style.display = 'none';
+        productTitle.offsetHeight; // trigger reflow
+        productTitle.style.display = '';
+    } else {
+        console.error('Product title element not found!');
+    }
+
+    const currentPriceEl = document.getElementById('currentPrice');
+    if (currentPriceEl) {
+        currentPriceEl.textContent = `$${currentProduct.currentPrice}`;
+        console.log('Updated price to:', `$${currentProduct.currentPrice}`);
+
+        // Force a DOM update
+        currentPriceEl.style.display = 'none';
+        currentPriceEl.offsetHeight; // trigger reflow
+        currentPriceEl.style.display = '';
+    } else {
+        console.error('Current price element not found!');
+    }
+
     // Update cart badge
     const cartBadge = document.getElementById('cartBadge');
-    const cartCount = getCartItemCount();
-    cartBadge.textContent = cartCount;
-    
+    if (cartBadge) {
+        const cartCount = getCartItemCount();
+        cartBadge.textContent = cartCount;
+    }
+
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
-    mainImage.src = currentProduct.images.main;
-    mainImage.alt = currentProduct.title;
-    
+    if (mainImage && currentProduct.images && currentProduct.images.main) {
+        console.log('Updating main image from:', mainImage.src, 'to:', currentProduct.images.main);
+        mainImage.src = currentProduct.images.main;
+        mainImage.alt = currentProduct.title;
+
+        // Force image reload
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+            mainImage.style.opacity = '1';
+            mainImage.style.transition = 'opacity 0.3s ease';
+        }, 100);
+
+        console.log('Updated main image to:', currentProduct.images.main);
+    } else {
+        console.error('Main image element not found or no image data available!', {
+            mainImage: !!mainImage,
+            images: currentProduct.images,
+            mainImageSrc: currentProduct.images?.main
+        });
+    }
+
     // Load thumbnail images
     const thumbnails = document.querySelectorAll('.thumbnail-item img');
     const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
+    console.log('Found', thumbnails.length, 'thumbnail images');
+
     thumbnails.forEach((thumb, index) => {
-        if (currentProduct.images[imageKeys[index]]) {
+        if (currentProduct.images && currentProduct.images[imageKeys[index]]) {
             thumb.src = currentProduct.images[imageKeys[index]];
+            thumb.alt = `${currentProduct.title} - ${imageKeys[index]} view`;
+            console.log(`Updated thumbnail ${index} to:`, currentProduct.images[imageKeys[index]]);
         }
     });
-    
+
     // Update quantity display
-    document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    if (quantityDisplay) {
+        quantityDisplay.textContent = currentProduct.quantity;
+    }
+
+    // Update rating and review count
+    const ratingText = document.querySelector('.rating-text');
+    if (ratingText && currentProduct.rating && currentProduct.reviewCount) {
+        ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
+    }
+
+    // Update brand if it exists in the DOM
+    const brandElement = document.querySelector('.product-brand');
+    if (brandElement && currentProduct.brand) {
+        brandElement.textContent = currentProduct.brand;
+    }
+
+    // Update product tagline if it exists
+    const taglineElement = document.querySelector('.product-tagline');
+    if (taglineElement && currentProduct.tagline) {
+        taglineElement.textContent = currentProduct.tagline;
+    }
+
+    console.log('Product data loaded successfully');
 }
 
 function setupProductEventListeners() {
@@ -156,21 +304,46 @@ function setupHeaderIcons() {
 function setupGallery() {
     const thumbnails = document.querySelectorAll('.thumbnail-item');
     const mainImage = document.getElementById('mainProductImage');
-    
+
+    console.log('Setting up gallery with', thumbnails.length, 'thumbnails');
+
     thumbnails.forEach((thumbnail, index) => {
         thumbnail.addEventListener('click', () => {
+            console.log('Thumbnail', index, 'clicked');
+
             // Remove active class from all thumbnails
             thumbnails.forEach(t => t.classList.remove('active'));
-            
+
             // Add active class to clicked thumbnail
             thumbnail.classList.add('active');
-            
+
             // Update main image
             const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
             const imageKey = imageKeys[index];
-            if (currentProduct.images[imageKey]) {
+
+            if (currentProduct.images && currentProduct.images[imageKey]) {
                 mainImage.src = currentProduct.images[imageKey];
+                mainImage.alt = `${currentProduct.title} - ${imageKey} view`;
+                console.log('Updated main image to:', currentProduct.images[imageKey]);
+
+                // Add loading animation
+                mainImage.style.opacity = '0.7';
+                setTimeout(() => {
+                    mainImage.style.opacity = '1';
+                }, 200);
+            } else {
+                console.warn('Image not found for key:', imageKey);
             }
+        });
+
+        // Add hover effect
+        thumbnail.addEventListener('mouseenter', () => {
+            thumbnail.style.transform = 'scale(1.05)';
+            thumbnail.style.transition = 'transform 0.2s ease';
+        });
+
+        thumbnail.addEventListener('mouseleave', () => {
+            thumbnail.style.transform = 'scale(1)';
         });
     });
 }
