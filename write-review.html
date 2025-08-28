@@ -874,7 +874,7 @@
                     <div class="upload-zone" id="uploadZone">
                         <i class="fas fa-cloud-upload-alt upload-icon"></i>
                         <div class="upload-text">Drop files here or click to upload</div>
-                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files</div>
+                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each ��� Up to 5 files</div>
                         <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
                     </div>
                     <div class="uploaded-files" id="uploadedFiles"></div>
@@ -1247,11 +1247,7 @@
 
         // Back button functionality
         function goBack() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = 'product-detail.html';
-            }
+            window.location.href = 'product-detail.html';
         }
 
         // Enhanced notification function
