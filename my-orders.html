@@ -978,7 +978,7 @@
                     <div class="order-card-content">
                         <div class="order-header">
                             <p class="order-id">#${order.id}</p>
-                            <span class="order-status status-${order.status}">${capitalizeFirst(order.status)}</span>
+                            ${order.id !== 'SH2024001023' ? `<span class="order-status status-${order.status}">${order.id === 'SH2024001198' ? 'Cancel' : capitalizeFirst(order.status)}</span>` : ''}
                         </div>
 
                         <div class="product-section">
@@ -1030,7 +1030,7 @@
                             <div class="order-card-content">
                                 <div class="order-header">
                                     <p class="order-id">#${order.id}</p>
-                                    <span class="order-status status-${order.status}">${capitalizeFirst(order.status)}</span>
+                                    ${order.id !== 'SH2024001023' ? `<span class="order-status status-${order.status}">${order.id === 'SH2024001198' ? 'Cancel' : capitalizeFirst(order.status)}</span>` : ''}
                                 </div>
                                 
                                 <div class="product-section">
