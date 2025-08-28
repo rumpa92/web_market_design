@@ -67,6 +67,23 @@ function initializeProductDetail() {
         console.log(`${key}: ${value}`);
     }
 
+    // Fallback URL parsing method
+    if (!productData && window.location.search) {
+        const urlSearch = window.location.search;
+        const productMatch = urlSearch.match(/product=([^&]*)/);
+        if (productMatch) {
+            const fallbackProductData = productMatch[1];
+            console.log('Fallback product data found:', fallbackProductData);
+        }
+    }
+
+    // Add alert for debugging (will remove later)
+    if (productData) {
+        alert('Product data found in URL: ' + productData.substring(0, 100) + '...');
+    } else {
+        alert('No product data found in URL');
+    }
+
     if (productData) {
         try {
             const parsedData = JSON.parse(decodeURIComponent(productData));
