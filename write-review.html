@@ -147,23 +147,62 @@
 
         // Back button
         function goBack() {
-            window.location.href = 'product-detail';
+            window.location.href = 'product-detail.html';
         }
 
-        // Get product data from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const productData = urlParams.get('product');
-        
-        if (productData) {
-            try {
-                const product = JSON.parse(decodeURIComponent(productData));
-                document.getElementById('productTitle').textContent = product.title || 'Churidar';
-                document.getElementById('selectedColor').textContent = product.selectedColor || 'Black';
-                document.getElementById('selectedSize').textContent = product.selectedSize || 'M';
-            } catch (e) {
-                console.log('Using default product data');
+        // Get product data from URL parameters or sessionStorage
+        function loadProductData() {
+            let productData = null;
+
+            // First try URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlProductData = urlParams.get('product');
+
+            if (urlProductData) {
+                try {
+                    productData = JSON.parse(decodeURIComponent(urlProductData));
+                } catch (e) {
+                    console.log('Error parsing URL product data');
+                }
+            }
+
+            // If no URL data, try localStorage
+            if (!productData) {
+                const storedData = localStorage.getItem('reviewProduct');
+                if (storedData) {
+                    try {
+                        productData = JSON.parse(storedData);
+                    } catch (e) {
+                        console.log('Error parsing stored product data');
+                    }
+                }
+            }
+
+            // If no stored data, try sessionStorage
+            if (!productData) {
+                const sessionData = sessionStorage.getItem('selectedProduct');
+                if (sessionData) {
+                    try {
+                        productData = JSON.parse(sessionData);
+                    } catch (e) {
+                        console.log('Error parsing session product data');
+                    }
+                }
+            }
+
+            // Update UI with product data
+            if (productData) {
+                document.getElementById('productTitle').textContent = productData.title || 'Product';
+                document.getElementById('selectedColor').textContent = productData.selectedColor || 'Black';
+                document.getElementById('selectedSize').textContent = productData.selectedSize || 'M';
+                console.log('Loaded product for review:', productData.title);
+            } else {
+                console.log('No product data found, using defaults');
             }
         }
+
+        // Load product data on page load
+        loadProductData();
 
         // Notification function
         function showNotification(message, type) {
