@@ -63,7 +63,7 @@ function setupEventListeners() {
     });
 
     // Wishlist buttons (all types)
-    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
+    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn, .add-to-wishlist-btn');
     wishlistBtns.forEach(btn => {
         btn.addEventListener('click', handleWishlist);
     });
