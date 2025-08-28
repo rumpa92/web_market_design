@@ -2651,6 +2651,10 @@ function setupTouchControls() {
 // Make functions global for onclick handlers
 window.changeSlide = changeSlide;
 window.currentSlide = currentSlide;
+window.updateCartQuantity = updateCartQuantity;
+window.removeFromCart = removeFromCart;
+window.addToCartFromCategory = addToCartFromCategory;
+window.addToWishlistFromCategory = addToWishlistFromCategory;
 
 // Newsletter functionality
 function setupNewsletterForm() {
@@ -3178,7 +3182,7 @@ const subcategoryItems = {
             originalPrice: '$249',
             image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★��★★���'
+            rating: '★��★★☆'
         },
         {
             id: 'suit3',
@@ -3616,11 +3620,16 @@ function addToCartFromCategory(itemId) {
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
+            // Ensure image has a proper URL
+            const imageUrl = item.image && item.image !== 'undefined' && item.image !== ''
+                ? item.image
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
+
             cart.push({
                 id: item.id,
                 title: item.title,
                 price: typeof item.price === 'string' ? item.price : `₹${item.price}`,
-                image: item.image,
+                image: imageUrl,
                 quantity: 1
             });
         }
@@ -3817,7 +3826,7 @@ function loadCollectionProducts(collectionType) {
 function generateCollectionProducts(collectionType) {
     // This would typically come from an API, but for demo purposes we'll use the existing products
     const baseProducts = [
-        { name: 'Wool Blend Overcoat', price: 4999, category: 'coats', rating: '★★★★��', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400' },
+        { name: 'Wool Blend Overcoat', price: 4999, category: 'coats', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400' },
         { name: 'Cashmere Turtleneck Sweater', price: 2899, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400' },
         { name: 'Quilted Puffer Jacket', price: 3499, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400' },
         { name: 'Knit Winter Dress', price: 2199, category: 'dresses', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400' },
