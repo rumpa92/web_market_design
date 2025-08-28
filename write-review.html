@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Review - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="write-review.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <button class="location-trigger" id="locationTrigger" title="Select Location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="location-text">Select Location</span>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <div class="action-icons">
+                        <i class="far fa-heart wishlist-icon" id="headerWishlistBtn"></i>
+                        <div class="cart-icon-container" id="headerCartBtn">
+                            <i class="fas fa-shopping-bag cart-icon"></i>
+                            <span class="cart-count" id="cartBadge">0</span>
+                        </div>
+                        <div class="profile-section" id="profileSection">
+                            <div class="profile-trigger" id="profileTrigger">
+                                <div class="profile-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage">
+                                    <div class="online-status" id="onlineStatus" title="Online"></div>
+                                </div>
+                                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+                            </div>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <div class="dropdown-header">
+                                    <div class="user-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Profile" class="dropdown-avatar">
+                                        <div class="user-details">
+                                            <span class="user-name" id="userName">Sarah Johnson</span>
+                                            <span class="user-email" id="userEmail">sarah.johnson@stylehub.com</span>
+                                            <div class="user-status">
+                                                <div class="status-indicator" id="statusIndicator"></div>
+                                                <span id="statusText">Online</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <ul class="dropdown-menu-list">
+                                    <li class="dropdown-item" id="myProfile">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>My Profile</span>
+                                    </li>
+                                    <li class="dropdown-item" id="myOrders">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>My Orders</span>
+                                    </li>
+                                    <li class="dropdown-item" id="accountSettings">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Account Settings</span>
+                                    </li>
+                                    <li class="dropdown-item sign-out" id="signInOut">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span id="signInOutText">Sign Out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Review Content -->
+    <main class="review-main">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <button class="back-button" id="backButton">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Write a Review</h1>
+            </div>
+
+            <div class="review-container">
+                <!-- Product Info Section -->
+                <section class="review-product-section">
+                    <div class="product-info-card">
+                        <img src="" alt="Product" class="product-thumbnail" id="productThumbnail">
+                        <div class="product-details">
+                            <h2 class="product-title" id="productTitle">Churidar</h2>
+                            <div class="product-options">
+                                <span class="product-option">
+                                    <strong>Color:</strong> 
+                                    <span id="selectedColor">Black</span>
+                                </span>
+                                <span class="product-option">
+                                    <strong>Size:</strong> 
+                                    <span id="selectedSize">M</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Review Form Section -->
+                <section class="review-form-section">
+                    <form class="review-form" id="reviewForm">
+                        <!-- Rating Section -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                Your Rating <span class="required">*</span>
+                            </label>
+                            <div class="rating-container">
+                                <div class="star-rating" id="starRating">
+                                    <span class="star interactive-star" data-rating="1">⭐</span>
+                                    <span class="star interactive-star" data-rating="2">⭐</span>
+                                    <span class="star interactive-star" data-rating="3">⭐</span>
+                                    <span class="star interactive-star" data-rating="4">⭐</span>
+                                    <span class="star interactive-star" data-rating="5">⭐</span>
+                                </div>
+                                <span class="rating-text" id="ratingText">Select a rating</span>
+                            </div>
+                        </div>
+
+                        <!-- Review Title -->
+                        <div class="form-group">
+                            <label for="reviewTitle" class="form-label">
+                                Review Title <span class="optional">(optional)</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="reviewTitle" 
+                                class="form-input" 
+                                placeholder="Perfect fit and stylish"
+                                maxlength="100"
+                            >
+                        </div>
+
+                        <!-- Review Description -->
+                        <div class="form-group">
+                            <label for="reviewDescription" class="form-label">
+                                Review Description <span class="required">*</span>
+                            </label>
+                            <textarea 
+                                id="reviewDescription" 
+                                class="form-textarea" 
+                                rows="5" 
+                                placeholder="Share your thoughts about fit, quality, comfort, and style…"
+                                maxlength="500"
+                                required
+                            ></textarea>
+                            <div class="character-count">
+                                <span id="charCount">0</span>/500 characters
+                            </div>
+                        </div>
+
+                        <!-- Fit Feedback -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                Fit Feedback <span class="optional">(optional for fashion)</span>
+                            </label>
+                            <div class="fit-buttons">
+                                <button type="button" class="fit-button" data-fit="too-small">
+                                    Too Small
+                                </button>
+                                <button type="button" class="fit-button active" data-fit="true-to-size">
+                                    True to Size
+                                </button>
+                                <button type="button" class="fit-button" data-fit="too-large">
+                                    Too Large
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Add Photos/Videos -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                Add Photos/Videos <span class="optional">(optional)</span>
+                            </label>
+                            <div class="upload-area">
+                                <div class="upload-zone" id="uploadZone">
+                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                    <p class="upload-primary-text">Drop files here or click to upload</p>
+                                    <p class="upload-secondary-text">Supports: JPG, PNG, MP4 (Max 10MB each)</p>
+                                    <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                                </div>
+                                <div class="uploaded-files-list" id="uploadedFilesList"></div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="cancel-button" id="cancelButton">
+                                Cancel
+                            </button>
+                            <button type="submit" class="submit-button" id="submitButton">
+                                Submit Review
+                            </button>
+                        </div>
+
+                        <!-- Approval Note -->
+                        <div class="approval-note">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Your review will be visible after approval.</span>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleHub</h3>
+                    <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Women's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Men's Fashion</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                        <li><a href="#" class="footer-link">Sale Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="write-review.js"></script>
+</body>
+</html>
