@@ -2811,20 +2811,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEnhancedFilters();
 });
 
-// Product navigation
-function setupProductNavigation() {
-    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
-
-    productCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            // Only navigate if not clicking on action buttons
-            if (!e.target.closest('.add-to-cart-btn, .wishlist-btn, .quick-view-btn, .modern-add-to-cart, .modern-wishlist-btn, .colorful-add-to-cart, .colorful-wishlist-btn')) {
-                const productData = extractProductData(card);
-                navigateToProductDetail(productData);
-            }
-        });
-    });
-}
 
 
 function showWishlistSummary() {
