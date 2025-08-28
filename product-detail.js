@@ -123,6 +123,12 @@ function loadProductData() {
     // Update quantity display
     document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
 
+    // Update product description dynamically
+    const productDescription = document.getElementById('productDescription');
+    if (productDescription) {
+        productDescription.textContent = generateProductDescription(currentProduct.title);
+    }
+
     console.log('Product data loaded:', currentProduct.title, `$${currentProduct.currentPrice}`);
 }
 
