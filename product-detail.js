@@ -674,9 +674,9 @@ function setupReviewModalListeners(modal) {
 function updateStarRating(stars, rating) {
     stars.forEach((star, index) => {
         if (index < rating) {
-            star.style.color = '#ffc107';
+            star.classList.add('active');
         } else {
-            star.style.color = '#ddd';
+            star.classList.remove('active');
         }
     });
 }
