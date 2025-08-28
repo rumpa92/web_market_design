@@ -927,6 +927,280 @@ function continueShopping() {
     window.location.href = 'index.html';
 }
 
+// Digital Wallet Payment Flow Functions
+function showWalletPaymentScreen() {
+    const checkoutContent = document.querySelector('.checkout-content');
+    const originalContent = checkoutContent.innerHTML;
+
+    // Store original content for restoration
+    window.originalCheckoutContent = originalContent;
+
+    // Get cart total for display
+    const totalAmount = document.querySelector('.total-amount').textContent;
+
+    checkoutContent.innerHTML = `
+        <div class="wallet-payment-container">
+            <!-- Digital Wallet Payment Screen -->
+            <div class="wallet-payment-screen">
+                <div class="wallet-header">
+                    <button class="wallet-back-btn" onclick="returnToCheckout()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h1 class="wallet-title">Pay with Digital Wallet</h1>
+                </div>
+
+                <div class="wallet-content">
+                    <div class="wallet-main-section">
+                        <div class="wallet-subtitle">Choose your preferred digital wallet for secure payment.</div>
+
+                        <!-- Digital Wallet Options -->>
+                        <div class="wallet-options-grid">
+                            <button class="wallet-option-btn" onclick="payWithWallet('googlepay')" data-wallet="googlepay">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo googlepay-logo">
+                                        <i class="fab fa-google-pay"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with Google Pay</span>
+                            </button>
+
+                            <button class="wallet-option-btn" onclick="payWithWallet('phonepe')" data-wallet="phonepe">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo phonepe-logo">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with PhonePe</span>
+                            </button>
+
+                            <button class="wallet-option-btn" onclick="payWithWallet('paytm')" data-wallet="paytm">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo paytm-logo">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with Paytm Wallet</span>
+                            </button>
+
+                            <button class="wallet-option-btn" onclick="payWithWallet('amazonpay')" data-wallet="amazonpay">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo amazonpay-logo">
+                                        <i class="fab fa-amazon-pay"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with Amazon Pay</span>
+                            </button>
+
+                            <button class="wallet-option-btn" onclick="payWithWallet('applepay')" data-wallet="applepay">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo applepay-logo">
+                                        <i class="fab fa-apple-pay"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with Apple Pay</span>
+                            </button>
+
+                            <button class="wallet-option-btn" onclick="payWithWallet('samsungpay')" data-wallet="samsungpay">
+                                <div class="wallet-logo-container">
+                                    <div class="wallet-logo samsungpay-logo">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                </div>
+                                <span class="wallet-name">Pay with Samsung Pay</span>
+                            </button>
+                        </div>
+
+                        <!-- Security Note -->
+                        <div class="wallet-security-note">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Your wallet details are secure. We never store your payment credentials.</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="wallet-action-buttons">
+                            <button class="wallet-change-method-btn" onclick="returnToCheckout()">
+                                Change Payment Method
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary Sticky Section -->
+                    <div class="wallet-order-summary">
+                        ${generateWalletOrderSummary()}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generateWalletOrderSummary() {
+    // Get the original order summary and modify it for Wallet context
+    const originalOrderSummary = document.querySelector('.order-summary-card');
+    if (originalOrderSummary) {
+        // Clone the original order summary
+        let orderSummaryHtml = originalOrderSummary.outerHTML;
+
+        // Get the total amount for the pay button
+        const totalElement = originalOrderSummary.querySelector('.total-amount');
+        const totalAmount = totalElement ? totalElement.textContent : '$0.00';
+
+        // Replace "Place Order" with "Pay" in the button
+        orderSummaryHtml = orderSummaryHtml.replace(
+            /Place Order - \$[\d,]+\.?\d*/g,
+            `Pay ${totalAmount}`
+        );
+
+        // Update the onclick function for Wallet payment
+        orderSummaryHtml = orderSummaryHtml.replace(
+            'id="placeOrderBtn"',
+            'onclick="initiateWalletPayment()"'
+        );
+
+        return orderSummaryHtml;
+    }
+
+    // Fallback: generate the same structure if original not found
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cartData.reduce((sum, item) => {
+        const price = typeof item.price === 'string' ? parseFloat(item.price.replace('$', '')) : parseFloat(item.price);
+        return sum + (price * item.quantity);
+    }, 0);
+
+    const shipping = subtotal > 50 ? 0 : 9.99;
+    const tax = subtotal * 0.08;
+    const discount = getCurrentDiscount();
+    const total = subtotal + shipping + tax - discount;
+
+    // Generate order items HTML
+    let orderItemsHtml = '';
+    cartData.forEach(item => {
+        const price = typeof item.price === 'string' ? item.price.replace('$', '') : item.price;
+        const totalPrice = (parseFloat(price) * item.quantity).toFixed(2);
+
+        orderItemsHtml += `
+            <div class="order-item">
+                <div class="item-image">
+                    <img src="${item.image || 'https://via.placeholder.com/200x200'}" alt="${item.title}">
+                </div>
+                <div class="item-details">
+                    <h4>${item.title}</h4>
+                    <p>StyleHub</p>
+                    <div class="item-options">
+                        ${item.selectedSize ? `<span>Size: ${item.selectedSize}</span>` : ''}
+                        ${item.selectedColor ? `<span>Color: ${item.selectedColor}</span>` : ''}
+                    </div>
+                    <div class="item-quantity">Qty: ${item.quantity}</div>
+                </div>
+                <div class="item-price">$${totalPrice}</div>
+            </div>
+        `;
+    });
+
+    return `
+        <div class="order-summary-card">
+            <h3 class="summary-title">Order Summary</h3>
+
+            <!-- Order Items -->
+            <div class="order-items">
+                ${orderItemsHtml}
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Subtotal (${totalItems} item${totalItems !== 1 ? 's' : ''})</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="price-row">
+                    <span>Shipping</span>
+                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                </div>
+                <div class="price-row">
+                    <span>Tax (NY)</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                ${discount > 0 ? `
+                <div class="price-row discount-row">
+                    <span>Discount</span>
+                    <span class="discount-amount">-$${discount.toFixed(2)}</span>
+                </div>
+                ` : ''}
+                <div class="price-divider"></div>
+                <div class="price-row total-row">
+                    <span>Total</span>
+                    <span class="total-amount">$${total.toFixed(2)}</span>
+                </div>
+            </div>
+
+            <!-- Pay Button -->
+            <button class="place-order-btn" onclick="initiateWalletPayment()">
+                <i class="fas fa-lock"></i>
+                Pay $${total.toFixed(2)}
+            </button>
+
+            <!-- Security Badges -->
+            <div class="security-info">
+                <div class="security-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>256-bit SSL encryption</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-undo"></i>
+                    <span>30-day return policy</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function payWithWallet(walletName) {
+    const walletDisplayNames = {
+        'googlepay': 'Google Pay',
+        'phonepe': 'PhonePe',
+        'paytm': 'Paytm Wallet',
+        'amazonpay': 'Amazon Pay',
+        'applepay': 'Apple Pay',
+        'samsungpay': 'Samsung Pay'
+    };
+
+    const displayName = walletDisplayNames[walletName] || walletName;
+    showNotification(`Redirecting to ${displayName}...`, 'info');
+
+    // Store selected wallet for success/failure screens
+    window.selectedWallet = displayName;
+
+    // Simulate wallet redirect and payment
+    setTimeout(() => {
+        // Random success/failure for demo (80% success rate)
+        const isSuccess = Math.random() > 0.2;
+
+        if (isSuccess) {
+            showWalletSuccessScreen(displayName);
+        } else {
+            showWalletFailureScreen(displayName);
+        }
+    }, 3000);
+}
+
+function initiateWalletPayment() {
+    if (window.selectedWallet) {
+        // Use already selected wallet
+        showNotification(`Processing payment with ${window.selectedWallet}...`, 'info');
+        setTimeout(() => {
+            const isSuccess = Math.random() > 0.2;
+            if (isSuccess) {
+                showWalletSuccessScreen(window.selectedWallet);
+            } else {
+                showWalletFailureScreen(window.selectedWallet);
+            }
+        }, 2000);
+    } else {
+        showNotification('Please select a digital wallet', 'error');
+    }
+}
+
 // Make functions global for inline onclick
 window.removeCoupon = removeCoupon;
 window.returnToCheckout = returnToCheckout;
@@ -935,3 +1209,6 @@ window.payWithUpiApp = payWithUpiApp;
 window.initiateUpiPayment = initiateUpiPayment;
 window.trackOrder = trackOrder;
 window.continueShopping = continueShopping;
+window.showWalletPaymentScreen = showWalletPaymentScreen;
+window.payWithWallet = payWithWallet;
+window.initiateWalletPayment = initiateWalletPayment;
