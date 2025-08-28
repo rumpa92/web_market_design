@@ -949,6 +949,8 @@ function addToCart(product) {
         }
 
         console.log('Product added to cart successfully. New cart count:', cart.reduce((total, item) => total + item.quantity, 0));
+        console.log('Cart contents:', cart);
+        console.log('localStorage cart:', localStorage.getItem('fashionCart'));
     } catch (error) {
         console.error('Error adding to cart:', error);
         showNotification('Error adding to cart. Please try again.', 'error');
