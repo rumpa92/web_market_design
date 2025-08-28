@@ -87,36 +87,51 @@ function loadProductData() {
 }
 
 function setupProductEventListeners() {
-    // Product back button (above image)
-    const productBackBtn = document.getElementById('productBackBtn');
-    productBackBtn.addEventListener('click', () => {
-        // Navigate to home page
-        window.location.href = 'index.html';
-    });
-    
-    // Header icons
-    setupHeaderIcons();
-    
-    // Gallery functionality
-    setupGallery();
-    
-    // Color selection
-    setupColorSelection();
-    
-    // Size selection
-    setupSizeSelection();
-    
-    // Quantity controls
-    setupQuantityControls();
-    
-    // Add to cart
-    setupAddToCart();
-    
-    // Tab navigation
-    setupTabNavigation();
-    
-    // Wishlist functionality
-    setupWishlist();
+    console.log('Setting up product event listeners...');
+
+    try {
+        // Product back button (above image)
+        const productBackBtn = document.getElementById('productBackBtn');
+        if (productBackBtn) {
+            productBackBtn.addEventListener('click', () => {
+                // Navigate to home page
+                window.location.href = 'index.html';
+            });
+            console.log('Product back button listener added');
+        }
+
+        // Header icons
+        setupHeaderIcons();
+
+        // Gallery functionality
+        setupGallery();
+
+        // Color selection
+        console.log('Setting up color selection...');
+        setupColorSelection();
+
+        // Size selection
+        console.log('Setting up size selection...');
+        setupSizeSelection();
+
+        // Quantity controls
+        console.log('Setting up quantity controls...');
+        setupQuantityControls();
+
+        // Add to cart
+        console.log('Setting up add to cart...');
+        setupAddToCart();
+
+        // Tab navigation
+        setupTabNavigation();
+
+        // Wishlist functionality
+        setupWishlist();
+
+        console.log('All product event listeners set up successfully');
+    } catch (error) {
+        console.error('Error setting up product event listeners:', error);
+    }
 }
 
 function setupHeaderIcons() {
