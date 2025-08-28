@@ -52,28 +52,49 @@ function initializeProductDetail() {
     const urlParams = new URLSearchParams(window.location.search);
     const productData = urlParams.get('product');
 
-    console.log('URL product data:', productData);
+    console.log('Raw URL product data:', productData);
 
     if (productData) {
         try {
             const parsedData = JSON.parse(decodeURIComponent(productData));
             console.log('Parsed product data:', parsedData);
 
-            // Merge the parsed data with default product
+            // Create comprehensive product data by merging
             currentProduct = {
                 ...currentProduct,
-                ...parsedData,
-                // Ensure images object exists
+                id: parsedData.id || currentProduct.id,
+                title: parsedData.title || currentProduct.title,
+                brand: parsedData.brand || currentProduct.brand,
+                currentPrice: parsedData.currentPrice || currentProduct.currentPrice,
+                originalPrice: parsedData.originalPrice || currentProduct.originalPrice,
+                discount: parsedData.discount || currentProduct.discount,
+                rating: parsedData.rating || currentProduct.rating,
+                reviewCount: parsedData.reviewCount || currentProduct.reviewCount,
+                tagline: parsedData.tagline || currentProduct.tagline,
+                // Handle images - use passed image for all views if images object not provided
                 images: parsedData.images || {
                     main: parsedData.image || currentProduct.images.main,
                     side: parsedData.image || currentProduct.images.side,
                     back: parsedData.image || currentProduct.images.back,
                     detail: parsedData.image || currentProduct.images.detail,
                     fabric: parsedData.image || currentProduct.images.fabric
-                }
+                },
+                colors: parsedData.colors || currentProduct.colors,
+                sizes: parsedData.sizes || currentProduct.sizes,
+                selectedColor: parsedData.selectedColor || currentProduct.selectedColor,
+                selectedSize: parsedData.selectedSize || currentProduct.selectedSize,
+                quantity: parsedData.quantity || currentProduct.quantity,
+                inStock: parsedData.inStock !== undefined ? parsedData.inStock : currentProduct.inStock,
+                stockCount: parsedData.stockCount || currentProduct.stockCount
             };
 
             console.log('Updated current product:', currentProduct);
+
+            // Immediately update the page with new data
+            setTimeout(() => {
+                loadProductData();
+            }, 100);
+
         } catch (e) {
             console.error('Error parsing product data:', e);
             console.log('Using default product data');
