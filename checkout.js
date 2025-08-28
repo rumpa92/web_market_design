@@ -624,7 +624,30 @@ function showUpiPaymentScreen() {
 }
 
 function generateUpiOrderSummary() {
-    // Always generate UPI-specific order summary to ensure correct button text
+    // Get the original order summary and modify it for UPI context
+    const originalOrderSummary = document.querySelector('.order-summary-card');
+    if (originalOrderSummary) {
+        // Clone the original order summary
+        let orderSummaryHtml = originalOrderSummary.outerHTML;
+
+        // Get the total amount for the pay button
+        const totalElement = originalOrderSummary.querySelector('.total-amount');
+        const totalAmount = totalElement ? totalElement.textContent : '$0.00';
+
+        // Replace "Place Order" with "Pay" in the button
+        orderSummaryHtml = orderSummaryHtml.replace(
+            /Place Order - \$[\d,]+\.?\d*/g,
+            `Pay ${totalAmount}`
+        );
+
+        // Update the onclick function for UPI payment
+        orderSummaryHtml = orderSummaryHtml.replace(
+            'id="placeOrderBtn"',
+            'onclick="initiateUpiPayment()"'
+        );
+
+        return orderSummaryHtml;
+    }
 
     // Fallback: generate the same structure if original not found
     const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
