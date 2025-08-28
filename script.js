@@ -122,11 +122,7 @@ function setupEventListeners() {
     const cartIcon = document.querySelector('.cart-icon-container');
     if (cartIcon) {
         cartIcon.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showNotification('Your cart is empty. Add some items!', 'info');
-            } else {
-                showCartSummary();
-            }
+            showCartSummary();
         });
     }
 
