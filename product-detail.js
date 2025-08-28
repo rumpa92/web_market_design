@@ -122,6 +122,10 @@ function setupProductEventListeners() {
         console.log('Setting up add to cart...');
         setupAddToCart();
 
+        // Write review
+        console.log('Setting up write review...');
+        setupWriteReview();
+
         // Tab navigation
         setupTabNavigation();
 
@@ -129,6 +133,9 @@ function setupProductEventListeners() {
         setupWishlist();
 
         console.log('All product event listeners set up successfully');
+
+        // Remove icon now handled by inline onclick for reliability
+
     } catch (error) {
         console.error('Error setting up product event listeners:', error);
     }
@@ -244,12 +251,18 @@ function setupQuantityControls() {
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
+    const removeIcon = document.getElementById('removeIcon');
 
     console.log('Quantity controls found:', {
         decreaseBtn: !!decreaseBtn,
         increaseBtn: !!increaseBtn,
-        quantityDisplay: !!quantityDisplay
+        quantityDisplay: !!quantityDisplay,
+        removeIcon: !!removeIcon
     });
+
+    // Debug: Check if element exists in DOM
+    console.log('All elements with removeIcon:', document.querySelectorAll('#removeIcon'));
+    console.log('All elements with remove-icon class:', document.querySelectorAll('.remove-icon'));
 
     if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
         console.warn('Some quantity controls not found!');
@@ -293,6 +306,8 @@ function setupQuantityControls() {
             showNotification('Maximum quantity is 10', 'info');
         }
     });
+
+    // Remove icon functionality - now handled by inline onclick
 }
 
 function setupAddToCart() {
@@ -333,6 +348,202 @@ function setupAddToCart() {
             }, 1000);
         }, 500);
     });
+}
+
+function setupWriteReview() {
+    const writeReviewBtn = document.getElementById('writeReviewBtn');
+    console.log('Write review button found:', !!writeReviewBtn);
+
+    if (!writeReviewBtn) {
+        console.warn('Write review button not found! Check ID: writeReviewBtn');
+        return;
+    }
+
+    writeReviewBtn.addEventListener('click', () => {
+        // Animation effect
+        writeReviewBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            writeReviewBtn.style.transform = '';
+        }, 150);
+
+        // Show review modal/form
+        showReviewModal();
+    });
+}
+
+function showReviewModal() {
+    // Create review modal
+    const modal = document.createElement('div');
+    modal.className = 'review-modal';
+    modal.innerHTML = `
+        <div class="review-modal-content">
+            <div class="review-modal-header">
+                <h2>Write a Review</h2>
+                <button class="close-review-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="review-modal-body">
+                <div class="product-info-mini">
+                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-image">
+                    <h3>${currentProduct.title}</h3>
+                </div>
+                <form class="review-form" id="reviewForm">
+                    <div class="rating-input">
+                        <label>Your Rating:</label>
+                        <div class="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    <div class="review-title-input">
+                        <label for="reviewTitle">Review Title:</label>
+                        <input type="text" id="reviewTitle" placeholder="Summarize your experience">
+                    </div>
+                    <div class="review-text-input">
+                        <label for="reviewText">Your Review:</label>
+                        <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with this product"></textarea>
+                    </div>
+                    <div class="reviewer-info">
+                        <label for="reviewerName">Your Name:</label>
+                        <input type="text" id="reviewerName" placeholder="Enter your name">
+                    </div>
+                    <div class="review-actions">
+                        <button type="button" class="cancel-review">Cancel</button>
+                        <button type="submit" class="submit-review">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    // Style the modal
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+
+    document.body.appendChild(modal);
+
+    // Animate in
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+
+    // Setup modal interactions
+    setupReviewModalListeners(modal);
+
+    showNotification('Write your review', 'info');
+}
+
+function setupReviewModalListeners(modal) {
+    const closeBtn = modal.querySelector('.close-review-modal');
+    const cancelBtn = modal.querySelector('.cancel-review');
+    const submitBtn = modal.querySelector('.submit-review');
+    const stars = modal.querySelectorAll('.star');
+    const form = modal.querySelector('#reviewForm');
+
+    let selectedRating = 0;
+
+    // Close modal events
+    closeBtn.addEventListener('click', () => closeReviewModal(modal));
+    cancelBtn.addEventListener('click', () => closeReviewModal(modal));
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeReviewModal(modal);
+        }
+    });
+
+    // Star rating
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.rating);
+            updateStarRating(stars, selectedRating);
+        });
+
+        star.addEventListener('mouseover', () => {
+            const hoverRating = parseInt(star.dataset.rating);
+            updateStarRating(stars, hoverRating);
+        });
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const title = modal.querySelector('#reviewTitle').value;
+        const text = modal.querySelector('#reviewText').value;
+        const name = modal.querySelector('#reviewerName').value;
+
+        if (!selectedRating) {
+            showNotification('Please select a rating', 'error');
+            return;
+        }
+
+        if (!title || !text || !name) {
+            showNotification('Please fill in all fields', 'error');
+            return;
+        }
+
+        // Submit review
+        submitReview({
+            rating: selectedRating,
+            title: title,
+            text: text,
+            name: name,
+            product: currentProduct.title
+        });
+
+        closeReviewModal(modal);
+    });
+}
+
+function updateStarRating(stars, rating) {
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.style.color = '#ffc107';
+        } else {
+            star.style.color = '#ddd';
+        }
+    });
+}
+
+function submitReview(reviewData) {
+    // In a real app, this would submit to a server
+    showNotification('Thank you for your review!', 'success');
+
+    // Store review locally for demo
+    let reviews = JSON.parse(localStorage.getItem('productReviews') || '[]');
+    reviews.push({
+        ...reviewData,
+        date: new Date().toLocaleDateString(),
+        verified: true
+    });
+    localStorage.setItem('productReviews', JSON.stringify(reviews));
+}
+
+function closeReviewModal(modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        if (document.body.contains(modal)) {
+            document.body.removeChild(modal);
+        }
+    }, 300);
 }
 
 function setupTabNavigation() {
@@ -599,7 +810,9 @@ function setupCartModalListeners() {
     });
 }
 
-function updateCartItemQuantity(index, change) {
+// Make updateCartItemQuantity global for inline onclick
+window.updateCartItemQuantity = function(index, change) {
+    console.log('Updating cart item quantity:', index, change);
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
 
     if (cart[index]) {
@@ -624,7 +837,9 @@ function updateCartItemQuantity(index, change) {
     }
 }
 
-function removeCartItem(index) {
+// Make removeCartItem global for inline onclick
+window.removeCartItem = function(index) {
+    console.log('Removing cart item at index:', index);
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
 
     if (cart[index]) {
@@ -642,7 +857,7 @@ function removeCartItem(index) {
         }
 
         updateCartBadge();
-        showNotification(`${itemName} removed from cart`, 'info');
+        showNotification(`${itemName} removed from cart`, 'success');
     }
 }
 
@@ -701,6 +916,43 @@ function initializeWishlistState() {
 // Initialize on load
 setTimeout(initializeWishlistState, 100);
 
+// Global function for remove icon - accessible from inline onclick
+window.removeAndGoHome = function() {
+    console.log('Remove and go home function called!');
+
+    // Get current product from global scope
+    if (typeof currentProduct !== 'undefined') {
+        // Remove from cart if it exists
+        let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+        const existingItemIndex = cart.findIndex(item =>
+            item.title === currentProduct.title &&
+            item.selectedSize === currentProduct.selectedSize &&
+            item.selectedColor === currentProduct.selectedColor
+        );
+
+        if (existingItemIndex !== -1) {
+            const itemName = cart[existingItemIndex].title;
+            cart.splice(existingItemIndex, 1);
+            localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+            // Update cart badge if available
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartBadge.textContent = totalItems;
+            }
+        }
+    }
+
+    // Show notification and navigate to home
+    showNotification('Item removed! Redirecting to home page...', 'success');
+
+    // Navigate to home page
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+};
+
 // Initialize Cart Modal
 function initializeCartModal() {
     // Add event listeners for cart modal
@@ -725,17 +977,6 @@ function initializeCartModal() {
 
 // Setup Related Products Interaction
 function setupRelatedProductsInteraction() {
-    // Handle Quick View buttons
-    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productCard = e.target.closest('.product-card');
-            const productTitle = productCard.querySelector('h3').textContent;
-            showQuickViewModal(productCard);
-        });
-    });
-
     // Handle Wishlist buttons in related products
     const wishlistBtns = document.querySelectorAll('.wishlist-btn-overlay');
     wishlistBtns.forEach(btn => {
@@ -767,7 +1008,7 @@ function setupRelatedProductsInteraction() {
     productCards.forEach(card => {
         card.addEventListener('click', (e) => {
             // Don't navigate if clicking on buttons
-            if (e.target.closest('.quick-view-btn') || e.target.closest('.wishlist-btn-overlay')) {
+            if (e.target.closest('.wishlist-btn-overlay')) {
                 return;
             }
 
@@ -785,105 +1026,7 @@ function setupRelatedProductsInteraction() {
     });
 }
 
-function showQuickViewModal(productCard) {
-    const productTitle = productCard.querySelector('h3').textContent;
-    const productImage = productCard.querySelector('img').src;
-    const currentPrice = productCard.querySelector('.current-price').textContent;
-    const originalPrice = productCard.querySelector('.original-price')?.textContent || '';
-    const rating = productCard.querySelector('.stars').textContent;
-
-    // Create modal
-    const modal = document.createElement('div');
-    modal.className = 'quick-view-modal';
-    modal.innerHTML = `
-        <div class="quick-view-content">
-            <button class="close-quick-view">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="quick-view-body">
-                <div class="quick-view-image">
-                    <img src="${productImage}" alt="${productTitle}">
-                </div>
-                <div class="quick-view-info">
-                    <h2>${productTitle}</h2>
-                    <div class="quick-view-rating">
-                        <span class="stars">${rating}</span>
-                    </div>
-                    <div class="quick-view-pricing">
-                        <span class="current-price">${currentPrice}</span>
-                        ${originalPrice ? `<span class="original-price">${originalPrice}</span>` : ''}
-                    </div>
-                    <div class="quick-view-description">
-                        <p>Experience premium quality and elegant design with this stunning piece. Perfect for special occasions and everyday elegance.</p>
-                    </div>
-                    <div class="quick-view-actions">
-                        <button class="quick-add-to-cart">Add to Cart</button>
-                        <button class="quick-view-details">View Details</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Style the modal
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    `;
-
-    document.body.appendChild(modal);
-
-    // Animate in
-    setTimeout(() => {
-        modal.style.opacity = '1';
-    }, 10);
-
-    // Add event listeners
-    const closeBtn = modal.querySelector('.close-quick-view');
-    const quickAddBtn = modal.querySelector('.quick-add-to-cart');
-    const viewDetailsBtn = modal.querySelector('.quick-view-details');
-
-    closeBtn.addEventListener('click', () => {
-        closeQuickViewModal(modal);
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeQuickViewModal(modal);
-        }
-    });
-
-    quickAddBtn.addEventListener('click', () => {
-        showNotification(`${productTitle} added to cart!`, 'success');
-        closeQuickViewModal(modal);
-    });
-
-    viewDetailsBtn.addEventListener('click', () => {
-        showNotification(`Loading ${productTitle} details...`, 'info');
-        closeQuickViewModal(modal);
-    });
-
-    showNotification(`Quick view: ${productTitle}`, 'info');
-}
-
-function closeQuickViewModal(modal) {
-    modal.style.opacity = '0';
-    setTimeout(() => {
-        if (document.body.contains(modal)) {
-            document.body.removeChild(modal);
-        }
-    }, 300);
-}
+// Quick View functionality removed
 
 // Handle product card clicks in related products (updated version)
 document.addEventListener('click', function(e) {

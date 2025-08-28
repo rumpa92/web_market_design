@@ -68,11 +68,7 @@ function setupEventListeners() {
         btn.addEventListener('click', handleWishlist);
     });
 
-    // Quick view buttons
-    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', handleQuickView);
-    });
+    // Quick view buttons removed
 
     // Category cards (both old and new circular)
     const categoryCards = document.querySelectorAll('.category-card, .category-circle-card');
@@ -252,49 +248,7 @@ function removeFromWishlist(productTitle) {
     saveWishlistToStorage();
 }
 
-// Quick View Functionality
-function handleQuickView(event) {
-    event.preventDefault();
-    const productCard = event.target.closest('.product-card');
-    const product = extractProductData(productCard);
-    
-    showQuickViewModal(product);
-}
-
-function showQuickViewModal(product) {
-    // Create and show a modal (simplified version)
-    const modal = document.createElement('div');
-    modal.className = 'quick-view-modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body">
-                <img src="${product.image}" alt="${product.title}" class="modal-image">
-                <div class="modal-info">
-                    <h3>${product.title}</h3>
-                    <p class="modal-brand">${product.brand}</p>
-                    <p class="modal-price">${product.price}</p>
-                    <button class="modal-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Close modal functionality
-    const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.addEventListener('click', () => {
-        document.body.removeChild(modal);
-    });
-    
-    // Close on outside click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            document.body.removeChild(modal);
-        }
-    });
-}
+// Quick View functionality removed
 
 // Filter Tabs Functionality
 function setupFilterTabs() {
