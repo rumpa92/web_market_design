@@ -2753,7 +2753,9 @@ function removeFromCart(itemId) {
 
 function updateCartSummary() {
     const subtotal = cart.reduce((total, item) => {
-        const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+        // Ensure price is a string and handle both string and number formats
+        const priceStr = typeof item.price === 'string' ? item.price : String(item.price);
+        const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
         return total + (price * item.quantity);
     }, 0);
 
@@ -3107,7 +3109,7 @@ const subcategoryItems = {
             originalPrice: '$249',
             image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★☆'
+            rating: '★��★★☆'
         },
         {
             id: 'suit3',
