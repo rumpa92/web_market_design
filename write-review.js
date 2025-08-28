@@ -435,7 +435,7 @@ function handleFormSubmission(e) {
         
         setTimeout(() => {
             // Redirect back to product page
-            window.location.href = `product-detail.html?product=${encodeURIComponent(JSON.stringify(currentProduct))}`;
+        window.location.href = `product-detail?product=${encodeURIComponent(JSON.stringify(currentProduct))}`;
         }, 2000);
         
     }, 1500);
@@ -484,7 +484,7 @@ function navigateBack() {
         window.history.back();
     } else {
         // Fallback to product detail page
-        window.location.href = 'product-detail.html';
+        window.location.href = 'product-detail';
     }
 }
 
