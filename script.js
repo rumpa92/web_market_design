@@ -207,7 +207,7 @@ function extractProductData(productCard) {
         return {
             id: Date.now() + Math.random(),
             title: 'Unknown Product',
-            price: '$0.00',
+            price: '₹0',
             image: 'https://via.placeholder.com/300x300?text=No+Image',
             quantity: 1
         };
@@ -219,16 +219,25 @@ function extractProductData(productCard) {
         // Handle different card types
         if (productCard.classList.contains('colorful-product-card')) {
             title = productCard.querySelector('.colorful-product-title')?.textContent || 'Colorful Product';
-            price = productCard.querySelector('.current-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.colorful-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.current-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.colorful-product-img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         } else if (productCard.classList.contains('modern-product-card')) {
             title = productCard.querySelector('.modern-product-title')?.textContent || 'Modern Product';
-            price = productCard.querySelector('.modern-product-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.modern-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.modern-product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.modern-product-img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400';
         } else if (productCard.classList.contains('look-product-card')) {
             title = productCard.querySelector('.product-name')?.textContent || 'Look Product';
-            price = productCard.querySelector('.product-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.product-image')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.product-image');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400';
         } else {
             // Fallback for regular product cards
             title = productCard.querySelector('.product-title')?.textContent ||
@@ -236,18 +245,19 @@ function extractProductData(productCard) {
                    'Product';
             price = productCard.querySelector('.current-price')?.textContent ||
                    productCard.querySelector('.colorful-product-price .current-price')?.textContent ||
-                   '$0.00';
-            image = productCard.querySelector('.product-image')?.src ||
-                   productCard.querySelector('.colorful-product-img')?.src ||
-                   'https://via.placeholder.com/300x300?text=No+Image';
+                   '₹0';
+            const imgElement = productCard.querySelector('.product-image') || productCard.querySelector('.colorful-product-img') || productCard.querySelector('img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         }
     } catch (error) {
         console.error('Error extracting product data:', error);
         return {
             id: Date.now() + Math.random(),
             title: 'Error Loading Product',
-            price: '$0.00',
-            image: 'https://via.placeholder.com/300x300?text=Error',
+            price: '₹0',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
             quantity: 1
         };
     }
@@ -255,8 +265,8 @@ function extractProductData(productCard) {
     return {
         id: Date.now() + Math.random(), // Simple ID generation
         title: title || 'Unknown Product',
-        price: price || '$0.00',
-        image: image || 'https://via.placeholder.com/300x300?text=No+Image',
+        price: price || '₹0',
+        image: image || 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
         quantity: 1
     };
 }
@@ -267,12 +277,15 @@ function addToCart(product) {
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        // Ensure price is always a string and ID is always present
+        // Ensure all required fields are present and valid
         const normalizedProduct = {
             ...product,
             id: product.id || Date.now() + Math.random(), // Ensure ID exists
             price: typeof product.price === 'string' ? product.price : `₹${product.price}`,
-            quantity: product.quantity || 1 // Ensure quantity exists
+            quantity: product.quantity || 1, // Ensure quantity exists
+            image: product.image && product.image !== 'undefined' && product.image !== ''
+                ? product.image
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400'
         };
         cart.push(normalizedProduct);
     }
@@ -2715,10 +2728,15 @@ function updateCartModalItems() {
         // Double-check that item has an ID before rendering
         const itemId = item.id || 'temp-' + Date.now();
 
+        // Ensure image has a proper URL or use placeholder
+        const imageUrl = item.image && item.image !== 'undefined' && item.image !== ''
+            ? item.image
+            : 'https://via.placeholder.com/300x300?text=No+Image';
+
         return `
             <div class="cart-item" data-id="${itemId}">
                 <div class="cart-item-image">
-                    <img src="${item.image}" alt="${item.title}">
+                    <img src="${imageUrl}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
                 </div>
                 <div class="cart-item-details">
                     <h3 class="item-title">${item.title}</h3>
@@ -3160,7 +3178,7 @@ const subcategoryItems = {
             originalPrice: '$249',
             image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★��★★☆'
+            rating: '★��★★���'
         },
         {
             id: 'suit3',
@@ -3799,7 +3817,7 @@ function loadCollectionProducts(collectionType) {
 function generateCollectionProducts(collectionType) {
     // This would typically come from an API, but for demo purposes we'll use the existing products
     const baseProducts = [
-        { name: 'Wool Blend Overcoat', price: 4999, category: 'coats', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400' },
+        { name: 'Wool Blend Overcoat', price: 4999, category: 'coats', rating: '★★★★��', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400' },
         { name: 'Cashmere Turtleneck Sweater', price: 2899, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400' },
         { name: 'Quilted Puffer Jacket', price: 3499, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400' },
         { name: 'Knit Winter Dress', price: 2199, category: 'dresses', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400' },
