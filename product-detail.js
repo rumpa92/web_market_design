@@ -528,6 +528,22 @@ function setupReviewModalListeners(modal) {
         e.stopPropagation();
     });
 
+    // Keyboard support
+    document.addEventListener('keydown', function handleEscape(e) {
+        if (e.key === 'Escape') {
+            closeReviewModal(modal);
+            document.removeEventListener('keydown', handleEscape);
+        }
+    });
+
+    // Focus management
+    setTimeout(() => {
+        const firstStar = modal.querySelector('.interactive-star');
+        if (firstStar) {
+            firstStar.focus();
+        }
+    }, 100);
+
     // Star rating
     stars.forEach(star => {
         star.addEventListener('click', () => {
