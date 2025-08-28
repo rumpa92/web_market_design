@@ -133,6 +133,16 @@ function setupProductEventListeners() {
         setupWishlist();
 
         console.log('All product event listeners set up successfully');
+
+        // Backup approach: Document-level click listener for remove icon
+        document.addEventListener('click', (e) => {
+            if (e.target && (e.target.id === 'removeIcon' || e.target.closest('#removeIcon'))) {
+                console.log('Remove icon clicked via document listener!');
+                alert('Remove icon working via backup method!');
+                window.location.href = 'index.html';
+            }
+        });
+
     } catch (error) {
         console.error('Error setting up product event listeners:', error);
     }
