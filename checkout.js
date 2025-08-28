@@ -275,6 +275,11 @@ function setupPaymentMethods() {
             if (this.value === 'upi') {
                 showUpiPaymentScreen();
             }
+
+            // Handle Digital Wallet selection
+            if (this.value === 'wallet') {
+                showWalletPaymentScreen();
+            }
         });
     });
     
