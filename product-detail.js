@@ -78,6 +78,22 @@ function initializeProductDetail() {
         currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
         console.log('No product data found, using default product:', currentProduct);
     }
+
+    // Final safety check - ensure all essential properties exist
+    if (!currentProduct.title) {
+        currentProduct.title = 'Designer Anarkali Gown';
+    }
+    if (!currentProduct.currentPrice) {
+        currentProduct.currentPrice = 198;
+    }
+    if (!currentProduct.id) {
+        currentProduct.id = Date.now();
+    }
+    if (!currentProduct.images) {
+        currentProduct.images = generateProductImages(defaultProduct.image);
+    }
+
+    console.log('Final currentProduct after safety checks:', currentProduct);
 }
 
 function generateProductImages(mainImage) {
