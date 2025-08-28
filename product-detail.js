@@ -2,12 +2,20 @@
 
 // Initialize product detail page
 document.addEventListener('DOMContentLoaded', function() {
-    initializeProductDetail();
-    loadProductData();
-    setupProductEventListeners();
-    setupRelatedProductsInteraction();
-    setupProfileDropdown();
-    initializeCartModal();
+    console.log('Product detail page DOMContentLoaded');
+
+    try {
+        initializeProductDetail();
+        loadProductData();
+        setupProductEventListeners();
+        setupRelatedProductsInteraction();
+        setupProfileDropdown();
+        initializeCartModal();
+
+        console.log('Product detail page initialized successfully');
+    } catch (error) {
+        console.error('Error initializing product detail page:', error);
+    }
 });
 
 // Product data for fashion item
