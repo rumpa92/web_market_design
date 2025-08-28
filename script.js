@@ -2700,38 +2700,54 @@ function updateCartModalItems() {
     const cartItemsContainer = document.getElementById('cartItems');
     if (!cartItemsContainer) return;
 
-    cartItemsContainer.innerHTML = cart.map(item => `
-        <div class="cart-item" data-id="${item.id}">
-            <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.title}">
-            </div>
-            <div class="cart-item-details">
-                <h3 class="item-title">${item.title}</h3>
-                <p class="item-brand">StyleHub</p>
-                <div class="item-options">
-                    <span class="item-size">Size: M</span>
-                    <span class="item-color">Color: Black</span>
+    // Filter out items without IDs and fix items with missing IDs
+    cart = cart.map(item => {
+        if (!item.id) {
+            return {
+                ...item,
+                id: Date.now() + Math.random() // Generate new ID for items without one
+            };
+        }
+        return item;
+    });
+
+    cartItemsContainer.innerHTML = cart.map(item => {
+        // Double-check that item has an ID before rendering
+        const itemId = item.id || 'temp-' + Date.now();
+
+        return `
+            <div class="cart-item" data-id="${itemId}">
+                <div class="cart-item-image">
+                    <img src="${item.image}" alt="${item.title}">
                 </div>
-                <div class="item-controls">
-                    <div class="quantity-controls">
-                        <button class="qty-btn decrease" onclick="updateCartQuantity('${item.id}', -1)">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span class="quantity">${item.quantity}</span>
-                        <button class="qty-btn increase" onclick="updateCartQuantity('${item.id}', 1)">
-                            <i class="fas fa-plus"></i>
+                <div class="cart-item-details">
+                    <h3 class="item-title">${item.title}</h3>
+                    <p class="item-brand">StyleHub</p>
+                    <div class="item-options">
+                        <span class="item-size">Size: M</span>
+                        <span class="item-color">Color: Black</span>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="qty-btn decrease" onclick="updateCartQuantity('${itemId}', -1)">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="qty-btn increase" onclick="updateCartQuantity('${itemId}', 1)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart('${itemId}')">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                    <button class="remove-item" onclick="removeFromCart('${item.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                </div>
+                <div class="cart-item-price">
+                    <span class="item-price">${item.price}</span>
                 </div>
             </div>
-            <div class="cart-item-price">
-                <span class="item-price">${item.price}</span>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     updateCartSummary();
 }
@@ -3788,7 +3804,7 @@ function generateCollectionProducts(collectionType) {
         { name: 'Quilted Puffer Jacket', price: 3499, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400' },
         { name: 'Knit Winter Dress', price: 2199, category: 'dresses', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400' },
         { name: 'Leather Winter Gloves', price: 899, category: 'accessories', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400' },
-        { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
+        { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★���★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
         { name: 'Premium Bomber Jacket', price: 3899, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400' },
         { name: 'Merino Wool Cardigan', price: 2499, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400' }
     ];
