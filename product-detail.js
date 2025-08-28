@@ -516,7 +516,7 @@ function showReviewModal() {
                             <span class="star interactive-star" data-rating="2">⭐</span>
                             <span class="star interactive-star" data-rating="3">⭐</span>
                             <span class="star interactive-star" data-rating="4">⭐</span>
-                            <span class="star interactive-star" data-rating="5">��</span>
+                            <span class="star interactive-star" data-rating="5">⭐</span>
                         </div>
                     </div>
 
@@ -1012,10 +1012,14 @@ function openCartModal() {
         cartItems.style.display = 'none';
         cartEmpty.classList.add('hidden');
         cartSummary.style.display = 'none';
+        const cartActions = document.querySelector('.cart-actions');
+        if (cartActions) cartActions.style.display = 'none';
     } else {
         cartItems.style.display = 'block';
         cartEmpty.classList.add('hidden');
         cartSummary.style.display = 'block';
+        const cartActions = document.querySelector('.cart-actions');
+        if (cartActions) cartActions.style.display = 'block';
 
         // Display cart items
         displayCartItems(cart);
