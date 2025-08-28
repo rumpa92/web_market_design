@@ -28,6 +28,7 @@ let currentProduct = {
     discount: 25,
     rating: 4.8,
     reviewCount: 384,
+    tagline: 'Traditional Comfort and Style',
     images: {
         main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
         side: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
