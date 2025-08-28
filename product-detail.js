@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Product data for fashion item
-let currentProduct = {
+// Default product data (fallback)
+let defaultProduct = {
     id: 1,
     title: 'Churidar',
     brand: 'Fashion Hub',
@@ -28,15 +28,13 @@ let currentProduct = {
     discount: 25,
     rating: 4.8,
     reviewCount: 384,
-    images: {
-        main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
-        side: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
-        back: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=800',
-        detail: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
-        fabric: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800'
-    },
+    image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
     colors: ['black', 'blue', 'red', 'green'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+};
+
+// Current product data (will be populated from navigation)
+let currentProduct = {
     selectedColor: 'black',
     selectedSize: 'M',
     quantity: 1,
@@ -45,17 +43,45 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
-    // Check if product data is passed from main page
-    const urlParams = new URLSearchParams(window.location.search);
-    const productData = urlParams.get('product');
-    
-    if (productData) {
+    // Check if product data is passed from main page via sessionStorage
+    const selectedProduct = sessionStorage.getItem('selectedProduct');
+
+    if (selectedProduct) {
         try {
-            currentProduct = { ...currentProduct, ...JSON.parse(decodeURIComponent(productData)) };
+            const productData = JSON.parse(selectedProduct);
+            // Merge with default structure
+            currentProduct = {
+                ...defaultProduct,
+                ...productData,
+                selectedColor: 'black',
+                selectedSize: 'M',
+                quantity: 1,
+                inStock: true,
+                stockCount: 15,
+                images: generateProductImages(productData.image || defaultProduct.image)
+            };
+            console.log('Loaded product from navigation:', currentProduct.title);
         } catch (e) {
-            console.log('Using default product data');
+            console.log('Error parsing product data, using default:', e);
+            currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
         }
+    } else {
+        // Fallback to default product
+        currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
+        console.log('No product data found, using default product');
     }
+}
+
+function generateProductImages(mainImage) {
+    // Generate multiple views for the product gallery
+    // In a real app, these would be different actual images
+    return {
+        main: mainImage,
+        side: mainImage,
+        back: mainImage,
+        detail: mainImage,
+        fabric: mainImage
+    };
 }
 
 function loadProductData() {
