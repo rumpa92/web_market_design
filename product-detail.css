@@ -334,14 +334,14 @@ body {
 }
 
 .size-btn {
-    min-width: 60px;
-    height: 40px;
+    min-width: 80px;
+    height: 55px;
     border: 1px solid #ddd;
     background: white;
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
     color: #333;
 }
@@ -378,6 +378,8 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .qty-btn:hover {
