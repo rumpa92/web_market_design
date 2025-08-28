@@ -1337,6 +1337,28 @@ function initializeWishlistState() {
 // Initialize on load
 setTimeout(initializeWishlistState, 100);
 
+// Debug function to test cart functionality
+window.testCart = function() {
+    console.log('=== CART TEST ===');
+    const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    console.log('Current cart:', cart);
+    console.log('Cart count:', cart.reduce((total, item) => total + item.quantity, 0));
+
+    const cartBadge = document.getElementById('cartBadge');
+    console.log('Cart badge element:', cartBadge);
+    console.log('Cart badge text:', cartBadge ? cartBadge.textContent : 'not found');
+
+    // Test add to cart functionality
+    if (typeof currentProduct !== 'undefined') {
+        console.log('Current product:', currentProduct);
+        console.log('Will add product to cart...');
+        addToCart(currentProduct);
+        console.log('Cart after adding:', JSON.parse(localStorage.getItem('fashionCart') || '[]'));
+    } else {
+        console.log('currentProduct not defined');
+    }
+};
+
 // Global function for remove icon - accessible from inline onclick
 window.removeAndGoHome = function() {
     console.log('Remove and go home function called!');
