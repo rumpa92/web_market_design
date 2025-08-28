@@ -401,25 +401,28 @@ body {
 .remove-icon {
     background: transparent;
     color: #dc3545;
-    width: 24px;
-    height: 24px;
-    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    margin-left: 0.5rem;
-    position: relative;
-    border: none;
-    padding: 4px;
+    margin-left: 0.75rem;
+    padding: 6px;
+    border-radius: 4px;
+    user-select: none;
 }
 
 .remove-icon:hover {
     color: #c82333;
     transform: scale(1.1);
     background: rgba(220, 53, 69, 0.1);
-    border-radius: 4px;
+}
+
+.remove-icon:active {
+    transform: scale(0.95);
 }
 
 /* Add to Cart Button */
