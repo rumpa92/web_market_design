@@ -418,15 +418,10 @@ function setupAddToCart() {
 }
 
 function setupWriteReview() {
-    console.log('setupWriteReview function called');
     const writeReviewBtn = document.getElementById('writeReviewBtn');
-    console.log('Write review button found:', !!writeReviewBtn);
-    console.log('Button element:', writeReviewBtn);
 
     if (!writeReviewBtn) {
         console.warn('Write review button not found! Check ID: writeReviewBtn');
-        console.log('All elements with writeReview in ID:', document.querySelectorAll('[id*="writeReview"]'));
-        console.log('All buttons on page:', document.querySelectorAll('button'));
         return;
     }
 
