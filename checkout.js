@@ -959,7 +959,7 @@ function showWalletPaymentScreen() {
                     <div class="wallet-main-section">
                         <div class="wallet-subtitle">Choose your preferred digital wallet for secure payment.</div>
 
-                        <!-- Digital Wallet Options -->>
+                        <!-- Digital Wallet Options -->
                         <div class="wallet-options-grid">
                             <button class="wallet-option-btn" onclick="payWithWallet('googlepay')" data-wallet="googlepay">
                                 <div class="wallet-logo-container">
