@@ -384,36 +384,80 @@ function showReviewModal() {
                 </button>
             </div>
             <div class="review-modal-body">
-                <div class="product-info-mini">
-                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-image">
-                    <h3>${currentProduct.title}</h3>
-                </div>
-                <form class="review-form" id="reviewForm">
-                    <div class="rating-input">
-                        <label>Your Rating:</label>
-                        <div class="star-rating">
-                            <span class="star" data-rating="1">★</span>
-                            <span class="star" data-rating="2">★</span>
-                            <span class="star" data-rating="3">★</span>
-                            <span class="star" data-rating="4">★</span>
-                            <span class="star" data-rating="5">★</span>
+                <!-- Product Info Section -->
+                <div class="review-product-info">
+                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-thumbnail">
+                    <div class="review-product-details">
+                        <h3 class="review-product-title">${currentProduct.title}</h3>
+                        <div class="review-product-options">
+                            <span class="review-selected-color">Color: <span class="color-value">${currentProduct.selectedColor}</span></span>
+                            <span class="review-selected-size">Size: <span class="size-value">${currentProduct.selectedSize}</span></span>
                         </div>
                     </div>
-                    <div class="review-title-input">
-                        <label for="reviewTitle">Review Title:</label>
-                        <input type="text" id="reviewTitle" placeholder="Summarize your experience">
+                </div>
+
+                <form class="review-form" id="reviewForm">
+                    <!-- Rating Section -->
+                    <div class="review-input-group">
+                        <label class="review-label">Your Rating <span class="required">*</span></label>
+                        <div class="star-rating-input">
+                            <span class="star interactive-star" data-rating="1">⭐</span>
+                            <span class="star interactive-star" data-rating="2">⭐</span>
+                            <span class="star interactive-star" data-rating="3">⭐</span>
+                            <span class="star interactive-star" data-rating="4">⭐</span>
+                            <span class="star interactive-star" data-rating="5">⭐</span>
+                        </div>
                     </div>
-                    <div class="review-text-input">
-                        <label for="reviewText">Your Review:</label>
-                        <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with this product"></textarea>
+
+                    <!-- Review Title -->
+                    <div class="review-input-group">
+                        <label for="reviewTitle" class="review-label">Review Title <span class="optional">(optional)</span></label>
+                        <input type="text" id="reviewTitle" class="review-input" placeholder="Perfect fit and stylish" maxlength="100">
                     </div>
-                    <div class="reviewer-info">
-                        <label for="reviewerName">Your Name:</label>
-                        <input type="text" id="reviewerName" placeholder="Enter your name">
+
+                    <!-- Review Description -->
+                    <div class="review-input-group">
+                        <label for="reviewText" class="review-label">Review Description <span class="required">*</span></label>
+                        <textarea id="reviewText" class="review-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" maxlength="500"></textarea>
+                        <div class="character-count">
+                            <span id="charCount">0</span>/500 characters
+                        </div>
                     </div>
+
+                    <!-- Fit Feedback -->
+                    <div class="review-input-group">
+                        <label class="review-label">Fit Feedback <span class="optional">(optional)</span></label>
+                        <div class="fit-feedback-buttons">
+                            <button type="button" class="fit-btn" data-fit="too-small">Too Small</button>
+                            <button type="button" class="fit-btn active" data-fit="true-to-size">True to Size</button>
+                            <button type="button" class="fit-btn" data-fit="too-large">Too Large</button>
+                        </div>
+                    </div>
+
+                    <!-- Photo/Video Upload -->
+                    <div class="review-input-group">
+                        <label class="review-label">Add Photos/Videos <span class="optional">(optional)</span></label>
+                        <div class="upload-section">
+                            <div class="upload-dropzone" id="uploadDropzone">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <p class="upload-text">Drop files here or click to upload</p>
+                                <p class="upload-subtext">Supports: JPG, PNG, MP4 (Max 10MB)</p>
+                                <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                            </div>
+                            <div class="uploaded-files" id="uploadedFiles"></div>
+                        </div>
+                    </div>
+
+                    <!-- Review Actions -->
                     <div class="review-actions">
-                        <button type="button" class="cancel-review">Cancel</button>
-                        <button type="submit" class="submit-review">Submit Review</button>
+                        <button type="button" class="cancel-review-btn">Cancel</button>
+                        <button type="submit" class="submit-review-btn">Submit Review</button>
+                    </div>
+
+                    <!-- Approval Note -->
+                    <div class="review-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Your review will be visible after approval.</span>
                     </div>
                 </form>
             </div>
@@ -434,9 +478,12 @@ function showReviewModal() {
         z-index: 10000;
         opacity: 0;
         transition: opacity 0.3s ease;
+        overflow-y: auto;
+        padding: 20px;
     `;
 
     document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
 
     // Animate in
     setTimeout(() => {
