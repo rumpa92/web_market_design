@@ -108,26 +108,6 @@ function generateProductImages(mainImage) {
     };
 }
 
-function generateProductDescription(productTitle) {
-    const title = productTitle.toLowerCase();
-
-    if (title.includes('anarkali')) {
-        return 'Experience the grace of traditional Indian fashion with this stunning Anarkali gown. Featuring intricate embroidery and flowing silhouette, this outfit is perfect for weddings, festivals, and special celebrations. Crafted with premium fabrics for comfort and elegance.';
-    } else if (title.includes('churidar')) {
-        return 'Experience the elegance of traditional Indian fashion with this beautiful Churidar set. Crafted with premium quality fabrics and intricate embroidery work, this outfit is perfect for special occasions and festive celebrations.';
-    } else if (title.includes('shirt') || title.includes('top')) {
-        return 'Elevate your everyday style with this versatile and comfortable piece. Made from high-quality materials with attention to detail, this top offers both style and comfort for any occasion.';
-    } else if (title.includes('dress')) {
-        return 'Make a statement with this elegant dress that combines modern style with timeless appeal. Perfect for both casual and formal occasions, featuring quality craftsmanship and comfortable fit.';
-    } else if (title.includes('lehenga')) {
-        return 'Embrace the magnificence of traditional Indian wear with this exquisite Lehenga set. Featuring rich fabrics, detailed embellishments, and classic silhouette, perfect for weddings and grand celebrations.';
-    } else if (title.includes('saree')) {
-        return 'Celebrate the timeless beauty of the traditional saree. This elegant piece showcases rich fabric and classic draping style, perfect for cultural events and special occasions.';
-    } else {
-        return 'Experience exceptional quality and style with this carefully crafted piece. Made with premium materials and attention to detail, this item combines comfort, durability, and fashion-forward design for the modern wardrobe.';
-    }
-}
-
 function loadProductData() {
     // Debug current product data
     console.log('=== LOADING PRODUCT DATA ===');
@@ -152,8 +132,15 @@ function loadProductData() {
     }
 
     // Update product information
-    document.getElementById('productTitle').textContent = currentProduct.title;
-    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
+    const productTitleEl = document.getElementById('productTitle');
+    const currentPriceEl = document.getElementById('currentPrice');
+    
+    if (productTitleEl) {
+        productTitleEl.textContent = currentProduct.title;
+    }
+    if (currentPriceEl) {
+        currentPriceEl.textContent = `$${currentProduct.currentPrice}`;
+    }
 
     // Update rating and review count
     const ratingText = document.querySelector('.rating-text');
@@ -163,14 +150,18 @@ function loadProductData() {
 
     // Update cart badge - should be 0 after clearing cart
     const cartBadge = document.getElementById('cartBadge');
-    const cartCount = getCartItemCount();
-    cartBadge.textContent = cartCount;
-    console.log('Cart badge initialized with count:', cartCount);
+    if (cartBadge) {
+        const cartCount = getCartItemCount();
+        cartBadge.textContent = cartCount;
+        console.log('Cart badge initialized with count:', cartCount);
+    }
 
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
-    mainImage.src = currentProduct.images.main;
-    mainImage.alt = currentProduct.title;
+    if (mainImage) {
+        mainImage.src = currentProduct.images.main;
+        mainImage.alt = currentProduct.title;
+    }
 
     // Load thumbnail images
     const thumbnails = document.querySelectorAll('.thumbnail-item img');
@@ -182,12 +173,9 @@ function loadProductData() {
     });
 
     // Update quantity display
-    document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
-
-    // Update product description dynamically
-    const productDescription = document.getElementById('productDescription');
-    if (productDescription) {
-        productDescription.textContent = generateProductDescription(currentProduct.title);
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    if (quantityDisplay) {
+        quantityDisplay.textContent = currentProduct.quantity;
     }
 
     console.log('Product data loaded:', currentProduct.title, `$${currentProduct.currentPrice}`);
@@ -240,8 +228,6 @@ function setupProductEventListeners() {
 
         console.log('All product event listeners set up successfully');
 
-        // Remove icon now handled by inline onclick for reliability
-
     } catch (error) {
         console.error('Error setting up product event listeners:', error);
     }
@@ -249,19 +235,30 @@ function setupProductEventListeners() {
 
 function setupHeaderIcons() {
     // Search button
-    document.getElementById('searchBtn').addEventListener('click', () => {
-        showNotification('Search functionality - Opening search...', 'info');
-    });
+    const searchBtn = document.getElementById('searchBtn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            showNotification('Search functionality - Opening search...', 'info');
+        });
+    }
     
     // Header cart button
-    document.getElementById('headerCartBtn').addEventListener('click', () => {
-        showCartSummary();
-    });
+    const headerCartBtn = document.getElementById('headerCartBtn');
+    if (headerCartBtn) {
+        headerCartBtn.addEventListener('click', () => {
+            showCartSummary();
+        });
+    }
 }
 
 function setupGallery() {
     const thumbnails = document.querySelectorAll('.thumbnail-item');
     const mainImage = document.getElementById('mainProductImage');
+    
+    if (!mainImage) {
+        console.warn('Main product image not found');
+        return;
+    }
     
     thumbnails.forEach((thumbnail, index) => {
         thumbnail.addEventListener('click', () => {
@@ -274,7 +271,7 @@ function setupGallery() {
             // Update main image
             const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
             const imageKey = imageKeys[index];
-            if (currentProduct.images[imageKey]) {
+            if (currentProduct.images && currentProduct.images[imageKey]) {
                 mainImage.src = currentProduct.images[imageKey];
             }
         });
@@ -292,32 +289,46 @@ function setupColorSelection() {
 
     colorDots.forEach((dot, index) => {
         console.log(`Setting up color dot ${index}:`, dot);
-        dot.addEventListener('click', () => {
+        
+        // Remove any existing listeners
+        const newDot = dot.cloneNode(true);
+        dot.parentNode.replaceChild(newDot, dot);
+        
+        newDot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Color dot clicked:', newDot.dataset.color);
+
             // Add click animation
-            dot.style.transform = 'scale(0.9)';
+            newDot.style.transform = 'scale(0.9)';
             setTimeout(() => {
-                dot.style.transform = '';
+                newDot.style.transform = '';
             }, 150);
 
             // Remove active class from all dots
-            colorDots.forEach(d => d.classList.remove('active'));
+            const allDots = document.querySelectorAll('.color-dot');
+            allDots.forEach(d => d.classList.remove('active'));
 
             // Add active class to clicked dot
-            dot.classList.add('active');
+            newDot.classList.add('active');
 
             // Update selected color
-            currentProduct.selectedColor = dot.dataset.color;
+            currentProduct.selectedColor = newDot.dataset.color;
 
             showNotification(`Selected color: ${currentProduct.selectedColor}`, 'success');
         });
 
         // Add keyboard support
-        dot.addEventListener('keydown', (e) => {
+        newDot.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                dot.click();
+                newDot.click();
             }
         });
+
+        // Make focusable
+        newDot.setAttribute('tabindex', '0');
     });
 }
 
@@ -332,24 +343,38 @@ function setupSizeSelection() {
 
     sizeButtons.forEach((button, index) => {
         console.log(`Setting up size button ${index}:`, button);
-        button.addEventListener('click', () => {
+        
+        // Remove any existing listeners
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        newButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Size button clicked:', newButton.dataset.size);
+
             // Add click animation
-            button.style.transform = 'scale(0.95)';
+            newButton.style.transform = 'scale(0.95)';
             setTimeout(() => {
-                button.style.transform = '';
+                newButton.style.transform = '';
             }, 150);
 
             // Remove active class from all buttons
-            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            const allButtons = document.querySelectorAll('.size-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
 
             // Add active class to clicked button
-            button.classList.add('active');
+            newButton.classList.add('active');
 
             // Update selected size
-            currentProduct.selectedSize = button.dataset.size;
+            currentProduct.selectedSize = newButton.dataset.size;
 
             showNotification(`Selected size: ${currentProduct.selectedSize}`, 'success');
         });
+        
+        // Make focusable
+        newButton.setAttribute('tabindex', '0');
     });
 }
 
@@ -357,29 +382,35 @@ function setupQuantityControls() {
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
-    const removeIcon = document.getElementById('removeIcon');
 
     console.log('Quantity controls found:', {
         decreaseBtn: !!decreaseBtn,
         increaseBtn: !!increaseBtn,
-        quantityDisplay: !!quantityDisplay,
-        removeIcon: !!removeIcon
+        quantityDisplay: !!quantityDisplay
     });
-
-    // Debug: Check if element exists in DOM
-    console.log('All elements with removeIcon:', document.querySelectorAll('#removeIcon'));
-    console.log('All elements with remove-icon class:', document.querySelectorAll('.remove-icon'));
 
     if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
         console.warn('Some quantity controls not found!');
         return;
     }
 
-    decreaseBtn.addEventListener('click', () => {
+    // Remove existing listeners by cloning
+    const newDecreaseBtn = decreaseBtn.cloneNode(true);
+    const newIncreaseBtn = increaseBtn.cloneNode(true);
+    
+    decreaseBtn.parentNode.replaceChild(newDecreaseBtn, decreaseBtn);
+    increaseBtn.parentNode.replaceChild(newIncreaseBtn, increaseBtn);
+
+    newDecreaseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Decrease quantity clicked');
+
         // Add click animation
-        decreaseBtn.style.transform = 'scale(0.9)';
+        newDecreaseBtn.style.transform = 'scale(0.9)';
         setTimeout(() => {
-            decreaseBtn.style.transform = '';
+            newDecreaseBtn.style.transform = '';
         }, 150);
 
         if (currentProduct.quantity > 1) {
@@ -394,11 +425,16 @@ function setupQuantityControls() {
         }
     });
 
-    increaseBtn.addEventListener('click', () => {
+    newIncreaseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Increase quantity clicked');
+
         // Add click animation
-        increaseBtn.style.transform = 'scale(0.9)';
+        newIncreaseBtn.style.transform = 'scale(0.9)';
         setTimeout(() => {
-            increaseBtn.style.transform = '';
+            newIncreaseBtn.style.transform = '';
         }, 150);
 
         if (currentProduct.quantity < 10) { // Max quantity limit
@@ -412,8 +448,6 @@ function setupQuantityControls() {
             showNotification('Maximum quantity is 10', 'info');
         }
     });
-
-    // Remove icon functionality - now handled by inline onclick
 }
 
 function setupAddToCart() {
@@ -425,9 +459,18 @@ function setupAddToCart() {
         return;
     }
 
+    // Remove existing listeners by cloning
+    const newAddToCartBtn = addToCartBtn.cloneNode(true);
+    addToCartBtn.parentNode.replaceChild(newAddToCartBtn, addToCartBtn);
+
     let isAdding = false; // Prevent multiple rapid clicks
 
-    addToCartBtn.addEventListener('click', () => {
+    newAddToCartBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Add to cart button clicked');
+        
         if (isAdding) {
             console.log('Add to cart already in progress, ignoring click');
             return;
@@ -435,12 +478,12 @@ function setupAddToCart() {
 
         isAdding = true;
         // Disable button to prevent double clicks
-        addToCartBtn.disabled = true;
+        newAddToCartBtn.disabled = true;
 
         // Animation effect
-        addToCartBtn.style.transform = 'scale(0.95)';
-        addToCartBtn.textContent = 'Adding...';
-        addToCartBtn.style.opacity = '0.8';
+        newAddToCartBtn.style.transform = 'scale(0.95)';
+        newAddToCartBtn.textContent = 'Adding...';
+        newAddToCartBtn.style.opacity = '0.8';
 
         setTimeout(() => {
             console.log('=== ABOUT TO ADD TO CART ===');
@@ -458,17 +501,17 @@ function setupAddToCart() {
             showNotification(`${currentProduct.title} (${currentProduct.selectedColor}, ${currentProduct.selectedSize}) added to cart!`, 'success');
 
             // Success animation
-            addToCartBtn.textContent = 'Added!';
-            addToCartBtn.style.backgroundColor = '#4CAF50';
-            addToCartBtn.style.transform = 'scale(1)';
+            newAddToCartBtn.textContent = 'Added!';
+            newAddToCartBtn.style.backgroundColor = '#4CAF50';
+            newAddToCartBtn.style.transform = 'scale(1)';
 
             setTimeout(() => {
                 // Reset button
-                addToCartBtn.style.transform = '';
-                addToCartBtn.style.opacity = '';
-                addToCartBtn.style.backgroundColor = '';
-                addToCartBtn.textContent = 'Add to Cart';
-                addToCartBtn.disabled = false;
+                newAddToCartBtn.style.transform = '';
+                newAddToCartBtn.style.opacity = '';
+                newAddToCartBtn.style.backgroundColor = '';
+                newAddToCartBtn.textContent = 'Add to Cart';
+                newAddToCartBtn.disabled = false;
                 isAdding = false; // Reset the flag
             }, 1000);
         }, 500);
@@ -476,6 +519,7 @@ function setupAddToCart() {
 }
 
 function setupWriteReview() {
+    // Remove the inline onclick from HTML and use only event listener
     const writeReviewBtn = document.getElementById('writeReviewBtn');
 
     if (!writeReviewBtn) {
@@ -485,14 +529,21 @@ function setupWriteReview() {
 
     console.log('Write review button found and event listener being added');
 
-    writeReviewBtn.addEventListener('click', (e) => {
+    // Remove existing listeners by cloning
+    const newWriteReviewBtn = writeReviewBtn.cloneNode(true);
+    writeReviewBtn.parentNode.replaceChild(newWriteReviewBtn, writeReviewBtn);
+
+    newWriteReviewBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
         console.log('Write review button clicked!');
 
         try {
             // Animation effect
-            writeReviewBtn.style.transform = 'scale(0.95)';
+            newWriteReviewBtn.style.transform = 'scale(0.95)';
             setTimeout(() => {
-                writeReviewBtn.style.transform = '';
+                newWriteReviewBtn.style.transform = '';
             }, 150);
 
             // Check if currentProduct exists
@@ -542,396 +593,6 @@ function setupWriteReview() {
     console.log('Write review event listener added successfully');
 }
 
-function showReviewModal() {
-    // Create review modal
-    const modal = document.createElement('div');
-    modal.className = 'review-modal';
-    modal.innerHTML = `
-        <div class="review-modal-content">
-            <div class="review-modal-header">
-                <h2>Write a Review</h2>
-                <button class="close-review-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="review-modal-body">
-                <!-- Product Info Section -->
-                <div class="review-product-info">
-                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-thumbnail">
-                    <div class="review-product-details">
-                        <h3 class="review-product-title">${currentProduct.title}</h3>
-                        <div class="review-product-options">
-                            <span class="review-selected-color">Color: <span class="color-value">${currentProduct.selectedColor}</span></span>
-                            <span class="review-selected-size">Size: <span class="size-value">${currentProduct.selectedSize}</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <form class="review-form" id="reviewForm">
-                    <!-- Rating Section -->
-                    <div class="review-input-group">
-                        <label class="review-label">Your Rating <span class="required">*</span></label>
-                        <div class="star-rating-input">
-                            <span class="star interactive-star" data-rating="1">⭐</span>
-                            <span class="star interactive-star" data-rating="2">⭐</span>
-                            <span class="star interactive-star" data-rating="3">⭐</span>
-                            <span class="star interactive-star" data-rating="4">⭐</span>
-                            <span class="star interactive-star" data-rating="5">⭐</span>
-                        </div>
-                    </div>
-
-                    <!-- Review Title -->
-                    <div class="review-input-group">
-                        <label for="reviewTitle" class="review-label">Review Title <span class="optional">(optional)</span></label>
-                        <input type="text" id="reviewTitle" class="review-input" placeholder="Perfect fit and stylish" maxlength="100">
-                    </div>
-
-                    <!-- Review Description -->
-                    <div class="review-input-group">
-                        <label for="reviewText" class="review-label">Review Description <span class="required">*</span></label>
-                        <textarea id="reviewText" class="review-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" maxlength="500"></textarea>
-                        <div class="character-count">
-                            <span id="charCount">0</span>/500 characters
-                        </div>
-                    </div>
-
-                    <!-- Fit Feedback -->
-                    <div class="review-input-group">
-                        <label class="review-label">Fit Feedback <span class="optional">(optional)</span></label>
-                        <div class="fit-feedback-buttons">
-                            <button type="button" class="fit-btn" data-fit="too-small">Too Small</button>
-                            <button type="button" class="fit-btn active" data-fit="true-to-size">True to Size</button>
-                            <button type="button" class="fit-btn" data-fit="too-large">Too Large</button>
-                        </div>
-                    </div>
-
-                    <!-- Photo/Video Upload -->
-                    <div class="review-input-group">
-                        <label class="review-label">Add Photos/Videos <span class="optional">(optional)</span></label>
-                        <div class="upload-section">
-                            <div class="upload-dropzone" id="uploadDropzone">
-                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                                <p class="upload-text">Drop files here or click to upload</p>
-                                <p class="upload-subtext">Supports: JPG, PNG, MP4 (Max 10MB)</p>
-                                <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
-                            </div>
-                            <div class="uploaded-files" id="uploadedFiles"></div>
-                        </div>
-                    </div>
-
-                    <!-- Review Actions -->
-                    <div class="review-actions">
-                        <button type="button" class="cancel-review-btn">Cancel</button>
-                        <button type="submit" class="submit-review-btn">Submit Review</button>
-                    </div>
-
-                    <!-- Approval Note -->
-                    <div class="review-note">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Your review will be visible after approval.</span>
-                    </div>
-                </form>
-            </div>
-        </div>
-    `;
-
-    // Style the modal
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        overflow-y: auto;
-        padding: 20px;
-    `;
-
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-
-    // Animate in
-    setTimeout(() => {
-        modal.style.opacity = '1';
-    }, 10);
-
-    // Setup modal interactions
-    setupReviewModalListeners(modal);
-
-    showNotification('Write your review', 'info');
-}
-
-function setupReviewModalListeners(modal) {
-    const closeBtn = modal.querySelector('.close-review-modal');
-    const cancelBtn = modal.querySelector('.cancel-review-btn');
-    const submitBtn = modal.querySelector('.submit-review-btn');
-    const stars = modal.querySelectorAll('.interactive-star');
-    const form = modal.querySelector('#reviewForm');
-    const fitButtons = modal.querySelectorAll('.fit-btn');
-    const uploadDropzone = modal.querySelector('#uploadDropzone');
-    const fileInput = modal.querySelector('#fileInput');
-    const reviewText = modal.querySelector('#reviewText');
-    const charCount = modal.querySelector('#charCount');
-
-    let selectedRating = 0;
-    let selectedFit = 'true-to-size';
-    let uploadedFiles = [];
-
-    // Close modal events
-    closeBtn.addEventListener('click', () => closeReviewModal(modal));
-    cancelBtn.addEventListener('click', () => closeReviewModal(modal));
-
-    // Close on overlay click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeReviewModal(modal);
-        }
-    });
-
-    // Prevent modal content click from closing modal
-    modal.querySelector('.review-modal-content').addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-
-    // Keyboard support
-    document.addEventListener('keydown', function handleEscape(e) {
-        if (e.key === 'Escape') {
-            closeReviewModal(modal);
-            document.removeEventListener('keydown', handleEscape);
-        }
-    });
-
-    // Focus management
-    setTimeout(() => {
-        const firstStar = modal.querySelector('.interactive-star');
-        if (firstStar) {
-            firstStar.focus();
-        }
-    }, 100);
-
-    // Star rating
-    stars.forEach((star, index) => {
-        // Make stars focusable
-        star.setAttribute('tabindex', '0');
-        star.setAttribute('role', 'button');
-        star.setAttribute('aria-label', `Rate ${parseInt(star.dataset.rating)} star${parseInt(star.dataset.rating) > 1 ? 's' : ''}`);
-
-        star.addEventListener('click', () => {
-            selectedRating = parseInt(star.dataset.rating);
-            updateStarRating(stars, selectedRating);
-            showNotification(`Rated ${selectedRating} star${selectedRating > 1 ? 's' : ''}`, 'info');
-        });
-
-        star.addEventListener('mouseover', () => {
-            const hoverRating = parseInt(star.dataset.rating);
-            updateStarRating(stars, hoverRating);
-        });
-
-        star.addEventListener('mouseleave', () => {
-            updateStarRating(stars, selectedRating);
-        });
-
-        // Keyboard navigation
-        star.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                star.click();
-            } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                const nextStar = stars[Math.min(index + 1, stars.length - 1)];
-                nextStar.focus();
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                const prevStar = stars[Math.max(index - 1, 0)];
-                prevStar.focus();
-            }
-        });
-    });
-
-    // Character count for review text
-    reviewText.addEventListener('input', () => {
-        const count = reviewText.value.length;
-        charCount.textContent = count;
-
-        if (count > 400) {
-            charCount.style.color = '#f44336';
-        } else if (count > 300) {
-            charCount.style.color = '#ff9800';
-        } else {
-            charCount.style.color = '#666';
-        }
-    });
-
-    // Fit feedback buttons
-    fitButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            fitButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedFit = button.dataset.fit;
-        });
-    });
-
-    // File upload functionality
-    uploadDropzone.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    uploadDropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadDropzone.classList.add('dragover');
-    });
-
-    uploadDropzone.addEventListener('dragleave', () => {
-        uploadDropzone.classList.remove('dragover');
-    });
-
-    uploadDropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadDropzone.classList.remove('dragover');
-        handleFileUpload(e.dataTransfer.files, modal);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        handleFileUpload(e.target.files, modal);
-    });
-
-    // Form submission
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const title = modal.querySelector('#reviewTitle').value.trim();
-        const text = modal.querySelector('#reviewText').value.trim();
-
-        if (!selectedRating) {
-            showNotification('Please select a rating', 'error');
-            return;
-        }
-
-        if (!text) {
-            showNotification('Please write a review description', 'error');
-            return;
-        }
-
-        // Submit review
-        submitReview({
-            rating: selectedRating,
-            title: title || 'Customer Review',
-            text: text,
-            product: currentProduct.title,
-            color: currentProduct.selectedColor,
-            size: currentProduct.selectedSize,
-            fit: selectedFit,
-            files: uploadedFiles
-        });
-
-        closeReviewModal(modal);
-    });
-
-    // Helper function to handle file uploads
-    function handleFileUpload(files, modal) {
-        const uploadedFilesContainer = modal.querySelector('#uploadedFiles');
-
-        Array.from(files).forEach(file => {
-            if (file.size > 10 * 1024 * 1024) { // 10MB limit
-                showNotification('File size must be less than 10MB', 'error');
-                return;
-            }
-
-            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
-                showNotification('Only image and video files are allowed', 'error');
-                return;
-            }
-
-            uploadedFiles.push(file);
-
-            // Create file preview
-            const fileItem = document.createElement('div');
-            fileItem.className = 'uploaded-file-item';
-
-            const fileName = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
-
-            fileItem.innerHTML = `
-                <div class="file-info">
-                    <i class="fas ${file.type.startsWith('image/') ? 'fa-image' : 'fa-video'}"></i>
-                    <span class="file-name">${fileName}</span>
-                </div>
-                <button type="button" class="remove-file-btn" onclick="removeUploadedFile(this, '${file.name}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            uploadedFilesContainer.appendChild(fileItem);
-        });
-
-        showNotification(`${files.length} file(s) added`, 'success');
-    }
-
-    // Make removeUploadedFile function available globally
-    window.removeUploadedFile = function(button, fileName) {
-        uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-        button.parentElement.remove();
-        showNotification('File removed', 'info');
-    };
-}
-
-function updateStarRating(stars, rating) {
-    stars.forEach((star, index) => {
-        if (index < rating) {
-            star.classList.add('active');
-        } else {
-            star.classList.remove('active');
-        }
-    });
-}
-
-function submitReview(reviewData) {
-    // In a real app, this would submit to a server
-    showNotification('Thank you for your review! It will be visible after approval.', 'success');
-
-    // Store review locally for demo
-    let reviews = JSON.parse(localStorage.getItem('productReviews') || '[]');
-    reviews.push({
-        ...reviewData,
-        id: Date.now(),
-        date: new Date().toLocaleDateString(),
-        verified: true,
-        approved: false, // Reviews need approval
-        helpful: 0,
-        userName: 'You'
-    });
-    localStorage.setItem('productReviews', JSON.stringify(reviews));
-
-    // Show detailed success message
-    setTimeout(() => {
-        showNotification(`Review submitted for ${reviewData.product}!\n- Rating: ${reviewData.rating} stars\n- Fit: ${formatFitFeedback(reviewData.fit)}`, 'success');
-    }, 1000);
-}
-
-function formatFitFeedback(fit) {
-    const fitMap = {
-        'too-small': 'Too Small',
-        'true-to-size': 'True to Size',
-        'too-large': 'Too Large'
-    };
-    return fitMap[fit] || 'True to Size';
-}
-
-function closeReviewModal(modal) {
-    modal.style.opacity = '0';
-    document.body.style.overflow = '';
-    setTimeout(() => {
-        if (document.body.contains(modal)) {
-            document.body.removeChild(modal);
-        }
-    }, 300);
-}
-
 function setupTabNavigation() {
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
@@ -946,7 +607,10 @@ function setupTabNavigation() {
             
             // Add active class to clicked button and corresponding panel
             button.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
+            const targetPanel = document.getElementById(targetTab);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
         });
     });
 }
@@ -982,7 +646,7 @@ function addToCart(product) {
                 id: product.id,
                 title: product.title,
                 price: `$${product.currentPrice}`,
-                image: product.images.main,
+                image: product.images ? product.images.main : product.image,
                 selectedSize: product.selectedSize,
                 selectedColor: product.selectedColor,
                 quantity: product.quantity
@@ -1024,7 +688,7 @@ function toggleWishlist() {
             id: currentProduct.id,
             title: currentProduct.title,
             price: `$${currentProduct.currentPrice}`,
-            image: currentProduct.images.main
+            image: currentProduct.images ? currentProduct.images.main : 'https://via.placeholder.com/300x300'
         });
         showNotification(`${currentProduct.title} added to wishlist!`, 'success');
         
@@ -1044,14 +708,16 @@ function getCartItemCount() {
 
 function updateCartBadge() {
     const cartBadge = document.getElementById('cartBadge');
-    const count = getCartItemCount();
-    cartBadge.textContent = count;
-    
-    // Animation
-    cartBadge.style.transform = 'scale(1.3)';
-    setTimeout(() => {
-        cartBadge.style.transform = 'scale(1)';
-    }, 200);
+    if (cartBadge) {
+        const count = getCartItemCount();
+        cartBadge.textContent = count;
+        
+        // Animation
+        cartBadge.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+            cartBadge.style.transform = 'scale(1)';
+        }, 200);
+    }
 }
 
 function showCartSummary() {
@@ -1064,6 +730,11 @@ function openCartModal() {
     const cartEmpty = document.getElementById('cartEmpty');
     const cartSummary = document.getElementById('cartSummary');
 
+    if (!cartModal) {
+        console.warn('Cart modal not found');
+        return;
+    }
+
     cartModal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
@@ -1071,15 +742,15 @@ function openCartModal() {
     const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
 
     if (cart.length === 0) {
-        cartItems.style.display = 'none';
-        cartEmpty.classList.remove('hidden');
-        cartSummary.style.display = 'none';
+        if (cartItems) cartItems.style.display = 'none';
+        if (cartEmpty) cartEmpty.classList.remove('hidden');
+        if (cartSummary) cartSummary.style.display = 'none';
         const cartActions = document.querySelector('.cart-actions');
         if (cartActions) cartActions.style.display = 'none';
     } else {
-        cartItems.style.display = 'block';
-        cartEmpty.classList.add('hidden');
-        cartSummary.style.display = 'block';
+        if (cartItems) cartItems.style.display = 'block';
+        if (cartEmpty) cartEmpty.classList.add('hidden');
+        if (cartSummary) cartSummary.style.display = 'block';
         const cartActions = document.querySelector('.cart-actions');
         if (cartActions) cartActions.style.display = 'block';
 
@@ -1094,12 +765,16 @@ function openCartModal() {
 
 function closeCartModal() {
     const cartModal = document.getElementById('cartModal');
-    cartModal.classList.add('hidden');
-    document.body.style.overflow = '';
+    if (cartModal) {
+        cartModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 }
 
 function displayCartItems(cart) {
     const cartItems = document.getElementById('cartItems');
+    if (!cartItems) return;
+    
     cartItems.innerHTML = '';
 
     cart.forEach((item, index) => {
@@ -1151,14 +826,21 @@ function updateCartSummary(cart) {
 
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-    document.getElementById('itemCount').textContent = `(${totalItems} items)`;
-    document.getElementById('subtotalValue').textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById('taxValue').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('totalValue').textContent = `$${total.toFixed(2)}`;
+    const itemCount = document.getElementById('itemCount');
+    const subtotalValue = document.getElementById('subtotalValue');
+    const taxValue = document.getElementById('taxValue');
+    const totalValue = document.getElementById('totalValue');
+
+    if (itemCount) itemCount.textContent = `(${totalItems} items)`;
+    if (subtotalValue) subtotalValue.textContent = `$${subtotal.toFixed(2)}`;
+    if (taxValue) taxValue.textContent = `$${tax.toFixed(2)}`;
+    if (totalValue) totalValue.textContent = `$${total.toFixed(2)}`;
 
     // Update shipping
     const shippingElement = document.querySelector('.shipping-value');
-    shippingElement.textContent = cart.length > 0 ? '$9.99' : '$0.00';
+    if (shippingElement) {
+        shippingElement.textContent = cart.length > 0 ? '$9.99' : '$0.00';
+    }
 }
 
 function setupCartModalListeners() {
@@ -1166,6 +848,10 @@ function setupCartModalListeners() {
     const continueShopping = document.getElementById('continueShopping');
     const proceedCheckout = document.getElementById('proceedCheckout');
     const cartModal = document.getElementById('cartModal');
+
+    if (!closeCart || !continueShopping || !proceedCheckout || !cartModal) {
+        return;
+    }
 
     // Remove existing listeners to avoid duplicates
     const newCloseCart = closeCart.cloneNode(true);
@@ -1201,71 +887,6 @@ function setupCartModalListeners() {
         }, 1000);
     });
 }
-
-// Debug function to test write review functionality
-window.testWriteReview = function() {
-    console.log('=== Testing Write Review Functionality ===');
-
-    const writeReviewBtn = document.getElementById('writeReviewBtn');
-    console.log('Write review button found:', !!writeReviewBtn);
-
-    if (writeReviewBtn) {
-        console.log('Button text:', writeReviewBtn.textContent);
-        console.log('Button visible:', writeReviewBtn.offsetParent !== null);
-    }
-
-    console.log('currentProduct defined:', typeof currentProduct !== 'undefined');
-    if (typeof currentProduct !== 'undefined') {
-        console.log('currentProduct:', currentProduct);
-    }
-
-    // Try to navigate directly
-    if (typeof currentProduct !== 'undefined' && currentProduct) {
-        const productDataForReview = {
-            id: currentProduct.id || Date.now(),
-            title: currentProduct.title || 'Test Product',
-            brand: currentProduct.brand || 'StyleHub',
-            currentPrice: currentProduct.currentPrice || 99,
-            images: currentProduct.images || { main: 'https://via.placeholder.com/300x300' },
-            selectedColor: currentProduct.selectedColor || 'black',
-            selectedSize: currentProduct.selectedSize || 'M'
-        };
-
-        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
-        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
-        const reviewUrl = `write-review.html?product=${productParam}`;
-
-        console.log('Generated review URL:', reviewUrl);
-        console.log('Attempting navigation...');
-
-        window.location.href = reviewUrl;
-    } else {
-        console.error('Cannot test - currentProduct not available');
-    }
-};
-
-// Alternative direct navigation function
-window.openWriteReview = function() {
-    // Fallback data if currentProduct is not available
-    const fallbackProduct = {
-        id: Date.now(),
-        title: 'Churidar',
-        brand: 'Fashion Hub',
-        currentPrice: 299,
-        images: { main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800' },
-        selectedColor: 'black',
-        selectedSize: 'M'
-    };
-
-    const productToUse = (typeof currentProduct !== 'undefined' && currentProduct) ? currentProduct : fallbackProduct;
-
-    localStorage.setItem('reviewProduct', JSON.stringify(productToUse));
-    const productParam = encodeURIComponent(JSON.stringify(productToUse));
-    const reviewUrl = `write-review.html?product=${productParam}`;
-
-    console.log('Opening write review page with product:', productToUse.title);
-    window.location.href = reviewUrl;
-};
 
 // Make updateCartItemQuantity global for inline onclick
 window.updateCartItemQuantity = function(index, change) {
@@ -1384,55 +1005,6 @@ function initializeWishlistState() {
     }
 }
 
-// Initialize on load
-setTimeout(initializeWishlistState, 100);
-
-// Debug function to test cart functionality
-window.testCart = function() {
-    console.log('=== CART TEST ===');
-    const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-    console.log('Current cart:', cart);
-    console.log('Cart count:', cart.reduce((total, item) => total + item.quantity, 0));
-
-    const cartBadge = document.getElementById('cartBadge');
-    console.log('Cart badge element:', cartBadge);
-    console.log('Cart badge text:', cartBadge ? cartBadge.textContent : 'not found');
-
-    // Test add to cart functionality
-    if (typeof currentProduct !== 'undefined') {
-        console.log('Current product:', currentProduct);
-        console.log('Will add product to cart...');
-        addToCart(currentProduct);
-        console.log('Cart after adding:', JSON.parse(localStorage.getItem('fashionCart') || '[]'));
-    } else {
-        console.log('currentProduct not defined');
-    }
-};
-
-// Force fix currentProduct if it's missing title
-window.fixProduct = function() {
-    console.log('=== FIXING PRODUCT ===');
-    console.log('currentProduct before fix:', currentProduct);
-
-    if (!currentProduct || !currentProduct.title) {
-        currentProduct = {
-            ...defaultProduct,
-            selectedColor: 'black',
-            selectedSize: 'M',
-            quantity: 1,
-            inStock: true,
-            stockCount: 15,
-            images: generateProductImages(defaultProduct.image)
-        };
-    }
-
-    console.log('currentProduct after fix:', currentProduct);
-
-    // Update UI
-    document.getElementById('productTitle').textContent = currentProduct.title;
-    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
-};
-
 // Global function for remove icon - accessible from inline onclick
 window.removeAndGoHome = function() {
     console.log('Remove and go home function called!');
@@ -1470,6 +1042,35 @@ window.removeAndGoHome = function() {
     }, 1000);
 };
 
+// Global function for write review - accessible from inline onclick
+window.openWriteReview = function() {
+    console.log('Write review function called!');
+
+    // Fallback data if currentProduct is not available
+    const fallbackProduct = {
+        id: Date.now(),
+        title: 'Churidar',
+        brand: 'Fashion Hub',
+        currentPrice: 299,
+        images: { main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800' },
+        selectedColor: 'black',
+        selectedSize: 'M'
+    };
+
+    const productToUse = (typeof currentProduct !== 'undefined' && currentProduct) ? currentProduct : fallbackProduct;
+
+    localStorage.setItem('reviewProduct', JSON.stringify(productToUse));
+    const productParam = encodeURIComponent(JSON.stringify(productToUse));
+    const reviewUrl = `write-review.html?product=${productParam}`;
+
+    console.log('Opening write review page with product:', productToUse.title);
+    showNotification('Opening write review page...', 'info');
+    
+    setTimeout(() => {
+        window.location.href = reviewUrl;
+    }, 500);
+};
+
 // Initialize Cart Modal
 function initializeCartModal() {
     // Add event listeners for cart modal
@@ -1494,276 +1095,91 @@ function initializeCartModal() {
 
 // Setup Related Products Interaction
 function setupRelatedProductsInteraction() {
-    // Handle Wishlist buttons in related products
-    const wishlistBtns = document.querySelectorAll('.wishlist-btn-overlay');
-    wishlistBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productCard = e.target.closest('.product-card');
-            const productTitle = productCard.querySelector('h3').textContent;
-            const heartIcon = btn.querySelector('i');
-
-            // Toggle wishlist state
-            if (heartIcon.classList.contains('far')) {
-                heartIcon.classList.remove('far');
-                heartIcon.classList.add('fas');
-                btn.style.background = '#ff6b6b';
-                btn.style.color = 'white';
-                showNotification(`${productTitle} added to wishlist!`, 'success');
-            } else {
-                heartIcon.classList.remove('fas');
-                heartIcon.classList.add('far');
-                btn.style.background = 'rgba(255,255,255,0.9)';
-                btn.style.color = '#666';
-                showNotification(`${productTitle} removed from wishlist`, 'info');
-            }
-        });
-    });
-
-    // Handle product card clicks (for navigation)
-    const productCards = document.querySelectorAll('.related-products .product-card');
-    productCards.forEach(card => {
+    // Handle related product cards
+    const relatedCards = document.querySelectorAll('.related-products .product-card');
+    relatedCards.forEach(card => {
         card.addEventListener('click', (e) => {
-            // Don't navigate if clicking on buttons
-            if (e.target.closest('.wishlist-btn-overlay')) {
-                return;
+            // If clicking on the card (not a button), navigate to product detail
+            if (!e.target.closest('button')) {
+                const productTitle = card.querySelector('h3').textContent;
+                const productImage = card.querySelector('img').src;
+                const productPrice = card.querySelector('.current-price').textContent.replace('$', '');
+                
+                // Store product data for navigation
+                const productData = {
+                    title: productTitle,
+                    currentPrice: parseInt(productPrice),
+                    image: productImage
+                };
+                
+                sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+                
+                // Reload current page to show new product
+                window.location.reload();
             }
-
-            const productTitle = card.querySelector('h3').textContent;
-            showNotification(`Loading ${productTitle}...`, 'info');
-
-            // Add loading animation
-            card.style.opacity = '0.7';
-            setTimeout(() => {
-                card.style.opacity = '1';
-                // In a real app, this would navigate to the product detail page
-                console.log(`Navigate to ${productTitle} detail page`);
-            }, 1000);
         });
     });
 }
 
-// Quick View functionality removed
-
-// Handle product card clicks in related products (updated version)
-document.addEventListener('click', function(e) {
-    const productCard = e.target.closest('.product-card');
-    if (productCard && productCard.closest('.related-products')) {
-        // This is handled by setupRelatedProductsInteraction now
-        return;
-    }
-});
-
-// Profile Dropdown Functionality
+// Setup Profile Dropdown
 function setupProfileDropdown() {
     const profileTrigger = document.getElementById('profileTrigger');
     const profileDropdown = document.getElementById('profileDropdown');
-    const profileArrow = document.getElementById('profileArrow');
-    const userName = document.getElementById('userName');
-    const userEmail = document.getElementById('userEmail');
-    const statusIndicator = document.getElementById('statusIndicator');
-    const statusText = document.getElementById('statusText');
-    const onlineStatus = document.getElementById('onlineStatus');
-
-    if (!profileTrigger || !profileDropdown) return;
-
-    // Initialize user status to always stay online
-    updateUserStatus('online');
-
-    // Ensure status stays online every 5 seconds
-    setInterval(() => {
-        updateUserStatus('online');
-    }, 5000);
-
-    // Toggle dropdown on click
+    
+    if (!profileTrigger || !profileDropdown) {
+        return;
+    }
+    
     profileTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleProfileDropdown();
+        profileDropdown.classList.toggle('show');
     });
-
+    
     // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!profileTrigger.contains(e.target) && !profileDropdown.contains(e.target)) {
-            closeProfileDropdown();
-        }
+    document.addEventListener('click', () => {
+        profileDropdown.classList.remove('show');
     });
-
+    
+    // Prevent dropdown from closing when clicking inside
+    profileDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+    
     // Handle dropdown menu items
-    const dropdownItems = document.querySelectorAll('.dropdown-item');
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleDropdownItemClick(item);
-        });
-    });
-
-    // Keep status always online - commented out random status changes
-    // setInterval(() => {
-    //     const statuses = ['online', 'away', 'busy'];
-    //     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-    //     updateUserStatus(randomStatus);
-    // }, 30000);
-}
-
-function toggleProfileDropdown() {
-    const profileTrigger = document.getElementById('profileTrigger');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const profileArrow = document.getElementById('profileArrow');
-
-    const isOpen = profileDropdown.classList.contains('show');
-
-    if (isOpen) {
-        closeProfileDropdown();
-    } else {
-        openProfileDropdown();
-    }
-}
-
-function openProfileDropdown() {
-    const profileTrigger = document.getElementById('profileTrigger');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const profileArrow = document.getElementById('profileArrow');
-
-    profileTrigger.classList.add('active');
-    profileDropdown.classList.add('show');
-    if (profileArrow) {
-        profileArrow.style.transform = 'rotate(180deg)';
-    }
-
-    // Add animation delay for menu items
-    const menuItems = document.querySelectorAll('.dropdown-item');
-    menuItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateX(0)';
-            item.style.transition = 'all 0.3s ease';
-        }, index * 50);
-    });
-}
-
-function closeProfileDropdown() {
-    const profileTrigger = document.getElementById('profileTrigger');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const profileArrow = document.getElementById('profileArrow');
-
-    profileTrigger.classList.remove('active');
-    profileDropdown.classList.remove('show');
-    if (profileArrow) {
-        profileArrow.style.transform = 'rotate(0deg)';
-    }
-
-    // Reset menu items animation
-    const menuItems = document.querySelectorAll('.dropdown-item');
-    menuItems.forEach(item => {
-        item.style.opacity = '';
-        item.style.transform = '';
-        item.style.transition = '';
-    });
-}
-
-function updateUserStatus(status) {
-    const statusIndicator = document.getElementById('statusIndicator');
-    const statusText = document.getElementById('statusText');
-    const onlineStatus = document.getElementById('onlineStatus');
-
-    if (!statusIndicator || !statusText || !onlineStatus) return;
-
-    // Remove all status classes
-    statusIndicator.className = 'status-indicator';
-    onlineStatus.className = 'online-status';
-
-    // Add new status class
-    if (status !== 'online') {
-        statusIndicator.classList.add(status);
-        onlineStatus.classList.add(status);
-    }
-
-    // Update status text
-    const statusTexts = {
-        'online': 'Online',
-        'away': 'Away',
-        'busy': 'Busy',
-        'offline': 'Offline'
-    };
-
-    statusText.textContent = statusTexts[status] || 'Online';
-    onlineStatus.title = statusTexts[status] || 'Online';
-
-    // Show notification when status changes
-    if (status !== 'online') {
-        showNotification(`Status changed to ${statusTexts[status]}`, 'info');
-    }
-}
-
-function handleDropdownItemClick(item) {
-    const itemId = item.id;
-    const itemText = item.querySelector('span').textContent;
-
-    switch(itemId) {
-        case 'myProfile':
-            showNotification('Opening My Profile...', 'info');
-            // Navigate to profile page
+    const myProfile = document.getElementById('myProfile');
+    const myOrders = document.getElementById('myOrders');
+    const accountSettings = document.getElementById('accountSettings');
+    const signInOut = document.getElementById('signInOut');
+    
+    if (myProfile) {
+        myProfile.addEventListener('click', () => {
             window.location.href = 'profile.html';
-            break;
-
-        case 'myOrders':
-            showNotification('Opening My Orders...', 'info');
-            break;
-
-        case 'myWishlist':
-            showNotification('Opening My Wishlist...', 'info');
-            showWishlistSummary();
-            break;
-
-        case 'accountSettings':
-            showNotification('Opening Account Settings...', 'info');
-            break;
-
-        case 'helpSupport':
-            showNotification('Opening Help & Support...', 'info');
-            break;
-
-        case 'signInOut':
-            const signInOutText = document.getElementById('signInOutText');
-            if (signInOutText && signInOutText.textContent === 'Sign Out') {
-                handleSignOut();
-            } else {
-                showNotification('Please sign in to access your account', 'info');
-            }
-            break;
-
-        default:
-            showNotification(`${itemText} clicked`, 'info');
-            break;
+        });
     }
-
-    // Close dropdown after item click
-    closeProfileDropdown();
-
-    // Add click feedback animation
-    item.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        item.style.transform = '';
-    }, 150);
+    
+    if (myOrders) {
+        myOrders.addEventListener('click', () => {
+            window.location.href = 'my-orders.html';
+        });
+    }
+    
+    if (accountSettings) {
+        accountSettings.addEventListener('click', () => {
+            window.location.href = 'account-settings.html';
+        });
+    }
+    
+    if (signInOut) {
+        signInOut.addEventListener('click', () => {
+            // Handle sign out
+            showNotification('Signed out successfully', 'success');
+            // Reset UI to guest state
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+    }
 }
 
-function handleSignOut() {
-    showNotification('Signing out...', 'info');
-
-    setTimeout(() => {
-        // Reset user data
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
-        const signInOutText = document.getElementById('signInOutText');
-
-        if (userName) userName.textContent = 'Guest User';
-        if (userEmail) userEmail.textContent = 'guest@stylehub.com';
-        if (signInOutText) signInOutText.textContent = 'Sign In';
-        updateUserStatus('offline');
-
-        showNotification('Successfully signed out!', 'success');
-        closeProfileDropdown();
-    }, 1000);
-}
+// Initialize on load
+setTimeout(initializeWishlistState, 100);
