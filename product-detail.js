@@ -297,6 +297,12 @@ function setupQuantityControls() {
 
 function setupAddToCart() {
     const addToCartBtn = document.getElementById('addToCartBtn');
+    console.log('Add to cart button found:', !!addToCartBtn);
+
+    if (!addToCartBtn) {
+        console.warn('Add to cart button not found! Check ID: addToCartBtn');
+        return;
+    }
 
     addToCartBtn.addEventListener('click', () => {
         // Disable button to prevent double clicks
