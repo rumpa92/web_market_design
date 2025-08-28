@@ -207,18 +207,42 @@ function setupQuantityControls() {
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
-    
+
     decreaseBtn.addEventListener('click', () => {
+        // Add click animation
+        decreaseBtn.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            decreaseBtn.style.transform = '';
+        }, 150);
+
         if (currentProduct.quantity > 1) {
             currentProduct.quantity--;
             quantityDisplay.textContent = currentProduct.quantity;
+            quantityDisplay.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                quantityDisplay.style.transform = '';
+            }, 200);
+        } else {
+            showNotification('Minimum quantity is 1', 'info');
         }
     });
-    
+
     increaseBtn.addEventListener('click', () => {
+        // Add click animation
+        increaseBtn.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            increaseBtn.style.transform = '';
+        }, 150);
+
         if (currentProduct.quantity < 10) { // Max quantity limit
             currentProduct.quantity++;
             quantityDisplay.textContent = currentProduct.quantity;
+            quantityDisplay.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                quantityDisplay.style.transform = '';
+            }, 200);
+        } else {
+            showNotification('Maximum quantity is 10', 'info');
         }
     });
 }
