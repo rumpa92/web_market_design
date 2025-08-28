@@ -549,7 +549,6 @@ function showUpiPaymentScreen() {
                             <!-- Enter UPI ID Option -->
                             <div class="upi-option upi-id-option">
                                 <h3 class="upi-option-title">
-                                    <i class="fas fa-at"></i>
                                     Enter UPI ID (VPA)
                                 </h3>
                                 <div class="upi-id-form">
