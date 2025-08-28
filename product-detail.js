@@ -810,7 +810,9 @@ function setupCartModalListeners() {
     });
 }
 
-function updateCartItemQuantity(index, change) {
+// Make updateCartItemQuantity global for inline onclick
+window.updateCartItemQuantity = function(index, change) {
+    console.log('Updating cart item quantity:', index, change);
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
 
     if (cart[index]) {
