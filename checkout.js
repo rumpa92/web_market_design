@@ -196,24 +196,30 @@ function handlePlaceOrder() {
         showNotification('Please select a payment method', 'error');
         return;
     }
-    
+
+    // Handle UPI payment
+    if (selectedPayment.value === 'upi') {
+        showUpiPaymentScreen();
+        return;
+    }
+
     // Validate card details if card is selected
     if (selectedPayment.value === 'card') {
         if (!validateCardDetails()) {
             return;
         }
     }
-    
+
     // Show loading state
     const placeOrderBtn = document.getElementById('placeOrderBtn');
     placeOrderBtn.disabled = true;
     placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-    
+
     // Simulate order processing
     setTimeout(() => {
         // Clear cart after successful order
         localStorage.removeItem('fashionCart');
-        
+
         // Redirect to order confirmation
         window.location.href = 'order-confirmation.html';
     }, 2000);
@@ -256,13 +262,18 @@ function validateCardDetails() {
 function setupPaymentMethods() {
     const paymentMethods = document.querySelectorAll('input[name="payment"]');
     const cardDetailsForm = document.getElementById('cardDetailsForm');
-    
+
     paymentMethods.forEach(method => {
         method.addEventListener('change', function() {
             if (this.value === 'card') {
                 cardDetailsForm.style.display = 'block';
             } else {
                 cardDetailsForm.style.display = 'none';
+            }
+
+            // Handle UPI selection
+            if (this.value === 'upi') {
+                showUpiPaymentScreen();
             }
         });
     });
@@ -507,5 +518,336 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Make removeCoupon function global for inline onclick
+// UPI Payment Flow Functions
+function showUpiPaymentScreen() {
+    const checkoutContent = document.querySelector('.checkout-content');
+    const originalContent = checkoutContent.innerHTML;
+
+    // Store original content for restoration
+    window.originalCheckoutContent = originalContent;
+
+    // Get cart total for display
+    const totalAmount = document.querySelector('.total-amount').textContent;
+
+    checkoutContent.innerHTML = `
+        <div class="upi-payment-container">
+            <!-- UPI Payment Screen -->
+            <div class="upi-payment-screen">
+                <div class="upi-header">
+                    <button class="upi-back-btn" onclick="returnToCheckout()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h1 class="upi-title">Pay with UPI</h1>
+                </div>
+
+                <div class="upi-content">
+                    <div class="upi-main-section">
+                        <div class="upi-subtitle">Secure and instant payment using your UPI ID or UPI Apps.</div>
+
+                        <!-- UPI Payment Options -->
+                        <div class="upi-payment-options">
+                            <!-- Enter UPI ID Option -->
+                            <div class="upi-option upi-id-option">
+                                <h3 class="upi-option-title">
+                                    <i class="fas fa-at"></i>
+                                    Enter UPI ID (VPA)
+                                </h3>
+                                <div class="upi-id-form">
+                                    <input type="text" id="upiIdInput" placeholder="username@upi" class="upi-id-input">
+                                    <button class="upi-verify-btn" onclick="verifyAndPayUpi()">
+                                        Verify & Pay
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- UPI Apps Option -->
+                            <div class="upi-option upi-apps-option">
+                                <h3 class="upi-option-title">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    Pay via UPI Apps (Quick Pay)
+                                </h3>
+                                <div class="upi-apps-grid">
+                                    <button class="upi-app-btn" onclick="payWithUpiApp('gpay')">
+                                        <div class="upi-app-icon gpay-icon">
+                                            <i class="fab fa-google-pay"></i>
+                                        </div>
+                                        <span>GPay</span>
+                                    </button>
+                                    <button class="upi-app-btn" onclick="payWithUpiApp('phonepe')">
+                                        <div class="upi-app-icon phonepe-icon">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                        <span>PhonePe</span>
+                                    </button>
+                                    <button class="upi-app-btn" onclick="payWithUpiApp('paytm')">
+                                        <div class="upi-app-icon paytm-icon">
+                                            <i class="fas fa-wallet"></i>
+                                        </div>
+                                        <span>Paytm</span>
+                                    </button>
+                                    <button class="upi-app-btn" onclick="payWithUpiApp('bhim')">
+                                        <div class="upi-app-icon bhim-icon">
+                                            <i class="fas fa-university"></i>
+                                        </div>
+                                        <span>BHIM</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Note -->
+                        <div class="upi-security-note">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Your payment is 100% secure and encrypted.</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="upi-action-buttons">
+                            <button class="upi-pay-btn" onclick="initiateUpiPayment()">
+                                <i class="fas fa-lock"></i>
+                                Pay ${totalAmount}
+                            </button>
+                            <button class="upi-change-method-btn" onclick="returnToCheckout()">
+                                Change Payment Method
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary Sticky Section -->
+                    <div class="upi-order-summary">
+                        ${generateUpiOrderSummary()}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generateUpiOrderSummary() {
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cartData.reduce((sum, item) => {
+        const price = typeof item.price === 'string' ? parseFloat(item.price.replace('$', '')) : parseFloat(item.price);
+        return sum + (price * item.quantity);
+    }, 0);
+
+    const shipping = subtotal > 50 ? 0 : 9.99;
+    const tax = subtotal * 0.08;
+    const discount = getCurrentDiscount();
+    const total = subtotal + shipping + tax - discount;
+
+    return `
+        <div class="upi-summary-card">
+            <h3 class="upi-summary-title">Order Summary</h3>
+
+            <div class="upi-summary-items">
+                <div class="upi-summary-row">
+                    <span>Items (${totalItems})</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="upi-summary-row">
+                    <span>Delivery</span>
+                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                </div>
+                <div class="upi-summary-row">
+                    <span>Total Amount</span>
+                    <span class="upi-total-amount">$${total.toFixed(2)}</span>
+                </div>
+            </div>
+
+            <div class="upi-delivery-address">
+                <h4>Delivery Address</h4>
+                <div class="upi-address-text">
+                    123 Fashion Street, Suite 456<br>
+                    New York, NY 10001
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function verifyAndPayUpi() {
+    const upiId = document.getElementById('upiIdInput').value.trim();
+
+    if (!upiId) {
+        showNotification('Please enter your UPI ID', 'error');
+        return;
+    }
+
+    // Validate UPI ID format
+    const upiPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/;
+    if (!upiPattern.test(upiId)) {
+        showNotification('Please enter a valid UPI ID (e.g., username@upi)', 'error');
+        return;
+    }
+
+    // Simulate UPI verification and payment
+    const verifyBtn = document.querySelector('.upi-verify-btn');
+    verifyBtn.disabled = true;
+    verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+    // Simulate processing time
+    setTimeout(() => {
+        // Random success/failure for demo
+        const isSuccess = Math.random() > 0.3; // 70% success rate
+
+        if (isSuccess) {
+            showUpiSuccessScreen();
+        } else {
+            showUpiFailureScreen('UPI ID verification failed');
+        }
+    }, 2000);
+}
+
+function payWithUpiApp(appName) {
+    showNotification(`Redirecting to ${appName.toUpperCase()}...`, 'info');
+
+    // Simulate app redirect and payment
+    setTimeout(() => {
+        // Random success/failure for demo
+        const isSuccess = Math.random() > 0.2; // 80% success rate
+
+        if (isSuccess) {
+            showUpiSuccessScreen();
+        } else {
+            showUpiFailureScreen('Payment was cancelled or failed');
+        }
+    }, 3000);
+}
+
+function initiateUpiPayment() {
+    const upiId = document.getElementById('upiIdInput').value.trim();
+
+    if (upiId) {
+        verifyAndPayUpi();
+    } else {
+        showNotification('Please enter UPI ID or select a UPI app', 'error');
+    }
+}
+
+function showUpiSuccessScreen() {
+    const upiContainer = document.querySelector('.upi-payment-container');
+    const totalAmount = document.querySelector('.upi-total-amount').textContent;
+    const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    upiContainer.innerHTML = `
+        <div class="upi-result-screen upi-success-screen">
+            <div class="upi-result-content">
+                <div class="upi-result-icon success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+
+                <h1 class="upi-result-title">Payment Successful 🎉</h1>
+
+                <div class="upi-result-details">
+                    <div class="result-detail-item">
+                        <span class="detail-label">Transaction ID:</span>
+                        <span class="detail-value">${transactionId}</span>
+                    </div>
+                    <div class="result-detail-item">
+                        <span class="detail-label">Amount Paid:</span>
+                        <span class="detail-value">${totalAmount}</span>
+                    </div>
+                    <div class="result-detail-item">
+                        <span class="detail-label">Order Number:</span>
+                        <span class="detail-value">${orderNumber}</span>
+                    </div>
+                </div>
+
+                <div class="upi-result-actions">
+                    <button class="upi-primary-btn" onclick="trackOrder('${orderNumber}')">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Track Order
+                    </button>
+                    <button class="upi-secondary-btn" onclick="continueShopping()">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </button>
+                </div>
+
+                <div class="upi-success-message">
+                    <p>Your order has been confirmed and will be delivered within 3-5 business days.</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Clear cart after successful payment
+    localStorage.removeItem('fashionCart');
+}
+
+function showUpiFailureScreen(reason = 'Payment failed') {
+    const upiContainer = document.querySelector('.upi-payment-container');
+    const totalAmount = document.querySelector('.upi-total-amount').textContent;
+
+    upiContainer.innerHTML = `
+        <div class="upi-result-screen upi-failure-screen">
+            <div class="upi-result-content">
+                <div class="upi-result-icon failure-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <h1 class="upi-result-title">Payment Failed ⚠️</h1>
+
+                <div class="upi-failure-reason">
+                    <p>${reason}</p>
+                </div>
+
+                <div class="upi-failure-suggestions">
+                    <h3>Suggestions:</h3>
+                    <ul>
+                        <li>Check your internet connection</li>
+                        <li>Verify your UPI ID is correct</li>
+                        <li>Ensure sufficient balance in your account</li>
+                        <li>Try using a different UPI app</li>
+                    </ul>
+                </div>
+
+                <div class="upi-result-actions">
+                    <button class="upi-primary-btn" onclick="showUpiPaymentScreen()">
+                        <i class="fas fa-redo"></i>
+                        Retry Payment
+                    </button>
+                    <button class="upi-secondary-btn" onclick="returnToCheckout()">
+                        <i class="fas fa-arrow-left"></i>
+                        Choose Another Method
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function returnToCheckout() {
+    const checkoutContent = document.querySelector('.checkout-content');
+    checkoutContent.innerHTML = window.originalCheckoutContent;
+
+    // Reinitialize checkout functionality
+    setupCheckoutFunctionality();
+    setupPaymentMethods();
+    setupAddressModal();
+    setupCouponSystem();
+
+    // Reload order summary
+    loadOrderSummary();
+}
+
+function trackOrder(orderNumber) {
+    // Store order number for tracking page
+    localStorage.setItem('currentOrderNumber', orderNumber);
+    window.location.href = 'track-order.html';
+}
+
+function continueShopping() {
+    window.location.href = 'index.html';
+}
+
+// Make functions global for inline onclick
 window.removeCoupon = removeCoupon;
+window.returnToCheckout = returnToCheckout;
+window.verifyAndPayUpi = verifyAndPayUpi;
+window.payWithUpiApp = payWithUpiApp;
+window.initiateUpiPayment = initiateUpiPayment;
+window.trackOrder = trackOrder;
+window.continueShopping = continueShopping;
