@@ -1257,6 +1257,80 @@ function showWalletSuccessScreen(walletUsed) {
     localStorage.removeItem('fashionCart');
 }
 
+function showWalletFailureScreen(walletUsed, reason = 'Payment failed') {
+    const walletContainer = document.querySelector('.wallet-payment-container');
+    const totalAmount = document.querySelector('.total-amount').textContent;
+
+    // Common failure reasons for wallets
+    const failureReasons = [
+        'Insufficient balance in wallet',
+        'Transaction timeout',
+        'Payment was cancelled by user',
+        'Network connection issue',
+        'Wallet service temporarily unavailable'
+    ];
+
+    const randomReason = failureReasons[Math.floor(Math.random() * failureReasons.length)];
+    const finalReason = reason === 'Payment failed' ? randomReason : reason;
+
+    walletContainer.innerHTML = `
+        <div class="wallet-result-screen wallet-failure-screen">
+            <div class="wallet-result-content">
+                <div class="wallet-result-icon failure-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <h1 class="wallet-result-title">Payment Failed ⚠️</h1>
+
+                <div class="wallet-failure-reason">
+                    <p><strong>Reason:</strong> ${finalReason}</p>
+                    <p><strong>Wallet:</strong> ${walletUsed}</p>
+                </div>
+
+                <div class="wallet-failure-suggestions">
+                    <h3>Suggestions:</h3>
+                    <ul>
+                        <li>Check your wallet balance</li>
+                        <li>Ensure stable internet connection</li>
+                        <li>Verify your wallet app is updated</li>
+                        <li>Try using a different payment method</li>
+                        <li>Contact your wallet provider if issue persists</li>
+                    </ul>
+                </div>
+
+                <div class="wallet-result-actions">
+                    <button class="wallet-primary-btn" onclick="retryWalletPayment('${walletUsed}')">
+                        <i class="fas fa-redo"></i>
+                        Retry with ${walletUsed}
+                    </button>
+                    <button class="wallet-secondary-btn" onclick="returnToCheckout()">
+                        <i class="fas fa-arrow-left"></i>
+                        Choose Another Method
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function retryWalletPayment(walletName) {
+    // Store the wallet for retry
+    window.selectedWallet = walletName;
+    showNotification(`Retrying payment with ${walletName}...`, 'info');
+
+    // Simulate retry payment
+    setTimeout(() => {
+        // Slightly better success rate on retry (85%)
+        const isSuccess = Math.random() > 0.15;
+
+        if (isSuccess) {
+            showWalletSuccessScreen(walletName);
+        } else {
+            showWalletFailureScreen(walletName, 'Retry failed. Please try a different method.');
+        }
+    }, 2000);
+}
+
 // Make functions global for inline onclick
 window.removeCoupon = removeCoupon;
 window.returnToCheckout = returnToCheckout;
