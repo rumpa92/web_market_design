@@ -624,6 +624,13 @@ function showUpiPaymentScreen() {
 }
 
 function generateUpiOrderSummary() {
+    // Get the exact same order summary content from the main checkout page
+    const originalOrderSummary = document.querySelector('.order-summary-card');
+    if (originalOrderSummary) {
+        return originalOrderSummary.outerHTML;
+    }
+
+    // Fallback: generate the same structure if original not found
     const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
     const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = cartData.reduce((sum, item) => {
@@ -636,30 +643,82 @@ function generateUpiOrderSummary() {
     const discount = getCurrentDiscount();
     const total = subtotal + shipping + tax - discount;
 
-    return `
-        <div class="upi-summary-card">
-            <h3 class="upi-summary-title">Order Summary</h3>
+    // Generate order items HTML
+    let orderItemsHtml = '';
+    cartData.forEach(item => {
+        const price = typeof item.price === 'string' ? item.price.replace('$', '') : item.price;
+        const totalPrice = (parseFloat(price) * item.quantity).toFixed(2);
 
-            <div class="upi-summary-items">
-                <div class="upi-summary-row">
-                    <span>Items (${totalItems})</span>
+        orderItemsHtml += `
+            <div class="order-item">
+                <div class="item-image">
+                    <img src="${item.image || 'https://via.placeholder.com/200x200'}" alt="${item.title}">
+                </div>
+                <div class="item-details">
+                    <h4>${item.title}</h4>
+                    <p>StyleHub</p>
+                    <div class="item-options">
+                        ${item.selectedSize ? `<span>Size: ${item.selectedSize}</span>` : ''}
+                        ${item.selectedColor ? `<span>Color: ${item.selectedColor}</span>` : ''}
+                    </div>
+                    <div class="item-quantity">Qty: ${item.quantity}</div>
+                </div>
+                <div class="item-price">$${totalPrice}</div>
+            </div>
+        `;
+    });
+
+    return `
+        <div class="order-summary-card">
+            <h3 class="summary-title">Order Summary</h3>
+
+            <!-- Order Items -->
+            <div class="order-items">
+                ${orderItemsHtml}
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Subtotal (${totalItems} item${totalItems !== 1 ? 's' : ''})</span>
                     <span>$${subtotal.toFixed(2)}</span>
                 </div>
-                <div class="upi-summary-row">
-                    <span>Delivery</span>
+                <div class="price-row">
+                    <span>Shipping</span>
                     <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
                 </div>
-                <div class="upi-summary-row">
-                    <span>Total Amount</span>
-                    <span class="upi-total-amount">$${total.toFixed(2)}</span>
+                <div class="price-row">
+                    <span>Tax (NY)</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                ${discount > 0 ? `
+                <div class="price-row discount-row">
+                    <span>Discount</span>
+                    <span class="discount-amount">-$${discount.toFixed(2)}</span>
+                </div>
+                ` : ''}
+                <div class="price-divider"></div>
+                <div class="price-row total-row">
+                    <span>Total</span>
+                    <span class="total-amount">$${total.toFixed(2)}</span>
                 </div>
             </div>
 
-            <div class="upi-delivery-address">
-                <h4>Delivery Address</h4>
-                <div class="upi-address-text">
-                    123 Fashion Street, Suite 456<br>
-                    New York, NY 10001
+            <!-- Place Order Button -->
+            <button class="place-order-btn" onclick="initiateUpiPayment()">
+                <i class="fas fa-lock"></i>
+                Pay $${total.toFixed(2)}
+            </button>
+
+            <!-- Security Badges -->
+            <div class="security-info">
+                <div class="security-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>256-bit SSL encryption</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-undo"></i>
+                    <span>30-day return policy</span>
                 </div>
             </div>
         </div>
