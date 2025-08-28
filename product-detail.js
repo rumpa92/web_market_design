@@ -498,12 +498,19 @@ function showReviewModal() {
 
 function setupReviewModalListeners(modal) {
     const closeBtn = modal.querySelector('.close-review-modal');
-    const cancelBtn = modal.querySelector('.cancel-review');
-    const submitBtn = modal.querySelector('.submit-review');
-    const stars = modal.querySelectorAll('.star');
+    const cancelBtn = modal.querySelector('.cancel-review-btn');
+    const submitBtn = modal.querySelector('.submit-review-btn');
+    const stars = modal.querySelectorAll('.interactive-star');
     const form = modal.querySelector('#reviewForm');
+    const fitButtons = modal.querySelectorAll('.fit-btn');
+    const uploadDropzone = modal.querySelector('#uploadDropzone');
+    const fileInput = modal.querySelector('#fileInput');
+    const reviewText = modal.querySelector('#reviewText');
+    const charCount = modal.querySelector('#charCount');
 
     let selectedRating = 0;
+    let selectedFit = 'true-to-size';
+    let uploadedFiles = [];
 
     // Close modal events
     closeBtn.addEventListener('click', () => closeReviewModal(modal));
@@ -514,6 +521,11 @@ function setupReviewModalListeners(modal) {
         if (e.target === modal) {
             closeReviewModal(modal);
         }
+    });
+
+    // Prevent modal content click from closing modal
+    modal.querySelector('.review-modal-content').addEventListener('click', (e) => {
+        e.stopPropagation();
     });
 
     // Star rating
@@ -527,37 +539,136 @@ function setupReviewModalListeners(modal) {
             const hoverRating = parseInt(star.dataset.rating);
             updateStarRating(stars, hoverRating);
         });
+
+        star.addEventListener('mouseleave', () => {
+            updateStarRating(stars, selectedRating);
+        });
+    });
+
+    // Character count for review text
+    reviewText.addEventListener('input', () => {
+        const count = reviewText.value.length;
+        charCount.textContent = count;
+
+        if (count > 400) {
+            charCount.style.color = '#f44336';
+        } else if (count > 300) {
+            charCount.style.color = '#ff9800';
+        } else {
+            charCount.style.color = '#666';
+        }
+    });
+
+    // Fit feedback buttons
+    fitButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            fitButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            selectedFit = button.dataset.fit;
+        });
+    });
+
+    // File upload functionality
+    uploadDropzone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    uploadDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.add('dragover');
+    });
+
+    uploadDropzone.addEventListener('dragleave', () => {
+        uploadDropzone.classList.remove('dragover');
+    });
+
+    uploadDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.remove('dragover');
+        handleFileUpload(e.dataTransfer.files, modal);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        handleFileUpload(e.target.files, modal);
     });
 
     // Form submission
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const title = modal.querySelector('#reviewTitle').value;
-        const text = modal.querySelector('#reviewText').value;
-        const name = modal.querySelector('#reviewerName').value;
+        const title = modal.querySelector('#reviewTitle').value.trim();
+        const text = modal.querySelector('#reviewText').value.trim();
 
         if (!selectedRating) {
             showNotification('Please select a rating', 'error');
             return;
         }
 
-        if (!title || !text || !name) {
-            showNotification('Please fill in all fields', 'error');
+        if (!text) {
+            showNotification('Please write a review description', 'error');
             return;
         }
 
         // Submit review
         submitReview({
             rating: selectedRating,
-            title: title,
+            title: title || 'Customer Review',
             text: text,
-            name: name,
-            product: currentProduct.title
+            product: currentProduct.title,
+            color: currentProduct.selectedColor,
+            size: currentProduct.selectedSize,
+            fit: selectedFit,
+            files: uploadedFiles
         });
 
         closeReviewModal(modal);
     });
+
+    // Helper function to handle file uploads
+    function handleFileUpload(files, modal) {
+        const uploadedFilesContainer = modal.querySelector('#uploadedFiles');
+
+        Array.from(files).forEach(file => {
+            if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                showNotification('File size must be less than 10MB', 'error');
+                return;
+            }
+
+            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                showNotification('Only image and video files are allowed', 'error');
+                return;
+            }
+
+            uploadedFiles.push(file);
+
+            // Create file preview
+            const fileItem = document.createElement('div');
+            fileItem.className = 'uploaded-file-item';
+
+            const fileName = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <i class="fas ${file.type.startsWith('image/') ? 'fa-image' : 'fa-video'}"></i>
+                    <span class="file-name">${fileName}</span>
+                </div>
+                <button type="button" class="remove-file-btn" onclick="removeUploadedFile(this, '${file.name}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            uploadedFilesContainer.appendChild(fileItem);
+        });
+
+        showNotification(`${files.length} file(s) added`, 'success');
+    }
+
+    // Make removeUploadedFile function available globally
+    window.removeUploadedFile = function(button, fileName) {
+        uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+        button.parentElement.remove();
+        showNotification('File removed', 'info');
+    };
 }
 
 function updateStarRating(stars, rating) {
