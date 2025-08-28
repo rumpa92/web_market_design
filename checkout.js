@@ -284,7 +284,13 @@ function setupPaymentMethods() {
 
             // Handle Digital Wallet selection
             if (this.value === 'wallet') {
-                showWalletPaymentScreen();
+                console.log('Digital Wallet selected, calling showWalletPaymentScreen()');
+                try {
+                    showWalletPaymentScreen();
+                } catch (error) {
+                    console.error('Error showing wallet payment screen:', error);
+                    showNotification('Error loading wallet payment. Please try again.', 'error');
+                }
             }
         });
     });
