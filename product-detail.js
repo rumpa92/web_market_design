@@ -117,12 +117,26 @@ function loadProductData() {
     if (productTitle) {
         productTitle.textContent = currentProduct.title;
         console.log('Updated title to:', currentProduct.title);
+
+        // Force a DOM update
+        productTitle.style.display = 'none';
+        productTitle.offsetHeight; // trigger reflow
+        productTitle.style.display = '';
+    } else {
+        console.error('Product title element not found!');
     }
 
     const currentPriceEl = document.getElementById('currentPrice');
     if (currentPriceEl) {
         currentPriceEl.textContent = `$${currentProduct.currentPrice}`;
         console.log('Updated price to:', `$${currentProduct.currentPrice}`);
+
+        // Force a DOM update
+        currentPriceEl.style.display = 'none';
+        currentPriceEl.offsetHeight; // trigger reflow
+        currentPriceEl.style.display = '';
+    } else {
+        console.error('Current price element not found!');
     }
 
     // Update cart badge
