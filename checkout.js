@@ -603,10 +603,6 @@ function showUpiPaymentScreen() {
 
                         <!-- Action Buttons -->
                         <div class="upi-action-buttons">
-                            <button class="upi-pay-btn" onclick="initiateUpiPayment()">
-                                <i class="fas fa-lock"></i>
-                                Pay ${totalAmount}
-                            </button>
                             <button class="upi-change-method-btn" onclick="returnToCheckout()">
                                 Change Payment Method
                             </button>
