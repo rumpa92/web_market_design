@@ -267,10 +267,12 @@ function addToCart(product) {
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        // Ensure price is always a string
+        // Ensure price is always a string and ID is always present
         const normalizedProduct = {
             ...product,
-            price: typeof product.price === 'string' ? product.price : `₹${product.price}`
+            id: product.id || Date.now() + Math.random(), // Ensure ID exists
+            price: typeof product.price === 'string' ? product.price : `₹${product.price}`,
+            quantity: product.quantity || 1 // Ensure quantity exists
         };
         cart.push(normalizedProduct);
     }
