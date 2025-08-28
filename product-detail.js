@@ -85,20 +85,32 @@ function generateProductImages(mainImage) {
 }
 
 function loadProductData() {
+    // Update page title
+    const pageTitle = document.getElementById('pageTitle');
+    if (pageTitle) {
+        pageTitle.textContent = `${currentProduct.title} - StyleHub`;
+    }
+
     // Update product information
     document.getElementById('productTitle').textContent = currentProduct.title;
     document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
-    
+
+    // Update rating and review count
+    const ratingText = document.querySelector('.rating-text');
+    if (ratingText) {
+        ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
+    }
+
     // Update cart badge
     const cartBadge = document.getElementById('cartBadge');
     const cartCount = getCartItemCount();
     cartBadge.textContent = cartCount;
-    
+
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
     mainImage.src = currentProduct.images.main;
     mainImage.alt = currentProduct.title;
-    
+
     // Load thumbnail images
     const thumbnails = document.querySelectorAll('.thumbnail-item img');
     const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
@@ -107,9 +119,11 @@ function loadProductData() {
             thumb.src = currentProduct.images[imageKeys[index]];
         }
     });
-    
+
     // Update quantity display
     document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
+
+    console.log('Product data loaded:', currentProduct.title, `$${currentProduct.currentPrice}`);
 }
 
 function setupProductEventListeners() {
