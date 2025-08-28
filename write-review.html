@@ -5,345 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Write a Review - StyleHub</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Write Review Specific Styles */
         .review-main {
-            background: white;
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
-        
-        .review-container {
+            padding: 2rem;
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 1rem;
         }
-        
         .page-header {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e0e0e0;
         }
-        
         .back-button {
-            background: white;
-            border: 1px solid #ddd;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            padding: 0.5rem 1rem;
+            background: #5a3d98;
+            color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            color: #333;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
-        .back-button:hover {
-            background: #f8f9fa;
-            border-color: #333;
-            transform: translateX(-2px);
-        }
-        
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
-        
-        .product-info-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 2rem;
-        }
-        
-        .product-thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .product-details h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-            margin: 0 0 0.5rem 0;
-        }
-        
-        .product-options {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .review-form-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
         .form-label {
             display: block;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-        
-        .required {
-            color: #f44336;
-        }
-        
-        .optional {
-            color: #666;
-            font-weight: normal;
-        }
-        
-        .star-rating {
-            display: flex;
-            gap: 0.25rem;
             margin-bottom: 0.5rem;
         }
-        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            background: #5a3d98;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
         .star {
             font-size: 2rem;
             cursor: pointer;
-            transition: all 0.2s ease;
             color: #ddd;
-            user-select: none;
         }
-        
-        .star:hover, .star.active {
+        .star.active {
             color: #ffc107;
-            transform: scale(1.1);
-        }
-        
-        .rating-text {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #5a3d98;
-            box-shadow: 0 0 0 3px rgba(90, 61, 152, 0.1);
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        .character-count {
-            text-align: right;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-        
-        .fit-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .fit-button {
-            padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 120px;
-            font-family: inherit;
-        }
-        
-        .fit-button:hover {
-            border-color: #5a3d98;
-            background: #f8f6ff;
-        }
-        
-        .fit-button.active {
-            background: #5a3d98;
-            border-color: #5a3d98;
-            color: white;
-        }
-        
-        .upload-zone {
-            border: 2px dashed #e0e0e0;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #fafafa;
-        }
-        
-        .upload-zone:hover {
-            border-color: #5a3d98;
-            background: #f8f6ff;
-        }
-        
-        .upload-icon {
-            font-size: 2rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        
-        .cancel-button {
-            flex: 1;
-            padding: 1rem 2rem;
-            background: transparent;
-            color: #666;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        
-        .cancel-button:hover {
-            border-color: #666;
-            color: #333;
-        }
-        
-        .submit-button {
-            flex: 1;
-            padding: 1rem 2rem;
-            background: #5a3d98;
-            color: white;
-            border: 2px solid #5a3d98;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        
-        .submit-button:hover {
-            background: #4a3288;
-            border-color: #4a3288;
-            transform: translateY(-1px);
-        }
-        
-        .submit-button:disabled {
-            background: #ccc;
-            border-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .approval-note {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            background: #e8f4fd;
-            border-radius: 8px;
-            border-left: 4px solid #2196F3;
-            margin-top: 1rem;
-        }
-        
-        .approval-note i {
-            color: #2196F3;
-        }
-        
-        .approval-note span {
-            font-size: 0.9rem;
-            color: #333;
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .review-container {
-                padding: 0 0.5rem;
-            }
-            
-            .review-main {
-                padding: 1rem 0;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-            
-            .product-info-card {
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: center;
-            }
-            
-            .product-thumbnail {
-                align-self: center;
-                width: 60px;
-                height: 60px;
-            }
-            
-            .review-form-section {
-                padding: 1.5rem;
-            }
-            
-            .star {
-                font-size: 1.8rem;
-            }
-            
-            .fit-buttons {
-                flex-direction: column;
-            }
-            
-            .fit-button {
-                min-width: auto;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -355,235 +65,60 @@
                 <div class="logo">
                     <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
                 </div>
-                <div class="header-actions">
-                    <div class="action-icons">
-                        <i class="far fa-heart wishlist-icon"></i>
-                        <div class="cart-icon-container">
-                            <i class="fas fa-shopping-bag cart-icon"></i>
-                            <span class="cart-count" id="cartBadge">0</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Review Content -->
     <main class="review-main">
-        <div class="review-container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <button class="back-button" id="backButton">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <h1 class="page-title">Write a Review</h1>
-            </div>
+        <div class="page-header">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Write a Review</h1>
+        </div>
 
-            <!-- Product Info Section -->
-            <div class="product-info-card">
-                <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Product" class="product-thumbnail" id="productThumbnail">
-                <div class="product-details">
-                    <h2 id="productTitle">Churidar</h2>
-                    <div class="product-options">
-                        <span><strong>Color:</strong> <span id="selectedColor">Black</span></span>
-                        <span><strong>Size:</strong> <span id="selectedSize">M</span></span>
-                    </div>
+        <div class="product-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3 id="productTitle">Churidar</h3>
+            <p>Color: <span id="selectedColor">Black</span> | Size: <span id="selectedSize">M</span></p>
+        </div>
+
+        <form id="reviewForm">
+            <div class="form-group">
+                <label class="form-label">Your Rating *</label>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">⭐</span>
+                    <span class="star" data-rating="2">⭐</span>
+                    <span class="star" data-rating="3">⭐</span>
+                    <span class="star" data-rating="4">⭐</span>
+                    <span class="star" data-rating="5">⭐</span>
                 </div>
             </div>
 
-            <!-- Review Form Section -->
-            <div class="review-form-section">
-                <form id="reviewForm">
-                    <!-- Rating Section -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            Your Rating <span class="required">*</span>
-                        </label>
-                        <div class="star-rating" id="starRating">
-                            <span class="star" data-rating="1">⭐</span>
-                            <span class="star" data-rating="2">⭐</span>
-                            <span class="star" data-rating="3">⭐</span>
-                            <span class="star" data-rating="4">⭐</span>
-                            <span class="star" data-rating="5">⭐</span>
-                        </div>
-                        <span class="rating-text" id="ratingText">Select a rating</span>
-                    </div>
-
-                    <!-- Review Title -->
-                    <div class="form-group">
-                        <label for="reviewTitle" class="form-label">
-                            Review Title <span class="optional">(optional)</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="reviewTitle" 
-                            class="form-input" 
-                            placeholder="Perfect fit and stylish"
-                            maxlength="100"
-                        >
-                    </div>
-
-                    <!-- Review Description -->
-                    <div class="form-group">
-                        <label for="reviewDescription" class="form-label">
-                            Review Description <span class="required">*</span>
-                        </label>
-                        <textarea 
-                            id="reviewDescription" 
-                            class="form-textarea" 
-                            rows="5" 
-                            placeholder="Share your thoughts about fit, quality, comfort, and style…"
-                            maxlength="500"
-                            required
-                        ></textarea>
-                        <div class="character-count">
-                            <span id="charCount">0</span>/500 characters
-                        </div>
-                    </div>
-
-                    <!-- Fit Feedback -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            Fit Feedback <span class="optional">(optional for fashion)</span>
-                        </label>
-                        <div class="fit-buttons">
-                            <button type="button" class="fit-button" data-fit="too-small">
-                                Too Small
-                            </button>
-                            <button type="button" class="fit-button active" data-fit="true-to-size">
-                                True to Size
-                            </button>
-                            <button type="button" class="fit-button" data-fit="too-large">
-                                Too Large
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Add Photos/Videos -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            Add Photos/Videos <span class="optional">(optional)</span>
-                        </label>
-                        <div class="upload-zone" id="uploadZone">
-                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                            <p>Drop files here or click to upload</p>
-                            <p style="font-size: 0.85rem; color: #666; margin: 0;">Supports: JPG, PNG, MP4 (Max 10MB each)</p>
-                            <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
-                        </div>
-                    </div>
-
-                    <!-- Form Actions -->
-                    <div class="form-actions">
-                        <button type="button" class="cancel-button" id="cancelButton">
-                            Cancel
-                        </button>
-                        <button type="submit" class="submit-button" id="submitButton">
-                            Submit Review
-                        </button>
-                    </div>
-
-                    <!-- Approval Note -->
-                    <div class="approval-note">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Your review will be visible after approval.</span>
-                    </div>
-                </form>
+            <div class="form-group">
+                <label class="form-label">Review Title</label>
+                <input type="text" class="form-input" placeholder="Perfect fit and stylish">
             </div>
-        </div>
+
+            <div class="form-group">
+                <label class="form-label">Review Description *</label>
+                <textarea class="form-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Review</button>
+        </form>
     </main>
 
-    <script src="script.js"></script>
     <script>
-        // Product data and review state
-        let currentProduct = {
-            id: 1,
-            title: 'Churidar',
-            images: { main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200' },
-            selectedColor: 'black',
-            selectedSize: 'M'
-        };
-        
         let selectedRating = 0;
-        let selectedFit = 'true-to-size';
 
-        // Initialize page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Write Review page loaded');
-            initializePageData();
-            setupEventListeners();
-            updateCartCount();
+        // Star rating functionality
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                updateStars();
+                showNotification(`Rated ${selectedRating} stars`, 'success');
+            });
         });
 
-        // Initialize page data from URL parameters
-        function initializePageData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const productData = urlParams.get('product');
-            
-            if (productData) {
-                try {
-                    const decodedData = JSON.parse(decodeURIComponent(productData));
-                    currentProduct = { ...currentProduct, ...decodedData };
-                } catch (e) {
-                    console.log('Using default product data');
-                }
-            }
-            
-            updateProductDisplay();
-        }
-
-        // Update the product display
-        function updateProductDisplay() {
-            document.getElementById('productThumbnail').src = currentProduct.images?.main || currentProduct.images?.main;
-            document.getElementById('productTitle').textContent = currentProduct.title || 'Churidar';
-            document.getElementById('selectedColor').textContent = currentProduct.selectedColor || 'Black';
-            document.getElementById('selectedSize').textContent = currentProduct.selectedSize || 'M';
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Back button
-            document.getElementById('backButton').addEventListener('click', () => {
-                window.location.href = 'product-detail';
-            });
-            
-            // Cancel button  
-            document.getElementById('cancelButton').addEventListener('click', () => {
-                window.location.href = 'product-detail';
-            });
-            
-            // Star rating
-            document.querySelectorAll('.star').forEach(star => {
-                star.addEventListener('click', () => {
-                    selectedRating = parseInt(star.dataset.rating);
-                    updateStars();
-                    updateRatingText();
-                });
-            });
-            
-            // Character counter
-            document.getElementById('reviewDescription').addEventListener('input', (e) => {
-                document.getElementById('charCount').textContent = e.target.value.length;
-            });
-            
-            // Fit feedback
-            document.querySelectorAll('.fit-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.fit-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    selectedFit = button.dataset.fit;
-                });
-            });
-            
-            // File upload
-            document.getElementById('uploadZone').addEventListener('click', () => {
-                document.getElementById('fileInput').click();
-            });
-            
-            // Form submission
-            document.getElementById('reviewForm').addEventListener('submit', handleSubmit);
-        }
-
-        // Update star display
         function updateStars() {
             document.querySelectorAll('.star').forEach((star, index) => {
                 if (index < selectedRating) {
@@ -594,85 +129,64 @@
             });
         }
 
-        // Update rating text
-        function updateRatingText() {
-            const ratingTexts = {
-                0: 'Select a rating',
-                1: 'Poor - 1 star',
-                2: 'Fair - 2 stars', 
-                3: 'Good - 3 stars',
-                4: 'Very Good - 4 stars',
-                5: 'Excellent - 5 stars'
-            };
-            document.getElementById('ratingText').textContent = ratingTexts[selectedRating];
-        }
-
-        // Handle form submission
-        function handleSubmit(e) {
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
             if (selectedRating === 0) {
-                showNotification('Please select a rating', 'error');
+                alert('Please select a rating');
                 return;
             }
             
-            const description = document.getElementById('reviewDescription').value.trim();
-            if (!description) {
-                showNotification('Please write a review description', 'error');
-                return;
-            }
+            showNotification('Review submitted successfully!', 'success');
             
-            // Show loading state
-            const submitBtn = document.getElementById('submitButton');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-            
-            // Simulate submission
             setTimeout(() => {
-                showNotification('Review submitted successfully!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'product-detail';
-                }, 2000);
-            }, 1500);
+                window.location.href = 'product-detail';
+            }, 2000);
+        });
+
+        // Back button
+        function goBack() {
+            window.location.href = 'product-detail';
         }
 
-        // Show notification
+        // Get product data from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productData = urlParams.get('product');
+        
+        if (productData) {
+            try {
+                const product = JSON.parse(decodeURIComponent(productData));
+                document.getElementById('productTitle').textContent = product.title || 'Churidar';
+                document.getElementById('selectedColor').textContent = product.selectedColor || 'Black';
+                document.getElementById('selectedSize').textContent = product.selectedSize || 'M';
+            } catch (e) {
+                console.log('Using default product data');
+            }
+        }
+
+        // Notification function
         function showNotification(message, type) {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
-                top: 100px;
+                top: 20px;
                 right: 20px;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
+                padding: 1rem;
+                background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
                 color: white;
-                font-weight: 600;
-                z-index: 10001;
-                transform: translateX(400px);
-                transition: transform 0.3s ease;
-                max-width: 300px;
-                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                border-radius: 4px;
+                z-index: 10000;
             `;
-            
             notification.textContent = message;
             document.body.appendChild(notification);
             
-            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
             setTimeout(() => {
-                notification.style.transform = 'translateX(400px)';
-                setTimeout(() => document.body.removeChild(notification), 300);
+                document.body.removeChild(notification);
             }, 3000);
         }
 
-        // Update cart count
-        function updateCartCount() {
-            const cartBadge = document.getElementById('cartBadge');
-            if (cartBadge) {
-                const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-                const count = cart.reduce((total, item) => total + item.quantity, 0);
-                cartBadge.textContent = count;
-            }
-        }
+        console.log('Write Review page loaded successfully');
     </script>
 </body>
 </html>
