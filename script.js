@@ -2706,15 +2706,18 @@ function showCartSummary() {
     const cartModal = document.getElementById('cartModal');
     const cartItems = document.getElementById('cartItems');
     const cartEmpty = document.getElementById('cartEmpty');
+    const cartSummary = document.getElementById('cartSummary');
 
     if (!cartModal) return;
 
     if (cart.length === 0) {
         cartItems.style.display = 'none';
         cartEmpty.classList.add('hidden');
+        if (cartSummary) cartSummary.style.display = 'none';
     } else {
         cartEmpty.classList.add('hidden');
         cartItems.style.display = 'block';
+        if (cartSummary) cartSummary.style.display = 'block';
         updateCartModalItems();
     }
 
