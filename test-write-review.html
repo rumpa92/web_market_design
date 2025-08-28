@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Write Review</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .primary { background: #5a3d98; color: white; }
+        .secondary { background: #f0f0f0; color: #333; }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Write Review Functionality Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Test Write Review Button Detection</h3>
+        <button class="btn secondary" onclick="testButtonExists()">Check if Write Review Button Exists</button>
+        <div id="buttonTest"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Test Click Event</h3>
+        <button class="btn secondary" onclick="testClickEvent()">Test Write Review Click</button>
+        <div id="clickTest"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Manual Test</h3>
+        <button class="btn primary" onclick="manualShowReviewModal()">Show Review Modal Manually</button>
+        <div id="manualTest"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Check Console Errors</h3>
+        <button class="btn secondary" onclick="checkConsoleErrors()">Check for JavaScript Errors</button>
+        <div id="errorTest"></div>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        function log(message) {
+            const result = document.getElementById('result');
+            result.innerHTML += '<p>' + new Date().toLocaleTimeString() + ': ' + message + '</p>';
+        }
+
+        function testButtonExists() {
+            const buttonTest = document.getElementById('buttonTest');
+            
+            // Try to access the button from the parent window
+            try {
+                const button = parent.document.getElementById('writeReviewBtn');
+                if (button) {
+                    buttonTest.innerHTML = '<p style="color: green;">✓ Write Review button found!</p>';
+                    log('Write Review button exists in DOM');
+                } else {
+                    buttonTest.innerHTML = '<p style="color: red;">✗ Write Review button NOT found!</p>';
+                    log('Write Review button missing from DOM');
+                }
+            } catch (e) {
+                buttonTest.innerHTML = '<p style="color: orange;">⚠ Cannot access parent document: ' + e.message + '</p>';
+                log('Error accessing parent document: ' + e.message);
+            }
+        }
+
+        function testClickEvent() {
+            const clickTest = document.getElementById('clickTest');
+            
+            try {
+                const button = parent.document.getElementById('writeReviewBtn');
+                if (button) {
+                    // Check if event listeners are attached
+                    const hasEventListeners = button.onclick !== null || 
+                                            button.addEventListener !== undefined;
+                    
+                    clickTest.innerHTML = '<p style="color: green;">✓ Button found, attempting click...</p>';
+                    
+                    // Try to trigger the click
+                    button.click();
+                    
+                    log('Write Review button clicked programmatically');
+                } else {
+                    clickTest.innerHTML = '<p style="color: red;">✗ Cannot find button to test click</p>';
+                    log('Cannot find Write Review button for click test');
+                }
+            } catch (e) {
+                clickTest.innerHTML = '<p style="color: red;">Error: ' + e.message + '</p>';
+                log('Error testing click: ' + e.message);
+            }
+        }
+
+        function manualShowReviewModal() {
+            const manualTest = document.getElementById('manualTest');
+            
+            try {
+                // Try to call the function directly
+                if (parent.showReviewModal && typeof parent.showReviewModal === 'function') {
+                    parent.showReviewModal();
+                    manualTest.innerHTML = '<p style="color: green;">✓ Review modal function called directly</p>';
+                    log('Review modal opened manually');
+                } else {
+                    manualTest.innerHTML = '<p style="color: red;">✗ showReviewModal function not found</p>';
+                    log('showReviewModal function is not available');
+                }
+            } catch (e) {
+                manualTest.innerHTML = '<p style="color: red;">Error: ' + e.message + '</p>';
+                log('Error calling showReviewModal: ' + e.message);
+            }
+        }
+
+        function checkConsoleErrors() {
+            const errorTest = document.getElementById('errorTest');
+            
+            // Store original console.error
+            const originalError = console.error;
+            let errorCount = 0;
+            let errors = [];
+            
+            // Override console.error to capture errors
+            console.error = function(...args) {
+                errorCount++;
+                errors.push(args.join(' '));
+                originalError.apply(console, args);
+            };
+            
+            // Restore after a short delay
+            setTimeout(() => {
+                console.error = originalError;
+                
+                if (errorCount > 0) {
+                    errorTest.innerHTML = '<p style="color: red;">Found ' + errorCount + ' console errors:</p><ul><li>' + errors.join('</li><li>') + '</li></ul>';
+                    log('Console errors detected: ' + errorCount);
+                } else {
+                    errorTest.innerHTML = '<p style="color: green;">✓ No console errors detected</p>';
+                    log('No console errors found');
+                }
+            }, 2000);
+            
+            errorTest.innerHTML = '<p>Checking for errors... (wait 2 seconds)</p>';
+        }
+
+        // Auto-run basic tests on load
+        window.onload = function() {
+            log('Test page loaded');
+            setTimeout(() => {
+                testButtonExists();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
