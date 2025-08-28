@@ -122,6 +122,10 @@ function setupProductEventListeners() {
         console.log('Setting up add to cart...');
         setupAddToCart();
 
+        // Write review
+        console.log('Setting up write review...');
+        setupWriteReview();
+
         // Tab navigation
         setupTabNavigation();
 
@@ -369,6 +373,202 @@ function setupAddToCart() {
             }, 1000);
         }, 500);
     });
+}
+
+function setupWriteReview() {
+    const writeReviewBtn = document.getElementById('writeReviewBtn');
+    console.log('Write review button found:', !!writeReviewBtn);
+
+    if (!writeReviewBtn) {
+        console.warn('Write review button not found! Check ID: writeReviewBtn');
+        return;
+    }
+
+    writeReviewBtn.addEventListener('click', () => {
+        // Animation effect
+        writeReviewBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            writeReviewBtn.style.transform = '';
+        }, 150);
+
+        // Show review modal/form
+        showReviewModal();
+    });
+}
+
+function showReviewModal() {
+    // Create review modal
+    const modal = document.createElement('div');
+    modal.className = 'review-modal';
+    modal.innerHTML = `
+        <div class="review-modal-content">
+            <div class="review-modal-header">
+                <h2>Write a Review</h2>
+                <button class="close-review-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="review-modal-body">
+                <div class="product-info-mini">
+                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-image">
+                    <h3>${currentProduct.title}</h3>
+                </div>
+                <form class="review-form" id="reviewForm">
+                    <div class="rating-input">
+                        <label>Your Rating:</label>
+                        <div class="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    <div class="review-title-input">
+                        <label for="reviewTitle">Review Title:</label>
+                        <input type="text" id="reviewTitle" placeholder="Summarize your experience">
+                    </div>
+                    <div class="review-text-input">
+                        <label for="reviewText">Your Review:</label>
+                        <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with this product"></textarea>
+                    </div>
+                    <div class="reviewer-info">
+                        <label for="reviewerName">Your Name:</label>
+                        <input type="text" id="reviewerName" placeholder="Enter your name">
+                    </div>
+                    <div class="review-actions">
+                        <button type="button" class="cancel-review">Cancel</button>
+                        <button type="submit" class="submit-review">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    // Style the modal
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+
+    document.body.appendChild(modal);
+
+    // Animate in
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+
+    // Setup modal interactions
+    setupReviewModalListeners(modal);
+
+    showNotification('Write your review', 'info');
+}
+
+function setupReviewModalListeners(modal) {
+    const closeBtn = modal.querySelector('.close-review-modal');
+    const cancelBtn = modal.querySelector('.cancel-review');
+    const submitBtn = modal.querySelector('.submit-review');
+    const stars = modal.querySelectorAll('.star');
+    const form = modal.querySelector('#reviewForm');
+
+    let selectedRating = 0;
+
+    // Close modal events
+    closeBtn.addEventListener('click', () => closeReviewModal(modal));
+    cancelBtn.addEventListener('click', () => closeReviewModal(modal));
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeReviewModal(modal);
+        }
+    });
+
+    // Star rating
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.rating);
+            updateStarRating(stars, selectedRating);
+        });
+
+        star.addEventListener('mouseover', () => {
+            const hoverRating = parseInt(star.dataset.rating);
+            updateStarRating(stars, hoverRating);
+        });
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const title = modal.querySelector('#reviewTitle').value;
+        const text = modal.querySelector('#reviewText').value;
+        const name = modal.querySelector('#reviewerName').value;
+
+        if (!selectedRating) {
+            showNotification('Please select a rating', 'error');
+            return;
+        }
+
+        if (!title || !text || !name) {
+            showNotification('Please fill in all fields', 'error');
+            return;
+        }
+
+        // Submit review
+        submitReview({
+            rating: selectedRating,
+            title: title,
+            text: text,
+            name: name,
+            product: currentProduct.title
+        });
+
+        closeReviewModal(modal);
+    });
+}
+
+function updateStarRating(stars, rating) {
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.style.color = '#ffc107';
+        } else {
+            star.style.color = '#ddd';
+        }
+    });
+}
+
+function submitReview(reviewData) {
+    // In a real app, this would submit to a server
+    showNotification('Thank you for your review!', 'success');
+
+    // Store review locally for demo
+    let reviews = JSON.parse(localStorage.getItem('productReviews') || '[]');
+    reviews.push({
+        ...reviewData,
+        date: new Date().toLocaleDateString(),
+        verified: true
+    });
+    localStorage.setItem('productReviews', JSON.stringify(reviews));
+}
+
+function closeReviewModal(modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        if (document.body.contains(modal)) {
+            document.body.removeChild(modal);
+        }
+    }, 300);
 }
 
 function setupTabNavigation() {
