@@ -384,7 +384,15 @@ function setupAddToCart() {
         return;
     }
 
+    let isAdding = false; // Prevent multiple rapid clicks
+
     addToCartBtn.addEventListener('click', () => {
+        if (isAdding) {
+            console.log('Add to cart already in progress, ignoring click');
+            return;
+        }
+
+        isAdding = true;
         // Disable button to prevent double clicks
         addToCartBtn.disabled = true;
 
@@ -410,6 +418,7 @@ function setupAddToCart() {
                 addToCartBtn.style.backgroundColor = '';
                 addToCartBtn.textContent = 'Add to Cart';
                 addToCartBtn.disabled = false;
+                isAdding = false; // Reset the flag
             }, 1000);
         }, 500);
     });
