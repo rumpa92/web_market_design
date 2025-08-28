@@ -5,10 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Product detail page DOMContentLoaded');
 
     try {
-        // Clear cart to start fresh (prevents showing old cart items)
-        localStorage.removeItem('fashionCart');
-        console.log('Cart cleared for fresh start');
-
         initializeProductDetail();
         loadProductData();
         setupProductEventListeners();
