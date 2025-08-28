@@ -308,9 +308,6 @@ function setupQuantityControls() {
             e.preventDefault();
             e.stopPropagation();
 
-            // Simple alert to test if click is working
-            alert('Remove button clicked!');
-
             // Add click animation
             removeIcon.style.transform = 'scale(0.8)';
             setTimeout(() => {
@@ -321,10 +318,7 @@ function setupQuantityControls() {
             currentProduct.quantity = 1;
             quantityDisplay.textContent = currentProduct.quantity;
 
-            // Show notification
-            showNotification('Quantity reset to 1', 'info');
-
-            // Optional: Remove from cart if it exists
+            // Remove from cart if it exists
             let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
             const existingItemIndex = cart.findIndex(item =>
                 item.title === currentProduct.title &&
@@ -339,6 +333,14 @@ function setupQuantityControls() {
                 updateCartBadge();
                 showNotification(`${itemName} removed from cart`, 'success');
             }
+
+            // Show notification and navigate to home page
+            showNotification('Item removed! Redirecting to home page...', 'success');
+
+            // Navigate to home page after a brief delay
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
         });
     } else {
         console.log('Remove icon NOT found!');
