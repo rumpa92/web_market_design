@@ -58,9 +58,8 @@ function showFlashScreen() {
 }
 
 function initializeApp() {
-    // Clear any existing cart data to start fresh
-    localStorage.removeItem('fashionCart');
-    cart = [];
+    // Load existing cart data from localStorage
+    loadCartFromStorage();
 
     setupEventListeners();
     updateCartCount();
