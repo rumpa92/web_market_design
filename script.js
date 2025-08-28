@@ -2726,7 +2726,23 @@ function showCartSummary() {
 
 function updateCartModalItems() {
     const cartItemsContainer = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartSummary = document.getElementById('cartSummary');
+
     if (!cartItemsContainer) return;
+
+    if (cart.length === 0) {
+        // Cart is empty - hide items container and summary
+        cartItemsContainer.style.display = 'none';
+        if (cartEmpty) cartEmpty.classList.add('hidden');
+        if (cartSummary) cartSummary.style.display = 'none';
+        return;
+    }
+
+    // Cart has items - show containers
+    cartItemsContainer.style.display = 'block';
+    if (cartEmpty) cartEmpty.classList.add('hidden');
+    if (cartSummary) cartSummary.style.display = 'block';
 
     // Filter out items without IDs and fix items with missing IDs
     cart = cart.map(item => {
@@ -3315,7 +3331,7 @@ const subcategoryItems = {
             originalPrice: '$89',
             image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'WOMEN FASHION',
-            rating: '★★★★☆'
+            rating: '★★��★☆'
         },
         {
             id: 'bottom3',
