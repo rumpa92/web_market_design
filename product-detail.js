@@ -1227,7 +1227,7 @@ window.updateCartItemQuantity = function(index, change) {
             const cartActions = document.querySelector('.cart-actions');
 
             if (cartItems) cartItems.style.display = 'none';
-            if (cartEmpty) cartEmpty.classList.add('hidden');
+            if (cartEmpty) cartEmpty.classList.remove('hidden');
             if (cartSummary) cartSummary.style.display = 'none';
             if (cartActions) cartActions.style.display = 'none';
         } else {
@@ -1257,7 +1257,7 @@ window.removeCartItem = function(index) {
             const cartActions = document.querySelector('.cart-actions');
 
             if (cartItems) cartItems.style.display = 'none';
-            if (cartEmpty) cartEmpty.classList.add('hidden');
+            if (cartEmpty) cartEmpty.classList.remove('hidden');
             if (cartSummary) cartSummary.style.display = 'none';
             if (cartActions) cartActions.style.display = 'none';
         } else {
