@@ -1012,10 +1012,14 @@ function openCartModal() {
         cartItems.style.display = 'none';
         cartEmpty.classList.remove('hidden');
         cartSummary.style.display = 'none';
+        const cartActions = document.querySelector('.cart-actions');
+        if (cartActions) cartActions.style.display = 'none';
     } else {
         cartItems.style.display = 'block';
         cartEmpty.classList.add('hidden');
         cartSummary.style.display = 'block';
+        const cartActions = document.querySelector('.cart-actions');
+        if (cartActions) cartActions.style.display = 'block';
 
         // Display cart items
         displayCartItems(cart);
@@ -1217,8 +1221,15 @@ window.updateCartItemQuantity = function(index, change) {
 
         // Refresh cart display
         if (cart.length === 0) {
-            closeCartModal();
-            openCartModal();
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartSummary = document.getElementById('cartSummary');
+            const cartActions = document.querySelector('.cart-actions');
+
+            if (cartItems) cartItems.style.display = 'none';
+            if (cartEmpty) cartEmpty.classList.remove('hidden');
+            if (cartSummary) cartSummary.style.display = 'none';
+            if (cartActions) cartActions.style.display = 'none';
         } else {
             displayCartItems(cart);
             updateCartSummary(cart);
@@ -1240,8 +1251,15 @@ window.removeCartItem = function(index) {
 
         // Refresh cart display
         if (cart.length === 0) {
-            closeCartModal();
-            openCartModal();
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartSummary = document.getElementById('cartSummary');
+            const cartActions = document.querySelector('.cart-actions');
+
+            if (cartItems) cartItems.style.display = 'none';
+            if (cartEmpty) cartEmpty.classList.remove('hidden');
+            if (cartSummary) cartSummary.style.display = 'none';
+            if (cartActions) cartActions.style.display = 'none';
         } else {
             displayCartItems(cart);
             updateCartSummary(cart);

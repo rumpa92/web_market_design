@@ -618,13 +618,12 @@
                 </div>
             </div>
 
-            <!-- Order Card 2 - Processing with Refund -->
+            <!-- Order Card 2 - Processing -->
             <div class="order-card" data-status="processing" data-date="2024-01-18">
-                <div class="refund-badge">Refund Available</div>
                 <div class="order-card-content">
                     <div class="order-header">
                         <p class="order-id">#SH2024001198</p>
-                        <span class="order-status status-processing">Processing</span>
+                        <span class="order-status status-processing">Cancel</span>
                     </div>
                     
                     <div class="product-section">
@@ -699,11 +698,10 @@
 
             <!-- Order Card 5 - Canceled with Refund -->
             <div class="order-card" data-status="canceled" data-date="2024-01-10">
-                <div class="refund-badge">Refund Processed</div>
+                <div class="refund-badge">Cancel</div>
                 <div class="order-card-content">
                     <div class="order-header">
                         <p class="order-id">#SH2024001023</p>
-                        <span class="order-status status-canceled">Canceled</span>
                     </div>
                     
                     <div class="product-section">
@@ -845,9 +843,7 @@
                 price: 2499,
                 status: 'processing',
                 date: '2024-01-18',
-                displayDate: 'Ordered on Jan 18, 2024',
-                hasRefund: true,
-                refundStatus: 'Refund Available'
+                displayDate: 'Ordered on Jan 18, 2024'
             },
             {
                 id: 'SH2024001156',
@@ -885,7 +881,7 @@
                 date: '2024-01-10',
                 displayDate: 'Canceled on Jan 10, 2024',
                 hasRefund: true,
-                refundStatus: 'Refund Processed'
+                refundStatus: 'Cancel'
             },
             {
                 id: 'SH2024000967',
@@ -982,7 +978,7 @@
                     <div class="order-card-content">
                         <div class="order-header">
                             <p class="order-id">#${order.id}</p>
-                            <span class="order-status status-${order.status}">${capitalizeFirst(order.status)}</span>
+                            ${order.id !== 'SH2024001023' ? `<span class="order-status status-${order.status}">${order.id === 'SH2024001198' ? 'Cancel' : capitalizeFirst(order.status)}</span>` : ''}
                         </div>
 
                         <div class="product-section">
@@ -1034,7 +1030,7 @@
                             <div class="order-card-content">
                                 <div class="order-header">
                                     <p class="order-id">#${order.id}</p>
-                                    <span class="order-status status-${order.status}">${capitalizeFirst(order.status)}</span>
+                                    ${order.id !== 'SH2024001023' ? `<span class="order-status status-${order.status}">${order.id === 'SH2024001198' ? 'Cancel' : capitalizeFirst(order.status)}</span>` : ''}
                                 </div>
                                 
                                 <div class="product-section">
