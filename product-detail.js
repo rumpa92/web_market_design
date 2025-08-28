@@ -119,6 +119,16 @@ function loadProductData() {
     console.log('currentProduct.title:', currentProduct.title);
     console.log('currentProduct complete object:', JSON.stringify(currentProduct, null, 2));
 
+    // Safety check - ensure currentProduct has all required properties
+    if (!currentProduct.title) {
+        console.warn('currentProduct.title is missing, fixing...');
+        currentProduct.title = defaultProduct.title || 'Designer Anarkali Gown';
+    }
+    if (!currentProduct.currentPrice) {
+        console.warn('currentProduct.currentPrice is missing, fixing...');
+        currentProduct.currentPrice = defaultProduct.currentPrice || 198;
+    }
+
     // Update page title
     const pageTitle = document.getElementById('pageTitle');
     if (pageTitle) {
