@@ -102,6 +102,14 @@ function initializeApp() {
     setupHeroSlider();
     setupCollectionPage();
     setupCollectionNavigation();
+    setupCartModal();
+
+    // Debug cart functionality
+    console.log('Cart initialized with items:', cart);
+    console.log('Cart functions available:', {
+        updateCartQuantity: typeof window.updateCartQuantity,
+        removeFromCart: typeof window.removeFromCart
+    });
 }
 
 // Event Listeners Setup
@@ -2781,6 +2789,8 @@ function updateCartQuantity(itemId, change) {
         return;
     }
 
+    console.log('Updating cart quantity for item:', itemId, 'change:', change);
+
     const item = cart.find(cartItem => {
         // Safety check for undefined item.id
         if (!cartItem || !cartItem.id) {
@@ -2791,15 +2801,19 @@ function updateCartQuantity(itemId, change) {
 
     if (item) {
         item.quantity += change;
+        console.log('Updated quantity for', item.title, 'to', item.quantity);
+
         if (item.quantity <= 0) {
             removeFromCart(itemId);
         } else {
             updateCartModalItems();
             updateCartCount();
             saveCartToStorage();
+            showNotification(`Quantity updated for ${item.title}`, 'info');
         }
     } else {
         console.warn('Item not found in cart for ID:', itemId);
+        console.log('Available cart items:', cart.map(item => ({id: item.id, title: item.title})));
     }
 }
 
@@ -2810,6 +2824,11 @@ function removeFromCart(itemId) {
         return;
     }
 
+    console.log('Removing item from cart:', itemId);
+
+    const itemToRemove = cart.find(item => item && item.id && item.id.toString() === itemId.toString());
+    const itemTitle = itemToRemove ? itemToRemove.title : 'Unknown item';
+
     cart = cart.filter(item => {
         // Safety check for undefined item.id
         if (!item || !item.id) {
@@ -2818,10 +2837,12 @@ function removeFromCart(itemId) {
         return item.id.toString() !== itemId.toString();
     });
 
+    console.log('Item removed. Cart now has', cart.length, 'items');
+
     updateCartModalItems();
     updateCartCount();
     saveCartToStorage();
-    showNotification('Item removed from cart', 'info');
+    showNotification(`${itemTitle} removed from cart`, 'info');
 }
 
 function updateCartSummary() {
