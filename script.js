@@ -3555,7 +3555,7 @@ function addToCartFromCategory(itemId) {
             cart.push({
                 id: item.id,
                 title: item.title,
-                price: item.price,
+                price: typeof item.price === 'string' ? item.price : `₹${item.price}`,
                 image: item.image,
                 quantity: 1
             });
