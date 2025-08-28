@@ -391,6 +391,7 @@ body {
     color: #333;
     min-width: 24px;
     text-align: center;
+    transition: all 0.2s ease;
 }
 
 /* Add to Cart Button */
