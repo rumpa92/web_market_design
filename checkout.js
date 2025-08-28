@@ -1201,6 +1201,62 @@ function initiateWalletPayment() {
     }
 }
 
+function showWalletSuccessScreen(walletUsed) {
+    const walletContainer = document.querySelector('.wallet-payment-container');
+    const totalAmount = document.querySelector('.total-amount').textContent;
+    const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    walletContainer.innerHTML = `
+        <div class="wallet-result-screen wallet-success-screen">
+            <div class="wallet-result-content">
+                <div class="wallet-result-icon success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+
+                <h1 class="wallet-result-title">Payment Successful 🎉</h1>
+
+                <div class="wallet-result-details">
+                    <div class="result-detail-item">
+                        <span class="detail-label">Paid via:</span>
+                        <span class="detail-value">${walletUsed}</span>
+                    </div>
+                    <div class="result-detail-item">
+                        <span class="detail-label">Amount Paid:</span>
+                        <span class="detail-value">${totalAmount}</span>
+                    </div>
+                    <div class="result-detail-item">
+                        <span class="detail-label">Transaction ID:</span>
+                        <span class="detail-value">${transactionId}</span>
+                    </div>
+                    <div class="result-detail-item">
+                        <span class="detail-label">Order ID:</span>
+                        <span class="detail-value">${orderNumber}</span>
+                    </div>
+                </div>
+
+                <div class="wallet-result-actions">
+                    <button class="wallet-primary-btn" onclick="trackOrder('${orderNumber}')">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Track Order
+                    </button>
+                    <button class="wallet-secondary-btn" onclick="continueShopping()">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </button>
+                </div>
+
+                <div class="wallet-success-message">
+                    <p>Your order has been confirmed and will be delivered within 3-5 business days.</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Clear cart after successful payment
+    localStorage.removeItem('fashionCart');
+}
+
 // Make functions global for inline onclick
 window.removeCoupon = removeCoupon;
 window.returnToCheckout = returnToCheckout;
