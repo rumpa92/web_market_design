@@ -105,6 +105,12 @@ function generateProductDescription(productTitle) {
 }
 
 function loadProductData() {
+    // Debug current product data
+    console.log('=== LOADING PRODUCT DATA ===');
+    console.log('currentProduct:', currentProduct);
+    console.log('currentProduct.title:', currentProduct.title);
+    console.log('currentProduct complete object:', JSON.stringify(currentProduct, null, 2));
+
     // Update page title
     const pageTitle = document.getElementById('pageTitle');
     if (pageTitle) {
