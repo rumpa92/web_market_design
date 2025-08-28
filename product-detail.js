@@ -761,17 +761,6 @@ function initializeCartModal() {
 
 // Setup Related Products Interaction
 function setupRelatedProductsInteraction() {
-    // Handle Quick View buttons
-    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productCard = e.target.closest('.product-card');
-            const productTitle = productCard.querySelector('h3').textContent;
-            showQuickViewModal(productCard);
-        });
-    });
-
     // Handle Wishlist buttons in related products
     const wishlistBtns = document.querySelectorAll('.wishlist-btn-overlay');
     wishlistBtns.forEach(btn => {
@@ -803,7 +792,7 @@ function setupRelatedProductsInteraction() {
     productCards.forEach(card => {
         card.addEventListener('click', (e) => {
             // Don't navigate if clicking on buttons
-            if (e.target.closest('.quick-view-btn') || e.target.closest('.wishlist-btn-overlay')) {
+            if (e.target.closest('.wishlist-btn-overlay')) {
                 return;
             }
 
@@ -821,105 +810,7 @@ function setupRelatedProductsInteraction() {
     });
 }
 
-function showQuickViewModal(productCard) {
-    const productTitle = productCard.querySelector('h3').textContent;
-    const productImage = productCard.querySelector('img').src;
-    const currentPrice = productCard.querySelector('.current-price').textContent;
-    const originalPrice = productCard.querySelector('.original-price')?.textContent || '';
-    const rating = productCard.querySelector('.stars').textContent;
-
-    // Create modal
-    const modal = document.createElement('div');
-    modal.className = 'quick-view-modal';
-    modal.innerHTML = `
-        <div class="quick-view-content">
-            <button class="close-quick-view">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="quick-view-body">
-                <div class="quick-view-image">
-                    <img src="${productImage}" alt="${productTitle}">
-                </div>
-                <div class="quick-view-info">
-                    <h2>${productTitle}</h2>
-                    <div class="quick-view-rating">
-                        <span class="stars">${rating}</span>
-                    </div>
-                    <div class="quick-view-pricing">
-                        <span class="current-price">${currentPrice}</span>
-                        ${originalPrice ? `<span class="original-price">${originalPrice}</span>` : ''}
-                    </div>
-                    <div class="quick-view-description">
-                        <p>Experience premium quality and elegant design with this stunning piece. Perfect for special occasions and everyday elegance.</p>
-                    </div>
-                    <div class="quick-view-actions">
-                        <button class="quick-add-to-cart">Add to Cart</button>
-                        <button class="quick-view-details">View Details</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Style the modal
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    `;
-
-    document.body.appendChild(modal);
-
-    // Animate in
-    setTimeout(() => {
-        modal.style.opacity = '1';
-    }, 10);
-
-    // Add event listeners
-    const closeBtn = modal.querySelector('.close-quick-view');
-    const quickAddBtn = modal.querySelector('.quick-add-to-cart');
-    const viewDetailsBtn = modal.querySelector('.quick-view-details');
-
-    closeBtn.addEventListener('click', () => {
-        closeQuickViewModal(modal);
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeQuickViewModal(modal);
-        }
-    });
-
-    quickAddBtn.addEventListener('click', () => {
-        showNotification(`${productTitle} added to cart!`, 'success');
-        closeQuickViewModal(modal);
-    });
-
-    viewDetailsBtn.addEventListener('click', () => {
-        showNotification(`Loading ${productTitle} details...`, 'info');
-        closeQuickViewModal(modal);
-    });
-
-    showNotification(`Quick view: ${productTitle}`, 'info');
-}
-
-function closeQuickViewModal(modal) {
-    modal.style.opacity = '0';
-    setTimeout(() => {
-        if (document.body.contains(modal)) {
-            document.body.removeChild(modal);
-        }
-    }, 300);
-}
+// Quick View functionality removed
 
 // Handle product card clicks in related products (updated version)
 document.addEventListener('click', function(e) {
