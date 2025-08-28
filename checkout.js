@@ -203,6 +203,12 @@ function handlePlaceOrder() {
         return;
     }
 
+    // Handle Digital Wallet payment
+    if (selectedPayment.value === 'wallet') {
+        showWalletPaymentScreen();
+        return;
+    }
+
     // Validate card details if card is selected
     if (selectedPayment.value === 'card') {
         if (!validateCardDetails()) {
