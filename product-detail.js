@@ -1217,8 +1217,13 @@ window.updateCartItemQuantity = function(index, change) {
 
         // Refresh cart display
         if (cart.length === 0) {
-            closeCartModal();
-            openCartModal();
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartSummary = document.getElementById('cartSummary');
+
+            if (cartItems) cartItems.style.display = 'none';
+            if (cartEmpty) cartEmpty.classList.add('hidden');
+            if (cartSummary) cartSummary.style.display = 'none';
         } else {
             displayCartItems(cart);
             updateCartSummary(cart);
