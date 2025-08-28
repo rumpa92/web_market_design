@@ -245,6 +245,17 @@ function setupQuantityControls() {
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
 
+    console.log('Quantity controls found:', {
+        decreaseBtn: !!decreaseBtn,
+        increaseBtn: !!increaseBtn,
+        quantityDisplay: !!quantityDisplay
+    });
+
+    if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
+        console.warn('Some quantity controls not found!');
+        return;
+    }
+
     decreaseBtn.addEventListener('click', () => {
         // Add click animation
         decreaseBtn.style.transform = 'scale(0.9)';
