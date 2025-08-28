@@ -315,29 +315,43 @@ function setupWishlist() {
 
 // Utility functions
 function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-    
-    const existingItem = cart.find(item => 
-        item.title === product.title && 
-        item.selectedSize === product.selectedSize && 
-        item.selectedColor === product.selectedColor
-    );
-    
-    if (existingItem) {
-        existingItem.quantity += product.quantity;
-    } else {
-        cart.push({
-            id: product.id,
-            title: product.title,
-            price: `$${product.currentPrice}`,
-            image: product.images.main,
-            selectedSize: product.selectedSize,
-            selectedColor: product.selectedColor,
-            quantity: product.quantity
-        });
+    try {
+        let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+
+        const existingItem = cart.find(item =>
+            item.title === product.title &&
+            item.selectedSize === product.selectedSize &&
+            item.selectedColor === product.selectedColor
+        );
+
+        if (existingItem) {
+            existingItem.quantity += product.quantity;
+        } else {
+            cart.push({
+                id: product.id,
+                title: product.title,
+                price: `$${product.currentPrice}`,
+                image: product.images.main,
+                selectedSize: product.selectedSize,
+                selectedColor: product.selectedColor,
+                quantity: product.quantity
+            });
+        }
+
+        localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+        // Update cart count in header if present
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            const totalCount = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalCount;
+        }
+
+        console.log('Product added to cart successfully:', product);
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showNotification('Error adding to cart. Please try again.', 'error');
     }
-    
-    localStorage.setItem('fashionCart', JSON.stringify(cart));
 }
 
 function toggleWishlist() {
