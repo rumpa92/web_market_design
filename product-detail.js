@@ -149,9 +149,24 @@ function loadProductData() {
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
     if (mainImage && currentProduct.images && currentProduct.images.main) {
+        console.log('Updating main image from:', mainImage.src, 'to:', currentProduct.images.main);
         mainImage.src = currentProduct.images.main;
         mainImage.alt = currentProduct.title;
+
+        // Force image reload
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+            mainImage.style.opacity = '1';
+            mainImage.style.transition = 'opacity 0.3s ease';
+        }, 100);
+
         console.log('Updated main image to:', currentProduct.images.main);
+    } else {
+        console.error('Main image element not found or no image data available!', {
+            mainImage: !!mainImage,
+            images: currentProduct.images,
+            mainImageSrc: currentProduct.images?.main
+        });
     }
 
     // Load thumbnail images
