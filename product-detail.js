@@ -45,45 +45,112 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
+    console.log('Initializing product detail page...');
+
     // Check if product data is passed from main page
     const urlParams = new URLSearchParams(window.location.search);
     const productData = urlParams.get('product');
-    
+
+    console.log('URL product data:', productData);
+
     if (productData) {
         try {
-            currentProduct = { ...currentProduct, ...JSON.parse(decodeURIComponent(productData)) };
+            const parsedData = JSON.parse(decodeURIComponent(productData));
+            console.log('Parsed product data:', parsedData);
+
+            // Merge the parsed data with default product
+            currentProduct = {
+                ...currentProduct,
+                ...parsedData,
+                // Ensure images object exists
+                images: parsedData.images || {
+                    main: parsedData.image || currentProduct.images.main,
+                    side: parsedData.image || currentProduct.images.side,
+                    back: parsedData.image || currentProduct.images.back,
+                    detail: parsedData.image || currentProduct.images.detail,
+                    fabric: parsedData.image || currentProduct.images.fabric
+                }
+            };
+
+            console.log('Updated current product:', currentProduct);
         } catch (e) {
+            console.error('Error parsing product data:', e);
             console.log('Using default product data');
         }
+    } else {
+        console.log('No product data in URL, using default');
     }
 }
 
 function loadProductData() {
+    console.log('Loading product data:', currentProduct);
+
     // Update product information
-    document.getElementById('productTitle').textContent = currentProduct.title;
-    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
-    
+    const productTitle = document.getElementById('productTitle');
+    if (productTitle) {
+        productTitle.textContent = currentProduct.title;
+        console.log('Updated title to:', currentProduct.title);
+    }
+
+    const currentPriceEl = document.getElementById('currentPrice');
+    if (currentPriceEl) {
+        currentPriceEl.textContent = `$${currentProduct.currentPrice}`;
+        console.log('Updated price to:', `$${currentProduct.currentPrice}`);
+    }
+
     // Update cart badge
     const cartBadge = document.getElementById('cartBadge');
-    const cartCount = getCartItemCount();
-    cartBadge.textContent = cartCount;
-    
+    if (cartBadge) {
+        const cartCount = getCartItemCount();
+        cartBadge.textContent = cartCount;
+    }
+
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
-    mainImage.src = currentProduct.images.main;
-    mainImage.alt = currentProduct.title;
-    
+    if (mainImage && currentProduct.images && currentProduct.images.main) {
+        mainImage.src = currentProduct.images.main;
+        mainImage.alt = currentProduct.title;
+        console.log('Updated main image to:', currentProduct.images.main);
+    }
+
     // Load thumbnail images
     const thumbnails = document.querySelectorAll('.thumbnail-item img');
     const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
+    console.log('Found', thumbnails.length, 'thumbnail images');
+
     thumbnails.forEach((thumb, index) => {
-        if (currentProduct.images[imageKeys[index]]) {
+        if (currentProduct.images && currentProduct.images[imageKeys[index]]) {
             thumb.src = currentProduct.images[imageKeys[index]];
+            thumb.alt = `${currentProduct.title} - ${imageKeys[index]} view`;
+            console.log(`Updated thumbnail ${index} to:`, currentProduct.images[imageKeys[index]]);
         }
     });
-    
+
     // Update quantity display
-    document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    if (quantityDisplay) {
+        quantityDisplay.textContent = currentProduct.quantity;
+    }
+
+    // Update rating and review count
+    const ratingText = document.querySelector('.rating-text');
+    if (ratingText && currentProduct.rating && currentProduct.reviewCount) {
+        ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
+    }
+
+    // Update brand if it exists in the DOM
+    const brandElement = document.querySelector('.product-brand');
+    if (brandElement && currentProduct.brand) {
+        brandElement.textContent = currentProduct.brand;
+    }
+
+    // Update product tagline if it exists
+    const taglineElement = document.querySelector('.product-tagline');
+    if (taglineElement && currentProduct.tagline) {
+        taglineElement.textContent = currentProduct.tagline;
+    }
+
+    console.log('Product data loaded successfully');
 }
 
 function setupProductEventListeners() {
@@ -156,21 +223,46 @@ function setupHeaderIcons() {
 function setupGallery() {
     const thumbnails = document.querySelectorAll('.thumbnail-item');
     const mainImage = document.getElementById('mainProductImage');
-    
+
+    console.log('Setting up gallery with', thumbnails.length, 'thumbnails');
+
     thumbnails.forEach((thumbnail, index) => {
         thumbnail.addEventListener('click', () => {
+            console.log('Thumbnail', index, 'clicked');
+
             // Remove active class from all thumbnails
             thumbnails.forEach(t => t.classList.remove('active'));
-            
+
             // Add active class to clicked thumbnail
             thumbnail.classList.add('active');
-            
+
             // Update main image
             const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
             const imageKey = imageKeys[index];
-            if (currentProduct.images[imageKey]) {
+
+            if (currentProduct.images && currentProduct.images[imageKey]) {
                 mainImage.src = currentProduct.images[imageKey];
+                mainImage.alt = `${currentProduct.title} - ${imageKey} view`;
+                console.log('Updated main image to:', currentProduct.images[imageKey]);
+
+                // Add loading animation
+                mainImage.style.opacity = '0.7';
+                setTimeout(() => {
+                    mainImage.style.opacity = '1';
+                }, 200);
+            } else {
+                console.warn('Image not found for key:', imageKey);
             }
+        });
+
+        // Add hover effect
+        thumbnail.addEventListener('mouseenter', () => {
+            thumbnail.style.transform = 'scale(1.05)';
+            thumbnail.style.transition = 'transform 0.2s ease';
+        });
+
+        thumbnail.addEventListener('mouseleave', () => {
+            thumbnail.style.transform = 'scale(1)';
         });
     });
 }
