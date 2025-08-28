@@ -147,19 +147,33 @@ function setupGallery() {
 
 function setupColorSelection() {
     const colorDots = document.querySelectorAll('.color-dot');
-    
+
     colorDots.forEach(dot => {
         dot.addEventListener('click', () => {
+            // Add click animation
+            dot.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                dot.style.transform = '';
+            }, 150);
+
             // Remove active class from all dots
             colorDots.forEach(d => d.classList.remove('active'));
-            
+
             // Add active class to clicked dot
             dot.classList.add('active');
-            
+
             // Update selected color
             currentProduct.selectedColor = dot.dataset.color;
-            
+
             showNotification(`Selected color: ${currentProduct.selectedColor}`, 'success');
+        });
+
+        // Add keyboard support
+        dot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                dot.click();
+            }
         });
     });
 }
