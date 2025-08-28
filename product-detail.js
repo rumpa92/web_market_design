@@ -938,7 +938,7 @@ function addToCart(product) {
             cartCount.textContent = totalCount;
         }
 
-        console.log('Product added to cart successfully:', product);
+        console.log('Product added to cart successfully. New cart count:', cart.reduce((total, item) => total + item.quantity, 0));
     } catch (error) {
         console.error('Error adding to cart:', error);
         showNotification('Error adding to cart. Please try again.', 'error');
