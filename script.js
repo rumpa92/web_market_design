@@ -4,6 +4,34 @@
 let cart = [];
 let wishlist = [];
 
+// Debug utility function
+function debugCartFunctionality() {
+    console.log('=== Cart Functionality Debug ===');
+
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn, .modern-add-to-cart, .colorful-add-to-cart');
+    console.log(`Found ${addToCartButtons.length} add to cart buttons`);
+
+    addToCartButtons.forEach((btn, index) => {
+        const productCard = btn.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
+        console.log(`Button ${index + 1}: ${btn.className} - Has container: ${!!productCard} - Container type: ${productCard?.className || 'none'}`);
+    });
+
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
+    console.log(`Found ${productCards.length} product cards`);
+
+    console.log('Cart array:', cart);
+    console.log('Current cart count:', cart.length);
+
+    return {
+        buttons: addToCartButtons.length,
+        cards: productCards.length,
+        cart: cart.length
+    };
+}
+
+// Make debug function available globally
+window.debugCartFunctionality = debugCartFunctionality;
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     showFlashScreen();
