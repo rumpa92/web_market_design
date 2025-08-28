@@ -802,25 +802,7 @@ body {
     display: none;
 }
 
-.quick-view-btn {
-    background: white;
-    color: #333;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.85rem;
-}
-
-.quick-view-btn:hover {
-    background: #333;
-    color: white;
-    transform: translateY(-2px);
-}
+/* Quick View styles removed */
 
 .wishlist-btn-overlay {
     position: absolute;
