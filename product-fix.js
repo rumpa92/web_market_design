@@ -323,7 +323,7 @@
         }
     }
     
-    // Start when DOM is ready
-    ready(init);
+    // Disabled to prevent cart conflicts with product-detail.js
+    // ready(init);
     
 })();
