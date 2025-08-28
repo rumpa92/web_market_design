@@ -257,6 +257,10 @@ function setupQuantityControls() {
         removeIcon: !!removeIcon
     });
 
+    // Debug: Check if element exists in DOM
+    console.log('All elements with removeIcon:', document.querySelectorAll('#removeIcon'));
+    console.log('All elements with remove-icon class:', document.querySelectorAll('.remove-icon'));
+
     if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
         console.warn('Some quantity controls not found!');
         return;
