@@ -417,6 +417,16 @@ function setupAddToCart() {
         addToCartBtn.style.opacity = '0.8';
 
         setTimeout(() => {
+            console.log('=== ABOUT TO ADD TO CART ===');
+            console.log('currentProduct before addToCart:', currentProduct);
+            console.log('currentProduct.title:', currentProduct.title);
+
+            // Safety check - ensure title exists
+            if (!currentProduct.title) {
+                console.warn('currentProduct.title is undefined, setting to default');
+                currentProduct.title = defaultProduct.title || 'Designer Anarkali Gown';
+            }
+
             addToCart(currentProduct);
             updateCartBadge();
             showNotification(`${currentProduct.title} (${currentProduct.selectedColor}, ${currentProduct.selectedSize}) added to cart!`, 'success');
