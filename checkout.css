@@ -442,6 +442,19 @@ body {
     border: 1px solid #e0e0e0;
 }
 
+/* Ensure Digital Wallets logos display properly */
+.payment-logos .wallet-logo {
+    background: #f8f9fa !important;
+    padding: 0.2rem 0.6rem !important;
+    border-radius: 15px !important;
+    font-size: 0.65rem !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+    border: 1px solid #e0e0e0 !important;
+    display: inline-block !important;
+    margin-right: 0.5rem !important;
+}
+
 /* Card Details Form */
 .card-details-form {
     background: #f8f9fa;
