@@ -123,18 +123,35 @@ function handleAddToCart(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
-    const product = extractProductData(productCard);
+    try {
+        const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
 
-    addToCart(product);
-    showNotification(`${product.title} added to cart!`, 'success');
+        if (!productCard) {
+            console.warn('Product card not found. Trying alternative selectors...');
+            // Try to find any parent container that might contain product info
+            const alternativeCard = event.target.closest('[class*="product"], [class*="card"], .story-card, .seasonal-card');
+            if (alternativeCard) {
+                console.log('Found alternative product container:', alternativeCard.className);
+            }
+        }
 
-    // Add animation effect
-    const btn = event.target;
-    btn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        btn.style.transform = 'scale(1)';
-    }, 150);
+        const product = extractProductData(productCard);
+
+        addToCart(product);
+        showNotification(`${product.title} added to cart!`, 'success');
+
+        // Add animation effect
+        const btn = event.target;
+        if (btn && btn.style) {
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 150);
+        }
+    } catch (error) {
+        console.error('Error in handleAddToCart:', error);
+        showNotification('Error adding item to cart. Please try again.', 'error');
+    }
 }
 
 function extractProductData(productCard) {
