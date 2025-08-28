@@ -1136,6 +1136,71 @@ function setupCartModalListeners() {
     });
 }
 
+// Debug function to test write review functionality
+window.testWriteReview = function() {
+    console.log('=== Testing Write Review Functionality ===');
+
+    const writeReviewBtn = document.getElementById('writeReviewBtn');
+    console.log('Write review button found:', !!writeReviewBtn);
+
+    if (writeReviewBtn) {
+        console.log('Button text:', writeReviewBtn.textContent);
+        console.log('Button visible:', writeReviewBtn.offsetParent !== null);
+    }
+
+    console.log('currentProduct defined:', typeof currentProduct !== 'undefined');
+    if (typeof currentProduct !== 'undefined') {
+        console.log('currentProduct:', currentProduct);
+    }
+
+    // Try to navigate directly
+    if (typeof currentProduct !== 'undefined' && currentProduct) {
+        const productDataForReview = {
+            id: currentProduct.id || Date.now(),
+            title: currentProduct.title || 'Test Product',
+            brand: currentProduct.brand || 'StyleHub',
+            currentPrice: currentProduct.currentPrice || 99,
+            images: currentProduct.images || { main: 'https://via.placeholder.com/300x300' },
+            selectedColor: currentProduct.selectedColor || 'black',
+            selectedSize: currentProduct.selectedSize || 'M'
+        };
+
+        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+        const reviewUrl = `write-review.html?product=${productParam}`;
+
+        console.log('Generated review URL:', reviewUrl);
+        console.log('Attempting navigation...');
+
+        window.location.href = reviewUrl;
+    } else {
+        console.error('Cannot test - currentProduct not available');
+    }
+};
+
+// Alternative direct navigation function
+window.openWriteReview = function() {
+    // Fallback data if currentProduct is not available
+    const fallbackProduct = {
+        id: Date.now(),
+        title: 'Churidar',
+        brand: 'Fashion Hub',
+        currentPrice: 299,
+        images: { main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800' },
+        selectedColor: 'black',
+        selectedSize: 'M'
+    };
+
+    const productToUse = (typeof currentProduct !== 'undefined' && currentProduct) ? currentProduct : fallbackProduct;
+
+    localStorage.setItem('reviewProduct', JSON.stringify(productToUse));
+    const productParam = encodeURIComponent(JSON.stringify(productToUse));
+    const reviewUrl = `write-review.html?product=${productParam}`;
+
+    console.log('Opening write review page with product:', productToUse.title);
+    window.location.href = reviewUrl;
+};
+
 // Make updateCartItemQuantity global for inline onclick
 window.updateCartItemQuantity = function(index, change) {
     console.log('Updating cart item quantity:', index, change);
