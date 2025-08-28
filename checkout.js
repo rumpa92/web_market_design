@@ -1342,3 +1342,6 @@ window.continueShopping = continueShopping;
 window.showWalletPaymentScreen = showWalletPaymentScreen;
 window.payWithWallet = payWithWallet;
 window.initiateWalletPayment = initiateWalletPayment;
+window.showWalletSuccessScreen = showWalletSuccessScreen;
+window.showWalletFailureScreen = showWalletFailureScreen;
+window.retryWalletPayment = retryWalletPayment;
