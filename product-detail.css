@@ -300,6 +300,9 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    padding: 0;
+    outline: none;
+    background-clip: content-box;
 }
 
 .color-dot:hover {
