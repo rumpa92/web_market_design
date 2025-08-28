@@ -1,29 +1,7 @@
 // Fashion Marketplace JavaScript
 
 // Shopping Cart Functionality
-let cart = [
-    {
-        id: 1,
-        title: 'Premium Cotton T-Shirt',
-        price: '₹1,299',
-        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
-        quantity: 2
-    },
-    {
-        id: 2,
-        title: 'Designer Jeans',
-        price: '₹2,499',
-        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400',
-        quantity: 1
-    },
-    {
-        id: 3,
-        title: 'Summer Dress',
-        price: '₹1,899',
-        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400',
-        quantity: 1
-    }
-];
+let cart = [];
 let wishlist = [];
 
 // Debug utility function
