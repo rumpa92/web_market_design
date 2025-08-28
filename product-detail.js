@@ -125,10 +125,11 @@ function loadProductData() {
         ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
     }
 
-    // Update cart badge
+    // Update cart badge - should be 0 after clearing cart
     const cartBadge = document.getElementById('cartBadge');
     const cartCount = getCartItemCount();
     cartBadge.textContent = cartCount;
+    console.log('Cart badge initialized with count:', cartCount);
 
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
