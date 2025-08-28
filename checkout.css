@@ -433,17 +433,6 @@ body {
 }
 
 .upi-logo, .wallet-logo {
-    background: #f8f9fa;
-    padding: 0.2rem 0.6rem;
-    border-radius: 15px;
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: #000;
-    border: 1px solid #e0e0e0;
-}
-
-/* Ensure Digital Wallets logos display exactly like UPI logos */
-.payment-logos .wallet-logo {
     background: #f8f9fa !important;
     padding: 0.2rem 0.6rem !important;
     border-radius: 15px !important;
