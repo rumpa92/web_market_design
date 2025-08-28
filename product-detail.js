@@ -430,33 +430,53 @@ function setupWriteReview() {
         return;
     }
 
-    writeReviewBtn.addEventListener('click', () => {
-        // Animation effect
-        writeReviewBtn.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            writeReviewBtn.style.transform = '';
-        }, 150);
+    writeReviewBtn.addEventListener('click', (event) => {
+        console.log('Write review button clicked!', event);
+        console.log('Current product data:', currentProduct);
 
-        // Store current product data for the review page
-        const productDataForReview = {
-            id: currentProduct.id,
-            title: currentProduct.title,
-            brand: currentProduct.brand,
-            currentPrice: currentProduct.currentPrice,
-            images: currentProduct.images,
-            selectedColor: currentProduct.selectedColor,
-            selectedSize: currentProduct.selectedSize
-        };
+        try {
+            // Animation effect
+            writeReviewBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                writeReviewBtn.style.transform = '';
+            }, 150);
 
-        // Store in localStorage as backup
-        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+            // Store current product data for the review page
+            const productDataForReview = {
+                id: currentProduct.id,
+                title: currentProduct.title,
+                brand: currentProduct.brand,
+                currentPrice: currentProduct.currentPrice,
+                images: currentProduct.images,
+                selectedColor: currentProduct.selectedColor,
+                selectedSize: currentProduct.selectedSize
+            };
 
-        // Navigate to write review page with product data
-        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
-        window.location.href = `write-review.html?product=${productParam}`;
+            console.log('Product data for review:', productDataForReview);
 
-        showNotification('Opening write review page...', 'info');
+            // Store in localStorage as backup
+            localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+            console.log('Product data stored in localStorage');
+
+            // Navigate to write review page with product data
+            const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+            const url = `write-review.html?product=${productParam}`;
+            console.log('Navigating to:', url);
+
+            showNotification('Opening write review page...', 'info');
+
+            // Use setTimeout to ensure notification shows before navigation
+            setTimeout(() => {
+                window.location.href = url;
+            }, 100);
+
+        } catch (error) {
+            console.error('Error in write review click handler:', error);
+            showNotification('Error opening write review page', 'error');
+        }
     });
+
+    console.log('Write review button click listener added');
 }
 
 function showReviewModal() {
