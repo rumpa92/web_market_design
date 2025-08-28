@@ -967,7 +967,7 @@ function populateArticleContent(title, description, index) {
             heroImage: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&h=600&fit=crop&auto=format&q=80',
             intro: 'Discover the art of street style and how to master effortless urban fashion that turns heads and expresses your unique personality.',
             quote: 'Street style is about confidence and authenticity. It\'s not about following trends, but creating your own.',
-            body: 'Street style has evolved from a subcultural expression to a mainstream fashion phenomenon that influences runways and retail stores worldwide. It\'s about more than just clothing—it\'s a form of self-expression that tells your story without words.'
+            body: 'Street style has evolved from a subcultural expression to a mainstream fashion phenomenon that influences runways and retail stores worldwide. It\'s about more than just clothing��it\'s a form of self-expression that tells your story without words.'
         },
         'Seasonal Must-Haves': {
             category: 'SEASONAL GUIDE',
@@ -2707,6 +2707,7 @@ function showCartSummary() {
     const cartItems = document.getElementById('cartItems');
     const cartEmpty = document.getElementById('cartEmpty');
     const cartSummary = document.getElementById('cartSummary');
+    const cartActions = document.querySelector('.cart-actions');
 
     if (!cartModal) return;
 
@@ -2714,10 +2715,12 @@ function showCartSummary() {
         cartItems.style.display = 'none';
         cartEmpty.classList.add('hidden');
         if (cartSummary) cartSummary.style.display = 'none';
+        if (cartActions) cartActions.style.display = 'none';
     } else {
         cartEmpty.classList.add('hidden');
         cartItems.style.display = 'block';
         if (cartSummary) cartSummary.style.display = 'block';
+        if (cartActions) cartActions.style.display = 'block';
         updateCartModalItems();
     }
 
@@ -3873,7 +3876,7 @@ function generateCollectionProducts(collectionType) {
         { name: 'Leather Winter Gloves', price: 899, category: 'accessories', rating: '★★���★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400' },
         { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★���★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
         { name: 'Premium Bomber Jacket', price: 3899, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400' },
-        { name: 'Merino Wool Cardigan', price: 2499, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400' }
+        { name: 'Merino Wool Cardigan', price: 2499, category: 'sweaters', rating: '���★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400' }
     ];
 
     // Adjust products based on collection type
