@@ -134,14 +134,7 @@ function setupProductEventListeners() {
 
         console.log('All product event listeners set up successfully');
 
-        // Backup approach: Document-level click listener for remove icon
-        document.addEventListener('click', (e) => {
-            if (e.target && (e.target.id === 'removeIcon' || e.target.closest('#removeIcon'))) {
-                console.log('Remove icon clicked via document listener!');
-                alert('Remove icon working via backup method!');
-                window.location.href = 'index.html';
-            }
-        });
+        // Remove icon now handled by inline onclick for reliability
 
     } catch (error) {
         console.error('Error setting up product event listeners:', error);
@@ -314,31 +307,7 @@ function setupQuantityControls() {
         }
     });
 
-    // Remove icon functionality
-    if (removeIcon) {
-        console.log('Remove icon found, adding event listener');
-
-        // Test multiple event types
-        removeIcon.addEventListener('click', (e) => {
-            console.log('Remove icon clicked!');
-            alert('Remove icon working! Redirecting to home...');
-
-            // Navigate to home page immediately
-            window.location.href = 'index.html';
-        });
-
-        removeIcon.addEventListener('mousedown', (e) => {
-            console.log('Remove icon mousedown');
-        });
-
-        removeIcon.addEventListener('touchstart', (e) => {
-            console.log('Remove icon touchstart');
-        });
-
-    } else {
-        console.log('Remove icon NOT found!');
-        console.log('Available elements:', document.querySelectorAll('[id*="remove"]'));
-    }
+    // Remove icon functionality - now handled by inline onclick
 }
 
 function setupAddToCart() {
@@ -942,6 +911,43 @@ function initializeWishlistState() {
 
 // Initialize on load
 setTimeout(initializeWishlistState, 100);
+
+// Global function for remove icon - accessible from inline onclick
+window.removeAndGoHome = function() {
+    console.log('Remove and go home function called!');
+
+    // Get current product from global scope
+    if (typeof currentProduct !== 'undefined') {
+        // Remove from cart if it exists
+        let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+        const existingItemIndex = cart.findIndex(item =>
+            item.title === currentProduct.title &&
+            item.selectedSize === currentProduct.selectedSize &&
+            item.selectedColor === currentProduct.selectedColor
+        );
+
+        if (existingItemIndex !== -1) {
+            const itemName = cart[existingItemIndex].title;
+            cart.splice(existingItemIndex, 1);
+            localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+            // Update cart badge if available
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartBadge.textContent = totalItems;
+            }
+        }
+    }
+
+    // Show notification and navigate to home
+    showNotification('Item removed! Redirecting to home page...', 'success');
+
+    // Navigate to home page
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+};
 
 // Initialize Cart Modal
 function initializeCartModal() {
