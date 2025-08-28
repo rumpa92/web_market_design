@@ -616,12 +616,15 @@
             cursor: pointer;
             transition: all 0.3s ease;
             filter: grayscale(100%);
+            color: white;
         }
 
         .star:hover,
         .star.selected {
             filter: grayscale(0%);
             transform: scale(1.1);
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
         }
 
         .comment-section {
@@ -2970,7 +2973,7 @@
         }
 
         function raiseTicket() {
-            showNotification('🎟 Ticket system coming soon! For now, please use Live Chat or Email Support.', 'info');
+            showNotification('���� Ticket system coming soon! For now, please use Live Chat or Email Support.', 'info');
         }
 
         function isMobileDevice() {

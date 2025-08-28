@@ -423,33 +423,63 @@ function setupWriteReview() {
         return;
     }
 
-    writeReviewBtn.addEventListener('click', () => {
-        // Animation effect
-        writeReviewBtn.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            writeReviewBtn.style.transform = '';
-        }, 150);
+    console.log('Write review button found and event listener being added');
 
-        // Store current product data for the review page
-        const productDataForReview = {
-            id: currentProduct.id,
-            title: currentProduct.title,
-            brand: currentProduct.brand,
-            currentPrice: currentProduct.currentPrice,
-            images: currentProduct.images,
-            selectedColor: currentProduct.selectedColor,
-            selectedSize: currentProduct.selectedSize
-        };
+    writeReviewBtn.addEventListener('click', (e) => {
+        console.log('Write review button clicked!');
 
-        // Store in localStorage as backup
-        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+        try {
+            // Animation effect
+            writeReviewBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                writeReviewBtn.style.transform = '';
+            }, 150);
 
-        // Navigate to write review page with product data
-        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
-        window.location.href = `write-review.html?product=${productParam}`;
+            // Check if currentProduct exists
+            if (typeof currentProduct === 'undefined' || !currentProduct) {
+                console.error('currentProduct is not defined!');
+                showNotification('Error: Product data not available. Please refresh the page.', 'error');
+                return;
+            }
 
-        showNotification('Opening write review page...', 'info');
+            console.log('Current product data:', currentProduct);
+
+            // Store current product data for the review page
+            const productDataForReview = {
+                id: currentProduct.id || Date.now(),
+                title: currentProduct.title || 'Unknown Product',
+                brand: currentProduct.brand || 'StyleHub',
+                currentPrice: currentProduct.currentPrice || 0,
+                images: currentProduct.images || { main: 'https://via.placeholder.com/300x300' },
+                selectedColor: currentProduct.selectedColor || 'default',
+                selectedSize: currentProduct.selectedSize || 'M'
+            };
+
+            console.log('Product data for review:', productDataForReview);
+
+            // Store in localStorage as backup
+            localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+            console.log('Product data saved to localStorage');
+
+            // Navigate to write review page with product data
+            const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+            const reviewUrl = `write-review.html?product=${productParam}`;
+
+            console.log('Navigating to:', reviewUrl);
+            showNotification('Opening write review page...', 'info');
+
+            // Add small delay to show notification
+            setTimeout(() => {
+                window.location.href = reviewUrl;
+            }, 500);
+
+        } catch (error) {
+            console.error('Error in write review functionality:', error);
+            showNotification('Error opening write review page. Please try again.', 'error');
+        }
     });
+
+    console.log('Write review event listener added successfully');
 }
 
 function showReviewModal() {
@@ -1105,6 +1135,71 @@ function setupCartModalListeners() {
         }, 1000);
     });
 }
+
+// Debug function to test write review functionality
+window.testWriteReview = function() {
+    console.log('=== Testing Write Review Functionality ===');
+
+    const writeReviewBtn = document.getElementById('writeReviewBtn');
+    console.log('Write review button found:', !!writeReviewBtn);
+
+    if (writeReviewBtn) {
+        console.log('Button text:', writeReviewBtn.textContent);
+        console.log('Button visible:', writeReviewBtn.offsetParent !== null);
+    }
+
+    console.log('currentProduct defined:', typeof currentProduct !== 'undefined');
+    if (typeof currentProduct !== 'undefined') {
+        console.log('currentProduct:', currentProduct);
+    }
+
+    // Try to navigate directly
+    if (typeof currentProduct !== 'undefined' && currentProduct) {
+        const productDataForReview = {
+            id: currentProduct.id || Date.now(),
+            title: currentProduct.title || 'Test Product',
+            brand: currentProduct.brand || 'StyleHub',
+            currentPrice: currentProduct.currentPrice || 99,
+            images: currentProduct.images || { main: 'https://via.placeholder.com/300x300' },
+            selectedColor: currentProduct.selectedColor || 'black',
+            selectedSize: currentProduct.selectedSize || 'M'
+        };
+
+        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+        const reviewUrl = `write-review.html?product=${productParam}`;
+
+        console.log('Generated review URL:', reviewUrl);
+        console.log('Attempting navigation...');
+
+        window.location.href = reviewUrl;
+    } else {
+        console.error('Cannot test - currentProduct not available');
+    }
+};
+
+// Alternative direct navigation function
+window.openWriteReview = function() {
+    // Fallback data if currentProduct is not available
+    const fallbackProduct = {
+        id: Date.now(),
+        title: 'Churidar',
+        brand: 'Fashion Hub',
+        currentPrice: 299,
+        images: { main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800' },
+        selectedColor: 'black',
+        selectedSize: 'M'
+    };
+
+    const productToUse = (typeof currentProduct !== 'undefined' && currentProduct) ? currentProduct : fallbackProduct;
+
+    localStorage.setItem('reviewProduct', JSON.stringify(productToUse));
+    const productParam = encodeURIComponent(JSON.stringify(productToUse));
+    const reviewUrl = `write-review.html?product=${productParam}`;
+
+    console.log('Opening write review page with product:', productToUse.title);
+    window.location.href = reviewUrl;
+};
 
 // Make updateCartItemQuantity global for inline onclick
 window.updateCartItemQuantity = function(index, change) {

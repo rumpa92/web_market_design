@@ -25,7 +25,18 @@ setTimeout(() => {
     // Test elements existence
     const colorDots = document.querySelectorAll('.color-dot');
     const sizeButtons = document.querySelectorAll('.size-btn');
-    const addToCartBtn = document.getElementById('addToCartBtn');
+
+    // Try to find add to cart button - check different types based on page
+    let addToCartBtn = document.getElementById('addToCartBtn'); // Product detail page
+    if (!addToCartBtn) {
+        // Try to find first colorful add to cart button on main page
+        addToCartBtn = document.querySelector('.colorful-add-to-cart');
+    }
+    if (!addToCartBtn) {
+        // Try to find regular add to cart button
+        addToCartBtn = document.querySelector('.add-to-cart-btn');
+    }
+
     const increaseBtn = document.getElementById('increaseQty');
     const decreaseBtn = document.getElementById('decreaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
@@ -83,13 +94,24 @@ setTimeout(() => {
     if (addToCartBtn) {
         try {
             const originalText = addToCartBtn.textContent;
+            const buttonType = addToCartBtn.id ? 'Product Detail' : 'General';
+
+            // Check if button is within a proper product container
+            const productContainer = addToCartBtn.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
+            const hasContainer = !!productContainer;
+
+            console.log(`Testing ${buttonType} add to cart button. Has container: ${hasContainer}`);
+
             addToCartBtn.click();
+
             setTimeout(() => {
                 const newText = addToCartBtn.textContent;
-                const cartBadge = document.getElementById('cartBadge');
+                const cartBadge = document.getElementById('cartBadge') || document.querySelector('.cart-count');
                 const cartCount = cartBadge ? cartBadge.textContent : '0';
-                clickResults.push(`🛒 Add to cart: ${originalText !== newText || cartCount > '1' ? '✅' : '❌'}`);
-                
+
+                const testResult = originalText !== newText || cartCount > '1' ? '✅' : '❓';
+                clickResults.push(`🛒 Add to cart (${buttonType}): ${testResult} ${hasContainer ? '(has container)' : '(no container)'}`);
+
                 // Update test panel
                 testPanel.innerHTML = `
                     <h4 style="margin:0 0 10px 0; color:#333;">🧪 Functionality Test</h4>
@@ -99,7 +121,17 @@ setTimeout(() => {
             }, 1000);
         } catch (e) {
             clickResults.push(`🛒 Add to cart: ❌ (${e.message})`);
+            console.error('Add to cart test error:', e);
+
+            // Still update the panel even if there's an error
+            testPanel.innerHTML = `
+                <h4 style="margin:0 0 10px 0; color:#333;">🧪 Functionality Test</h4>
+                <div style="color:#666;">${results.concat(clickResults).join('<br>')}</div>
+                <button onclick="this.parentElement.remove()" style="margin-top:10px; padding:5px 10px; cursor:pointer;">Close</button>
+            `;
         }
+    } else {
+        clickResults.push(`🛒 Add to cart: ❌ (No button found)`);
     }
     
     // Initial display

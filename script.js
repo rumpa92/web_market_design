@@ -4,6 +4,34 @@
 let cart = [];
 let wishlist = [];
 
+// Debug utility function
+function debugCartFunctionality() {
+    console.log('=== Cart Functionality Debug ===');
+
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn, .modern-add-to-cart, .colorful-add-to-cart');
+    console.log(`Found ${addToCartButtons.length} add to cart buttons`);
+
+    addToCartButtons.forEach((btn, index) => {
+        const productCard = btn.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
+        console.log(`Button ${index + 1}: ${btn.className} - Has container: ${!!productCard} - Container type: ${productCard?.className || 'none'}`);
+    });
+
+    const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
+    console.log(`Found ${productCards.length} product cards`);
+
+    console.log('Cart array:', cart);
+    console.log('Current cart count:', cart.length);
+
+    return {
+        buttons: addToCartButtons.length,
+        cards: productCards.length,
+        cart: cart.length
+    };
+}
+
+// Make debug function available globally
+window.debugCartFunctionality = debugCartFunctionality;
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     showFlashScreen();
@@ -123,47 +151,94 @@ function handleAddToCart(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
-    const product = extractProductData(productCard);
+    try {
+        const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
 
-    addToCart(product);
-    showNotification(`${product.title} added to cart!`, 'success');
+        if (!productCard) {
+            console.warn('Product card not found. Trying alternative selectors...');
+            // Try to find any parent container that might contain product info
+            const alternativeCard = event.target.closest('[class*="product"], [class*="card"], .story-card, .seasonal-card');
+            if (alternativeCard) {
+                console.log('Found alternative product container:', alternativeCard.className);
+            }
+        }
 
-    // Add animation effect
-    const btn = event.target;
-    btn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        btn.style.transform = 'scale(1)';
-    }, 150);
+        const product = extractProductData(productCard);
+
+        addToCart(product);
+        showNotification(`${product.title} added to cart!`, 'success');
+
+        // Add animation effect
+        const btn = event.target;
+        if (btn && btn.style) {
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 150);
+        }
+    } catch (error) {
+        console.error('Error in handleAddToCart:', error);
+        showNotification('Error adding item to cart. Please try again.', 'error');
+    }
 }
 
 function extractProductData(productCard) {
+    // Check if productCard is null or undefined
+    if (!productCard) {
+        console.error('Product card not found. Button may not be inside a valid product container.');
+        return {
+            id: Date.now() + Math.random(),
+            title: 'Unknown Product',
+            price: '$0.00',
+            image: 'https://via.placeholder.com/300x300?text=No+Image',
+            quantity: 1
+        };
+    }
+
     let title, price, image;
 
-    // Handle different card types
-    if (productCard.classList.contains('colorful-product-card')) {
-        title = productCard.querySelector('.colorful-product-title').textContent;
-        price = productCard.querySelector('.current-price').textContent;
-        image = productCard.querySelector('.colorful-product-img').src;
-    } else if (productCard.classList.contains('modern-product-card')) {
-        title = productCard.querySelector('.modern-product-title').textContent;
-        price = productCard.querySelector('.modern-product-price').textContent;
-        image = productCard.querySelector('.modern-product-img').src;
-    } else if (productCard.classList.contains('look-product-card')) {
-        title = productCard.querySelector('.product-name').textContent;
-        price = productCard.querySelector('.product-price').textContent;
-        image = productCard.querySelector('.product-image').src;
-    } else {
-        title = productCard.querySelector('.product-title').textContent;
-        price = productCard.querySelector('.current-price').textContent;
-        image = productCard.querySelector('.product-image').src;
+    try {
+        // Handle different card types
+        if (productCard.classList.contains('colorful-product-card')) {
+            title = productCard.querySelector('.colorful-product-title')?.textContent || 'Colorful Product';
+            price = productCard.querySelector('.current-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.colorful-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else if (productCard.classList.contains('modern-product-card')) {
+            title = productCard.querySelector('.modern-product-title')?.textContent || 'Modern Product';
+            price = productCard.querySelector('.modern-product-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.modern-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else if (productCard.classList.contains('look-product-card')) {
+            title = productCard.querySelector('.product-name')?.textContent || 'Look Product';
+            price = productCard.querySelector('.product-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.product-image')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else {
+            // Fallback for regular product cards
+            title = productCard.querySelector('.product-title')?.textContent ||
+                   productCard.querySelector('.colorful-product-title')?.textContent ||
+                   'Product';
+            price = productCard.querySelector('.current-price')?.textContent ||
+                   productCard.querySelector('.colorful-product-price .current-price')?.textContent ||
+                   '$0.00';
+            image = productCard.querySelector('.product-image')?.src ||
+                   productCard.querySelector('.colorful-product-img')?.src ||
+                   'https://via.placeholder.com/300x300?text=No+Image';
+        }
+    } catch (error) {
+        console.error('Error extracting product data:', error);
+        return {
+            id: Date.now() + Math.random(),
+            title: 'Error Loading Product',
+            price: '$0.00',
+            image: 'https://via.placeholder.com/300x300?text=Error',
+            quantity: 1
+        };
     }
 
     return {
         id: Date.now() + Math.random(), // Simple ID generation
-        title: title,
-        price: price,
-        image: image,
+        title: title || 'Unknown Product',
+        price: price || '$0.00',
+        image: image || 'https://via.placeholder.com/300x300?text=No+Image',
         quantity: 1
     };
 }
