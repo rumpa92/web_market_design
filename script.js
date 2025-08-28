@@ -68,11 +68,7 @@ function setupEventListeners() {
         btn.addEventListener('click', handleWishlist);
     });
 
-    // Quick view buttons
-    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', handleQuickView);
-    });
+    // Quick view buttons removed
 
     // Category cards (both old and new circular)
     const categoryCards = document.querySelectorAll('.category-card, .category-circle-card');
