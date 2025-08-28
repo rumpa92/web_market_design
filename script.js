@@ -138,32 +138,62 @@ function handleAddToCart(event) {
 }
 
 function extractProductData(productCard) {
+    // Check if productCard is null or undefined
+    if (!productCard) {
+        console.error('Product card not found. Button may not be inside a valid product container.');
+        return {
+            id: Date.now() + Math.random(),
+            title: 'Unknown Product',
+            price: '$0.00',
+            image: 'https://via.placeholder.com/300x300?text=No+Image',
+            quantity: 1
+        };
+    }
+
     let title, price, image;
 
-    // Handle different card types
-    if (productCard.classList.contains('colorful-product-card')) {
-        title = productCard.querySelector('.colorful-product-title').textContent;
-        price = productCard.querySelector('.current-price').textContent;
-        image = productCard.querySelector('.colorful-product-img').src;
-    } else if (productCard.classList.contains('modern-product-card')) {
-        title = productCard.querySelector('.modern-product-title').textContent;
-        price = productCard.querySelector('.modern-product-price').textContent;
-        image = productCard.querySelector('.modern-product-img').src;
-    } else if (productCard.classList.contains('look-product-card')) {
-        title = productCard.querySelector('.product-name').textContent;
-        price = productCard.querySelector('.product-price').textContent;
-        image = productCard.querySelector('.product-image').src;
-    } else {
-        title = productCard.querySelector('.product-title').textContent;
-        price = productCard.querySelector('.current-price').textContent;
-        image = productCard.querySelector('.product-image').src;
+    try {
+        // Handle different card types
+        if (productCard.classList.contains('colorful-product-card')) {
+            title = productCard.querySelector('.colorful-product-title')?.textContent || 'Colorful Product';
+            price = productCard.querySelector('.current-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.colorful-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else if (productCard.classList.contains('modern-product-card')) {
+            title = productCard.querySelector('.modern-product-title')?.textContent || 'Modern Product';
+            price = productCard.querySelector('.modern-product-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.modern-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else if (productCard.classList.contains('look-product-card')) {
+            title = productCard.querySelector('.product-name')?.textContent || 'Look Product';
+            price = productCard.querySelector('.product-price')?.textContent || '$0.00';
+            image = productCard.querySelector('.product-image')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+        } else {
+            // Fallback for regular product cards
+            title = productCard.querySelector('.product-title')?.textContent ||
+                   productCard.querySelector('.colorful-product-title')?.textContent ||
+                   'Product';
+            price = productCard.querySelector('.current-price')?.textContent ||
+                   productCard.querySelector('.colorful-product-price .current-price')?.textContent ||
+                   '$0.00';
+            image = productCard.querySelector('.product-image')?.src ||
+                   productCard.querySelector('.colorful-product-img')?.src ||
+                   'https://via.placeholder.com/300x300?text=No+Image';
+        }
+    } catch (error) {
+        console.error('Error extracting product data:', error);
+        return {
+            id: Date.now() + Math.random(),
+            title: 'Error Loading Product',
+            price: '$0.00',
+            image: 'https://via.placeholder.com/300x300?text=Error',
+            quantity: 1
+        };
     }
 
     return {
         id: Date.now() + Math.random(), // Simple ID generation
-        title: title,
-        price: price,
-        image: image,
+        title: title || 'Unknown Product',
+        price: price || '$0.00',
+        image: image || 'https://via.placeholder.com/300x300?text=No+Image',
         quantity: 1
     };
 }
