@@ -302,7 +302,12 @@ function setupQuantityControls() {
 
     // Remove icon functionality
     if (removeIcon) {
-        removeIcon.addEventListener('click', () => {
+        console.log('Remove icon found, adding event listener');
+        removeIcon.addEventListener('click', (e) => {
+            console.log('Remove icon clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+
             // Add click animation
             removeIcon.style.transform = 'scale(0.8)';
             setTimeout(() => {
