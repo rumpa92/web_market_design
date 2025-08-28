@@ -6,13 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     try {
         initializeProductDetail();
-        loadProductData();
-        setupProductEventListeners();
-        setupRelatedProductsInteraction();
-        setupProfileDropdown();
-        initializeCartModal();
 
-        console.log('Product detail page initialized successfully');
+        // Give a small delay to ensure URL parsing and DOM updates are complete
+        setTimeout(() => {
+            loadProductData();
+            setupProductEventListeners();
+            setupRelatedProductsInteraction();
+            setupProfileDropdown();
+            initializeCartModal();
+
+            console.log('Product detail page initialized successfully');
+        }, 200);
+
     } catch (error) {
         console.error('Error initializing product detail page:', error);
     }
