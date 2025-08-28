@@ -835,7 +835,9 @@ function updateCartItemQuantity(index, change) {
     }
 }
 
-function removeCartItem(index) {
+// Make removeCartItem global for inline onclick
+window.removeCartItem = function(index) {
+    console.log('Removing cart item at index:', index);
     let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
 
     if (cart[index]) {
@@ -853,7 +855,7 @@ function removeCartItem(index) {
         }
 
         updateCartBadge();
-        showNotification(`${itemName} removed from cart`, 'info');
+        showNotification(`${itemName} removed from cart`, 'success');
     }
 }
 
