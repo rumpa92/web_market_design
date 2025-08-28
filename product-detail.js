@@ -84,6 +84,26 @@ function generateProductImages(mainImage) {
     };
 }
 
+function generateProductDescription(productTitle) {
+    const title = productTitle.toLowerCase();
+
+    if (title.includes('anarkali')) {
+        return 'Experience the grace of traditional Indian fashion with this stunning Anarkali gown. Featuring intricate embroidery and flowing silhouette, this outfit is perfect for weddings, festivals, and special celebrations. Crafted with premium fabrics for comfort and elegance.';
+    } else if (title.includes('churidar')) {
+        return 'Experience the elegance of traditional Indian fashion with this beautiful Churidar set. Crafted with premium quality fabrics and intricate embroidery work, this outfit is perfect for special occasions and festive celebrations.';
+    } else if (title.includes('shirt') || title.includes('top')) {
+        return 'Elevate your everyday style with this versatile and comfortable piece. Made from high-quality materials with attention to detail, this top offers both style and comfort for any occasion.';
+    } else if (title.includes('dress')) {
+        return 'Make a statement with this elegant dress that combines modern style with timeless appeal. Perfect for both casual and formal occasions, featuring quality craftsmanship and comfortable fit.';
+    } else if (title.includes('lehenga')) {
+        return 'Embrace the magnificence of traditional Indian wear with this exquisite Lehenga set. Featuring rich fabrics, detailed embellishments, and classic silhouette, perfect for weddings and grand celebrations.';
+    } else if (title.includes('saree')) {
+        return 'Celebrate the timeless beauty of the traditional saree. This elegant piece showcases rich fabric and classic draping style, perfect for cultural events and special occasions.';
+    } else {
+        return 'Experience exceptional quality and style with this carefully crafted piece. Made with premium materials and attention to detail, this item combines comfort, durability, and fashion-forward design for the modern wardrobe.';
+    }
+}
+
 function loadProductData() {
     // Update page title
     const pageTitle = document.getElementById('pageTitle');
