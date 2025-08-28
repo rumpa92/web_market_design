@@ -189,9 +189,7 @@ function setupProductEventListeners() {
         setupAddToCart();
 
         // Write review
-        console.log('Setting up write review...');
         setupWriteReview();
-        console.log('Write review setup completed');
 
         // Tab navigation
         setupTabNavigation();
