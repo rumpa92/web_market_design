@@ -210,8 +210,15 @@ function setupColorSelection() {
 
 function setupSizeSelection() {
     const sizeButtons = document.querySelectorAll('.size-btn');
+    console.log('Size buttons found:', sizeButtons.length);
 
-    sizeButtons.forEach(button => {
+    if (sizeButtons.length === 0) {
+        console.warn('No size buttons found! Check selector: .size-btn');
+        return;
+    }
+
+    sizeButtons.forEach((button, index) => {
+        console.log(`Setting up size button ${index}:`, button);
         button.addEventListener('click', () => {
             // Add click animation
             button.style.transform = 'scale(0.95)';
