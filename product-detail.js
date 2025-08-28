@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Product data for fashion item
-let currentProduct = {
+// Default product data (fallback)
+let defaultProduct = {
     id: 1,
     title: 'Churidar',
     brand: 'Fashion Hub',
@@ -28,15 +28,13 @@ let currentProduct = {
     discount: 25,
     rating: 4.8,
     reviewCount: 384,
-    images: {
-        main: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
-        side: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800',
-        back: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=800',
-        detail: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
-        fabric: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=800'
-    },
+    image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
     colors: ['black', 'blue', 'red', 'green'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+};
+
+// Current product data (will be populated from navigation)
+let currentProduct = {
     selectedColor: 'black',
     selectedSize: 'M',
     quantity: 1,
@@ -45,34 +43,94 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
-    // Check if product data is passed from main page
-    const urlParams = new URLSearchParams(window.location.search);
-    const productData = urlParams.get('product');
-    
-    if (productData) {
+    // Check if product data is passed from main page via sessionStorage
+    const selectedProduct = sessionStorage.getItem('selectedProduct');
+
+    if (selectedProduct) {
         try {
-            currentProduct = { ...currentProduct, ...JSON.parse(decodeURIComponent(productData)) };
+            const productData = JSON.parse(selectedProduct);
+            // Merge with default structure
+            currentProduct = {
+                ...defaultProduct,
+                ...productData,
+                selectedColor: 'black',
+                selectedSize: 'M',
+                quantity: 1,
+                inStock: true,
+                stockCount: 15,
+                images: generateProductImages(productData.image || defaultProduct.image)
+            };
+            console.log('Loaded product from navigation:', currentProduct.title);
         } catch (e) {
-            console.log('Using default product data');
+            console.log('Error parsing product data, using default:', e);
+            currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
         }
+    } else {
+        // Fallback to default product
+        currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
+        console.log('No product data found, using default product');
+    }
+}
+
+function generateProductImages(mainImage) {
+    // Generate multiple views for the product gallery
+    // In a real app, these would be different actual images
+    return {
+        main: mainImage,
+        side: mainImage,
+        back: mainImage,
+        detail: mainImage,
+        fabric: mainImage
+    };
+}
+
+function generateProductDescription(productTitle) {
+    const title = productTitle.toLowerCase();
+
+    if (title.includes('anarkali')) {
+        return 'Experience the grace of traditional Indian fashion with this stunning Anarkali gown. Featuring intricate embroidery and flowing silhouette, this outfit is perfect for weddings, festivals, and special celebrations. Crafted with premium fabrics for comfort and elegance.';
+    } else if (title.includes('churidar')) {
+        return 'Experience the elegance of traditional Indian fashion with this beautiful Churidar set. Crafted with premium quality fabrics and intricate embroidery work, this outfit is perfect for special occasions and festive celebrations.';
+    } else if (title.includes('shirt') || title.includes('top')) {
+        return 'Elevate your everyday style with this versatile and comfortable piece. Made from high-quality materials with attention to detail, this top offers both style and comfort for any occasion.';
+    } else if (title.includes('dress')) {
+        return 'Make a statement with this elegant dress that combines modern style with timeless appeal. Perfect for both casual and formal occasions, featuring quality craftsmanship and comfortable fit.';
+    } else if (title.includes('lehenga')) {
+        return 'Embrace the magnificence of traditional Indian wear with this exquisite Lehenga set. Featuring rich fabrics, detailed embellishments, and classic silhouette, perfect for weddings and grand celebrations.';
+    } else if (title.includes('saree')) {
+        return 'Celebrate the timeless beauty of the traditional saree. This elegant piece showcases rich fabric and classic draping style, perfect for cultural events and special occasions.';
+    } else {
+        return 'Experience exceptional quality and style with this carefully crafted piece. Made with premium materials and attention to detail, this item combines comfort, durability, and fashion-forward design for the modern wardrobe.';
     }
 }
 
 function loadProductData() {
+    // Update page title
+    const pageTitle = document.getElementById('pageTitle');
+    if (pageTitle) {
+        pageTitle.textContent = `${currentProduct.title} - StyleHub`;
+    }
+
     // Update product information
     document.getElementById('productTitle').textContent = currentProduct.title;
     document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
-    
+
+    // Update rating and review count
+    const ratingText = document.querySelector('.rating-text');
+    if (ratingText) {
+        ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
+    }
+
     // Update cart badge
     const cartBadge = document.getElementById('cartBadge');
     const cartCount = getCartItemCount();
     cartBadge.textContent = cartCount;
-    
+
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
     mainImage.src = currentProduct.images.main;
     mainImage.alt = currentProduct.title;
-    
+
     // Load thumbnail images
     const thumbnails = document.querySelectorAll('.thumbnail-item img');
     const imageKeys = ['main', 'side', 'back', 'detail', 'fabric'];
@@ -81,9 +139,17 @@ function loadProductData() {
             thumb.src = currentProduct.images[imageKeys[index]];
         }
     });
-    
+
     // Update quantity display
     document.getElementById('quantityDisplay').textContent = currentProduct.quantity;
+
+    // Update product description dynamically
+    const productDescription = document.getElementById('productDescription');
+    if (productDescription) {
+        productDescription.textContent = generateProductDescription(currentProduct.title);
+    }
+
+    console.log('Product data loaded:', currentProduct.title, `$${currentProduct.currentPrice}`);
 }
 
 function setupProductEventListeners() {
@@ -123,7 +189,6 @@ function setupProductEventListeners() {
         setupAddToCart();
 
         // Write review
-        console.log('Setting up write review...');
         setupWriteReview();
 
         // Tab navigation
@@ -352,7 +417,6 @@ function setupAddToCart() {
 
 function setupWriteReview() {
     const writeReviewBtn = document.getElementById('writeReviewBtn');
-    console.log('Write review button found:', !!writeReviewBtn);
 
     if (!writeReviewBtn) {
         console.warn('Write review button not found! Check ID: writeReviewBtn');
@@ -382,7 +446,7 @@ function setupWriteReview() {
 
         // Navigate to write review page with product data
         const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
-        window.location.href = `write-review?product=${productParam}`;
+        window.location.href = `write-review.html?product=${productParam}`;
 
         showNotification('Opening write review page...', 'info');
     });

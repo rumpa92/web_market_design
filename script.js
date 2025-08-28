@@ -2750,12 +2750,30 @@ function setupProductNavigation() {
 }
 
 function navigateToProductDetail(product) {
-    const productParam = encodeURIComponent(JSON.stringify({
+    // Convert price to number if it's a string
+    const currentPrice = typeof product.price === 'string' ?
+        parseFloat(product.price.replace('$', '')) :
+        product.price;
+
+    const productData = {
+        id: Date.now() + Math.random(),
         title: product.title,
-        price: product.price,
-        image: product.image
-    }));
-    window.location.href = `product-detail.html?product=${productParam}`;
+        currentPrice: currentPrice,
+        originalPrice: currentPrice * 1.25, // Add some markup for original price
+        rating: 4.8,
+        reviewCount: Math.floor(Math.random() * 500) + 100,
+        image: product.image,
+        colors: ['black', 'blue', 'red', 'green'],
+        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+    };
+
+    // Store in sessionStorage for the product detail page
+    sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+
+    // Navigate to product detail page
+    window.location.href = 'product-detail.html';
+
+    showNotification(`Loading ${product.title}...`, 'info');
 }
 
 function showWishlistSummary() {
@@ -2972,7 +2990,7 @@ const subcategoryItems = {
             originalPrice: '$130',
             image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★★'
+            rating: '��★★★★'
         },
         {
             id: 'pants3',
@@ -3050,7 +3068,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '★���★★☆'
+            rating: '★�����★★☆'
         }
     ],
     'Handbags': [

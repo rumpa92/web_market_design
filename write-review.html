@@ -3,61 +3,729 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Write a Review - StyleHub</title>
+    <title id="pageTitle">Write a Review - StyleHub</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .review-main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .page-header {
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #2d3748;
+            overflow-x: hidden;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: 0;
+            background-image: radial-gradient(circle at 25% 25%, #ffffff 1px, transparent 1px),
+                              radial-gradient(circle at 75% 75%, #ffffff 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+        }
+
+        .review-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) translateX(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .progress-step:last-child::before {
+            display: none;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #a0aec0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step-circle.completed {
+            background: #48bb78;
+            color: white;
+        }
+
+        .step-label {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .product-showcase {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .product-info {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 2rem;
         }
-        .back-button {
-            padding: 0.5rem 1rem;
-            background: #5a3d98;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
         }
-        .form-group {
-            margin-bottom: 1.5rem;
+
+        .product-details {
+            flex: 1;
         }
-        .form-label {
-            display: block;
-            font-weight: 600;
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
             margin-bottom: 0.5rem;
         }
+
+        .product-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .meta-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.375rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #667eea;
+        }
+
+        .required-asterisk {
+            color: #e53e3e;
+            font-weight: 700;
+        }
+
+        .optional-text {
+            color: #718096;
+            font-weight: 400;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .rating-container {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-radius: 16px;
+            margin: 1rem 0;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .star {
+            font-size: 3rem;
+            cursor: pointer;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .star:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .star.active {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .star.hover {
+            color: #ffed4e;
+        }
+
+        .rating-description {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a5568;
+            min-height: 1.5rem;
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
         .form-input, .form-textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
         }
-        .submit-button {
-            background: #5a3d98;
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .character-counter {
+            text-align: right;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .character-counter.warning {
+            color: #ed8936;
+        }
+
+        .character-counter.danger {
+            color: #e53e3e;
+        }
+
+        .fit-feedback-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .fit-button {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+            z-index: 0;
+        }
+
+        .fit-button > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .fit-button:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .fit-button:hover::before {
+            left: 0;
+        }
+
+        .fit-button:hover .fit-icon,
+        .fit-button:hover .fit-label {
             color: white;
+        }
+
+        .fit-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .fit-button.active::before {
+            left: 0;
+        }
+
+        .fit-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+            transition: color 0.3s ease;
+        }
+
+        .fit-label {
+            font-size: 0.875rem;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+
+        .upload-zone {
+            border: 3px dashed #cbd5e0;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transform: rotate(-45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .upload-zone:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            transform: translateY(-2px);
+        }
+
+        .upload-zone:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(-45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(-45deg); }
+        }
+
+        .upload-zone.dragover {
+            border-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .upload-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .uploaded-files {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .file-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-preview:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-name {
+            font-size: 0.75rem;
+            color: #4a5568;
+            word-break: break-all;
+        }
+
+        .remove-file {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-file:hover {
+            background: #c53030;
+            transform: scale(1.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            flex: 1;
             padding: 1rem 2rem;
             border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #cbd5e0;
+            background: #f7fafc;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .approval-notice {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 4px solid #3182ce;
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #2c5282;
+            font-weight: 500;
+        }
+
+        .notice-icon {
+            font-size: 1.25rem;
+            color: #3182ce;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .review-container {
+                padding: 1rem 0.5rem;
+            }
+
+            .review-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .back-button {
+                position: relative;
+                transform: none;
+                margin-bottom: 1rem;
+            }
+
+            .header-section {
+                text-align: left;
+            }
+
+            .product-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-step::before {
+                display: none;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .star {
+                font-size: 2.5rem;
+            }
+
+            .fit-feedback-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: all 0.3s ease;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
-            cursor: pointer;
         }
-        .star {
-            font-size: 2rem;
-            cursor: pointer;
-            color: #ddd;
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
         }
-        .star.active {
-            color: #ffc107;
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
 <body>
+    <div class="background-pattern"></div>
+    
     <!-- Header -->
     <header class="main-header">
         <div class="container">
@@ -69,124 +737,565 @@
         </div>
     </header>
 
-    <!-- Main Review Content -->
-    <main class="review-main">
-        <div class="page-header">
-            <button class="back-button" onclick="goBack()">← Back</button>
-            <h1>Write a Review</h1>
+    <div class="review-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </button>
+            <h1 class="header-title">Write Your Review</h1>
+            <p class="header-subtitle">Share your experience and help others make informed decisions</p>
         </div>
 
-        <div class="product-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
-            <h3 id="productTitle">Churidar</h3>
-            <p>Color: <span id="selectedColor">Black</span> | Size: <span id="selectedSize">M</span></p>
-        </div>
-
-        <form id="reviewForm">
-            <div class="form-group">
-                <label class="form-label">Your Rating *</label>
-                <div class="star-rating">
-                    <span class="star" data-rating="1">⭐</span>
-                    <span class="star" data-rating="2">⭐</span>
-                    <span class="star" data-rating="3">⭐</span>
-                    <span class="star" data-rating="4">⭐</span>
-                    <span class="star" data-rating="5">⭐</span>
+        <!-- Main Review Card -->
+        <div class="review-card">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step">
+                    <div class="step-circle active">1</div>
+                    <div class="step-label">Product</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle active">2</div>
+                    <div class="step-label">Rating</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle active">3</div>
+                    <div class="step-label">Review</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Submit</div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Review Title</label>
-                <input type="text" class="form-input" placeholder="Perfect fit and stylish">
+            <!-- Product Showcase -->
+            <div class="product-showcase">
+                <div class="product-info">
+                    <img src="" alt="Product" class="product-image" id="productImage">
+                    <div class="product-details">
+                        <h2 class="product-name" id="productName">Product Name</h2>
+                        <div class="product-meta">
+                            <div class="meta-badge">
+                                <i class="fas fa-palette"></i>
+                                <span id="productColor">Black</span>
+                            </div>
+                            <div class="meta-badge">
+                                <i class="fas fa-ruler"></i>
+                                <span id="productSize">M</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Review Description *</label>
-                <textarea class="form-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" required></textarea>
-            </div>
+            <form id="reviewForm">
+                <!-- Rating Section -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-star section-icon"></i>
+                        Rate this product
+                        <span class="required-asterisk">*</span>
+                    </h3>
+                    
+                    <div class="rating-container">
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-description" id="ratingDescription">Click to rate</div>
+                    </div>
+                </div>
 
-            <button type="submit" class="submit-button">Submit Review</button>
-        </form>
-    </main>
+                <!-- Review Title -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        Review Title
+                        <span class="optional-text">Optional</span>
+                    </h3>
+                    <input type="text" class="form-input" id="reviewTitle" placeholder="Summarize your experience in a few words..." maxlength="100">
+                </div>
+
+                <!-- Review Description -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-comment-dots section-icon"></i>
+                        Tell us about your experience
+                        <span class="required-asterisk">*</span>
+                    </h3>
+                    <textarea class="form-textarea" id="reviewText" placeholder="Share details about the product quality, fit, comfort, style, and overall experience. Your honest feedback helps other customers make better decisions..." required maxlength="1000"></textarea>
+                    <div class="character-counter">
+                        <span id="charCount">0</span>/1000 characters
+                    </div>
+                </div>
+
+                <!-- Fit Feedback -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tshirt section-icon"></i>
+                        How was the fit?
+                        <span class="optional-text">Optional</span>
+                    </h3>
+                    <div class="fit-feedback-container">
+                        <button type="button" class="fit-button" data-fit="too-small">
+                            <div class="fit-icon"><i class="fas fa-compress-arrows-alt"></i></div>
+                            <div class="fit-label">Too Small</div>
+                        </button>
+                        <button type="button" class="fit-button active" data-fit="true-to-size">
+                            <div class="fit-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="fit-label">True to Size</div>
+                        </button>
+                        <button type="button" class="fit-button" data-fit="too-large">
+                            <div class="fit-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                            <div class="fit-label">Too Large</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-camera section-icon"></i>
+                        Add photos or videos
+                        <span class="optional-text">Optional</span>
+                    </h3>
+                    <div class="upload-zone" id="uploadZone">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <div class="upload-text">Drop files here or click to upload</div>
+                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files</div>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                    </div>
+                    <div class="uploaded-files" id="uploadedFiles"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Review
+                    </button>
+                </div>
+
+                <!-- Approval Notice -->
+                <div class="approval-notice">
+                    <i class="fas fa-info-circle notice-icon"></i>
+                    <span>Your review will be published after our team approves it. This usually takes 24-48 hours.</span>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         let selectedRating = 0;
+        let selectedFit = 'true-to-size';
+        let uploadedFiles = [];
+        let currentStep = 3;
 
-        // Star rating functionality
-        document.querySelectorAll('.star').forEach((star, index) => {
-            star.addEventListener('click', () => {
-                selectedRating = parseInt(star.dataset.rating);
-                updateStars();
-                showNotification(`Rated ${selectedRating} stars`, 'success');
-            });
+        const ratingDescriptions = {
+            1: "Poor - Not satisfied at all",
+            2: "Fair - Below expectations",
+            3: "Good - Meets expectations",
+            4: "Very Good - Exceeds expectations",
+            5: "Excellent - Outstanding product!"
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductData();
+            setupEventListeners();
+            updateProgressBar();
         });
 
-        function updateStars() {
-            document.querySelectorAll('.star').forEach((star, index) => {
-                if (index < selectedRating) {
-                    star.classList.add('active');
+        // Load product data
+        function loadProductData() {
+            let productData = null;
+            
+            // Try URL parameters first
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlProductData = urlParams.get('product');
+            
+            if (urlProductData) {
+                try {
+                    productData = JSON.parse(decodeURIComponent(urlProductData));
+                } catch (e) {
+                    console.log('Error parsing URL product data');
+                }
+            }
+            
+            // Try localStorage
+            if (!productData) {
+                const storedData = localStorage.getItem('reviewProduct');
+                if (storedData) {
+                    try {
+                        productData = JSON.parse(storedData);
+                    } catch (e) {
+                        console.log('Error parsing stored product data');
+                    }
+                }
+            }
+            
+            // Try sessionStorage
+            if (!productData) {
+                const sessionData = sessionStorage.getItem('selectedProduct');
+                if (sessionData) {
+                    try {
+                        productData = JSON.parse(sessionData);
+                    } catch (e) {
+                        console.log('Error parsing session product data');
+                    }
+                }
+            }
+            
+            // Update UI with product data
+            if (productData) {
+                const productName = productData.title || 'Product';
+                document.getElementById('productName').textContent = productName;
+                document.getElementById('productColor').textContent = productData.selectedColor || 'Black';
+                document.getElementById('productSize').textContent = productData.selectedSize || 'M';
+                
+                // Set product image
+                const productImage = document.getElementById('productImage');
+                if (productData.image || (productData.images && productData.images.main)) {
+                    productImage.src = productData.image || productData.images.main;
+                    productImage.alt = productName;
                 } else {
-                    star.classList.remove('active');
+                    productImage.src = 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800';
+                    productImage.alt = productName;
+                }
+                
+                // Update page title
+                const pageTitle = document.getElementById('pageTitle');
+                if (pageTitle) {
+                    pageTitle.textContent = `Review: ${productName} - StyleHub`;
+                }
+                
+                console.log('Loaded product for review:', productName);
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            setupStarRating();
+            setupCharacterCount();
+            setupFitFeedback();
+            setupFileUpload();
+            setupFormSubmission();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const steps = document.querySelectorAll('.step-circle');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep) {
+                    step.classList.add('completed');
+                } else if (index === currentStep) {
+                    step.classList.add('active');
                 }
             });
         }
 
-        // Form submission
-        document.getElementById('reviewForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        // Star rating functionality
+        function setupStarRating() {
+            const stars = document.querySelectorAll('.star');
+            const ratingDescription = document.getElementById('ratingDescription');
             
-            if (selectedRating === 0) {
-                alert('Please select a rating');
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    selectedRating = parseInt(star.dataset.rating);
+                    updateStars();
+                    ratingDescription.textContent = ratingDescriptions[selectedRating];
+                    showNotification(`Rated ${selectedRating} star${selectedRating !== 1 ? 's' : ''}`, 'success');
+                    
+                    // Animate to next step
+                    if (currentStep < 3) {
+                        currentStep = 3;
+                        updateProgressBar();
+                    }
+                });
+                
+                star.addEventListener('mouseenter', () => {
+                    const hoverRating = parseInt(star.dataset.rating);
+                    highlightStars(hoverRating);
+                    ratingDescription.textContent = ratingDescriptions[hoverRating];
+                });
+                
+                star.addEventListener('mouseleave', () => {
+                    updateStars();
+                    ratingDescription.textContent = selectedRating > 0 ? ratingDescriptions[selectedRating] : 'Click to rate';
+                });
+            });
+        }
+
+        function highlightStars(rating) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.remove('active', 'hover');
+                if (index < rating) {
+                    star.classList.add('hover');
+                }
+            });
+        }
+
+        function updateStars() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.remove('active', 'hover');
+                if (index < selectedRating) {
+                    star.classList.add('active');
+                }
+            });
+        }
+
+        // Character count functionality
+        function setupCharacterCount() {
+            const reviewText = document.getElementById('reviewText');
+            const charCount = document.getElementById('charCount');
+            const counter = document.querySelector('.character-counter');
+            
+            reviewText.addEventListener('input', () => {
+                const count = reviewText.value.length;
+                charCount.textContent = count;
+                
+                counter.classList.remove('warning', 'danger');
+                if (count > 800) {
+                    counter.classList.add('danger');
+                } else if (count > 600) {
+                    counter.classList.add('warning');
+                }
+            });
+        }
+
+        // Fit feedback functionality
+        function setupFitFeedback() {
+            const fitButtons = document.querySelectorAll('.fit-button');
+            
+            fitButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    fitButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    selectedFit = button.dataset.fit;
+                    
+                    const fitLabels = {
+                        'too-small': 'Runs Small',
+                        'true-to-size': 'True to Size',
+                        'too-large': 'Runs Large'
+                    };
+                    
+                    showNotification(`Fit: ${fitLabels[selectedFit]}`, 'info');
+                });
+            });
+        }
+
+        // File upload functionality
+        function setupFileUpload() {
+            const uploadZone = document.getElementById('uploadZone');
+            const fileInput = document.getElementById('fileInput');
+            
+            uploadZone.addEventListener('click', () => fileInput.click());
+            
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+            
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        }
+
+        function handleFiles(files) {
+            if (uploadedFiles.length + files.length > 5) {
+                showNotification('Maximum 5 files allowed', 'error');
                 return;
             }
-            
-            showNotification('Review submitted successfully!', 'success');
-            
-            setTimeout(() => {
-                window.location.href = 'product-detail';
-            }, 2000);
-        });
 
-        // Back button
-        function goBack() {
-            window.location.href = 'product-detail';
-        }
-
-        // Get product data from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const productData = urlParams.get('product');
-        
-        if (productData) {
-            try {
-                const product = JSON.parse(decodeURIComponent(productData));
-                document.getElementById('productTitle').textContent = product.title || 'Churidar';
-                document.getElementById('selectedColor').textContent = product.selectedColor || 'Black';
-                document.getElementById('selectedSize').textContent = product.selectedSize || 'M';
-            } catch (e) {
-                console.log('Using default product data');
+            Array.from(files).forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                    showNotification(`${file.name} is not a supported file type`, 'error');
+                    return;
+                }
+                
+                uploadedFiles.push(file);
+                addFilePreview(file);
+            });
+            
+            if (files.length > 0) {
+                showNotification(`${files.length} file(s) uploaded`, 'success');
             }
         }
 
-        // Notification function
-        function showNotification(message, type) {
+        function addFilePreview(file) {
+            const uploadedFilesContainer = document.getElementById('uploadedFiles');
+            const filePreview = document.createElement('div');
+            filePreview.className = 'file-preview';
+            
+            const fileName = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
+            const fileIcon = file.type.startsWith('image/') ? 'fa-image' : 'fa-video';
+            
+            filePreview.innerHTML = `
+                <i class="fas ${fileIcon} file-icon"></i>
+                <div class="file-name">${fileName}</div>
+                <button type="button" class="remove-file" onclick="removeFile('${file.name}', this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            uploadedFilesContainer.appendChild(filePreview);
+        }
+
+        // Remove file function
+        window.removeFile = function(fileName, button) {
+            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+            button.parentElement.remove();
+            showNotification('File removed', 'info');
+        };
+
+        // Form submission
+        function setupFormSubmission() {
+            const form = document.getElementById('reviewForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if (selectedRating === 0) {
+                    showNotification('Please rate the product', 'error');
+                    return;
+                }
+                
+                const reviewText = document.getElementById('reviewText').value.trim();
+                if (!reviewText) {
+                    showNotification('Please write your review', 'error');
+                    return;
+                }
+                
+                submitReview();
+            });
+        }
+
+        function submitReview() {
+            const submitBtn = document.getElementById('submitBtn');
+            const reviewTitle = document.getElementById('reviewTitle').value.trim();
+            const reviewText = document.getElementById('reviewText').value.trim();
+            
+            // Update to final step
+            currentStep = 3;
+            updateProgressBar();
+            document.querySelector('.step-circle:last-child').classList.add('active');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            
+            // Simulate submission
+            setTimeout(() => {
+                const reviewData = {
+                    rating: selectedRating,
+                    title: reviewTitle || 'Customer Review',
+                    text: reviewText,
+                    fit: selectedFit,
+                    files: uploadedFiles.length,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log('Review submitted:', reviewData);
+                
+                // Mark final step as completed
+                document.querySelector('.step-circle:last-child').classList.remove('active');
+                document.querySelector('.step-circle:last-child').classList.add('completed');
+                
+                showNotification('🎉 Thank you! Your review has been submitted successfully.', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'product-detail.html';
+                }, 2000);
+            }, 2000);
+        }
+
+        // Back button functionality
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'product-detail.html';
+            }
+        }
+
+        // Enhanced notification function
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 1rem;
-                background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+                top: 2rem;
+                right: 2rem;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #48bb78, #38a169)' : 
+                            type === 'error' ? 'linear-gradient(135deg, #e53e3e, #c53030)' : 
+                            'linear-gradient(135deg, #4299e1, #3182ce)'};
                 color: white;
-                border-radius: 4px;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
                 z-index: 10000;
+                transform: translateX(400px);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                max-width: 350px;
+                word-wrap: break-word;
+                font-weight: 500;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
             `;
-            notification.textContent = message;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 
+                                   type === 'error' ? 'fa-exclamation-circle' : 
+                                   'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
             document.body.appendChild(notification);
             
+            // Animate in
             setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 3000);
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 4000);
         }
-
-        console.log('Write Review page loaded successfully');
     </script>
 </body>
 </html>
