@@ -263,13 +263,18 @@ function extractProductData(productCard) {
 
 function addToCart(product) {
     const existingItem = cart.find(item => item.title === product.title);
-    
+
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push(product);
+        // Ensure price is always a string
+        const normalizedProduct = {
+            ...product,
+            price: typeof product.price === 'string' ? product.price : `₹${product.price}`
+        };
+        cart.push(normalizedProduct);
     }
-    
+
     updateCartCount();
     saveCartToStorage();
 }
