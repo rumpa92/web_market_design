@@ -366,8 +366,25 @@ function setupWriteReview() {
             writeReviewBtn.style.transform = '';
         }, 150);
 
-        // Show review modal/form
-        showReviewModal();
+        // Store current product data for the review page
+        const productDataForReview = {
+            id: currentProduct.id,
+            title: currentProduct.title,
+            brand: currentProduct.brand,
+            currentPrice: currentProduct.currentPrice,
+            images: currentProduct.images,
+            selectedColor: currentProduct.selectedColor,
+            selectedSize: currentProduct.selectedSize
+        };
+
+        // Store in localStorage as backup
+        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+
+        // Navigate to write review page with product data
+        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+        window.location.href = `write-review?product=${productParam}`;
+
+        showNotification('Opening write review page...', 'info');
     });
 }
 
@@ -384,36 +401,80 @@ function showReviewModal() {
                 </button>
             </div>
             <div class="review-modal-body">
-                <div class="product-info-mini">
-                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-image">
-                    <h3>${currentProduct.title}</h3>
-                </div>
-                <form class="review-form" id="reviewForm">
-                    <div class="rating-input">
-                        <label>Your Rating:</label>
-                        <div class="star-rating">
-                            <span class="star" data-rating="1">★</span>
-                            <span class="star" data-rating="2">★</span>
-                            <span class="star" data-rating="3">★</span>
-                            <span class="star" data-rating="4">★</span>
-                            <span class="star" data-rating="5">★</span>
+                <!-- Product Info Section -->
+                <div class="review-product-info">
+                    <img src="${currentProduct.images.main}" alt="${currentProduct.title}" class="review-product-thumbnail">
+                    <div class="review-product-details">
+                        <h3 class="review-product-title">${currentProduct.title}</h3>
+                        <div class="review-product-options">
+                            <span class="review-selected-color">Color: <span class="color-value">${currentProduct.selectedColor}</span></span>
+                            <span class="review-selected-size">Size: <span class="size-value">${currentProduct.selectedSize}</span></span>
                         </div>
                     </div>
-                    <div class="review-title-input">
-                        <label for="reviewTitle">Review Title:</label>
-                        <input type="text" id="reviewTitle" placeholder="Summarize your experience">
+                </div>
+
+                <form class="review-form" id="reviewForm">
+                    <!-- Rating Section -->
+                    <div class="review-input-group">
+                        <label class="review-label">Your Rating <span class="required">*</span></label>
+                        <div class="star-rating-input">
+                            <span class="star interactive-star" data-rating="1">⭐</span>
+                            <span class="star interactive-star" data-rating="2">⭐</span>
+                            <span class="star interactive-star" data-rating="3">⭐</span>
+                            <span class="star interactive-star" data-rating="4">⭐</span>
+                            <span class="star interactive-star" data-rating="5">⭐</span>
+                        </div>
                     </div>
-                    <div class="review-text-input">
-                        <label for="reviewText">Your Review:</label>
-                        <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with this product"></textarea>
+
+                    <!-- Review Title -->
+                    <div class="review-input-group">
+                        <label for="reviewTitle" class="review-label">Review Title <span class="optional">(optional)</span></label>
+                        <input type="text" id="reviewTitle" class="review-input" placeholder="Perfect fit and stylish" maxlength="100">
                     </div>
-                    <div class="reviewer-info">
-                        <label for="reviewerName">Your Name:</label>
-                        <input type="text" id="reviewerName" placeholder="Enter your name">
+
+                    <!-- Review Description -->
+                    <div class="review-input-group">
+                        <label for="reviewText" class="review-label">Review Description <span class="required">*</span></label>
+                        <textarea id="reviewText" class="review-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" maxlength="500"></textarea>
+                        <div class="character-count">
+                            <span id="charCount">0</span>/500 characters
+                        </div>
                     </div>
+
+                    <!-- Fit Feedback -->
+                    <div class="review-input-group">
+                        <label class="review-label">Fit Feedback <span class="optional">(optional)</span></label>
+                        <div class="fit-feedback-buttons">
+                            <button type="button" class="fit-btn" data-fit="too-small">Too Small</button>
+                            <button type="button" class="fit-btn active" data-fit="true-to-size">True to Size</button>
+                            <button type="button" class="fit-btn" data-fit="too-large">Too Large</button>
+                        </div>
+                    </div>
+
+                    <!-- Photo/Video Upload -->
+                    <div class="review-input-group">
+                        <label class="review-label">Add Photos/Videos <span class="optional">(optional)</span></label>
+                        <div class="upload-section">
+                            <div class="upload-dropzone" id="uploadDropzone">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <p class="upload-text">Drop files here or click to upload</p>
+                                <p class="upload-subtext">Supports: JPG, PNG, MP4 (Max 10MB)</p>
+                                <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                            </div>
+                            <div class="uploaded-files" id="uploadedFiles"></div>
+                        </div>
+                    </div>
+
+                    <!-- Review Actions -->
                     <div class="review-actions">
-                        <button type="button" class="cancel-review">Cancel</button>
-                        <button type="submit" class="submit-review">Submit Review</button>
+                        <button type="button" class="cancel-review-btn">Cancel</button>
+                        <button type="submit" class="submit-review-btn">Submit Review</button>
+                    </div>
+
+                    <!-- Approval Note -->
+                    <div class="review-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Your review will be visible after approval.</span>
                     </div>
                 </form>
             </div>
@@ -434,9 +495,12 @@ function showReviewModal() {
         z-index: 10000;
         opacity: 0;
         transition: opacity 0.3s ease;
+        overflow-y: auto;
+        padding: 20px;
     `;
 
     document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
 
     // Animate in
     setTimeout(() => {
@@ -451,12 +515,19 @@ function showReviewModal() {
 
 function setupReviewModalListeners(modal) {
     const closeBtn = modal.querySelector('.close-review-modal');
-    const cancelBtn = modal.querySelector('.cancel-review');
-    const submitBtn = modal.querySelector('.submit-review');
-    const stars = modal.querySelectorAll('.star');
+    const cancelBtn = modal.querySelector('.cancel-review-btn');
+    const submitBtn = modal.querySelector('.submit-review-btn');
+    const stars = modal.querySelectorAll('.interactive-star');
     const form = modal.querySelector('#reviewForm');
+    const fitButtons = modal.querySelectorAll('.fit-btn');
+    const uploadDropzone = modal.querySelector('#uploadDropzone');
+    const fileInput = modal.querySelector('#fileInput');
+    const reviewText = modal.querySelector('#reviewText');
+    const charCount = modal.querySelector('#charCount');
 
     let selectedRating = 0;
+    let selectedFit = 'true-to-size';
+    let uploadedFiles = [];
 
     // Close modal events
     closeBtn.addEventListener('click', () => closeReviewModal(modal));
@@ -469,76 +540,237 @@ function setupReviewModalListeners(modal) {
         }
     });
 
+    // Prevent modal content click from closing modal
+    modal.querySelector('.review-modal-content').addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', function handleEscape(e) {
+        if (e.key === 'Escape') {
+            closeReviewModal(modal);
+            document.removeEventListener('keydown', handleEscape);
+        }
+    });
+
+    // Focus management
+    setTimeout(() => {
+        const firstStar = modal.querySelector('.interactive-star');
+        if (firstStar) {
+            firstStar.focus();
+        }
+    }, 100);
+
     // Star rating
-    stars.forEach(star => {
+    stars.forEach((star, index) => {
+        // Make stars focusable
+        star.setAttribute('tabindex', '0');
+        star.setAttribute('role', 'button');
+        star.setAttribute('aria-label', `Rate ${parseInt(star.dataset.rating)} star${parseInt(star.dataset.rating) > 1 ? 's' : ''}`);
+
         star.addEventListener('click', () => {
             selectedRating = parseInt(star.dataset.rating);
             updateStarRating(stars, selectedRating);
+            showNotification(`Rated ${selectedRating} star${selectedRating > 1 ? 's' : ''}`, 'info');
         });
 
         star.addEventListener('mouseover', () => {
             const hoverRating = parseInt(star.dataset.rating);
             updateStarRating(stars, hoverRating);
         });
+
+        star.addEventListener('mouseleave', () => {
+            updateStarRating(stars, selectedRating);
+        });
+
+        // Keyboard navigation
+        star.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                star.click();
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const nextStar = stars[Math.min(index + 1, stars.length - 1)];
+                nextStar.focus();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const prevStar = stars[Math.max(index - 1, 0)];
+                prevStar.focus();
+            }
+        });
+    });
+
+    // Character count for review text
+    reviewText.addEventListener('input', () => {
+        const count = reviewText.value.length;
+        charCount.textContent = count;
+
+        if (count > 400) {
+            charCount.style.color = '#f44336';
+        } else if (count > 300) {
+            charCount.style.color = '#ff9800';
+        } else {
+            charCount.style.color = '#666';
+        }
+    });
+
+    // Fit feedback buttons
+    fitButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            fitButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            selectedFit = button.dataset.fit;
+        });
+    });
+
+    // File upload functionality
+    uploadDropzone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    uploadDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.add('dragover');
+    });
+
+    uploadDropzone.addEventListener('dragleave', () => {
+        uploadDropzone.classList.remove('dragover');
+    });
+
+    uploadDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.remove('dragover');
+        handleFileUpload(e.dataTransfer.files, modal);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        handleFileUpload(e.target.files, modal);
     });
 
     // Form submission
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const title = modal.querySelector('#reviewTitle').value;
-        const text = modal.querySelector('#reviewText').value;
-        const name = modal.querySelector('#reviewerName').value;
+        const title = modal.querySelector('#reviewTitle').value.trim();
+        const text = modal.querySelector('#reviewText').value.trim();
 
         if (!selectedRating) {
             showNotification('Please select a rating', 'error');
             return;
         }
 
-        if (!title || !text || !name) {
-            showNotification('Please fill in all fields', 'error');
+        if (!text) {
+            showNotification('Please write a review description', 'error');
             return;
         }
 
         // Submit review
         submitReview({
             rating: selectedRating,
-            title: title,
+            title: title || 'Customer Review',
             text: text,
-            name: name,
-            product: currentProduct.title
+            product: currentProduct.title,
+            color: currentProduct.selectedColor,
+            size: currentProduct.selectedSize,
+            fit: selectedFit,
+            files: uploadedFiles
         });
 
         closeReviewModal(modal);
     });
+
+    // Helper function to handle file uploads
+    function handleFileUpload(files, modal) {
+        const uploadedFilesContainer = modal.querySelector('#uploadedFiles');
+
+        Array.from(files).forEach(file => {
+            if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                showNotification('File size must be less than 10MB', 'error');
+                return;
+            }
+
+            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                showNotification('Only image and video files are allowed', 'error');
+                return;
+            }
+
+            uploadedFiles.push(file);
+
+            // Create file preview
+            const fileItem = document.createElement('div');
+            fileItem.className = 'uploaded-file-item';
+
+            const fileName = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <i class="fas ${file.type.startsWith('image/') ? 'fa-image' : 'fa-video'}"></i>
+                    <span class="file-name">${fileName}</span>
+                </div>
+                <button type="button" class="remove-file-btn" onclick="removeUploadedFile(this, '${file.name}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            uploadedFilesContainer.appendChild(fileItem);
+        });
+
+        showNotification(`${files.length} file(s) added`, 'success');
+    }
+
+    // Make removeUploadedFile function available globally
+    window.removeUploadedFile = function(button, fileName) {
+        uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+        button.parentElement.remove();
+        showNotification('File removed', 'info');
+    };
 }
 
 function updateStarRating(stars, rating) {
     stars.forEach((star, index) => {
         if (index < rating) {
-            star.style.color = '#ffc107';
+            star.classList.add('active');
         } else {
-            star.style.color = '#ddd';
+            star.classList.remove('active');
         }
     });
 }
 
 function submitReview(reviewData) {
     // In a real app, this would submit to a server
-    showNotification('Thank you for your review!', 'success');
+    showNotification('Thank you for your review! It will be visible after approval.', 'success');
 
     // Store review locally for demo
     let reviews = JSON.parse(localStorage.getItem('productReviews') || '[]');
     reviews.push({
         ...reviewData,
+        id: Date.now(),
         date: new Date().toLocaleDateString(),
-        verified: true
+        verified: true,
+        approved: false, // Reviews need approval
+        helpful: 0,
+        userName: 'You'
     });
     localStorage.setItem('productReviews', JSON.stringify(reviews));
+
+    // Show detailed success message
+    setTimeout(() => {
+        showNotification(`Review submitted for ${reviewData.product}!\n- Rating: ${reviewData.rating} stars\n- Fit: ${formatFitFeedback(reviewData.fit)}`, 'success');
+    }, 1000);
+}
+
+function formatFitFeedback(fit) {
+    const fitMap = {
+        'too-small': 'Too Small',
+        'true-to-size': 'True to Size',
+        'too-large': 'Too Large'
+    };
+    return fitMap[fit] || 'True to Size';
 }
 
 function closeReviewModal(modal) {
     modal.style.opacity = '0';
+    document.body.style.overflow = '';
     setTimeout(() => {
         if (document.body.contains(modal)) {
             document.body.removeChild(modal);

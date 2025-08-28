@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Review - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .review-main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .back-button {
+            padding: 0.5rem 1rem;
+            background: #5a3d98;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            background: #5a3d98;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ddd;
+        }
+        .star.active {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Review Content -->
+    <main class="review-main">
+        <div class="page-header">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Write a Review</h1>
+        </div>
+
+        <div class="product-info" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3 id="productTitle">Churidar</h3>
+            <p>Color: <span id="selectedColor">Black</span> | Size: <span id="selectedSize">M</span></p>
+        </div>
+
+        <form id="reviewForm">
+            <div class="form-group">
+                <label class="form-label">Your Rating *</label>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">⭐</span>
+                    <span class="star" data-rating="2">⭐</span>
+                    <span class="star" data-rating="3">⭐</span>
+                    <span class="star" data-rating="4">⭐</span>
+                    <span class="star" data-rating="5">⭐</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Review Title</label>
+                <input type="text" class="form-input" placeholder="Perfect fit and stylish">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Review Description *</label>
+                <textarea class="form-textarea" rows="4" placeholder="Share your thoughts about fit, quality, comfort, and style…" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Review</button>
+        </form>
+    </main>
+
+    <script>
+        let selectedRating = 0;
+
+        // Star rating functionality
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                updateStars();
+                showNotification(`Rated ${selectedRating} stars`, 'success');
+            });
+        });
+
+        function updateStars() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (selectedRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+            
+            showNotification('Review submitted successfully!', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'product-detail';
+            }, 2000);
+        });
+
+        // Back button
+        function goBack() {
+            window.location.href = 'product-detail';
+        }
+
+        // Get product data from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productData = urlParams.get('product');
+        
+        if (productData) {
+            try {
+                const product = JSON.parse(decodeURIComponent(productData));
+                document.getElementById('productTitle').textContent = product.title || 'Churidar';
+                document.getElementById('selectedColor').textContent = product.selectedColor || 'Black';
+                document.getElementById('selectedSize').textContent = product.selectedSize || 'M';
+            } catch (e) {
+                console.log('Using default product data');
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem;
+                background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+                color: white;
+                border-radius: 4px;
+                z-index: 10000;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        console.log('Write Review page loaded successfully');
+    </script>
+</body>
+</html>
