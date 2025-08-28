@@ -43,12 +43,18 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
+    console.log('=== INITIALIZING PRODUCT DETAIL ===');
+    console.log('defaultProduct:', defaultProduct);
+
     // Check if product data is passed from main page via sessionStorage
     const selectedProduct = sessionStorage.getItem('selectedProduct');
+    console.log('selectedProduct from sessionStorage:', selectedProduct);
 
     if (selectedProduct) {
         try {
             const productData = JSON.parse(selectedProduct);
+            console.log('Parsed productData:', productData);
+
             // Merge with default structure
             currentProduct = {
                 ...defaultProduct,
@@ -61,14 +67,16 @@ function initializeProductDetail() {
                 images: generateProductImages(productData.image || defaultProduct.image)
             };
             console.log('Loaded product from navigation:', currentProduct.title);
+            console.log('Final currentProduct after merge:', currentProduct);
         } catch (e) {
             console.log('Error parsing product data, using default:', e);
             currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
+            console.log('Set currentProduct to default after error:', currentProduct);
         }
     } else {
         // Fallback to default product
         currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
-        console.log('No product data found, using default product');
+        console.log('No product data found, using default product:', currentProduct);
     }
 }
 
