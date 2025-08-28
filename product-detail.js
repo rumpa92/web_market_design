@@ -1393,6 +1393,30 @@ window.testCart = function() {
     }
 };
 
+// Force fix currentProduct if it's missing title
+window.fixProduct = function() {
+    console.log('=== FIXING PRODUCT ===');
+    console.log('currentProduct before fix:', currentProduct);
+
+    if (!currentProduct || !currentProduct.title) {
+        currentProduct = {
+            ...defaultProduct,
+            selectedColor: 'black',
+            selectedSize: 'M',
+            quantity: 1,
+            inStock: true,
+            stockCount: 15,
+            images: generateProductImages(defaultProduct.image)
+        };
+    }
+
+    console.log('currentProduct after fix:', currentProduct);
+
+    // Update UI
+    document.getElementById('productTitle').textContent = currentProduct.title;
+    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
+};
+
 // Global function for remove icon - accessible from inline onclick
 window.removeAndGoHome = function() {
     console.log('Remove and go home function called!');
