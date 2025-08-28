@@ -366,8 +366,25 @@ function setupWriteReview() {
             writeReviewBtn.style.transform = '';
         }, 150);
 
-        // Show review modal/form
-        showReviewModal();
+        // Store current product data for the review page
+        const productDataForReview = {
+            id: currentProduct.id,
+            title: currentProduct.title,
+            brand: currentProduct.brand,
+            currentPrice: currentProduct.currentPrice,
+            images: currentProduct.images,
+            selectedColor: currentProduct.selectedColor,
+            selectedSize: currentProduct.selectedSize
+        };
+
+        // Store in localStorage as backup
+        localStorage.setItem('reviewProduct', JSON.stringify(productDataForReview));
+
+        // Navigate to write review page with product data
+        const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
+        window.location.href = `write-review.html?product=${productParam}`;
+
+        showNotification('Opening write review page...', 'info');
     });
 }
 
