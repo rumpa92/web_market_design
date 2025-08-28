@@ -545,10 +545,16 @@ function setupReviewModalListeners(modal) {
     }, 100);
 
     // Star rating
-    stars.forEach(star => {
+    stars.forEach((star, index) => {
+        // Make stars focusable
+        star.setAttribute('tabindex', '0');
+        star.setAttribute('role', 'button');
+        star.setAttribute('aria-label', `Rate ${parseInt(star.dataset.rating)} star${parseInt(star.dataset.rating) > 1 ? 's' : ''}`);
+
         star.addEventListener('click', () => {
             selectedRating = parseInt(star.dataset.rating);
             updateStarRating(stars, selectedRating);
+            showNotification(`Rated ${selectedRating} star${selectedRating > 1 ? 's' : ''}`, 'info');
         });
 
         star.addEventListener('mouseover', () => {
@@ -558,6 +564,22 @@ function setupReviewModalListeners(modal) {
 
         star.addEventListener('mouseleave', () => {
             updateStarRating(stars, selectedRating);
+        });
+
+        // Keyboard navigation
+        star.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                star.click();
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const nextStar = stars[Math.min(index + 1, stars.length - 1)];
+                nextStar.focus();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const prevStar = stars[Math.max(index - 1, 0)];
+                prevStar.focus();
+            }
         });
     });
 
