@@ -2764,7 +2764,20 @@ function updateCartQuantity(itemId, change) {
 }
 
 function removeFromCart(itemId) {
-    cart = cart.filter(item => item.id.toString() !== itemId.toString());
+    // Safety check for undefined itemId
+    if (!itemId || itemId === 'undefined') {
+        console.error('Invalid itemId provided to removeFromCart:', itemId);
+        return;
+    }
+
+    cart = cart.filter(item => {
+        // Safety check for undefined item.id
+        if (!item || !item.id) {
+            return true; // Keep items without IDs for now (shouldn't happen)
+        }
+        return item.id.toString() !== itemId.toString();
+    });
+
     updateCartModalItems();
     updateCartCount();
     saveCartToStorage();
