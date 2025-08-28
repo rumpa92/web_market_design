@@ -1210,6 +1210,8 @@ body {
     filter: grayscale(0%);
     opacity: 1;
     transform: scale(1.1);
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
     animation: starGlow 0.3s ease;
 }
 
