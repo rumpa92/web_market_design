@@ -244,11 +244,13 @@ function setupQuantityControls() {
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
+    const removeIcon = document.getElementById('removeIcon');
 
     console.log('Quantity controls found:', {
         decreaseBtn: !!decreaseBtn,
         increaseBtn: !!increaseBtn,
-        quantityDisplay: !!quantityDisplay
+        quantityDisplay: !!quantityDisplay,
+        removeIcon: !!removeIcon
     });
 
     if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
@@ -293,6 +295,40 @@ function setupQuantityControls() {
             showNotification('Maximum quantity is 10', 'info');
         }
     });
+
+    // Remove icon functionality
+    if (removeIcon) {
+        removeIcon.addEventListener('click', () => {
+            // Add click animation
+            removeIcon.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                removeIcon.style.transform = '';
+            }, 150);
+
+            // Reset quantity to 1
+            currentProduct.quantity = 1;
+            quantityDisplay.textContent = currentProduct.quantity;
+
+            // Show notification
+            showNotification('Quantity reset to 1', 'info');
+
+            // Optional: Remove from cart if it exists
+            let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+            const existingItemIndex = cart.findIndex(item =>
+                item.title === currentProduct.title &&
+                item.selectedSize === currentProduct.selectedSize &&
+                item.selectedColor === currentProduct.selectedColor
+            );
+
+            if (existingItemIndex !== -1) {
+                const itemName = cart[existingItemIndex].title;
+                cart.splice(existingItemIndex, 1);
+                localStorage.setItem('fashionCart', JSON.stringify(cart));
+                updateCartBadge();
+                showNotification(`${itemName} removed from cart`, 'success');
+            }
+        });
+    }
 }
 
 function setupAddToCart() {
