@@ -2826,14 +2826,6 @@ function setupProductNavigation() {
     });
 }
 
-function navigateToProductDetail(product) {
-    const productParam = encodeURIComponent(JSON.stringify({
-        title: product.title,
-        price: product.price,
-        image: product.image
-    }));
-    window.location.href = `product-detail.html?product=${productParam}`;
-}
 
 function showWishlistSummary() {
     if (wishlist.length === 0) {
