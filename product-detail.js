@@ -170,8 +170,15 @@ function setupGallery() {
 
 function setupColorSelection() {
     const colorDots = document.querySelectorAll('.color-dot');
+    console.log('Color dots found:', colorDots.length);
 
-    colorDots.forEach(dot => {
+    if (colorDots.length === 0) {
+        console.warn('No color dots found! Check selector: .color-dot');
+        return;
+    }
+
+    colorDots.forEach((dot, index) => {
+        console.log(`Setting up color dot ${index}:`, dot);
         dot.addEventListener('click', () => {
             // Add click animation
             dot.style.transform = 'scale(0.9)';
