@@ -1010,7 +1010,7 @@ function openCartModal() {
 
     if (cart.length === 0) {
         cartItems.style.display = 'none';
-        cartEmpty.classList.remove('hidden');
+        cartEmpty.classList.add('hidden');
         cartSummary.style.display = 'none';
     } else {
         cartItems.style.display = 'block';
