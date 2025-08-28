@@ -683,20 +683,39 @@ function updateStarRating(stars, rating) {
 
 function submitReview(reviewData) {
     // In a real app, this would submit to a server
-    showNotification('Thank you for your review!', 'success');
+    showNotification('Thank you for your review! It will be visible after approval.', 'success');
 
     // Store review locally for demo
     let reviews = JSON.parse(localStorage.getItem('productReviews') || '[]');
     reviews.push({
         ...reviewData,
+        id: Date.now(),
         date: new Date().toLocaleDateString(),
-        verified: true
+        verified: true,
+        approved: false, // Reviews need approval
+        helpful: 0,
+        userName: 'You'
     });
     localStorage.setItem('productReviews', JSON.stringify(reviews));
+
+    // Show detailed success message
+    setTimeout(() => {
+        showNotification(`Review submitted for ${reviewData.product}!\n- Rating: ${reviewData.rating} stars\n- Fit: ${formatFitFeedback(reviewData.fit)}`, 'success');
+    }, 1000);
+}
+
+function formatFitFeedback(fit) {
+    const fitMap = {
+        'too-small': 'Too Small',
+        'true-to-size': 'True to Size',
+        'too-large': 'Too Large'
+    };
+    return fitMap[fit] || 'True to Size';
 }
 
 function closeReviewModal(modal) {
     modal.style.opacity = '0';
+    document.body.style.overflow = '';
     setTimeout(() => {
         if (document.body.contains(modal)) {
             document.body.removeChild(modal);
