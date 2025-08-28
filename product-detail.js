@@ -382,7 +382,7 @@ function setupWriteReview() {
 
         // Navigate to write review page with product data
         const productParam = encodeURIComponent(JSON.stringify(productDataForReview));
-        window.location.href = `write-review?product=${productParam}`;
+        window.location.href = `write-review-simple?product=${productParam}`;
 
         showNotification('Opening write review page...', 'info');
     });
