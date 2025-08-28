@@ -303,47 +303,27 @@ function setupQuantityControls() {
     // Remove icon functionality
     if (removeIcon) {
         console.log('Remove icon found, adding event listener');
+
+        // Test multiple event types
         removeIcon.addEventListener('click', (e) => {
             console.log('Remove icon clicked!');
-            e.preventDefault();
-            e.stopPropagation();
+            alert('Remove icon working! Redirecting to home...');
 
-            // Add click animation
-            removeIcon.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                removeIcon.style.transform = '';
-            }, 150);
-
-            // Reset quantity to 1
-            currentProduct.quantity = 1;
-            quantityDisplay.textContent = currentProduct.quantity;
-
-            // Remove from cart if it exists
-            let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-            const existingItemIndex = cart.findIndex(item =>
-                item.title === currentProduct.title &&
-                item.selectedSize === currentProduct.selectedSize &&
-                item.selectedColor === currentProduct.selectedColor
-            );
-
-            if (existingItemIndex !== -1) {
-                const itemName = cart[existingItemIndex].title;
-                cart.splice(existingItemIndex, 1);
-                localStorage.setItem('fashionCart', JSON.stringify(cart));
-                updateCartBadge();
-                showNotification(`${itemName} removed from cart`, 'success');
-            }
-
-            // Show notification and navigate to home page
-            showNotification('Item removed! Redirecting to home page...', 'success');
-
-            // Navigate to home page after a brief delay
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
+            // Navigate to home page immediately
+            window.location.href = 'index.html';
         });
+
+        removeIcon.addEventListener('mousedown', (e) => {
+            console.log('Remove icon mousedown');
+        });
+
+        removeIcon.addEventListener('touchstart', (e) => {
+            console.log('Remove icon touchstart');
+        });
+
     } else {
         console.log('Remove icon NOT found!');
+        console.log('Available elements:', document.querySelectorAll('[id*="remove"]'));
     }
 }
 
