@@ -1191,7 +1191,7 @@ body {
     transition: all 0.2s ease;
     filter: grayscale(100%);
     opacity: 0.3;
-    color: #e2e8f0;
+    color: white;
     border-radius: 4px;
     padding: 0.25rem;
     outline: none;
