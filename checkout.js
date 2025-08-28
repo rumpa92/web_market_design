@@ -624,11 +624,7 @@ function showUpiPaymentScreen() {
 }
 
 function generateUpiOrderSummary() {
-    // Get the exact same order summary content from the main checkout page
-    const originalOrderSummary = document.querySelector('.order-summary-card');
-    if (originalOrderSummary) {
-        return originalOrderSummary.outerHTML;
-    }
+    // Always generate UPI-specific order summary to ensure correct button text
 
     // Fallback: generate the same structure if original not found
     const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
