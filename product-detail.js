@@ -2,12 +2,20 @@
 
 // Initialize product detail page
 document.addEventListener('DOMContentLoaded', function() {
-    initializeProductDetail();
-    loadProductData();
-    setupProductEventListeners();
-    setupRelatedProductsInteraction();
-    setupProfileDropdown();
-    initializeCartModal();
+    console.log('Product detail page DOMContentLoaded');
+
+    try {
+        initializeProductDetail();
+        loadProductData();
+        setupProductEventListeners();
+        setupRelatedProductsInteraction();
+        setupProfileDropdown();
+        initializeCartModal();
+
+        console.log('Product detail page initialized successfully');
+    } catch (error) {
+        console.error('Error initializing product detail page:', error);
+    }
 });
 
 // Product data for fashion item
@@ -79,36 +87,51 @@ function loadProductData() {
 }
 
 function setupProductEventListeners() {
-    // Product back button (above image)
-    const productBackBtn = document.getElementById('productBackBtn');
-    productBackBtn.addEventListener('click', () => {
-        // Navigate to home page
-        window.location.href = 'index.html';
-    });
-    
-    // Header icons
-    setupHeaderIcons();
-    
-    // Gallery functionality
-    setupGallery();
-    
-    // Color selection
-    setupColorSelection();
-    
-    // Size selection
-    setupSizeSelection();
-    
-    // Quantity controls
-    setupQuantityControls();
-    
-    // Add to cart
-    setupAddToCart();
-    
-    // Tab navigation
-    setupTabNavigation();
-    
-    // Wishlist functionality
-    setupWishlist();
+    console.log('Setting up product event listeners...');
+
+    try {
+        // Product back button (above image)
+        const productBackBtn = document.getElementById('productBackBtn');
+        if (productBackBtn) {
+            productBackBtn.addEventListener('click', () => {
+                // Navigate to home page
+                window.location.href = 'index.html';
+            });
+            console.log('Product back button listener added');
+        }
+
+        // Header icons
+        setupHeaderIcons();
+
+        // Gallery functionality
+        setupGallery();
+
+        // Color selection
+        console.log('Setting up color selection...');
+        setupColorSelection();
+
+        // Size selection
+        console.log('Setting up size selection...');
+        setupSizeSelection();
+
+        // Quantity controls
+        console.log('Setting up quantity controls...');
+        setupQuantityControls();
+
+        // Add to cart
+        console.log('Setting up add to cart...');
+        setupAddToCart();
+
+        // Tab navigation
+        setupTabNavigation();
+
+        // Wishlist functionality
+        setupWishlist();
+
+        console.log('All product event listeners set up successfully');
+    } catch (error) {
+        console.error('Error setting up product event listeners:', error);
+    }
 }
 
 function setupHeaderIcons() {
@@ -147,37 +170,71 @@ function setupGallery() {
 
 function setupColorSelection() {
     const colorDots = document.querySelectorAll('.color-dot');
-    
-    colorDots.forEach(dot => {
+    console.log('Color dots found:', colorDots.length);
+
+    if (colorDots.length === 0) {
+        console.warn('No color dots found! Check selector: .color-dot');
+        return;
+    }
+
+    colorDots.forEach((dot, index) => {
+        console.log(`Setting up color dot ${index}:`, dot);
         dot.addEventListener('click', () => {
+            // Add click animation
+            dot.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                dot.style.transform = '';
+            }, 150);
+
             // Remove active class from all dots
             colorDots.forEach(d => d.classList.remove('active'));
-            
+
             // Add active class to clicked dot
             dot.classList.add('active');
-            
+
             // Update selected color
             currentProduct.selectedColor = dot.dataset.color;
-            
+
             showNotification(`Selected color: ${currentProduct.selectedColor}`, 'success');
+        });
+
+        // Add keyboard support
+        dot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                dot.click();
+            }
         });
     });
 }
 
 function setupSizeSelection() {
     const sizeButtons = document.querySelectorAll('.size-btn');
-    
-    sizeButtons.forEach(button => {
+    console.log('Size buttons found:', sizeButtons.length);
+
+    if (sizeButtons.length === 0) {
+        console.warn('No size buttons found! Check selector: .size-btn');
+        return;
+    }
+
+    sizeButtons.forEach((button, index) => {
+        console.log(`Setting up size button ${index}:`, button);
         button.addEventListener('click', () => {
+            // Add click animation
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+
             // Remove active class from all buttons
             sizeButtons.forEach(btn => btn.classList.remove('active'));
-            
+
             // Add active class to clicked button
             button.classList.add('active');
-            
+
             // Update selected size
             currentProduct.selectedSize = button.dataset.size;
-            
+
             showNotification(`Selected size: ${currentProduct.selectedSize}`, 'success');
         });
     });
@@ -187,38 +244,93 @@ function setupQuantityControls() {
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
-    
+
+    console.log('Quantity controls found:', {
+        decreaseBtn: !!decreaseBtn,
+        increaseBtn: !!increaseBtn,
+        quantityDisplay: !!quantityDisplay
+    });
+
+    if (!decreaseBtn || !increaseBtn || !quantityDisplay) {
+        console.warn('Some quantity controls not found!');
+        return;
+    }
+
     decreaseBtn.addEventListener('click', () => {
+        // Add click animation
+        decreaseBtn.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            decreaseBtn.style.transform = '';
+        }, 150);
+
         if (currentProduct.quantity > 1) {
             currentProduct.quantity--;
             quantityDisplay.textContent = currentProduct.quantity;
+            quantityDisplay.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                quantityDisplay.style.transform = '';
+            }, 200);
+        } else {
+            showNotification('Minimum quantity is 1', 'info');
         }
     });
-    
+
     increaseBtn.addEventListener('click', () => {
+        // Add click animation
+        increaseBtn.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            increaseBtn.style.transform = '';
+        }, 150);
+
         if (currentProduct.quantity < 10) { // Max quantity limit
             currentProduct.quantity++;
             quantityDisplay.textContent = currentProduct.quantity;
+            quantityDisplay.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                quantityDisplay.style.transform = '';
+            }, 200);
+        } else {
+            showNotification('Maximum quantity is 10', 'info');
         }
     });
 }
 
 function setupAddToCart() {
     const addToCartBtn = document.getElementById('addToCartBtn');
-    
+    console.log('Add to cart button found:', !!addToCartBtn);
+
+    if (!addToCartBtn) {
+        console.warn('Add to cart button not found! Check ID: addToCartBtn');
+        return;
+    }
+
     addToCartBtn.addEventListener('click', () => {
+        // Disable button to prevent double clicks
+        addToCartBtn.disabled = true;
+
         // Animation effect
         addToCartBtn.style.transform = 'scale(0.95)';
         addToCartBtn.textContent = 'Adding...';
-        
+        addToCartBtn.style.opacity = '0.8';
+
         setTimeout(() => {
             addToCart(currentProduct);
             updateCartBadge();
-            showNotification(`${currentProduct.title} added to cart!`, 'success');
-            
-            // Reset button
+            showNotification(`${currentProduct.title} (${currentProduct.selectedColor}, ${currentProduct.selectedSize}) added to cart!`, 'success');
+
+            // Success animation
+            addToCartBtn.textContent = 'Added!';
+            addToCartBtn.style.backgroundColor = '#4CAF50';
             addToCartBtn.style.transform = 'scale(1)';
-            addToCartBtn.textContent = 'Add to Cart';
+
+            setTimeout(() => {
+                // Reset button
+                addToCartBtn.style.transform = '';
+                addToCartBtn.style.opacity = '';
+                addToCartBtn.style.backgroundColor = '';
+                addToCartBtn.textContent = 'Add to Cart';
+                addToCartBtn.disabled = false;
+            }, 1000);
         }, 500);
     });
 }
@@ -257,29 +369,43 @@ function setupWishlist() {
 
 // Utility functions
 function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
-    
-    const existingItem = cart.find(item => 
-        item.title === product.title && 
-        item.selectedSize === product.selectedSize && 
-        item.selectedColor === product.selectedColor
-    );
-    
-    if (existingItem) {
-        existingItem.quantity += product.quantity;
-    } else {
-        cart.push({
-            id: product.id,
-            title: product.title,
-            price: `$${product.currentPrice}`,
-            image: product.images.main,
-            selectedSize: product.selectedSize,
-            selectedColor: product.selectedColor,
-            quantity: product.quantity
-        });
+    try {
+        let cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+
+        const existingItem = cart.find(item =>
+            item.title === product.title &&
+            item.selectedSize === product.selectedSize &&
+            item.selectedColor === product.selectedColor
+        );
+
+        if (existingItem) {
+            existingItem.quantity += product.quantity;
+        } else {
+            cart.push({
+                id: product.id,
+                title: product.title,
+                price: `$${product.currentPrice}`,
+                image: product.images.main,
+                selectedSize: product.selectedSize,
+                selectedColor: product.selectedColor,
+                quantity: product.quantity
+            });
+        }
+
+        localStorage.setItem('fashionCart', JSON.stringify(cart));
+
+        // Update cart count in header if present
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            const totalCount = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalCount;
+        }
+
+        console.log('Product added to cart successfully:', product);
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showNotification('Error adding to cart. Please try again.', 'error');
     }
-    
-    localStorage.setItem('fashionCart', JSON.stringify(cart));
 }
 
 function toggleWishlist() {
@@ -781,8 +907,13 @@ function setupProfileDropdown() {
 
     if (!profileTrigger || !profileDropdown) return;
 
-    // Initialize user status
+    // Initialize user status to always stay online
     updateUserStatus('online');
+
+    // Ensure status stays online every 5 seconds
+    setInterval(() => {
+        updateUserStatus('online');
+    }, 5000);
 
     // Toggle dropdown on click
     profileTrigger.addEventListener('click', (e) => {
@@ -806,12 +937,12 @@ function setupProfileDropdown() {
         });
     });
 
-    // Simulate status changes every 30 seconds for demo
-    setInterval(() => {
-        const statuses = ['online', 'away', 'busy'];
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        updateUserStatus(randomStatus);
-    }, 30000);
+    // Keep status always online - commented out random status changes
+    // setInterval(() => {
+    //     const statuses = ['online', 'away', 'busy'];
+    //     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    //     updateUserStatus(randomStatus);
+    // }, 30000);
 }
 
 function toggleProfileDropdown() {

@@ -63,7 +63,7 @@ function setupEventListeners() {
     });
 
     // Wishlist buttons (all types)
-    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
+    const wishlistBtns = document.querySelectorAll('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn, .add-to-wishlist-btn');
     wishlistBtns.forEach(btn => {
         btn.addEventListener('click', handleWishlist);
     });
@@ -127,7 +127,7 @@ function handleAddToCart(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
     const product = extractProductData(productCard);
 
     addToCart(product);
@@ -153,6 +153,10 @@ function extractProductData(productCard) {
         title = productCard.querySelector('.modern-product-title').textContent;
         price = productCard.querySelector('.modern-product-price').textContent;
         image = productCard.querySelector('.modern-product-img').src;
+    } else if (productCard.classList.contains('look-product-card')) {
+        title = productCard.querySelector('.product-name').textContent;
+        price = productCard.querySelector('.product-price').textContent;
+        image = productCard.querySelector('.product-image').src;
     } else {
         title = productCard.querySelector('.product-title').textContent;
         price = productCard.querySelector('.current-price').textContent;
@@ -204,9 +208,9 @@ function handleWishlist(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card');
+    const productCard = event.target.closest('.product-card, .modern-product-card, .colorful-product-card, .look-product-card');
     const product = extractProductData(productCard);
-    const wishlistBtn = event.target.closest('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn');
+    const wishlistBtn = event.target.closest('.wishlist-btn, .modern-wishlist-btn, .colorful-wishlist-btn, .add-to-wishlist-btn');
     const heartIcon = wishlistBtn.querySelector('i');
 
     const isInWishlist = wishlist.some(item => item.title === product.title);
@@ -1693,8 +1697,13 @@ function setupProfileDropdown() {
         return;
     }
 
-    // Initialize user status
+    // Initialize user status to always stay online
     updateUserStatus('online');
+
+    // Ensure status stays online every 5 seconds
+    setInterval(() => {
+        updateUserStatus('online');
+    }, 5000);
 
     // Toggle dropdown on click
     profileTrigger.addEventListener('click', (e) => {
@@ -1718,12 +1727,12 @@ function setupProfileDropdown() {
         });
     });
 
-    // Simulate status changes every 30 seconds for demo
-    setInterval(() => {
-        const statuses = ['online', 'away', 'busy'];
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        updateUserStatus(randomStatus);
-    }, 30000);
+    // Keep status always online - commented out random status changes
+    // setInterval(() => {
+    //     const statuses = ['online', 'away', 'busy'];
+    //     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    //     updateUserStatus(randomStatus);
+    // }, 30000);
 }
 
 function toggleProfileDropdown() {
@@ -3214,7 +3223,7 @@ const subcategoryItems = {
             originalPrice: '$65',
             image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'CASUAL',
-            rating: '★★★★☆'
+            rating: '★★��★☆'
         }
     ],
     'Outerwear': [

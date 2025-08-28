@@ -300,6 +300,9 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    padding: 0;
+    outline: none;
+    background-clip: content-box;
 }
 
 .color-dot:hover {
@@ -388,6 +391,7 @@ body {
     color: #333;
     min-width: 24px;
     text-align: center;
+    transition: all 0.2s ease;
 }
 
 /* Add to Cart Button */

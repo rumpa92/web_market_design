@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Product Detail Functionality</title>
+</head>
+<body>
+    <h1>Testing Product Detail Functionality</h1>
+    <div id="test-results"></div>
+
+    <script>
+        // Wait for page to load
+        setTimeout(() => {
+            const results = [];
+            
+            // Test 1: Check if color dots exist and have click listeners
+            const colorDots = document.querySelectorAll('.color-dot');
+            results.push(`Color dots found: ${colorDots.length}`);
+            
+            // Test 2: Check if size buttons exist and have click listeners
+            const sizeButtons = document.querySelectorAll('.size-btn');
+            results.push(`Size buttons found: ${sizeButtons.length}`);
+            
+            // Test 3: Check if quantity controls exist
+            const decreaseBtn = document.getElementById('decreaseQty');
+            const increaseBtn = document.getElementById('increaseQty');
+            const quantityDisplay = document.getElementById('quantityDisplay');
+            results.push(`Quantity controls found: decrease=${!!decreaseBtn}, increase=${!!increaseBtn}, display=${!!quantityDisplay}`);
+            
+            // Test 4: Check if add to cart button exists
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            results.push(`Add to cart button found: ${!!addToCartBtn}`);
+            
+            // Test 5: Check if tab buttons exist
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            results.push(`Tab buttons found: ${tabButtons.length}`);
+            
+            // Test 6: Check if thumbnail gallery exists
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            results.push(`Thumbnail items found: ${thumbnails.length}`);
+            
+            // Test 7: Check if product detail JavaScript is loaded
+            results.push(`Current product object exists: ${typeof currentProduct !== 'undefined'}`);
+            
+            // Test 8: Check if functions exist
+            const functionsToCheck = [
+                'setupColorSelection',
+                'setupSizeSelection', 
+                'setupQuantityControls',
+                'setupAddToCart',
+                'showNotification'
+            ];
+            
+            functionsToCheck.forEach(funcName => {
+                results.push(`Function ${funcName} exists: ${typeof window[funcName] === 'function'}`);
+            });
+            
+            // Display results
+            document.getElementById('test-results').innerHTML = 
+                '<pre>' + results.join('\n') + '</pre>';
+                
+        }, 2000);
+    </script>
+</body>
+</html>
