@@ -1,4 +1,5 @@
-// Visual test that shows results on the page
+// Visual test that shows results on the page - DISABLED
+/*
 setTimeout(() => {
     // Create a test results panel
     const testPanel = document.createElement('div');
@@ -21,7 +22,7 @@ setTimeout(() => {
     document.body.appendChild(testPanel);
 
     let results = [];
-    
+
     // Test elements existence
     const colorDots = document.querySelectorAll('.color-dot');
     const sizeButtons = document.querySelectorAll('.size-btn');
@@ -40,20 +41,20 @@ setTimeout(() => {
     const increaseBtn = document.getElementById('increaseQty');
     const decreaseBtn = document.getElementById('decreaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
-    
+
     results.push(`🎨 Color dots: ${colorDots.length} found`);
     results.push(`📏 Size buttons: ${sizeButtons.length} found`);
     results.push(`🛒 Add to cart: ${addToCartBtn ? '✅' : '❌'}`);
     results.push(`➕ Increase btn: ${increaseBtn ? '✅' : '❌'}`);
     results.push(`➖ Decrease btn: ${decreaseBtn ? '✅' : '❌'}`);
     results.push(`🔢 Quantity display: ${quantityDisplay ? '✅' : '❌'}`);
-    
+
     // Test if currentProduct exists
     results.push(`📦 currentProduct: ${typeof currentProduct !== 'undefined' ? '✅' : '❌'}`);
-    
+
     // Test function clicks
     let clickResults = [];
-    
+
     // Test color dot click
     if (colorDots.length > 1) {
         try {
@@ -65,7 +66,7 @@ setTimeout(() => {
             clickResults.push(`🎨 Color click: ❌ (${e.message})`);
         }
     }
-    
+
     // Test size button click
     if (sizeButtons.length > 1) {
         try {
@@ -77,7 +78,7 @@ setTimeout(() => {
             clickResults.push(`📏 Size click: ❌ (${e.message})`);
         }
     }
-    
+
     // Test quantity increase
     if (increaseBtn && quantityDisplay) {
         try {
@@ -89,7 +90,7 @@ setTimeout(() => {
             clickResults.push(`➕ Qty increase: ❌ (${e.message})`);
         }
     }
-    
+
     // Test add to cart
     if (addToCartBtn) {
         try {
@@ -133,12 +134,13 @@ setTimeout(() => {
     } else {
         clickResults.push(`🛒 Add to cart: ❌ (No button found)`);
     }
-    
+
     // Initial display
     testPanel.innerHTML = `
         <h4 style="margin:0 0 10px 0; color:#333;">🧪 Functionality Test</h4>
         <div style="color:#666;">${results.join('<br>')}</div>
         <div style="margin-top:10px; color:#999;">Testing interactions...</div>
     `;
-    
+
 }, 2000);
+*/
