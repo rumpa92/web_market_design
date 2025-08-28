@@ -25,7 +25,18 @@ setTimeout(() => {
     // Test elements existence
     const colorDots = document.querySelectorAll('.color-dot');
     const sizeButtons = document.querySelectorAll('.size-btn');
-    const addToCartBtn = document.getElementById('addToCartBtn');
+
+    // Try to find add to cart button - check different types based on page
+    let addToCartBtn = document.getElementById('addToCartBtn'); // Product detail page
+    if (!addToCartBtn) {
+        // Try to find first colorful add to cart button on main page
+        addToCartBtn = document.querySelector('.colorful-add-to-cart');
+    }
+    if (!addToCartBtn) {
+        // Try to find regular add to cart button
+        addToCartBtn = document.querySelector('.add-to-cart-btn');
+    }
+
     const increaseBtn = document.getElementById('increaseQty');
     const decreaseBtn = document.getElementById('decreaseQty');
     const quantityDisplay = document.getElementById('quantityDisplay');
