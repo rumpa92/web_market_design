@@ -618,9 +618,9 @@
 }
 
 .continue-shopping-btn {
-    background: transparent;
-    border: 2px solid #e0e0e0;
-    color: #666;
+    background: #f8f9fa;
+    border: 2px solid #6c757d;
+    color: #495057;
     padding: 1.2rem 2rem;
     border-radius: 30px;
     font-weight: 600;
@@ -633,17 +633,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .continue-shopping-btn:hover {
-    border-color: #333;
-    color: #333;
-    background: #f8f9fa;
-    transform: translateY(-1px);
+    border-color: #495057;
+    color: #212529;
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.2);
 }
 
 .proceed-checkout-btn {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #28a745, #20c997);
     color: white;
     border: 2px solid transparent;
     padding: 1.2rem 2rem;
@@ -654,16 +657,19 @@
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     min-height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .proceed-checkout-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    background: linear-gradient(135deg, #218838, #1e7e34);
 }
 
 /* Empty Cart State */
