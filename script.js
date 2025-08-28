@@ -2738,7 +2738,7 @@ function updateCartModalItems() {
     if (cart.length === 0) {
         // Cart is empty - hide items container, summary, and actions
         cartItemsContainer.style.display = 'none';
-        if (cartEmpty) cartEmpty.classList.add('hidden');
+        if (cartEmpty) cartEmpty.classList.remove('hidden');
         if (cartSummary) cartSummary.style.display = 'none';
         if (cartActions) cartActions.style.display = 'none';
         return;
@@ -3453,7 +3453,7 @@ const subcategoryItems = {
             originalPrice: '$49',
             image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★★★'
+            rating: '★★���★★'
         },
         {
             id: 'active3',
@@ -3878,7 +3878,7 @@ function generateCollectionProducts(collectionType) {
         { name: 'Knit Winter Dress', price: 2199, category: 'dresses', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400' },
         { name: 'Leather Winter Gloves', price: 899, category: 'accessories', rating: '★★���★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400' },
         { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★���★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
-        { name: 'Premium Bomber Jacket', price: 3899, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400' },
+        { name: 'Premium Bomber Jacket', price: 3899, category: 'jackets', rating: '★��★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400' },
         { name: 'Merino Wool Cardigan', price: 2499, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400' }
     ];
 
