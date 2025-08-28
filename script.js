@@ -2735,7 +2735,20 @@ function updateCartModalItems() {
 }
 
 function updateCartQuantity(itemId, change) {
-    const item = cart.find(item => item.id.toString() === itemId.toString());
+    // Safety check for undefined itemId
+    if (!itemId || itemId === 'undefined') {
+        console.error('Invalid itemId provided to updateCartQuantity:', itemId);
+        return;
+    }
+
+    const item = cart.find(cartItem => {
+        // Safety check for undefined item.id
+        if (!cartItem || !cartItem.id) {
+            return false;
+        }
+        return cartItem.id.toString() === itemId.toString();
+    });
+
     if (item) {
         item.quantity += change;
         if (item.quantity <= 0) {
@@ -2745,6 +2758,8 @@ function updateCartQuantity(itemId, change) {
             updateCartCount();
             saveCartToStorage();
         }
+    } else {
+        console.warn('Item not found in cart for ID:', itemId);
     }
 }
 
@@ -3134,7 +3149,7 @@ const subcategoryItems = {
             originalPrice: '$799',
             image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'JEWELRY',
-            rating: '★★★★★'
+            rating: '★��★★★'
         },
         {
             id: 'jewelry2',
