@@ -43,12 +43,18 @@ let currentProduct = {
 };
 
 function initializeProductDetail() {
+    console.log('=== INITIALIZING PRODUCT DETAIL ===');
+    console.log('defaultProduct:', defaultProduct);
+
     // Check if product data is passed from main page via sessionStorage
     const selectedProduct = sessionStorage.getItem('selectedProduct');
+    console.log('selectedProduct from sessionStorage:', selectedProduct);
 
     if (selectedProduct) {
         try {
             const productData = JSON.parse(selectedProduct);
+            console.log('Parsed productData:', productData);
+
             // Merge with default structure
             currentProduct = {
                 ...defaultProduct,
@@ -61,15 +67,33 @@ function initializeProductDetail() {
                 images: generateProductImages(productData.image || defaultProduct.image)
             };
             console.log('Loaded product from navigation:', currentProduct.title);
+            console.log('Final currentProduct after merge:', currentProduct);
         } catch (e) {
             console.log('Error parsing product data, using default:', e);
             currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
+            console.log('Set currentProduct to default after error:', currentProduct);
         }
     } else {
         // Fallback to default product
         currentProduct = { ...defaultProduct, selectedColor: 'black', selectedSize: 'M', quantity: 1, inStock: true, stockCount: 15, images: generateProductImages(defaultProduct.image) };
-        console.log('No product data found, using default product');
+        console.log('No product data found, using default product:', currentProduct);
     }
+
+    // Final safety check - ensure all essential properties exist
+    if (!currentProduct.title) {
+        currentProduct.title = 'Designer Anarkali Gown';
+    }
+    if (!currentProduct.currentPrice) {
+        currentProduct.currentPrice = 198;
+    }
+    if (!currentProduct.id) {
+        currentProduct.id = Date.now();
+    }
+    if (!currentProduct.images) {
+        currentProduct.images = generateProductImages(defaultProduct.image);
+    }
+
+    console.log('Final currentProduct after safety checks:', currentProduct);
 }
 
 function generateProductImages(mainImage) {
@@ -105,6 +129,22 @@ function generateProductDescription(productTitle) {
 }
 
 function loadProductData() {
+    // Debug current product data
+    console.log('=== LOADING PRODUCT DATA ===');
+    console.log('currentProduct:', currentProduct);
+    console.log('currentProduct.title:', currentProduct.title);
+    console.log('currentProduct complete object:', JSON.stringify(currentProduct, null, 2));
+
+    // Safety check - ensure currentProduct has all required properties
+    if (!currentProduct.title) {
+        console.warn('currentProduct.title is missing, fixing...');
+        currentProduct.title = defaultProduct.title || 'Designer Anarkali Gown';
+    }
+    if (!currentProduct.currentPrice) {
+        console.warn('currentProduct.currentPrice is missing, fixing...');
+        currentProduct.currentPrice = defaultProduct.currentPrice || 198;
+    }
+
     // Update page title
     const pageTitle = document.getElementById('pageTitle');
     if (pageTitle) {
@@ -121,10 +161,11 @@ function loadProductData() {
         ratingText.textContent = `${currentProduct.rating} (${currentProduct.reviewCount} Reviews)`;
     }
 
-    // Update cart badge
+    // Update cart badge - should be 0 after clearing cart
     const cartBadge = document.getElementById('cartBadge');
     const cartCount = getCartItemCount();
     cartBadge.textContent = cartCount;
+    console.log('Cart badge initialized with count:', cartCount);
 
     // Load main image
     const mainImage = document.getElementById('mainProductImage');
@@ -384,7 +425,15 @@ function setupAddToCart() {
         return;
     }
 
+    let isAdding = false; // Prevent multiple rapid clicks
+
     addToCartBtn.addEventListener('click', () => {
+        if (isAdding) {
+            console.log('Add to cart already in progress, ignoring click');
+            return;
+        }
+
+        isAdding = true;
         // Disable button to prevent double clicks
         addToCartBtn.disabled = true;
 
@@ -394,6 +443,16 @@ function setupAddToCart() {
         addToCartBtn.style.opacity = '0.8';
 
         setTimeout(() => {
+            console.log('=== ABOUT TO ADD TO CART ===');
+            console.log('currentProduct before addToCart:', currentProduct);
+            console.log('currentProduct.title:', currentProduct.title);
+
+            // Safety check - ensure title exists
+            if (!currentProduct.title) {
+                console.warn('currentProduct.title is undefined, setting to default');
+                currentProduct.title = defaultProduct.title || 'Designer Anarkali Gown';
+            }
+
             addToCart(currentProduct);
             updateCartBadge();
             showNotification(`${currentProduct.title} (${currentProduct.selectedColor}, ${currentProduct.selectedSize}) added to cart!`, 'success');
@@ -410,6 +469,7 @@ function setupAddToCart() {
                 addToCartBtn.style.backgroundColor = '';
                 addToCartBtn.textContent = 'Add to Cart';
                 addToCartBtn.disabled = false;
+                isAdding = false; // Reset the flag
             }, 1000);
         }, 500);
     });
@@ -938,7 +998,9 @@ function addToCart(product) {
             cartCount.textContent = totalCount;
         }
 
-        console.log('Product added to cart successfully:', product);
+        console.log('Product added to cart successfully. New cart count:', cart.reduce((total, item) => total + item.quantity, 0));
+        console.log('Cart contents:', cart);
+        console.log('localStorage cart:', localStorage.getItem('fashionCart'));
     } catch (error) {
         console.error('Error adding to cart:', error);
         showNotification('Error adding to cart. Please try again.', 'error');
@@ -1324,6 +1386,52 @@ function initializeWishlistState() {
 
 // Initialize on load
 setTimeout(initializeWishlistState, 100);
+
+// Debug function to test cart functionality
+window.testCart = function() {
+    console.log('=== CART TEST ===');
+    const cart = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    console.log('Current cart:', cart);
+    console.log('Cart count:', cart.reduce((total, item) => total + item.quantity, 0));
+
+    const cartBadge = document.getElementById('cartBadge');
+    console.log('Cart badge element:', cartBadge);
+    console.log('Cart badge text:', cartBadge ? cartBadge.textContent : 'not found');
+
+    // Test add to cart functionality
+    if (typeof currentProduct !== 'undefined') {
+        console.log('Current product:', currentProduct);
+        console.log('Will add product to cart...');
+        addToCart(currentProduct);
+        console.log('Cart after adding:', JSON.parse(localStorage.getItem('fashionCart') || '[]'));
+    } else {
+        console.log('currentProduct not defined');
+    }
+};
+
+// Force fix currentProduct if it's missing title
+window.fixProduct = function() {
+    console.log('=== FIXING PRODUCT ===');
+    console.log('currentProduct before fix:', currentProduct);
+
+    if (!currentProduct || !currentProduct.title) {
+        currentProduct = {
+            ...defaultProduct,
+            selectedColor: 'black',
+            selectedSize: 'M',
+            quantity: 1,
+            inStock: true,
+            stockCount: 15,
+            images: generateProductImages(defaultProduct.image)
+        };
+    }
+
+    console.log('currentProduct after fix:', currentProduct);
+
+    // Update UI
+    document.getElementById('productTitle').textContent = currentProduct.title;
+    document.getElementById('currentPrice').textContent = `$${currentProduct.currentPrice}`;
+};
 
 // Global function for remove icon - accessible from inline onclick
 window.removeAndGoHome = function() {
