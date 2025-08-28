@@ -2756,15 +2756,10 @@ function updateCartSummary() {
 
 // Setup cart modal event listeners
 function setupCartModal() {
-    const cartIcon = document.querySelector('.cart-icon-container');
     const cartModal = document.getElementById('cartModal');
     const closeCart = document.getElementById('closeCart');
     const continueShopping = document.getElementById('continueShopping');
     const proceedCheckout = document.getElementById('proceedCheckout');
-
-    if (cartIcon) {
-        cartIcon.addEventListener('click', showCartSummary);
-    }
 
     if (closeCart) {
         closeCart.addEventListener('click', () => {
