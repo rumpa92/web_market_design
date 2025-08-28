@@ -1,7 +1,29 @@
 // Fashion Marketplace JavaScript
 
 // Shopping Cart Functionality
-let cart = [];
+let cart = [
+    {
+        id: 1,
+        title: 'Premium Cotton T-Shirt',
+        price: '₹1,299',
+        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
+        quantity: 2
+    },
+    {
+        id: 2,
+        title: 'Designer Jeans',
+        price: '₹2,499',
+        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400',
+        quantity: 1
+    },
+    {
+        id: 3,
+        title: 'Summer Dress',
+        price: '₹1,899',
+        image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400',
+        quantity: 1
+    }
+];
 let wishlist = [];
 
 // Debug utility function
@@ -80,6 +102,14 @@ function initializeApp() {
     setupHeroSlider();
     setupCollectionPage();
     setupCollectionNavigation();
+    setupCartModal();
+
+    // Debug cart functionality
+    console.log('Cart initialized with items:', cart);
+    console.log('Cart functions available:', {
+        updateCartQuantity: typeof window.updateCartQuantity,
+        removeFromCart: typeof window.removeFromCart
+    });
 }
 
 // Event Listeners Setup
@@ -122,11 +152,7 @@ function setupEventListeners() {
     const cartIcon = document.querySelector('.cart-icon-container');
     if (cartIcon) {
         cartIcon.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showNotification('Your cart is empty. Add some items!', 'info');
-            } else {
-                showCartSummary();
-            }
+            showCartSummary();
         });
     }
 
@@ -189,7 +215,7 @@ function extractProductData(productCard) {
         return {
             id: Date.now() + Math.random(),
             title: 'Unknown Product',
-            price: '$0.00',
+            price: '₹0',
             image: 'https://via.placeholder.com/300x300?text=No+Image',
             quantity: 1
         };
@@ -201,16 +227,25 @@ function extractProductData(productCard) {
         // Handle different card types
         if (productCard.classList.contains('colorful-product-card')) {
             title = productCard.querySelector('.colorful-product-title')?.textContent || 'Colorful Product';
-            price = productCard.querySelector('.current-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.colorful-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.current-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.colorful-product-img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         } else if (productCard.classList.contains('modern-product-card')) {
             title = productCard.querySelector('.modern-product-title')?.textContent || 'Modern Product';
-            price = productCard.querySelector('.modern-product-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.modern-product-img')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.modern-product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.modern-product-img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2Fcd41764914f3435db0789865df8be918?format=webp&width=400';
         } else if (productCard.classList.contains('look-product-card')) {
             title = productCard.querySelector('.product-name')?.textContent || 'Look Product';
-            price = productCard.querySelector('.product-price')?.textContent || '$0.00';
-            image = productCard.querySelector('.product-image')?.src || 'https://via.placeholder.com/300x300?text=No+Image';
+            price = productCard.querySelector('.product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.product-image');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400';
         } else {
             // Fallback for regular product cards
             title = productCard.querySelector('.product-title')?.textContent ||
@@ -218,18 +253,19 @@ function extractProductData(productCard) {
                    'Product';
             price = productCard.querySelector('.current-price')?.textContent ||
                    productCard.querySelector('.colorful-product-price .current-price')?.textContent ||
-                   '$0.00';
-            image = productCard.querySelector('.product-image')?.src ||
-                   productCard.querySelector('.colorful-product-img')?.src ||
-                   'https://via.placeholder.com/300x300?text=No+Image';
+                   '₹0';
+            const imgElement = productCard.querySelector('.product-image') || productCard.querySelector('.colorful-product-img') || productCard.querySelector('img');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         }
     } catch (error) {
         console.error('Error extracting product data:', error);
         return {
             id: Date.now() + Math.random(),
             title: 'Error Loading Product',
-            price: '$0.00',
-            image: 'https://via.placeholder.com/300x300?text=Error',
+            price: '₹0',
+            image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
             quantity: 1
         };
     }
@@ -237,21 +273,31 @@ function extractProductData(productCard) {
     return {
         id: Date.now() + Math.random(), // Simple ID generation
         title: title || 'Unknown Product',
-        price: price || '$0.00',
-        image: image || 'https://via.placeholder.com/300x300?text=No+Image',
+        price: price || '₹0',
+        image: image || 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400',
         quantity: 1
     };
 }
 
 function addToCart(product) {
     const existingItem = cart.find(item => item.title === product.title);
-    
+
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push(product);
+        // Ensure all required fields are present and valid
+        const normalizedProduct = {
+            ...product,
+            id: product.id || Date.now() + Math.random(), // Ensure ID exists
+            price: typeof product.price === 'string' ? product.price : `₹${product.price}`,
+            quantity: product.quantity || 1, // Ensure quantity exists
+            image: product.image && product.image !== 'undefined' && product.image !== ''
+                ? product.image
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400'
+        };
+        cart.push(normalizedProduct);
     }
-    
+
     updateCartCount();
     saveCartToStorage();
 }
@@ -2021,7 +2067,7 @@ function showOrdersModal() {
                     </div>
                     <div class="order-details">
                         <h3>Traditional Salwar Kameez Set</h3>
-                        <p>Order #12345 • Delivered on Dec 15, 2024</p>
+                        <p>Order #12345 �� Delivered on Dec 15, 2024</p>
                         <p class="order-price">���2,499</p>
                     </div>
                     <div class="order-actions">
@@ -2613,6 +2659,10 @@ function setupTouchControls() {
 // Make functions global for onclick handlers
 window.changeSlide = changeSlide;
 window.currentSlide = currentSlide;
+window.updateCartQuantity = updateCartQuantity;
+window.removeFromCart = removeFromCart;
+window.addToCartFromCategory = addToCartFromCategory;
+window.addToWishlistFromCategory = addToWishlistFromCategory;
 
 // Newsletter functionality
 function setupNewsletterForm() {
@@ -2675,67 +2725,131 @@ function updateCartModalItems() {
     const cartItemsContainer = document.getElementById('cartItems');
     if (!cartItemsContainer) return;
 
-    cartItemsContainer.innerHTML = cart.map(item => `
-        <div class="cart-item" data-id="${item.id}">
-            <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.title}">
-            </div>
-            <div class="cart-item-details">
-                <h3 class="item-title">${item.title}</h3>
-                <p class="item-brand">StyleHub</p>
-                <div class="item-options">
-                    <span class="item-size">Size: M</span>
-                    <span class="item-color">Color: Black</span>
+    // Filter out items without IDs and fix items with missing IDs
+    cart = cart.map(item => {
+        if (!item.id) {
+            return {
+                ...item,
+                id: Date.now() + Math.random() // Generate new ID for items without one
+            };
+        }
+        return item;
+    });
+
+    cartItemsContainer.innerHTML = cart.map(item => {
+        // Double-check that item has an ID before rendering
+        const itemId = item.id || 'temp-' + Date.now();
+
+        // Ensure image has a proper URL or use placeholder
+        const imageUrl = item.image && item.image !== 'undefined' && item.image !== ''
+            ? item.image
+            : 'https://via.placeholder.com/300x300?text=No+Image';
+
+        return `
+            <div class="cart-item" data-id="${itemId}">
+                <div class="cart-item-image">
+                    <img src="${imageUrl}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
                 </div>
-                <div class="item-controls">
-                    <div class="quantity-controls">
-                        <button class="qty-btn decrease" onclick="updateCartQuantity('${item.id}', -1)">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span class="quantity">${item.quantity}</span>
-                        <button class="qty-btn increase" onclick="updateCartQuantity('${item.id}', 1)">
-                            <i class="fas fa-plus"></i>
+                <div class="cart-item-details">
+                    <h3 class="item-title">${item.title}</h3>
+                    <p class="item-brand">StyleHub</p>
+                    <div class="item-options">
+                        <span class="item-size">Size: M</span>
+                        <span class="item-color">Color: Black</span>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="qty-btn decrease" onclick="updateCartQuantity('${itemId}', -1)">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="qty-btn increase" onclick="updateCartQuantity('${itemId}', 1)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart('${itemId}')">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                    <button class="remove-item" onclick="removeFromCart('${item.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                </div>
+                <div class="cart-item-price">
+                    <span class="item-price">${item.price}</span>
                 </div>
             </div>
-            <div class="cart-item-price">
-                <span class="item-price">${item.price}</span>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     updateCartSummary();
 }
 
 function updateCartQuantity(itemId, change) {
-    const item = cart.find(item => item.id.toString() === itemId.toString());
+    // Safety check for undefined itemId
+    if (!itemId || itemId === 'undefined') {
+        console.error('Invalid itemId provided to updateCartQuantity:', itemId);
+        return;
+    }
+
+    console.log('Updating cart quantity for item:', itemId, 'change:', change);
+
+    const item = cart.find(cartItem => {
+        // Safety check for undefined item.id
+        if (!cartItem || !cartItem.id) {
+            return false;
+        }
+        return cartItem.id.toString() === itemId.toString();
+    });
+
     if (item) {
         item.quantity += change;
+        console.log('Updated quantity for', item.title, 'to', item.quantity);
+
         if (item.quantity <= 0) {
             removeFromCart(itemId);
         } else {
             updateCartModalItems();
             updateCartCount();
             saveCartToStorage();
+            showNotification(`Quantity updated for ${item.title}`, 'info');
         }
+    } else {
+        console.warn('Item not found in cart for ID:', itemId);
+        console.log('Available cart items:', cart.map(item => ({id: item.id, title: item.title})));
     }
 }
 
 function removeFromCart(itemId) {
-    cart = cart.filter(item => item.id.toString() !== itemId.toString());
+    // Safety check for undefined itemId
+    if (!itemId || itemId === 'undefined') {
+        console.error('Invalid itemId provided to removeFromCart:', itemId);
+        return;
+    }
+
+    console.log('Removing item from cart:', itemId);
+
+    const itemToRemove = cart.find(item => item && item.id && item.id.toString() === itemId.toString());
+    const itemTitle = itemToRemove ? itemToRemove.title : 'Unknown item';
+
+    cart = cart.filter(item => {
+        // Safety check for undefined item.id
+        if (!item || !item.id) {
+            return true; // Keep items without IDs for now (shouldn't happen)
+        }
+        return item.id.toString() !== itemId.toString();
+    });
+
+    console.log('Item removed. Cart now has', cart.length, 'items');
+
     updateCartModalItems();
     updateCartCount();
     saveCartToStorage();
-    showNotification('Item removed from cart', 'info');
+    showNotification(`${itemTitle} removed from cart`, 'info');
 }
 
 function updateCartSummary() {
     const subtotal = cart.reduce((total, item) => {
-        const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+        // Ensure price is a string and handle both string and number formats
+        const priceStr = typeof item.price === 'string' ? item.price : String(item.price);
+        const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
         return total + (price * item.quantity);
     }, 0);
 
@@ -2760,15 +2874,10 @@ function updateCartSummary() {
 
 // Setup cart modal event listeners
 function setupCartModal() {
-    const cartIcon = document.querySelector('.cart-icon-container');
     const cartModal = document.getElementById('cartModal');
     const closeCart = document.getElementById('closeCart');
     const continueShopping = document.getElementById('continueShopping');
     const proceedCheckout = document.getElementById('proceedCheckout');
-
-    if (cartIcon) {
-        cartIcon.addEventListener('click', showCartSummary);
-    }
 
     if (closeCart) {
         closeCart.addEventListener('click', () => {
@@ -3094,7 +3203,7 @@ const subcategoryItems = {
             originalPrice: '$249',
             image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★☆'
+            rating: '★��★★☆'
         },
         {
             id: 'suit3',
@@ -3114,7 +3223,7 @@ const subcategoryItems = {
             originalPrice: '$799',
             image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'JEWELRY',
-            rating: '★★★★★'
+            rating: '★��★★★'
         },
         {
             id: 'jewelry2',
@@ -3532,11 +3641,16 @@ function addToCartFromCategory(itemId) {
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
+            // Ensure image has a proper URL
+            const imageUrl = item.image && item.image !== 'undefined' && item.image !== ''
+                ? item.image
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
+
             cart.push({
                 id: item.id,
                 title: item.title,
-                price: item.price,
-                image: item.image,
+                price: typeof item.price === 'string' ? item.price : `₹${item.price}`,
+                image: imageUrl,
                 quantity: 1
             });
         }
@@ -3738,7 +3852,7 @@ function generateCollectionProducts(collectionType) {
         { name: 'Quilted Puffer Jacket', price: 3499, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F849f7f09fb5840d7b25e7cdc865cdaa9?format=webp&width=400' },
         { name: 'Knit Winter Dress', price: 2199, category: 'dresses', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400' },
         { name: 'Leather Winter Gloves', price: 899, category: 'accessories', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F081e58fb86c541a9af4297f57d3809c0?format=webp&width=400' },
-        { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
+        { name: 'Designer Wool Scarf', price: 1299, category: 'accessories', rating: '★���★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5eccc65dc3744b36bfe1a6bc749e0af5?format=webp&width=400' },
         { name: 'Premium Bomber Jacket', price: 3899, category: 'jackets', rating: '★★★★★', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F8c2b221fa19b42968096df5cef83e949?format=webp&width=400' },
         { name: 'Merino Wool Cardigan', price: 2499, category: 'sweaters', rating: '★★★★☆', image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F341ff6d502c545c4b3ada70308c85526?format=webp&width=400' }
     ];

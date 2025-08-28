@@ -266,7 +266,7 @@
         .star {
             font-size: 3rem;
             cursor: pointer;
-            color: white;
+            color: rgba(255, 255, 255, 1);
             transition: all 0.3s ease;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
@@ -399,6 +399,14 @@
 
         .fit-button.active::before {
             left: 0;
+        }
+
+        .fit-button.active .fit-icon {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .fit-button.active .fit-label {
+            color: #ffffff;
         }
 
         .fit-icon {
@@ -801,11 +809,11 @@
                     
                     <div class="rating-container">
                         <div class="star-rating" id="starRating">
-                            <span class="star" data-rating="1">⭐</span>
-                            <span class="star" data-rating="2">⭐</span>
-                            <span class="star" data-rating="3">⭐</span>
-                            <span class="star" data-rating="4">⭐</span>
-                            <span class="star" data-rating="5">⭐</span>
+                            <span class="star" data-rating="1"><i class="fas fa-star"></i></span>
+                            <span class="star" data-rating="2"><i class="fas fa-star"></i></span>
+                            <span class="star" data-rating="3"><i class="fas fa-star"></i></span>
+                            <span class="star" data-rating="4"><i class="fas fa-star"></i></span>
+                            <span class="star" data-rating="5"><i class="fas fa-star"></i></span>
                         </div>
                         <div class="rating-description" id="ratingDescription">Click to rate</div>
                     </div>
@@ -866,7 +874,7 @@
                     <div class="upload-zone" id="uploadZone">
                         <i class="fas fa-cloud-upload-alt upload-icon"></i>
                         <div class="upload-text">Drop files here or click to upload</div>
-                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files</div>
+                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each ��� Up to 5 files</div>
                         <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
                     </div>
                     <div class="uploaded-files" id="uploadedFiles"></div>
@@ -1239,11 +1247,7 @@
 
         // Back button functionality
         function goBack() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = 'product-detail.html';
-            }
+            window.location.href = 'product-detail.html';
         }
 
         // Enhanced notification function
