@@ -180,18 +180,24 @@ function setupColorSelection() {
 
 function setupSizeSelection() {
     const sizeButtons = document.querySelectorAll('.size-btn');
-    
+
     sizeButtons.forEach(button => {
         button.addEventListener('click', () => {
+            // Add click animation
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+
             // Remove active class from all buttons
             sizeButtons.forEach(btn => btn.classList.remove('active'));
-            
+
             // Add active class to clicked button
             button.classList.add('active');
-            
+
             // Update selected size
             currentProduct.selectedSize = button.dataset.size;
-            
+
             showNotification(`Selected size: ${currentProduct.selectedSize}`, 'success');
         });
     });
