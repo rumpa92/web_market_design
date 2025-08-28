@@ -52,12 +52,20 @@ let currentProduct = {
 
 function initializeProductDetail() {
     console.log('Initializing product detail page...');
+    console.log('Current URL:', window.location.href);
+    console.log('Search params:', window.location.search);
 
     // Check if product data is passed from main page
     const urlParams = new URLSearchParams(window.location.search);
     const productData = urlParams.get('product');
 
     console.log('Raw URL product data:', productData);
+
+    // Additional debugging - log all URL parameters
+    console.log('All URL params:');
+    for (const [key, value] of urlParams.entries()) {
+        console.log(`${key}: ${value}`);
+    }
 
     if (productData) {
         try {
