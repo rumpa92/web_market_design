@@ -1491,7 +1491,7 @@ function showNetBankingPaymentScreen() {
                             <div class="netbanking-search-select">
                                 <div class="bank-search-wrapper">
                                     <i class="fas fa-search bank-search-icon"></i>
-                                    <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search bank name" oninput="filterBankOptions()" />
+                                    <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search bank name…" oninput="filterBankOptions()" />
                                 </div>
                                 <select id="bankSelect" class="bank-select">
                                     <option value="" selected>Select Your Bank</option>
@@ -1533,16 +1533,32 @@ function toggleAllBanks() {
 function filterBankOptions() {
     const query = (document.getElementById('bankSearchInput')?.value || '').toLowerCase();
     const select = document.getElementById('bankSelect');
+    const list = document.getElementById('allBanksSection');
+
+    // Auto-show full bank list when typing
+    if (list && query) {
+        list.classList.remove('hidden');
+    }
+
     if (select) {
         for (let i = 0; i < select.options.length; i++) {
             const opt = select.options[i];
             if (i === 0) continue; // keep placeholder
-            opt.style.display = opt.text.toLowerCase().includes(query) ? 'block' : 'none';
+            if (query) {
+                opt.style.display = opt.text.toLowerCase().includes(query) ? 'block' : 'none';
+            } else {
+                opt.style.display = '';
+            }
         }
     }
+
     const items = document.querySelectorAll('.netbanking-bank-list .bank-item');
     items.forEach(btn => {
-        btn.style.display = btn.textContent.toLowerCase().includes(query) ? 'inline-flex' : 'none';
+        if (query) {
+            btn.style.display = btn.textContent.toLowerCase().includes(query) ? 'inline-flex' : 'none';
+        } else {
+            btn.style.display = 'inline-flex';
+        }
     });
 }
 
