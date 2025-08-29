@@ -386,11 +386,13 @@ function handleWishlist(event) {
 function addToWishlist(product) {
     wishlist.push(product);
     saveWishlistToStorage();
+    updateWishlistCount();
 }
 
 function removeFromWishlist(productTitle) {
     wishlist = wishlist.filter(item => item.title !== productTitle);
     saveWishlistToStorage();
+    updateWishlistCount();
 }
 
 // Quick View functionality removed
@@ -617,7 +619,10 @@ function loadWishlistFromStorage() {
     if (savedWishlist) {
         wishlist = JSON.parse(savedWishlist);
         updateWishlistUI();
+    } else {
+        wishlist = [];
     }
+    updateWishlistCount();
 }
 
 function updateWishlistUI() {
@@ -3550,7 +3555,7 @@ const subcategoryItems = {
             originalPrice: '$319',
             image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★�����'
+            rating: '★★★��★'
         },
         {
             id: 'outer2',
