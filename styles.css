@@ -6650,6 +6650,10 @@ h3.section-title {
         padding: 0.6rem 1.5rem;
         font-size: 0.85rem;
     }
+
+    .seasonal-card:nth-child(2) .season-image {
+        object-position: center 0%;
+    }
 }
 
 /* Profile Modal Styles */
@@ -6942,6 +6946,10 @@ h3.section-title {
 
     .seasonal-card-image {
         height: 220px;
+    }
+
+    .seasonal-card:nth-child(2) .season-image {
+        object-position: center 0%;
     }
 }
 
