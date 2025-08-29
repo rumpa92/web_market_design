@@ -2019,3 +2019,210 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* Net Banking Payment Flow Styles */
+.netbanking-payment-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.netbanking-payment-screen {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.netbanking-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.netbanking-header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.netbanking-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.netbanking-subtitle {
+    margin: 0.25rem 0 0 0;
+    opacity: 0.95;
+}
+
+.netbanking-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 3rem;
+    padding: 2rem;
+}
+
+.netbanking-selection {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+}
+
+.netbanking-label {
+    display: block;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.75rem;
+}
+
+.netbanking-search-select {
+    display: flex;
+    gap: 1rem;
+}
+
+.bank-search-input, .bank-select {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.bank-search-input:focus, .bank-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.netbanking-view-all-btn {
+    margin-top: 1rem;
+    background: transparent;
+    border: 2px dashed #667eea;
+    color: #667eea;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.netbanking-view-all-btn:hover {
+    background: #667eea;
+    color: white;
+    border-style: solid;
+}
+
+.netbanking-bank-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.bank-item {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.bank-item:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102,126,234,0.1);
+}
+
+.netbanking-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.netbanking-pay-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.netbanking-pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102,126,234,0.3);
+}
+
+.netbanking-cancel-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    color: #666;
+    padding: 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.netbanking-cancel-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.netbanking-security-note {
+    background: #e8f5e8;
+    border: 1px solid #c8e6c9;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.netbanking-order-summary {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .netbanking-content { grid-template-columns: 1fr; gap: 2rem; }
+    .netbanking-order-summary { order: -1; position: static; }
+}
+
+@media (max-width: 768px) {
+    .netbanking-payment-container { padding: 0 1rem; }
+    .netbanking-header { padding: 1.5rem; }
+    .netbanking-title { font-size: 1.5rem; }
+    .netbanking-content { padding: 1.5rem; }
+    .netbanking-search-select { flex-direction: column; }
+}
