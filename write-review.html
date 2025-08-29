@@ -578,6 +578,117 @@
             word-break: break-all;
         }
 
+        .file-size {
+            font-size: 0.72rem;
+            color: #718096;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .action-link {
+            background: none;
+            border: none;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .progress-wrapper {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .upload-options-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+        }
+
+        .upload-options-modal {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1rem;
+            width: min(420px, 90vw);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .upload-options-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: #2d3748;
+        }
+
+        .option-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-item i {
+            color: #667eea;
+        }
+
+        .option-item:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+
+        .option-cancel {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 12px;
+            background: #edf2f7;
+            color: #2d3748;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.25rem;
+        }
+
+        .upload-footer-note {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: #718096;
+            text-align: center;
+        }
+
         .remove-file {
             position: absolute;
             top: -8px;
@@ -924,6 +1035,17 @@
                         <input type="file" id="fileInput" class="file-input" multiple accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime,video/x-msvideo">
                     </div>
                     <div class="uploaded-files" id="uploadedFiles"></div>
+
+                    <div class="upload-options-overlay" id="uploadOptionsOverlay" style="display:none;">
+                        <div class="upload-options-modal">
+                            <div class="upload-options-title">Select files</div>
+                            <button type="button" class="option-item" id="optionCamera"><i class="fas fa-camera"></i><span>Take Photo</span></button>
+                            <button type="button" class="option-item" id="optionGallery"><i class="fas fa-image"></i><span>Choose from Gallery</span></button>
+                            <button type="button" class="option-item" id="optionBrowse"><i class="fas fa-folder-open"></i><span>Browse Files</span></button>
+                            <button type="button" class="option-cancel" id="optionCancel">Cancel</button>
+                            <div class="upload-footer-note">Supports JPG, PNG, MP4 • Max 10MB each • Up to 5 files.</div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -1166,8 +1288,25 @@
             uploadZone.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Upload zone clicked');
-                fileInput.click();
+                openUploadOptions();
+            });
+
+            const uploadOptionsOverlay = document.getElementById('uploadOptionsOverlay');
+            const optionCamera = document.getElementById('optionCamera');
+            const optionGallery = document.getElementById('optionGallery');
+            const optionBrowse = document.getElementById('optionBrowse');
+            const optionCancel = document.getElementById('optionCancel');
+
+            [optionCamera, optionGallery, optionBrowse].forEach(btn => {
+                if (btn) btn.addEventListener('click', () => {
+                    const kind = btn === optionCamera ? 'camera' : btn === optionGallery ? 'gallery' : 'browse';
+                    closeUploadOptions();
+                    openFilePicker(kind);
+                });
+            });
+            if (optionCancel) optionCancel.addEventListener('click', closeUploadOptions);
+            if (uploadOptionsOverlay) uploadOptionsOverlay.addEventListener('click', (ev) => {
+                if (ev.target === uploadOptionsOverlay) closeUploadOptions();
             });
 
             // Drag and drop functionality
@@ -1215,6 +1354,120 @@
             });
         }
 
+        function openUploadOptions() {
+            const overlay = document.getElementById('uploadOptionsOverlay');
+            if (overlay) overlay.style.display = 'flex';
+        }
+
+        function closeUploadOptions() {
+            const overlay = document.getElementById('uploadOptionsOverlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function createFileInput(opts) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            if (opts.accept) input.accept = opts.accept;
+            if (opts.multiple) input.multiple = true;
+            if (opts.capture) input.setAttribute('capture', opts.capture);
+            input.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files || []);
+                if (opts.onChange) opts.onChange(files);
+                input.remove();
+            });
+            document.body.appendChild(input);
+            input.click();
+        }
+
+        function openFilePicker(kind, replaceName) {
+            const acceptAll = 'image/jpeg,image/jpg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime,video/x-msvideo';
+            if (replaceName) {
+                createFileInput({
+                    accept: acceptAll,
+                    multiple: false,
+                    onChange: (files) => {
+                        const file = files[0];
+                        if (!file) return;
+                        if (file.size > 10 * 1024 * 1024) { showNotification(`${file.name} is too large (max 10MB)`, 'error'); return; }
+                        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) { showNotification(`${file.name} is not a supported file type`, 'error'); return; }
+                        const idx = uploadedFiles.findIndex(f => f.name === replaceName);
+                        if (idx !== -1) {
+                            uploadedFiles[idx] = file;
+                            const previews = document.querySelectorAll('.file-preview');
+                            previews.forEach(pre => {
+                                if (pre.dataset.filename === replaceName) {
+                                    pre.dataset.filename = file.name;
+                                    const nameEl = pre.querySelector('.file-name');
+                                    nameEl.textContent = file.name.length > 30 ? file.name.slice(0, 27) + '...' : file.name;
+                                    const sizeEl = pre.querySelector('.file-size');
+                                    if (sizeEl) sizeEl.textContent = formatFileSize(file.size);
+                                    const existingMedia = pre.querySelector('.preview-media');
+                                    if (existingMedia) existingMedia.remove();
+                                    let mediaEl;
+                                    if (file.type.startsWith('image/')) {
+                                        mediaEl = document.createElement('img');
+                                        mediaEl.className = 'preview-media';
+                                        const reader = new FileReader();
+                                        reader.onload = () => { mediaEl.src = reader.result; };
+                                        reader.readAsDataURL(file);
+                                    } else {
+                                        mediaEl = document.createElement('video');
+                                        mediaEl.className = 'preview-media';
+                                        mediaEl.src = URL.createObjectURL(file);
+                                        mediaEl.muted = true;
+                                        mediaEl.loop = true;
+                                        mediaEl.onloadeddata = () => mediaEl.play();
+                                    }
+                                    pre.insertBefore(mediaEl, pre.querySelector('.file-name'));
+                                    const bar = pre.querySelector('.progress-bar');
+                                    if (bar) bar.style.width = '0%';
+                                    const status = pre.querySelector('.upload-status');
+                                    if (status) status.textContent = 'Uploading... 0%';
+                                    simulateUpload(file, pre);
+                                }
+                            });
+                            updateUploadZone();
+                            showNotification('File replaced', 'success');
+                        }
+                    }
+                });
+                return;
+            }
+
+            const opts = { accept: acceptAll, multiple: true };
+            if (kind === 'camera') { opts.accept = 'image/*'; opts.capture = 'environment'; }
+            if (kind === 'gallery') { opts.accept = 'image/*'; }
+            createFileInput({ ...opts, onChange: (files) => handleFiles(files) });
+        }
+
+        function simulateUpload(file, previewEl) {
+            const bar = previewEl.querySelector('.progress-bar');
+            const status = previewEl.querySelector('.upload-status');
+            let progress = 0;
+            const timer = setInterval(() => {
+                progress += Math.max(5, Math.round(Math.random() * 20));
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(timer);
+                    if (status) status.textContent = 'Uploaded successfully';
+                } else {
+                    if (status) status.textContent = `Uploading... ${progress}%`;
+                }
+                if (bar) bar.style.width = progress + '%';
+            }, 120);
+        }
+
+        function formatFileSize(bytes) {
+            const units = ['B','KB','MB','GB'];
+            let i = 0; let v = bytes;
+            while (v >= 1024 && i < units.length - 1) { v /= 1024; i++; }
+            return `${i === 0 ? Math.round(v) : v.toFixed(1)} ${units[i]}`;
+        }
+
+        window.replaceFile = function(fileName) {
+            openFilePicker('browse', fileName);
+        };
+
         function handleFiles(files) {
             console.log('Handling files:', files.length);
 
@@ -1258,7 +1511,8 @@
                 }
 
                 uploadedFiles.push(file);
-                addFilePreview(file);
+                const preview = addFilePreview(file);
+                simulateUpload(file, preview);
                 successCount++;
             });
 
@@ -1276,6 +1530,7 @@
             const uploadedFilesContainer = document.getElementById('uploadedFiles');
             const filePreview = document.createElement('div');
             filePreview.className = 'file-preview';
+            filePreview.dataset.filename = file.name;
 
             const displayName = file.name.length > 30 ? file.name.slice(0, 27) + '...' : file.name;
 
@@ -1299,17 +1554,56 @@
             nameEl.className = 'file-name';
             nameEl.textContent = displayName;
 
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'remove-file';
-            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            removeBtn.addEventListener('click', () => removeFile(file.name, removeBtn));
+            const progress = document.createElement('div');
+            progress.className = 'progress-wrapper';
+            const bar = document.createElement('div');
+            bar.className = 'progress-bar';
+            progress.appendChild(bar);
+
+            const statusText = document.createElement('div');
+            statusText.className = 'upload-status';
+            statusText.style.fontSize = '0.74rem';
+            statusText.style.color = '#4a5568';
+            statusText.style.marginTop = '0.35rem';
+            statusText.textContent = 'Uploading... 0%';
+
+            const statusRow = document.createElement('div');
+            statusRow.className = 'status-row';
+            const sizeEl = document.createElement('div');
+            sizeEl.className = 'file-size';
+            sizeEl.textContent = formatFileSize(file.size);
+            const actions = document.createElement('div');
+            const replaceBtn = document.createElement('button');
+            replaceBtn.type = 'button';
+            replaceBtn.className = 'action-link';
+            replaceBtn.textContent = 'Replace';
+            replaceBtn.addEventListener('click', () => replaceFile(file.name));
+            const removeLink = document.createElement('button');
+            removeLink.type = 'button';
+            removeLink.className = 'action-link';
+            removeLink.textContent = 'Remove';
+            removeLink.addEventListener('click', () => removeFile(file.name, removeLink));
+            actions.appendChild(replaceBtn);
+            actions.appendChild(document.createTextNode(' • '));
+            actions.appendChild(removeLink);
+            statusRow.appendChild(sizeEl);
+            statusRow.appendChild(actions);
+
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'remove-file';
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.addEventListener('click', () => removeFile(file.name, closeBtn));
 
             filePreview.appendChild(mediaEl);
             filePreview.appendChild(nameEl);
-            filePreview.appendChild(removeBtn);
+            filePreview.appendChild(progress);
+            filePreview.appendChild(statusText);
+            filePreview.appendChild(statusRow);
+            filePreview.appendChild(closeBtn);
 
             uploadedFilesContainer.appendChild(filePreview);
+            return filePreview;
         }
 
         // Update upload zone based on current state
@@ -1334,9 +1628,14 @@
         // Remove file function
         window.removeFile = function(fileName, button) {
             uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-            button.parentElement.remove();
+            const preview = button.closest('.file-preview');
+            if (preview) preview.remove();
             showNotification('File removed', 'info');
             updateUploadZone();
+        };
+
+        window.replaceFile = function(fileName) {
+            openFilePicker('browse', fileName);
         };
 
         // Form submission
