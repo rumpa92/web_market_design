@@ -1186,7 +1186,7 @@ function generateNetBankingOrderSummary() {
         const totalAmount = totalElement ? totalElement.textContent : '$0.00';
         orderSummaryHtml = orderSummaryHtml.replace(
             /Place Order - \$[\d,]+\.?\d*/g,
-            `Proceed to pay ${totalAmount}`
+            `Proceed to Pay ${totalAmount}`
         );
         orderSummaryHtml = orderSummaryHtml.replace(
             'id="placeOrderBtn"',
@@ -1244,7 +1244,7 @@ function generateNetBankingOrderSummary() {
             </div>
             <button class="place-order-btn" onclick="proceedNetBankingPayment()">
                 <i class="fas fa-lock"></i>
-                Proceed to pay $${total.toFixed(2)}
+                Proceed to Pay $${total.toFixed(2)}
             </button>
             <div class="security-info">
                 <div class="security-item"><i class="fas fa-shield-alt"></i><span>256-bit SSL encryption</span></div>
