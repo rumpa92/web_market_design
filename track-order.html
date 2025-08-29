@@ -1244,6 +1244,16 @@
 
             // Update page title
             document.title = `Track Order ${order.id} - StyleHub`;
+
+            // Update meta details
+            document.getElementById('trackingMetaSection').style.display='block';
+            document.getElementById('metaOrderId').textContent = order.id;
+            document.getElementById('metaPlacedOn').textContent = order.date;
+            document.getElementById('metaItems').textContent = `${order.products.length} Products`;
+            document.getElementById('metaEstimate').textContent = `${order.estimatedDelivery?.date || '—'}${order.estimatedDelivery?.time ? ' • ' + order.estimatedDelivery.time : ''}`;
+            document.getElementById('metaTracking').textContent = getOrCreateTrackingNumber(order.id);
+            document.getElementById('refreshStatusBtn').onclick = ()=>populateOrderDetails(order.id);
+            document.getElementById('contactSupportBtn').onclick = ()=>window.location.href='help-support.html';
         }
 
         function handleTrackSearch(){
