@@ -429,10 +429,11 @@
             text-align: center;
             background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin: 1rem 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .upload-zone::before {
@@ -448,15 +449,44 @@
             opacity: 0;
         }
 
+        .upload-zone::after {
+            content: '📁 Click or Drop Files Here';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
         .upload-zone:hover {
             border-color: #667eea;
             background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
         }
 
         .upload-zone:hover::before {
             opacity: 1;
             animation: shimmer 1.5s infinite;
+        }
+
+        .upload-zone:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateY(-5px);
+        }
+
+        .upload-zone:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
         }
 
         @keyframes shimmer {
@@ -468,6 +498,14 @@
             border-color: #48bb78;
             background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
             transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.25);
+        }
+
+        .upload-zone.dragover::after {
+            content: '🎯 Drop Files Here!';
+            background: rgba(72, 187, 120, 0.9);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .upload-icon {
@@ -875,7 +913,7 @@
                         <i class="fas fa-cloud-upload-alt upload-icon"></i>
                         <div class="upload-text">Drop files here or click to upload</div>
                         <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each ��� Up to 5 files</div>
-                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,video/mp4,video/mov,video/avi">
                     </div>
                     <div class="uploaded-files" id="uploadedFiles"></div>
                 </div>
@@ -920,6 +958,7 @@
             loadProductData();
             setupEventListeners();
             updateProgressBar();
+            updateUploadZone();
         });
 
         // Load product data
@@ -1107,52 +1146,114 @@
         function setupFileUpload() {
             const uploadZone = document.getElementById('uploadZone');
             const fileInput = document.getElementById('fileInput');
-            
-            uploadZone.addEventListener('click', () => fileInput.click());
-            
+
+            // Click to upload
+            uploadZone.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Upload zone clicked');
+                fileInput.click();
+            });
+
+            // Drag and drop functionality
             uploadZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.add('dragover');
             });
-            
-            uploadZone.addEventListener('dragleave', () => {
+
+            uploadZone.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadZone.classList.add('dragover');
+            });
+
+            uploadZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.remove('dragover');
             });
-            
+
             uploadZone.addEventListener('drop', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.remove('dragover');
+                console.log('Files dropped:', e.dataTransfer.files.length);
                 handleFiles(e.dataTransfer.files);
             });
-            
+
+            // File input change
             fileInput.addEventListener('change', (e) => {
+                console.log('Files selected:', e.target.files.length);
                 handleFiles(e.target.files);
+                // Reset the input so the same file can be selected again
+                e.target.value = '';
+            });
+
+            // Add visual feedback
+            uploadZone.addEventListener('mouseenter', () => {
+                uploadZone.style.transform = 'translateY(-2px)';
+            });
+
+            uploadZone.addEventListener('mouseleave', () => {
+                uploadZone.style.transform = 'translateY(0)';
             });
         }
 
         function handleFiles(files) {
+            console.log('Handling files:', files.length);
+
+            if (!files || files.length === 0) {
+                showNotification('No files selected', 'error');
+                return;
+            }
+
             if (uploadedFiles.length + files.length > 5) {
                 showNotification('Maximum 5 files allowed', 'error');
                 return;
             }
 
+            let successCount = 0;
+            let errorCount = 0;
+
             Array.from(files).forEach(file => {
+                console.log('Processing file:', file.name, 'Type:', file.type, 'Size:', file.size);
+
                 if (file.size > 10 * 1024 * 1024) {
                     showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    errorCount++;
                     return;
                 }
-                
+
                 if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
                     showNotification(`${file.name} is not a supported file type`, 'error');
+                    errorCount++;
                     return;
                 }
-                
+
+                // Check for duplicates
+                const isDuplicate = uploadedFiles.some(existingFile =>
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+
+                if (isDuplicate) {
+                    showNotification(`${file.name} is already uploaded`, 'error');
+                    errorCount++;
+                    return;
+                }
+
                 uploadedFiles.push(file);
                 addFilePreview(file);
+                successCount++;
             });
-            
-            if (files.length > 0) {
-                showNotification(`${files.length} file(s) uploaded`, 'success');
+
+            if (successCount > 0) {
+                showNotification(`${successCount} file(s) uploaded successfully`, 'success');
+                updateUploadZone();
+            }
+
+            if (errorCount > 0 && successCount === 0) {
+                showNotification(`Failed to upload ${errorCount} file(s)`, 'error');
             }
         }
 
@@ -1175,11 +1276,31 @@
             uploadedFilesContainer.appendChild(filePreview);
         }
 
+        // Update upload zone based on current state
+        function updateUploadZone() {
+            const uploadZone = document.getElementById('uploadZone');
+            const uploadText = uploadZone.querySelector('.upload-text');
+            const uploadSubtext = uploadZone.querySelector('.upload-subtext');
+
+            if (uploadedFiles.length >= 5) {
+                uploadZone.style.opacity = '0.6';
+                uploadZone.style.pointerEvents = 'none';
+                uploadText.textContent = 'Maximum files reached (5/5)';
+                uploadSubtext.textContent = 'Remove files to upload new ones';
+            } else {
+                uploadZone.style.opacity = '1';
+                uploadZone.style.pointerEvents = 'auto';
+                uploadText.textContent = `Drop files here or click to upload (${uploadedFiles.length}/5)`;
+                uploadSubtext.textContent = 'Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files';
+            }
+        }
+
         // Remove file function
         window.removeFile = function(fileName, button) {
             uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
             button.parentElement.remove();
             showNotification('File removed', 'info');
+            updateUploadZone();
         };
 
         // Form submission

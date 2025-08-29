@@ -972,7 +972,7 @@ function populateArticleContent(title, description, index) {
         'Street Style Guide': {
             category: 'STYLE GUIDE',
             author: 'Sarah Mitchell',
-            heroImage: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&h=600&fit=crop&auto=format&q=80',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2F40eeea5a7f914b45b268a8230a55fc0b?format=webp&width=1200',
             intro: 'Discover the art of street style and how to master effortless urban fashion that turns heads and expresses your unique personality.',
             quote: 'Street style is about confidence and authenticity. It\'s not about following trends, but creating your own.',
             body: 'Street style has evolved from a subcultural expression to a mainstream fashion phenomenon that influences runways and retail stores worldwide. It\'s about more than just clothing—it\'s a form of self-expression that tells your story without words.'
@@ -980,7 +980,7 @@ function populateArticleContent(title, description, index) {
         'Seasonal Must-Haves': {
             category: 'SEASONAL GUIDE',
             author: 'Emma Chen',
-            heroImage: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=600&fit=crop&auto=format&q=80',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2Ffdbe61570c5f4b12b6c0e12f37d73582?format=webp&width=1200',
             intro: 'Essential pieces for your wardrobe this season that will keep you stylish and comfortable through every weather change.',
             quote: 'A well-curated seasonal wardrobe is like a reliable friend - always there when you need it most.',
             body: 'Building a seasonal wardrobe isn\'t about having the most clothes, it\'s about having the right pieces that work together seamlessly. Focus on versatile items that can be layered and mixed to create multiple looks.'
@@ -988,7 +988,7 @@ function populateArticleContent(title, description, index) {
         'Designer Spotlight': {
             category: 'DESIGNER FOCUS',
             author: 'Michael Rodriguez',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F80e47675174d4bea93d80b11131ee500?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2Fe06e940245694220b458c160d5d39072?format=webp&width=1200',
             intro: 'Featured collections from top designers who are reshaping the fashion landscape with innovative designs and sustainable practices.',
             quote: 'Design is not just what it looks like and feels like. Design is how it works in people\'s lives.',
             body: 'Today\'s fashion designers are more than just creators of beautiful garments - they\'re storytellers, innovators, and advocates for positive change in the industry. Their collections reflect not just aesthetic vision, but also values and purpose.'
@@ -998,12 +998,18 @@ function populateArticleContent(title, description, index) {
     const data = storyData[title] || storyData['Street Style Guide'];
 
     // Update article content
-    document.getElementById('articleCategory').textContent = data.category;
-    document.getElementById('articleTitle').textContent = title;
-    document.getElementById('authorName').textContent = data.author;
-    document.getElementById('articleHeroImage').src = data.heroImage;
-    document.getElementById('articleIntro').textContent = data.intro;
-    document.getElementById('articleQuote').textContent = data.quote;
+    const categoryEl = document.getElementById('articleCategory');
+    if (categoryEl) categoryEl.textContent = data.category;
+    const titleEl = document.getElementById('articleTitle');
+    if (titleEl) titleEl.textContent = title;
+    const authorEl = document.getElementById('authorName');
+    if (authorEl) authorEl.textContent = data.author;
+    const heroEl = document.getElementById('articleHeroImage');
+    if (heroEl) heroEl.src = data.heroImage;
+    const introEl = document.getElementById('articleIntro');
+    if (introEl) introEl.textContent = data.intro;
+    const quoteEl = document.getElementById('articleQuote');
+    if (quoteEl) quoteEl.textContent = data.quote;
 
     // Update article body with more detailed content
     const articleBody = document.getElementById('articleBody');
@@ -1014,7 +1020,7 @@ function populateArticleContent(title, description, index) {
         <p>Understanding the core principles behind ${title.toLowerCase()} starts with recognizing that fashion is deeply personal. Each choice you make - from color palette to silhouette - communicates something about who you are and how you want to be perceived.</p>
 
         <div class="article-quote">
-            <blockquote>${data.quote}</blockquote>
+            <blockquote id="articleQuote">${data.quote}</blockquote>
             <cite>- ${data.author}, Fashion Expert</cite>
         </div>
 

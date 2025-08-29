@@ -298,6 +298,33 @@
             text-decoration: none;
         }
 
+        .write-review-btn {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #667eea;
+            color: white;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .write-review-btn:hover {
+            background: linear-gradient(135deg, #5a67d8, #553c9a);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
         .return-exchange-btn i {
             font-size: 0.8rem;
         }
@@ -613,6 +640,10 @@
                                 <i class="fas fa-undo-alt"></i>
                                 Return/Exchange
                             </a>
+                            <a href="write-review.html?orderId=SH2024001234&productName=Premium%20Cotton%20T-Shirt" class="write-review-btn">
+                                <i class="fas fa-star"></i>
+                                Write Review
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -748,6 +779,10 @@
                             <a href="return-exchange.html?orderId=SH2024000967&productName=Premium%20Sneakers" class="return-exchange-btn">
                                 <i class="fas fa-undo-alt"></i>
                                 Return/Exchange
+                            </a>
+                            <a href="write-review.html?orderId=SH2024000967&productName=Premium%20Sneakers" class="write-review-btn">
+                                <i class="fas fa-star"></i>
+                                Write Review
                             </a>
                         </div>
                     </div>
@@ -1000,6 +1035,10 @@
                                     <a href="return-exchange.html?orderId=${order.id}&productName=${encodeURIComponent(order.productName)}" class="return-exchange-btn">
                                         <i class="fas fa-undo-alt"></i>
                                         Return/Exchange
+                                    </a>
+                                    <a href="write-review.html?orderId=${order.id}&productName=${encodeURIComponent(order.productName)}" class="write-review-btn">
+                                        <i class="fas fa-star"></i>
+                                        Write Review
                                     </a>
                                 </div>
                             ` : ''}
