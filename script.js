@@ -972,7 +972,7 @@ function populateArticleContent(title, description, index) {
         'Street Style Guide': {
             category: 'STYLE GUIDE',
             author: 'Sarah Mitchell',
-            heroImage: 'https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=1200&h=600&fit=crop&auto=format&q=80',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2F40eeea5a7f914b45b268a8230a55fc0b?format=webp&width=1200',
             intro: 'Discover the art of street style and how to master effortless urban fashion that turns heads and expresses your unique personality.',
             quote: 'Street style is about confidence and authenticity. It\'s not about following trends, but creating your own.',
             body: 'Street style has evolved from a subcultural expression to a mainstream fashion phenomenon that influences runways and retail stores worldwide. It\'s about more than just clothing—it\'s a form of self-expression that tells your story without words.'
