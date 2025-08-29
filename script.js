@@ -84,7 +84,10 @@ function initializeApp() {
     setupCollectionPage();
     setupCollectionNavigation();
     setupCartModal();
-    setupVideoShowcase();
+    if (typeof window.setupVideoShowcase === 'function') {
+        window.setupVideoShowcase();
+    }
+    updateWishlistCount();
 
     // Set default header title and hide header on homepage
     setPageHeaderTitle('Home');
@@ -333,6 +336,14 @@ function updateCartCount() {
     }
 }
 
+function updateWishlistCount() {
+    const heartIcon = document.querySelector('.wishlist-icon');
+    const count = Array.isArray(wishlist) ? wishlist.length : 0;
+    if (heartIcon) {
+        heartIcon.setAttribute('data-count', String(count));
+    }
+}
+
 // Wishlist Functionality
 function handleWishlist(event) {
     event.preventDefault();
@@ -375,11 +386,13 @@ function handleWishlist(event) {
 function addToWishlist(product) {
     wishlist.push(product);
     saveWishlistToStorage();
+    updateWishlistCount();
 }
 
 function removeFromWishlist(productTitle) {
     wishlist = wishlist.filter(item => item.title !== productTitle);
     saveWishlistToStorage();
+    updateWishlistCount();
 }
 
 // Quick View functionality removed
@@ -606,7 +619,10 @@ function loadWishlistFromStorage() {
     if (savedWishlist) {
         wishlist = JSON.parse(savedWishlist);
         updateWishlistUI();
+    } else {
+        wishlist = [];
     }
+    updateWishlistCount();
 }
 
 function updateWishlistUI() {
@@ -3343,7 +3359,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★★'
+            rating: '★���★★★'
         },
         {
             id: 'suit2',
@@ -4637,7 +4653,7 @@ function setupWinterFeatures() {
     recBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const card = btn.closest('.recommendation-card');
-            const title = card.querySelector('.recommendation-title').textContent;
+            const title = card?.querySelector('.recommendation-title')?.textContent || '';
             if (card && card.classList.contains('spring-preview')) {
                 window.location.href = 'spring-collection.html';
                 return;
@@ -4646,7 +4662,11 @@ function setupWinterFeatures() {
                 window.location.href = 'winter-sale.html';
                 return;
             }
-            showNotification(`Exploring: ${title}`, 'info');
+            if (card && card.classList.contains('accessories-focus')) {
+                window.location.href = 'spring-collection.html';
+                return;
+            }
+            window.location.href = 'spring-collection.html';
         });
     });
 

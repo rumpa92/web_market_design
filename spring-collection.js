@@ -111,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cards.forEach(card => {
       const cardCategory = card.dataset.category;
       const cardPrice = parseInt(card.dataset.price, 10);
-      const sizes = card.dataset.sizes.split(',');
-      const colors = card.dataset.colors.split(',');
+      const sizes = (card.dataset.sizes || '').split(',').filter(Boolean);
+      const colors = (card.dataset.colors || '').split(',').filter(Boolean);
 
       let show = true;
       if (category !== 'all' && cardCategory !== category) show = false;
