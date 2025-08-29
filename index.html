@@ -736,11 +736,14 @@
                     <h3>Collection Showcase</h3>
                     <div class="video-container">
                         <div class="video-placeholder">
-                            <div class="video-thumbnail">
-                                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=400&fit=crop&auto=format&q=80" alt="Collection Video" class="video-thumb">
-                                <div class="play-button">
+                            <div class="video-thumbnail" id="videoThumbnail">
+                                <img id="videoPoster" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=400&fit=crop&auto=format&q=80" alt="Collection Video" class="video-thumb">
+                                <button class="play-button" id="playButton" aria-label="Play collection video">
                                     <i class="fas fa-play"></i>
-                                </div>
+                                </button>
+                                <video id="collectionVideo" class="video-player" playsinline controls preload="metadata" poster="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=800&fit=crop&auto=format&q=80">
+                                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="video-info">
                                 <h4>Winter Collection 2025 Lookbook</h4>
