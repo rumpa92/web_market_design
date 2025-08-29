@@ -1685,7 +1685,12 @@ h3::after {
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
 }
+
+.category-filter { scroll-snap-align: start; }
 
 .category-filter {
     padding: 0.75rem 1.5rem;
@@ -1824,6 +1829,23 @@ h3::after {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
+
+/* Loading skeletons */
+.collection-product-card.skeleton { pointer-events: none; }
+.skeleton-box { background: linear-gradient(90deg, #eee, #f5f5f5, #eee); background-size: 200% 100%; animation: shimmerAnim 1.2s infinite; border-radius: 8px; }
+.skeleton-box.img { height: 300px; }
+.skeleton-box.line { height: 14px; margin: 10px 0; }
+.skeleton-box.line.short { width: 60%; }
+.skeleton-box.btn { height: 36px; width: 50%; margin-top: 12px; }
+@keyframes shimmerAnim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 2rem; background: #fff; border-radius: 12px; border: 1px solid #eee; }
+.empty-state .empty-cta { margin-top: 0.75rem; padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid #ddd; background: #f7f7f7; cursor: pointer; }
+
+/* Fade-in */
+.fade-in { animation: fadeInCol 240ms ease-in; }
+@keyframes fadeInCol { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 .product-image-container {
     position: relative;
@@ -3706,7 +3728,12 @@ h3::after {
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
 }
+
+.category-filter { scroll-snap-align: start; }
 
 .category-filter {
     padding: 0.5rem 1.5rem;
