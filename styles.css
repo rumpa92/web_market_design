@@ -1863,7 +1863,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
     transition: transform 0.3s ease;
 }
 
@@ -1881,7 +1881,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
 }
 
 .collection-product-card:hover .product-hover-image {
@@ -2665,7 +2665,7 @@ h3::after {
     width: 100%;
     height: 100px;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
     border-bottom: 1px solid #e9ecef;
 }
 
@@ -3316,7 +3316,7 @@ h3::after {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
 }
 
 .related-content {
@@ -3518,7 +3518,7 @@ h3::after {
     width: 100%;
     height: 150px;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
     border-bottom: 1px solid #e9ecef;
 }
 
@@ -4154,7 +4154,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
     transition: opacity 0.3s ease;
 }
 
@@ -4172,7 +4172,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
 }
 
 .collection-product-card:hover .product-hover-image {
@@ -5710,12 +5710,12 @@ h3.section-title {
 
 /* Specific positioning for Spring Collection to show face */
 .seasonal-card:nth-child(2) .season-image {
-    object-position: center top;
+    object-position: center 20%;
 }
 
 /* Specific positioning for Summer Collection to show face */
 .seasonal-card:nth-child(3) .season-image {
-    object-position: center top;
+    object-position: center 20%;
 }
 
 .seasonal-card:hover .season-image {
@@ -6109,7 +6109,7 @@ h3.section-title {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    object-position: top center;
+    object-position: center 20%;
     transition: transform 0.3s ease;
 }
 
@@ -6471,7 +6471,7 @@ h3.section-title {
 
 /* Specific positioning for all trending products to show faces */
 .colorful-product-card .colorful-product-img {
-    object-position: center top;
+    object-position: center 20%;
 }
 
 .colorful-product-card:hover .colorful-product-img {
