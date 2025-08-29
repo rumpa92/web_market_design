@@ -4637,7 +4637,7 @@ function setupWinterFeatures() {
     recBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const card = btn.closest('.recommendation-card');
-            const title = card.querySelector('.recommendation-title').textContent;
+            const title = card?.querySelector('.recommendation-title')?.textContent || '';
             if (card && card.classList.contains('spring-preview')) {
                 window.location.href = 'spring-collection.html';
                 return;
@@ -4646,7 +4646,11 @@ function setupWinterFeatures() {
                 window.location.href = 'winter-sale.html';
                 return;
             }
-            showNotification(`Exploring: ${title}`, 'info');
+            if (card && card.classList.contains('accessories-focus')) {
+                window.location.href = 'spring-collection.html';
+                return;
+            }
+            window.location.href = 'spring-collection.html';
         });
     });
 
