@@ -1015,6 +1015,9 @@
         }
 
 
+        // If a recent order exists in localStorage, seed it into orderData
+        const lastOrder = (() => { try { return JSON.parse(localStorage.getItem('lastOrder')||'null'); } catch(e){ return null; } })();
+
         // Order data structure
         const orderData = {
             'ORD12345': {
