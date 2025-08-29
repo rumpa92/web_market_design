@@ -1237,11 +1237,31 @@
             uploadedFilesContainer.appendChild(filePreview);
         }
 
+        // Update upload zone based on current state
+        function updateUploadZone() {
+            const uploadZone = document.getElementById('uploadZone');
+            const uploadText = uploadZone.querySelector('.upload-text');
+            const uploadSubtext = uploadZone.querySelector('.upload-subtext');
+
+            if (uploadedFiles.length >= 5) {
+                uploadZone.style.opacity = '0.6';
+                uploadZone.style.pointerEvents = 'none';
+                uploadText.textContent = 'Maximum files reached (5/5)';
+                uploadSubtext.textContent = 'Remove files to upload new ones';
+            } else {
+                uploadZone.style.opacity = '1';
+                uploadZone.style.pointerEvents = 'auto';
+                uploadText.textContent = `Drop files here or click to upload (${uploadedFiles.length}/5)`;
+                uploadSubtext.textContent = 'Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files';
+            }
+        }
+
         // Remove file function
         window.removeFile = function(fileName, button) {
             uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
             button.parentElement.remove();
             showNotification('File removed', 'info');
+            updateUploadZone();
         };
 
         // Form submission
