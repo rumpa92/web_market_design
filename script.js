@@ -3303,7 +3303,7 @@ const subcategoryItems = {
             originalPrice: '$120',
             image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★★'
+            rating: '���★★★★'
         }
     ],
     'Pants & Jeans': [
@@ -3381,7 +3381,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'JEWELRY',
-            rating: '★★★★��'
+            rating: '★★★★☆'
         },
         {
             id: 'jewelry3',
@@ -3412,7 +3412,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'BAGS',
-            rating: '★★★★★'
+            rating: '★★★���★'
         }
     ],
     'Tops & Blouses': [
@@ -3557,7 +3557,7 @@ const subcategoryItems = {
             originalPrice: '$229',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★★★'
+            rating: '★★★★���'
         }
     ],
     'Activewear': [
@@ -4640,6 +4640,10 @@ function setupWinterFeatures() {
             const title = card.querySelector('.recommendation-title').textContent;
             if (card && card.classList.contains('spring-preview')) {
                 window.location.href = 'spring-collection.html';
+                return;
+            }
+            if (card && card.classList.contains('limited-offers')) {
+                window.location.href = 'winter-sale.html';
                 return;
             }
             showNotification(`Exploring: ${title}`, 'info');

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Winter Clearance Sale – Limited Time | StyleHub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body class="winter-sale-page">
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <h1><a href="index.html" style="text-decoration:none;color:inherit;">StyleHub</a></h1>
+          <button class="location-trigger" id="locationTrigger" title="Select Location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="location-text">Select Location</span>
+          </button>
+        </div>
+        <div class="header-actions">
+          <div class="search-container">
+            <input type="text" placeholder="Search products, brands, styles..." class="search-input" id="searchInput" />
+            <i class="fas fa-search search-icon"></i>
+            <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <div class="search-suggestions" id="searchSuggestions"></div>
+          </div>
+          <div class="action-icons">
+            <i class="far fa-heart wishlist-icon" title="Wishlist"></i>
+            <div class="cart-icon-container" title="Cart">
+              <i class="fas fa-shopping-bag cart-icon"></i>
+              <span class="cart-count">0</span>
+            </div>
+            <div class="profile-section" id="profileSection">
+              <div class="profile-trigger" id="profileTrigger">
+                <div class="profile-avatar">
+                  <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Profile" class="profile-image" id="profileImage" />
+                  <div class="online-status" id="onlineStatus" title="Online"></div>
+                </div>
+                <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
+              </div>
+              <div class="profile-dropdown" id="profileDropdown"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <button class="standard-back-button" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1 class="standard-page-title">Winter Clearance Sale – Limited Time</h1>
+    </div>
+  </div>
+
+  <main class="collection-page-section">
+    <div class="container">
+      <div class="collection-header">
+        <div class="collection-hero">
+          <div class="collection-hero-content">
+            <h1 class="collection-title">Winter Clearance Sale – Limited Time</h1>
+            <p class="collection-tagline">Save up to ₹2,500 on top winter picks.</p>
+            <button id="shopNowBtn" class="collection-tab" style="border:1px solid #ddd;">Shop Now</button>
+          </div>
+          <div class="collection-hero-image">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200" alt="Winter Sale" class="hero-image" />
+          </div>
+        </div>
+      </div>
+
+      <section class="collection-products">
+        <div class="section-header">
+          <h3 class="section-title">Sale Items</h3>
+          <div id="productsCount">0 items</div>
+        </div>
+        <div class="collection-products-grid" id="saleProductsGrid"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="footer-title">StyleHub</h3>
+          <p class="footer-description">Your premier destination for fashion-forward clothing and accessories.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Women's Fashion</a></li>
+            <li><a href="#" class="footer-link">Men's Fashion</a></li>
+            <li><a href="#" class="footer-link">Accessories</a></li>
+            <li><a href="#" class="footer-link">Sale Items</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">Size Guide</a></li>
+            <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+            <li><a href="#" class="footer-link">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">About Us</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="copyright">© 2024 StyleHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="winter-sale.js"></script>
+</body>
+</html>
