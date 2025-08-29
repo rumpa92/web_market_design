@@ -3311,7 +3311,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'BAGS',
-            rating: '★★★��★'
+            rating: '★★★★★'
         }
     ],
     'Tops & Blouses': [
@@ -3447,7 +3447,7 @@ const subcategoryItems = {
             originalPrice: '$259',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★��☆'
+            rating: '★★★★☆'
         },
         {
             id: 'outer3',
@@ -3485,7 +3485,7 @@ const subcategoryItems = {
             originalPrice: '$59',
             image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★★☆'
+            rating: '★���★★☆'
         }
     ]
 };
@@ -4005,14 +4005,14 @@ function setupCollectionFilters() {
     // Category filters
     const categoryFilters = document.querySelectorAll('.category-filter');
     categoryFilters.forEach(filter => {
-        filter.addEventListener('click', () => {
+        filter.addEventListener('click', async () => {
             // Remove active from all filters
             categoryFilters.forEach(f => f.classList.remove('active'));
             // Add active to clicked filter
             filter.classList.add('active');
 
             const category = filter.dataset.category;
-            filterProductsByCategory(category);
+            await fetchAndRenderCategory(category);
 
             showNotification(`Filtering by: ${filter.textContent}`, 'info');
         });
@@ -4076,19 +4076,92 @@ function setupCollectionFilters() {
     }
 }
 
-function filterProductsByCategory(category) {
-    const productCards = document.querySelectorAll('.collection-product-card');
+function getActiveCollectionType() {
+    const activeTab = document.querySelector('.collection-tab.active');
+    return activeTab ? activeTab.dataset.collection : 'winter';
+}
 
-    productCards.forEach(card => {
-        if (category === 'all') {
-            card.style.display = 'block';
-        } else {
-            const productCategory = card.dataset.category;
-            card.style.display = productCategory === category ? 'block' : 'none';
-        }
-    });
+async function fetchProductsByCategory(category) {
+    const type = getActiveCollectionType();
+    const all = generateCollectionProducts(type);
+    const filtered = category === 'all' ? all : all.filter(p => (p.category || '').toLowerCase() === category.toLowerCase());
+    // Simulate network latency for loading animation
+    await new Promise(r => setTimeout(r, 400));
+    return filtered;
+}
 
+function renderSkeletonCards(count = 8) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    if (!productsGrid) return;
+    const skeleton = Array.from({ length: count }).map(() => `
+        <div class="collection-product-card skeleton">
+            <div class="product-image-container">
+                <div class="skeleton-box img"></div>
+            </div>
+            <div class="product-info">
+                <div class="skeleton-box line"></div>
+                <div class="skeleton-box line short"></div>
+                <div class="skeleton-box btn"></div>
+            </div>
+        </div>`).join('');
+    productsGrid.innerHTML = skeleton;
+}
+
+function renderProductsList(products) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    if (!productsGrid) return;
+
+    if (!products || products.length === 0) {
+        productsGrid.innerHTML = `
+            <div class="empty-state">
+                <p>No items found in this category. Try another one.</p>
+                <button id="backToAllItems" class="empty-cta">Back to All Items</button>
+            </div>`;
+        const btn = document.getElementById('backToAllItems');
+        if (btn) btn.addEventListener('click', () => {
+            const allBtn = document.querySelector('.category-filter[data-category="all"]');
+            if (allBtn) allBtn.click();
+        });
+        updateProductsCount();
+        return;
+    }
+
+    productsGrid.innerHTML = products.map(p => `
+        <div class="collection-product-card fade-in" data-category="${p.category || 'all'}" data-price="${p.price || 0}">
+            <div class="product-image-container">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="product-image">
+                <div class="product-hover-image">
+                    <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="hover-image">
+                </div>
+                <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-rating">
+                    <span class="stars">${p.rating || '★★★★☆'}</span>
+                    <span class="rating-count">(120)</span>
+                </div>
+                <div class="product-price">₹${(p.price || 0).toLocaleString()}</div>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                    <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                </div>
+            </div>
+        </div>`).join('');
+
+    setupQuickActions();
     updateProductsCount();
+}
+
+async function fetchAndRenderCategory(category) {
+    renderSkeletonCards();
+    const products = await fetchProductsByCategory(category);
+    renderProductsList(products);
+}
+
+function filterProductsByCategory(category) {
+    // Backward compatibility: use async fetch + render
+    fetchAndRenderCategory(category);
 }
 
 function applyAdvancedFilters() {
