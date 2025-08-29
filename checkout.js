@@ -1501,6 +1501,11 @@ function showNetBankingPaymentScreen() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="popular-banks">
+                                ${defaultBanks.map(b => `<button class=\"bank-chip\" onclick=\"selectBank('${b.replace(/'/g, "\\'")}')\">${b}</button>`).join('')}
+                            </div>
+
                             <button class="netbanking-view-all-btn" onclick="toggleAllBanks()">+ View All Banks</button>
                         </div>
 
@@ -1566,11 +1571,16 @@ function filterBankOptions() {
 }
 
 function selectBank(name) {
+    const cleaned = name.replace(' (SBI)', '');
     const select = document.getElementById('bankSelect');
+    const search = document.getElementById('bankSearchInput');
+
+    if (search) search.value = cleaned;
+
     if (select) {
         let found = false;
         for (let i = 0; i < select.options.length; i++) {
-            if (select.options[i].text === name || select.options[i].text === name.replace(' (SBI)', '')) {
+            if (select.options[i].text === cleaned) {
                 select.selectedIndex = i;
                 found = true;
                 break;
@@ -1578,12 +1588,17 @@ function selectBank(name) {
         }
         if (!found) {
             const opt = document.createElement('option');
-            opt.value = name;
-            opt.text = name;
+            opt.value = cleaned;
+            opt.text = cleaned;
             select.appendChild(opt);
-            select.value = name;
+            select.value = cleaned;
         }
     }
+
+    // Highlight matching chip
+    document.querySelectorAll('.bank-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.textContent.trim() === cleaned);
+    });
 }
 
 function proceedNetBankingPayment() {
