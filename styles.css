@@ -2635,6 +2635,7 @@ h3::after {
     width: 100%;
     height: 100px;
     object-fit: cover;
+    object-position: top center;
 }
 
 .suggestion-info {
@@ -3484,6 +3485,7 @@ h3::after {
     width: 100%;
     height: 150px;
     object-fit: cover;
+    object-position: top center;
 }
 
 .suggestion-content {
