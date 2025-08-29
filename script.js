@@ -980,7 +980,7 @@ function populateArticleContent(title, description, index) {
         'Seasonal Must-Haves': {
             category: 'SEASONAL GUIDE',
             author: 'Emma Chen',
-            heroImage: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=600&fit=crop&auto=format&q=80',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2Ffdbe61570c5f4b12b6c0e12f37d73582?format=webp&width=1200',
             intro: 'Essential pieces for your wardrobe this season that will keep you stylish and comfortable through every weather change.',
             quote: 'A well-curated seasonal wardrobe is like a reliable friend - always there when you need it most.',
             body: 'Building a seasonal wardrobe isn\'t about having the most clothes, it\'s about having the right pieces that work together seamlessly. Focus on versatile items that can be layered and mixed to create multiple looks.'
