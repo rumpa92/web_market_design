@@ -2092,6 +2092,21 @@ body {
     gap: 1rem;
 }
 
+.bank-search-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.bank-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    font-size: 0.95rem;
+}
+
 .bank-search-input, .bank-select {
     flex: 1;
     padding: 0.8rem 1rem;
