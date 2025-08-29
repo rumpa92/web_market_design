@@ -1272,6 +1272,10 @@
 
         // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Search handlers
+            document.getElementById('trackNowBtn')?.addEventListener('click', handleTrackSearch);
+            document.getElementById('trackInput')?.addEventListener('keypress', (e)=>{ if(e.key==='Enter') handleTrackSearch(); });
+
             // Get order ID from URL and populate details
             const orderId = getOrderIdFromURL();
             console.log('Retrieved order ID:', orderId);
@@ -1279,6 +1283,7 @@
             console.log('Order exists:', !!orderData[orderId]);
 
             populateOrderDetails(orderId);
+            const inputEl=document.getElementById('trackInput'); if(inputEl) inputEl.value=orderId;
 
             // Show notification for which order is being tracked
             const order = orderData[orderId];
