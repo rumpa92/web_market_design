@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Wishlist - StyleHub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f7f7fb; color: #2d3748; }
+    .wishlist-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid #eee; }
+    .wishlist-container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+    .wishlist-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
+    .wishlist-title { font-size: 1.75rem; font-weight: 800; }
+    .wishlist-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .action-btn { padding: 0.6rem 1rem; border-radius: 10px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: 600; }
+    .action-btn.primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; }
+
+    .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .wish-card { background: #fff; border: 1px solid #eee; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform .2s ease; }
+    .wish-card:hover { transform: translateY(-3px); }
+    .wish-media { position: relative; height: 220px; }
+    .wish-media img { width: 100%; height: 100%; object-fit: cover; }
+    .wish-like { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #fff; color: #e53e3e; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.12); cursor: pointer; }
+    .wish-body { padding: 1rem; }
+    .wish-name { font-weight: 700; margin-bottom: .35rem; color: #2d3748; }
+    .wish-price { font-weight: 800; margin-bottom: .5rem; }
+    .wish-variant { color: #718096; font-size: .9rem; margin-bottom: .75rem; }
+    .wish-actions { display:flex; gap: .5rem; }
+    .wish-add { flex:1; padding: .6rem .9rem; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color:#fff; border:none; cursor:pointer; font-weight:700; }
+    .wish-remove { width:42px; border-radius:10px; border:1px solid #eee; background:#fff; cursor:pointer; }
+
+    .empty-wrap { text-align:center; padding: 4rem 1rem; background:#fff; border:1px solid #eee; border-radius:16px; }
+    .empty-icon { font-size: 3rem; color:#cbd5e0; margin-bottom:.5rem; }
+    .empty-title { font-size:1.5rem; font-weight:800; margin-bottom:.25rem; }
+    .empty-text { color:#718096; margin-bottom: .75rem; }
+    .start-shopping { padding:.7rem 1.2rem; border-radius:10px; border:none; background:#333; color:#fff; font-weight:700; cursor:pointer; }
+
+    @media (max-width: 768px) { .wishlist-title { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <header class="wishlist-header">
+    <div class="wishlist-container" style="display:flex; align-items:center; justify-content:space-between;">
+      <a href="index.html" style="text-decoration:none; color:inherit; font-weight:800; font-size:1.25rem;">StyleHub</a>
+      <div class="wishlist-actions">
+        <button id="moveAllBtn" class="action-btn primary" style="display:none;"><i class="fas fa-cart-plus"></i> Move All to Cart</button>
+        <button id="shareBtn" class="action-btn" style="display:none;"><i class="fas fa-share-alt"></i> Share Wishlist</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wishlist-container">
+    <div class="wishlist-topbar">
+      <h1 class="wishlist-title">Your Wishlist</h1>
+    </div>
+
+    <div id="wishlistGrid" class="wishlist-grid"></div>
+
+    <div id="wishlistEmpty" class="empty-wrap" style="display:none;">
+      <div class="empty-icon"><i class="fas fa-heart-broken"></i></div>
+      <div class="empty-title">Your wishlist is empty.</div>
+      <div class="empty-text">Save items you love and shop them later.</div>
+      <button class="start-shopping" onclick="window.location.href='index.html'">Start Shopping</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    const grid = document.getElementById('wishlistGrid');
+    const emptyState = document.getElementById('wishlistEmpty');
+    const moveAllBtn = document.getElementById('moveAllBtn');
+    const shareBtn = document.getElementById('shareBtn');
+
+    function getWishlist() {
+      try { return JSON.parse(localStorage.getItem('fashionWishlist') || '[]'); } catch { return []; }
+    }
+    function setWishlist(items) { localStorage.setItem('fashionWishlist', JSON.stringify(items)); }
+
+    function normalize(item) {
+      return {
+        id: item.id || Date.now() + Math.random(),
+        title: item.title || item.name || 'Saved Item',
+        price: typeof item.price === 'number' ? `₹${item.price}` : (item.price || '₹0'),
+        image: item.image || (item.images && item.images.main) || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop',
+        selectedSize: item.selectedSize || item.size || null,
+        selectedColor: item.selectedColor || item.color || null,
+        quantity: item.quantity || 1
+      };
+    }
+
+    function render() {
+      const items = getWishlist().map(normalize);
+      grid.innerHTML = '';
+
+      if (items.length === 0) {
+        emptyState.style.display = 'block';
+        moveAllBtn.style.display = 'none';
+        shareBtn.style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      moveAllBtn.style.display = 'inline-flex';
+      shareBtn.style.display = 'inline-flex';
+
+      grid.innerHTML = items.map(i => `
+        <div class="wish-card" data-id="${i.id}">
+          <div class="wish-media">
+            <img src="${i.image}" alt="${i.title}">
+            <button class="wish-like" title="Saved"><i class="fas fa-heart"></i></button>
+          </div>
+          <div class="wish-body">
+            <div class="wish-name">${i.title}</div>
+            <div class="wish-price">${i.price}</div>
+            <div class="wish-variant">${[i.selectedColor ? 'Color: ' + i.selectedColor : null, i.selectedSize ? 'Size: ' + i.selectedSize : null].filter(Boolean).join(' · ')}</div>
+            <div class="wish-actions">
+              <button class="wish-add"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+              <button class="wish-remove" title="Remove"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Bind actions
+      grid.querySelectorAll('.wish-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const card = e.currentTarget.closest('.wish-card');
+          const id = card.dataset.id;
+          const raw = getWishlist().find(x => (x.id || '').toString() === id);
+          const item = normalize(raw || {});
+          if (window.FashionMarketplace && typeof window.FashionMarketplace.addToCart === 'function') {
+            window.FashionMarketplace.addToCart({ title: item.title, price: item.price, image: item.image, quantity: 1, id: item.id });
+          }
+          if (window.FashionMarketplace && typeof window.FashionMarketplace.showNotification === 'function') {
+            window.FashionMarketplace.showNotification(`${item.title} added to cart!`, 'success');
+          }
+        });
+      });
+
+      grid.querySelectorAll('.wish-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.currentTarget.closest('.wish-card').dataset.id;
+          const rest = getWishlist().filter(x => (x.id || '').toString() !== id);
+          setWishlist(rest);
+          render();
+        });
+      });
+    }
+
+    moveAllBtn.addEventListener('click', () => {
+      const items = getWishlist().map(normalize);
+      if (items.length === 0) return;
+      items.forEach(i => {
+        if (window.FashionMarketplace && typeof window.FashionMarketplace.addToCart === 'function') {
+          window.FashionMarketplace.addToCart({ title: i.title, price: i.price, image: i.image, quantity: 1, id: i.id });
+        }
+      });
+      if (window.FashionMarketplace && typeof window.FashionMarketplace.showNotification === 'function') {
+        window.FashionMarketplace.showNotification('All wishlist items moved to cart!', 'success');
+      }
+    });
+
+    shareBtn.addEventListener('click', async () => {
+      const items = getWishlist().map(normalize);
+      const text = `My StyleHub Wishlist (${items.length} items)\n` + items.map(i => `• ${i.title} — ${i.price}`).join('\n');
+      const shareData = { title: 'My Wishlist', text, url: window.location.href };
+      try {
+        if (navigator.share) { await navigator.share(shareData); }
+        else { await navigator.clipboard.writeText(text); alert('Wishlist copied to clipboard!'); }
+      } catch {}
+    });
+
+    document.addEventListener('DOMContentLoaded', render);
+  </script>
+</body>
+</html>
