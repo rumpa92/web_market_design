@@ -7954,7 +7954,7 @@ h3.section-title {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-.section-title {
+.edit-section .section-title {
     font-size: 1.3rem;
     font-weight: 600;
     color: #333;
