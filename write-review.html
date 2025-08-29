@@ -1107,26 +1107,57 @@
         function setupFileUpload() {
             const uploadZone = document.getElementById('uploadZone');
             const fileInput = document.getElementById('fileInput');
-            
-            uploadZone.addEventListener('click', () => fileInput.click());
-            
+
+            // Click to upload
+            uploadZone.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Upload zone clicked');
+                fileInput.click();
+            });
+
+            // Drag and drop functionality
             uploadZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.add('dragover');
             });
-            
-            uploadZone.addEventListener('dragleave', () => {
+
+            uploadZone.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadZone.classList.add('dragover');
+            });
+
+            uploadZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.remove('dragover');
             });
-            
+
             uploadZone.addEventListener('drop', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 uploadZone.classList.remove('dragover');
+                console.log('Files dropped:', e.dataTransfer.files.length);
                 handleFiles(e.dataTransfer.files);
             });
-            
+
+            // File input change
             fileInput.addEventListener('change', (e) => {
+                console.log('Files selected:', e.target.files.length);
                 handleFiles(e.target.files);
+                // Reset the input so the same file can be selected again
+                e.target.value = '';
+            });
+
+            // Add visual feedback
+            uploadZone.addEventListener('mouseenter', () => {
+                uploadZone.style.transform = 'translateY(-2px)';
+            });
+
+            uploadZone.addEventListener('mouseleave', () => {
+                uploadZone.style.transform = 'translateY(0)';
             });
         }
 
