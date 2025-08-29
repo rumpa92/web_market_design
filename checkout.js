@@ -1590,6 +1590,12 @@ function selectBank(name) {
     document.querySelectorAll('.bank-chip').forEach(chip => {
         chip.classList.toggle('active', chip.textContent.trim() === cleaned);
     });
+
+    // Hide the expanded bank list after selection
+    const allBanksSection = document.getElementById('allBanksSection');
+    if (allBanksSection) {
+        allBanksSection.classList.add('hidden');
+    }
 }
 
 function proceedNetBankingPayment() {
