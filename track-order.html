@@ -760,48 +760,40 @@
         </div>
 
         <!-- Delivery Progress Timeline -->
-        <div class="section">
+        <div class="section" id="timelineSection">
             <h2 class="section-title">
                 <i class="fas fa-truck section-icon"></i>
                 Delivery Progress
             </h2>
-            
+
             <div class="timeline-container">
                 <div class="timeline">
                     <div class="timeline-progress" style="width: 60%;"></div>
-                    
+
                     <div class="timeline-step">
                         <div class="step-icon completed">
                             <i class="fas fa-check"></i>
                         </div>
-                        <div class="step-label">Order Placed</div>
+                        <div class="step-label">Order Confirmed</div>
                         <div class="step-time">Mar 18, 10:30 AM</div>
                     </div>
-                    
-                    <div class="timeline-step">
-                        <div class="step-icon completed">
-                            <i class="fas fa-box"></i>
-                        </div>
-                        <div class="step-label">Packed</div>
-                        <div class="step-time">Mar 18, 2:15 PM</div>
-                    </div>
-                    
+
                     <div class="timeline-step">
                         <div class="step-icon completed">
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <div class="step-label">Shipped</div>
-                        <div class="step-time">Mar 19, 9:00 AM</div>
+                        <div class="step-time">Mar 18, 2:15 PM</div>
                     </div>
-                    
+
                     <div class="timeline-step">
                         <div class="step-icon current">
-                            <i class="fas fa-map-marker-alt"></i>
+                            <i class="fas fa-box"></i>
                         </div>
                         <div class="step-label">Out for Delivery</div>
                         <div class="step-time">Today, 11:30 AM</div>
                     </div>
-                    
+
                     <div class="timeline-step">
                         <div class="step-icon">
                             <i class="fas fa-gift"></i>
@@ -811,6 +803,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Tracking Meta -->
+        <div class="section" id="trackingMetaSection" style="display:none;">
+            <h2 class="section-title">
+                <i class="fas fa-info-circle section-icon"></i>
+                Order Details
+            </h2>
+            <div class="tracking-meta">
+                <div class="meta-card"><div class="meta-title">Order ID</div><div class="meta-value" id="metaOrderId">-</div></div>
+                <div class="meta-card"><div class="meta-title">Placed On</div><div class="meta-value" id="metaPlacedOn">-</div></div>
+                <div class="meta-card"><div class="meta-title">Items</div><div class="meta-value" id="metaItems">-</div></div>
+                <div class="meta-card"><div class="meta-title">Estimated Delivery</div><div class="meta-value" id="metaEstimate">-</div></div>
+                <div class="meta-card"><div class="meta-title">Courier Partner</div><div class="meta-value" id="metaCourier">BlueDart</div></div>
+                <div class="meta-card"><div class="meta-title">Tracking Number</div><div class="meta-value" id="metaTracking">-</div></div>
+            </div>
+            <div class="meta-actions">
+                <button class="meta-btn primary" id="refreshStatusBtn"><i class="fas fa-sync-alt"></i> Refresh Status</button>
+                <button class="meta-btn" id="contactSupportBtn"><i class="fas fa-headset"></i> Contact Support</button>
+            </div>
+            <div class="track-hint"><a href="help-support.html">Need Help? Contact Support</a></div>
         </div>
 
         <!-- Estimated Delivery Info -->
