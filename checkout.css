@@ -449,6 +449,10 @@ body {
     margin-right: 0.4rem !important;
 }
 
+.wallet-logo {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;
+}
+
 /* Card Details Form */
 .card-details-form {
     background: #f8f9fa;
