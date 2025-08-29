@@ -85,6 +85,9 @@ function initializeApp() {
     setupCollectionNavigation();
     setupCartModal();
 
+    // Set default header title
+    setPageHeaderTitle('Home');
+
     // Debug cart functionality
     console.log('Cart initialized with items:', cart);
     console.log('Cart functions available:', {
@@ -153,6 +156,13 @@ function setupEventListeners() {
     const homeBackButton = document.getElementById('homeBackButton');
     if (homeBackButton) {
         homeBackButton.addEventListener('click', () => {
+            const articlePage = document.getElementById('articlePage');
+            const isArticleVisible = articlePage && window.getComputedStyle(articlePage).display !== 'none';
+            if (isArticleVisible && typeof hideArticlePage === 'function') {
+                hideArticlePage();
+                setPageHeaderTitle('Home');
+                return;
+            }
             if (window.history.length > 1) {
                 window.history.back();
             } else {
@@ -923,6 +933,7 @@ function handleStoryClick(card, index) {
 }
 
 function showArticlePage(title, description, index) {
+    setPageHeaderTitle(title || 'Article');
     // Hide the fashion stories section
     const fashionStoriesSection = document.querySelector('.fashion-stories-section');
     const seasonalSection = document.querySelector('.seasonal-collections-section');
@@ -1105,6 +1116,7 @@ function setupArticlePageListeners() {
 }
 
 function hideArticlePage() {
+    setPageHeaderTitle('Home');
     // Hide article page
     const articlePage = document.getElementById('articlePage');
     articlePage.style.display = 'none';
@@ -1156,6 +1168,12 @@ function addComment(commentText) {
 function addScrollIndicators() {
     // Scroll indicators disabled as requested - no icons needed
     return;
+}
+
+// Page header title utility
+function setPageHeaderTitle(text) {
+    const el = document.getElementById('pageHeaderTitle');
+    if (el) el.textContent = text;
 }
 
 // Recommendations
@@ -3810,7 +3828,7 @@ function loadCollectionContent(collectionType) {
 function getCollectionData(collectionType) {
     const collections = {
         winter: {
-            title: 'Winter Collection ❄️',
+            title: 'Winter Collection ❄��',
             tagline: 'Explore cozy coats, chic sweaters, and stylish accessories designed to keep you warm and elegant this season.',
             heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200',
             theme: 'winter'
