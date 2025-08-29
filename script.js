@@ -252,6 +252,13 @@ function extractProductData(productCard) {
             image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
                 ? imgElement.src
                 : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400';
+        } else if (productCard.classList.contains('collection-product-card')) {
+            title = productCard.querySelector('.product-name')?.textContent || 'Collection Product';
+            price = productCard.querySelector('.product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.product-image');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         } else {
             // Fallback for regular product cards
             title = productCard.querySelector('.product-title')?.textContent ||

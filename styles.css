@@ -1641,6 +1641,7 @@ h3::after {
     height: 300px;
     object-fit: cover;
     border-radius: 15px;
+    object-position: center 8%;
 }
 
 .collection-navigation h3 {
