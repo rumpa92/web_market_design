@@ -9312,7 +9312,7 @@ h3.section-title {
     margin-bottom: 2rem;
 }
 
-.section-title {
+.profile-content .section-title {
     display: flex;
     align-items: center;
     gap: 0.75rem;
