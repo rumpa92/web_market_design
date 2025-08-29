@@ -209,6 +209,12 @@ function handlePlaceOrder() {
         return;
     }
 
+    // Handle Net Banking payment
+    if (selectedPayment.value === 'netbanking') {
+        showNetBankingPaymentScreen();
+        return;
+    }
+
     // Validate card details if card is selected
     if (selectedPayment.value === 'card') {
         if (!validateCardDetails()) {
@@ -290,6 +296,17 @@ function setupPaymentMethods() {
                 } catch (error) {
                     console.error('Error showing wallet payment screen:', error);
                     showNotification('Error loading wallet payment. Please try again.', 'error');
+                }
+            }
+
+            // Handle Net Banking selection
+            if (this.value === 'netbanking') {
+                console.log('Net Banking selected, calling showNetBankingPaymentScreen()');
+                try {
+                    showNetBankingPaymentScreen();
+                } catch (error) {
+                    console.error('Error showing net banking payment screen:', error);
+                    showNotification('Error loading net banking payment. Please try again.', 'error');
                 }
             }
         });
@@ -821,6 +838,9 @@ function showUpiSuccessScreen() {
     const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
 
+    // Persist order for tracking
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
+
     upiContainer.innerHTML = `
         <div class="upi-result-screen upi-success-screen">
             <div class="upi-result-content">
@@ -924,9 +944,8 @@ function returnToCheckout() {
 }
 
 function trackOrder(orderNumber) {
-    // Store order number for tracking page
     localStorage.setItem('currentOrderNumber', orderNumber);
-    window.location.href = 'track-order.html';
+    window.location.href = `track-order.html?orderId=${encodeURIComponent(orderNumber)}`;
 }
 
 function continueShopping() {
@@ -1161,6 +1180,82 @@ function generateWalletOrderSummary() {
     `;
 }
 
+function generateNetBankingOrderSummary() {
+    const originalOrderSummary = document.querySelector('.order-summary-card');
+    if (originalOrderSummary) {
+        let orderSummaryHtml = originalOrderSummary.outerHTML;
+        const totalElement = originalOrderSummary.querySelector('.total-amount');
+        const totalAmount = totalElement ? totalElement.textContent : '$0.00';
+        orderSummaryHtml = orderSummaryHtml.replace(
+            /Place Order - \$[\d,]+\.?\d*/g,
+            `Proceed to Pay ${totalAmount}`
+        );
+        orderSummaryHtml = orderSummaryHtml.replace(
+            'id="placeOrderBtn"',
+            'onclick="proceedNetBankingPayment()"'
+        );
+        return orderSummaryHtml;
+    }
+
+    // Fallback
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cartData.reduce((sum, item) => {
+        const price = typeof item.price === 'string' ? parseFloat(item.price.replace('$', '')) : parseFloat(item.price);
+        return sum + (price * item.quantity);
+    }, 0);
+    const shipping = subtotal > 50 ? 0 : 9.99;
+    const tax = subtotal * 0.08;
+    const discount = getCurrentDiscount();
+    const total = subtotal + shipping + tax - discount;
+
+    let orderItemsHtml = '';
+    cartData.forEach(item => {
+        const price = typeof item.price === 'string' ? item.price.replace('$', '') : item.price;
+        const totalPrice = (parseFloat(price) * item.quantity).toFixed(2);
+        orderItemsHtml += `
+            <div class="order-item">
+                <div class="item-image">
+                    <img src="${item.image || 'https://via.placeholder.com/200x200'}" alt="${item.title}">
+                </div>
+                <div class="item-details">
+                    <h4>${item.title}</h4>
+                    <p>StyleHub</p>
+                    <div class="item-options">
+                        ${item.selectedSize ? `<span>Size: ${item.selectedSize}</span>` : ''}
+                        ${item.selectedColor ? `<span>Color: ${item.selectedColor}</span>` : ''}
+                    </div>
+                    <div class="item-quantity">Qty: ${item.quantity}</div>
+                </div>
+                <div class="item-price">$${totalPrice}</div>
+            </div>
+        `;
+    });
+
+    return `
+        <div class="order-summary-card">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="order-items">${orderItemsHtml}</div>
+            <div class="price-breakdown">
+                <div class="price-row"><span>Subtotal (${totalItems} item${totalItems !== 1 ? 's' : ''})</span><span>$${subtotal.toFixed(2)}</span></div>
+                <div class="price-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span></div>
+                <div class="price-row"><span>Tax (NY)</span><span>$${tax.toFixed(2)}</span></div>
+                ${discount > 0 ? `<div class="price-row discount-row"><span>Discount</span><span class="discount-amount">-$${discount.toFixed(2)}</span></div>` : ''}
+                <div class="price-divider"></div>
+                <div class="price-row total-row"><span>Total</span><span class="total-amount">$${total.toFixed(2)}</span></div>
+            </div>
+            <button class="place-order-btn" onclick="proceedNetBankingPayment()">
+                <i class="fas fa-lock"></i>
+                Proceed to Pay $${total.toFixed(2)}
+            </button>
+            <div class="security-info">
+                <div class="security-item"><i class="fas fa-shield-alt"></i><span>256-bit SSL encryption</span></div>
+                <div class="security-item"><i class="fas fa-undo"></i><span>30-day return policy</span></div>
+            </div>
+        </div>
+    `;
+}
+
 function payWithWallet(walletName) {
     const walletDisplayNames = {
         'googlepay': 'Google Pay',
@@ -1212,6 +1307,8 @@ function showWalletSuccessScreen(walletUsed) {
     const totalAmount = document.querySelector('.total-amount').textContent;
     const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
 
     walletContainer.innerHTML = `
         <div class="wallet-result-screen wallet-success-screen">
@@ -1351,3 +1448,262 @@ window.initiateWalletPayment = initiateWalletPayment;
 window.showWalletSuccessScreen = showWalletSuccessScreen;
 window.showWalletFailureScreen = showWalletFailureScreen;
 window.retryWalletPayment = retryWalletPayment;
+window.showNetBankingPaymentScreen = showNetBankingPaymentScreen;
+window.proceedNetBankingPayment = proceedNetBankingPayment;
+window.showNetBankingSuccessScreen = showNetBankingSuccessScreen;
+window.showNetBankingFailureScreen = showNetBankingFailureScreen;
+window.retryNetBankingPayment = retryNetBankingPayment;
+window.toggleAllBanks = toggleAllBanks;
+window.filterBankOptions = filterBankOptions;
+window.selectBank = selectBank;
+
+// Save last order (id, items, total, paymentStatus) for Track Order page
+function saveLastOrder(orderId, totalAmount, paymentStatus) {
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const products = cartData.map(item => ({
+        name: item.title || item.name || 'Product',
+        image: item.image || 'https://via.placeholder.com/60',
+        variant: `${item.selectedSize ? 'Size: ' + item.selectedSize + ', ' : ''}${item.selectedColor ? 'Color: ' + item.selectedColor : ''}`.replace(/,\s*$/, ''),
+        price: typeof item.price === 'string' ? item.price : `$${Number(item.price || 0).toFixed(2)}`
+    }));
+    const order = {
+        id: orderId,
+        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        paymentStatus: paymentStatus || 'Paid',
+        products,
+        total: totalAmount || '$0.00'
+    };
+    localStorage.setItem('lastOrder', JSON.stringify(order));
+}
+
+// Net Banking Payment Flow Functions
+function showNetBankingPaymentScreen() {
+    const checkoutContent = document.querySelector('.checkout-content');
+    const originalContent = checkoutContent.innerHTML;
+
+    // Store original content for restoration
+    window.originalCheckoutContent = originalContent;
+
+    // Build bank options
+    const defaultBanks = ['SBI', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank'];
+    const allBanks = [
+        'State Bank of India (SBI)', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank',
+        'Punjab National Bank', 'Bank of Baroda', 'Union Bank of India', 'Canara Bank', 'IndusInd Bank',
+        'Yes Bank', 'IDFC First Bank', 'IDBI Bank', 'Federal Bank', 'RBL Bank',
+        'Bank of India', 'Central Bank of India', 'Indian Bank', 'UCO Bank', 'PNB Housing'
+    ];
+
+    const defaultOptions = defaultBanks.map(b => `<option value="${b}">${b}</option>`).join('');
+    const allBankItems = allBanks.map(b => `<button class="bank-item" onclick="selectBank('${b.replace(/'/g, "\'")}')">${b}</button>`).join('');
+
+    checkoutContent.innerHTML = `
+        <div class="netbanking-payment-container">
+            <div class="netbanking-payment-screen">
+                <div class="netbanking-header">
+                    <div class="netbanking-header-icon"><i class="fas fa-university"></i></div>
+                    <div class="netbanking-header-texts">
+                        <h1 class="netbanking-title">Pay with Net Banking</h1>
+                        <p class="netbanking-subtitle">Securely complete your payment using your bank’s net banking service. Select your bank from the list below and proceed to authentication.</p>
+                    </div>
+                </div>
+
+                <div class="netbanking-content">
+                    <div class="netbanking-main-section">
+                        <div class="netbanking-selection">
+                            <label for="bankSearchInput" class="netbanking-label">Select Your Bank</label>
+                            <div class="netbanking-search-select">
+                                <div class="bank-select-wrapper">
+                                    <select id="bankSelect" class="bank-select">
+                                        <option value="" selected>Select Your Bank</option>
+                                        ${defaultOptions}
+                                    </select>
+                                    <i class="fas fa-chevron-down bank-select-caret"></i>
+                                </div>
+                            </div>
+                            <button class="netbanking-view-all-btn" onclick="toggleAllBanks()">+ View All Banks</button>
+                        </div>
+
+                        <div id="allBanksSection" class="netbanking-bank-list hidden">
+                            ${allBankItems}
+                        </div>
+
+                        <div class="netbanking-action-buttons">
+                            <button class="netbanking-cancel-btn" onclick="returnToCheckout()">Cancel & Choose Another Method</button>
+                        </div>
+
+                        <div class="netbanking-security-note">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>All transactions are encrypted and securely processed by your bank.</span>
+                        </div>
+                    </div>
+                    <div class="netbanking-order-summary">
+                        ${generateNetBankingOrderSummary()}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function toggleAllBanks() {
+    const section = document.getElementById('allBanksSection');
+    if (section) {
+        section.classList.toggle('hidden');
+    }
+}
+
+function filterBankOptions() {
+    const query = (document.getElementById('bankSearchInput')?.value || '').toLowerCase();
+    const select = document.getElementById('bankSelect');
+    const list = document.getElementById('allBanksSection');
+
+    // Auto-show full bank list when typing
+    if (list && query) {
+        list.classList.remove('hidden');
+    }
+
+    if (select) {
+        for (let i = 0; i < select.options.length; i++) {
+            const opt = select.options[i];
+            if (i === 0) continue; // keep placeholder
+            if (query) {
+                opt.style.display = opt.text.toLowerCase().includes(query) ? 'block' : 'none';
+            } else {
+                opt.style.display = '';
+            }
+        }
+    }
+
+    const items = document.querySelectorAll('.netbanking-bank-list .bank-item');
+    items.forEach(btn => {
+        if (query) {
+            btn.style.display = btn.textContent.toLowerCase().includes(query) ? 'inline-flex' : 'none';
+        } else {
+            btn.style.display = 'inline-flex';
+        }
+    });
+}
+
+function selectBank(name) {
+    const cleaned = name.replace(' (SBI)', '');
+    const select = document.getElementById('bankSelect');
+    const search = document.getElementById('bankSearchInput');
+
+    if (search) search.value = cleaned;
+
+    if (select) {
+        let found = false;
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].text === cleaned) {
+                select.selectedIndex = i;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            const opt = document.createElement('option');
+            opt.value = cleaned;
+            opt.text = cleaned;
+            select.appendChild(opt);
+            select.value = cleaned;
+        }
+    }
+
+    // Highlight matching chip
+    document.querySelectorAll('.bank-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.textContent.trim() === cleaned);
+    });
+
+    // Hide the expanded bank list after selection
+    const allBanksSection = document.getElementById('allBanksSection');
+    if (allBanksSection) {
+        allBanksSection.classList.add('hidden');
+    }
+}
+
+function proceedNetBankingPayment() {
+    const select = document.getElementById('bankSelect');
+    const bank = select ? select.value : '';
+    if (!bank) {
+        showNotification('Please select your bank to continue', 'error');
+        return;
+    }
+    showNotification(`Redirecting to ${bank} Net Banking...`, 'info');
+
+    setTimeout(() => {
+        const isSuccess = Math.random() > 0.15; // 85% success
+        if (isSuccess) {
+            showNetBankingSuccessScreen(bank);
+        } else {
+            showNetBankingFailureScreen(bank, 'Authentication failed or timed out');
+        }
+    }, 2000);
+}
+
+function showNetBankingSuccessScreen(bank) {
+    const container = document.querySelector('.netbanking-payment-container');
+    const totalAmount = document.querySelector('.total-amount')?.textContent || '$0.00';
+    const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
+
+    container.innerHTML = `
+        <div class="wallet-result-screen wallet-success-screen">
+            <div class="wallet-result-content">
+                <div class="wallet-result-icon success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="wallet-result-title">Payment Successful 🎉</h1>
+                <div class="wallet-result-details">
+                    <div class="result-detail-item"><span class="detail-label">Paid via:</span><span class="detail-value">Net Banking (${bank})</span></div>
+                    <div class="result-detail-item"><span class="detail-label">Amount Paid:</span><span class="detail-value">${totalAmount}</span></div>
+                    <div class="result-detail-item"><span class="detail-label">Transaction ID:</span><span class="detail-value">${transactionId}</span></div>
+                    <div class="result-detail-item"><span class="detail-label">Order ID:</span><span class="detail-value">${orderNumber}</span></div>
+                </div>
+                <div class="wallet-result-actions">
+                    <button class="wallet-primary-btn" onclick="trackOrder('${orderNumber}')"><i class="fas fa-map-marker-alt"></i>Track Order</button>
+                    <button class="wallet-secondary-btn" onclick="continueShopping()"><i class="fas fa-shopping-bag"></i>Continue Shopping</button>
+                </div>
+                <div class="wallet-success-message">Your order has been confirmed and will be delivered within 3-5 business days.</div>
+            </div>
+        </div>
+    `;
+
+    // Clear cart on success
+    localStorage.removeItem('fashionCart');
+}
+
+function showNetBankingFailureScreen(bank, reason = 'Payment failed') {
+    const container = document.querySelector('.netbanking-payment-container');
+    container.innerHTML = `
+        <div class="wallet-result-screen wallet-failure-screen">
+            <div class="wallet-result-content">
+                <div class="wallet-result-icon failure-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1 class="wallet-result-title">Payment Failed ⚠️</h1>
+                <div class="wallet-failure-reason">
+                    <p><strong>Bank:</strong> ${bank}</p>
+                    <p><strong>Reason:</strong> ${reason}</p>
+                </div>
+                <div class="wallet-result-actions">
+                    <button class="wallet-primary-btn" onclick="retryNetBankingPayment('${bank}')"><i class="fas fa-redo"></i>Retry with ${bank}</button>
+                    <button class="wallet-secondary-btn" onclick="returnToCheckout()"><i class="fas fa-arrow-left"></i>Choose Another Method</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function retryNetBankingPayment(bank) {
+    showNotification(`Retrying payment with ${bank}...`, 'info');
+    setTimeout(() => {
+        const isSuccess = Math.random() > 0.15;
+        if (isSuccess) {
+            showNetBankingSuccessScreen(bank);
+        } else {
+            showNetBankingFailureScreen(bank, 'Retry failed. Please try again or choose another method.');
+        }
+    }, 2000);
+}
