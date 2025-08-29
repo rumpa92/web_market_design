@@ -429,10 +429,11 @@
             text-align: center;
             background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin: 1rem 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .upload-zone::before {
@@ -448,15 +449,44 @@
             opacity: 0;
         }
 
+        .upload-zone::after {
+            content: '📁 Click or Drop Files Here';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
         .upload-zone:hover {
             border-color: #667eea;
             background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
         }
 
         .upload-zone:hover::before {
             opacity: 1;
             animation: shimmer 1.5s infinite;
+        }
+
+        .upload-zone:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateY(-5px);
+        }
+
+        .upload-zone:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
         }
 
         @keyframes shimmer {
@@ -468,6 +498,14 @@
             border-color: #48bb78;
             background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
             transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.25);
+        }
+
+        .upload-zone.dragover::after {
+            content: '🎯 Drop Files Here!';
+            background: rgba(72, 187, 120, 0.9);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .upload-icon {
