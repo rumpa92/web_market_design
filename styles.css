@@ -2620,6 +2620,7 @@ h3::after {
 .suggestion-card {
     flex: 0 0 140px;
     background: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -2636,6 +2637,7 @@ h3::after {
     height: 100px;
     object-fit: cover;
     object-position: top center;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .suggestion-info {
@@ -3470,6 +3472,7 @@ h3::after {
 
 .suggestion-card {
     background: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -3486,6 +3489,7 @@ h3::after {
     height: 150px;
     object-fit: cover;
     object-position: top center;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .suggestion-content {
