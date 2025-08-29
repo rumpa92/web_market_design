@@ -2107,6 +2107,85 @@ body {
     font-size: 0.95rem;
 }
 
+/* Enhanced combobox */
+.bank-combobox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.4rem 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.bank-combobox:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.bank-combobox:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.bank-search-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    flex-shrink: 0;
+}
+
+.bank-combobox .bank-search-input {
+    border: none;
+    background: transparent;
+    padding: 0 0.5rem;
+    height: 40px;
+    font-size: 0.95rem;
+}
+
+.bank-combobox .bank-search-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.bank-select-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.bank-select {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0.65rem 2.25rem 0.65rem 0.9rem;
+    background: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.bank-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.bank-select-caret {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    pointer-events: none;
+}
+
 .bank-search-input, .bank-select {
     flex: 1;
     padding: 0.8rem 1rem;
