@@ -1413,7 +1413,10 @@ function showNetBankingPaymentScreen() {
                         <div class="netbanking-selection">
                             <label for="bankSearchInput" class="netbanking-label">Select Your Bank</label>
                             <div class="netbanking-search-select">
-                                <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search your bank" oninput="filterBankOptions()" />
+                                <div class="bank-search-wrapper">
+                                    <i class="fas fa-search bank-search-icon"></i>
+                                    <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search your bank" oninput="filterBankOptions()" />
+                                </div>
                                 <select id="bankSelect" class="bank-select">
                                     <option value="" selected>Select Your Bank</option>
                                     ${defaultOptions}
