@@ -2230,6 +2230,41 @@ body {
     border-style: solid;
 }
 
+.popular-banks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.bank-chip {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    color: #333;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bank-chip:hover {
+    border-color: #667eea;
+    color: #667eea;
+    box-shadow: 0 3px 10px rgba(102,126,234,0.12);
+}
+
+.bank-chip.active {
+    background: #eef2ff;
+    border-color: #667eea;
+    color: #667eea;
+}
+
+/* Tidy combobox alignment */
+.bank-select { height: 40px; }
+.bank-search-icon-box { box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
 .netbanking-bank-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
