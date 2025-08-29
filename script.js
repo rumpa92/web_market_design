@@ -149,6 +149,18 @@ function setupEventListeners() {
         });
     }
 
+    // Home back button
+    const homeBackButton = document.getElementById('homeBackButton');
+    if (homeBackButton) {
+        homeBackButton.addEventListener('click', () => {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+    }
+
     // Mobile menu toggle (if needed)
     setupMobileMenu();
 }
