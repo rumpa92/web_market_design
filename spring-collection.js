@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'sp12', name: 'Canvas Crossbody Bag', price: 799, category: 'accessories', colors: ['green','white'], sizes: ['M'], rating: '���★★★☆', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=800&fit=crop&auto=format&q=80' }
   ];
 
+  let currentList = products.slice();
   function render(list) {
-    grid.innerHTML = list.map(p => `
+    currentList = list.slice();
+    grid.innerHTML = currentList.map(p => `
       <div class="collection-product-card" data-category="${p.category}" data-price="${p.price}" data-sizes="${p.sizes.join(',')}" data-colors="${p.colors.join(',')}">
         <div class="product-image-container">
           <img src="${p.image}" alt="${p.name}" class="product-image" />
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const p = products[idx];
+        const p = currentList[idx];
         addToCart({ id: p.id, title: p.name, price: `₹${p.price}`, image: p.image, quantity: 1 });
         showNotification(`${p.name} added to cart!`, 'success');
       });
@@ -61,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.stopPropagation();
         const icon = btn.querySelector('i');
-        const p = products[idx];
+        const p = currentList[idx];
         const items = JSON.parse(localStorage.getItem('fashionWishlist') || '[]');
         const exists = items.some(i => i.id === p.id);
         if (exists) {
@@ -76,6 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
           showNotification(`${p.name} added to wishlist!`, 'success');
         }
       });
+    });
+  }
+
+  // Sorting
+  const sortFilter = document.getElementById('sortFilter');
+  if (sortFilter) {
+    sortFilter.addEventListener('change', () => {
+      const val = sortFilter.value;
+      let sorted = products.slice();
+      if (val === 'price-low') sorted.sort((a,b)=>a.price-b.price);
+      else if (val === 'price-high') sorted.sort((a,b)=>b.price-a.price);
+      else sorted = products.slice();
+      render(sorted);
+      applyFilters();
     });
   }
 
