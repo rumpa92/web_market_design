@@ -3311,7 +3311,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'BAGS',
-            rating: '★★★★★'
+            rating: '★★★��★'
         }
     ],
     'Tops & Blouses': [
@@ -3447,7 +3447,7 @@ const subcategoryItems = {
             originalPrice: '$259',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★★☆'
+            rating: '★★★��☆'
         },
         {
             id: 'outer3',
@@ -3874,22 +3874,45 @@ function loadCollectionProducts(collectionType) {
 
     if (!productsGrid) return;
 
-    // Generate dynamic products based on collection type
     const products = generateCollectionProducts(collectionType);
 
-    // Update products count
     if (productsCount) productsCount.textContent = `${products.length} items`;
 
-    // Clear existing products and add new ones
-    const existingProducts = productsGrid.querySelectorAll('.collection-product-card');
-    existingProducts.forEach(product => product.style.display = 'block');
+    // Render products
+    productsGrid.innerHTML = products.map(p => `
+        <div class="collection-product-card" data-category="${p.category || 'all'}" data-price="${p.price || 0}">
+            <div class="product-image-container">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="product-image">
+                <div class="product-hover-image">
+                    <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="hover-image">
+                </div>
+                <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-rating">
+                    <span class="stars">${p.rating || '★★★★☆'}</span>
+                    <span class="rating-count">(120)</span>
+                </div>
+                <div class="product-price">₹${(p.price || 0).toLocaleString()}</div>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                    <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
 
-    // Filter products based on collection type
-    existingProducts.forEach((product, index) => {
-        if (index >= products.length) {
-            product.style.display = 'none';
-        }
-    });
+    // Re-bind action listeners for newly rendered cards
+    setupQuickActions();
+
+    // Apply current active category filter if any
+    const activeFilter = document.querySelector('.category-filter.active');
+    if (activeFilter) {
+        filterProductsByCategory(activeFilter.dataset.category);
+    } else {
+        updateProductsCount();
+    }
 }
 
 function generateCollectionProducts(collectionType) {
@@ -4040,10 +4063,15 @@ function setupCollectionFilters() {
     }
 
     // Sort filter
-    const sortFilter = document.getElementById('sortFilter');
+    const sortFilter = document.getElementById('sortFilter') || document.getElementById('modernSortFilter');
     if (sortFilter) {
         sortFilter.addEventListener('change', () => {
-            applyAdvancedFilters();
+            const val = sortFilter.value;
+            if (val === 'price-low' || val === 'price-high' || val === 'bestsellers' || val === 'newest' || val === 'rating') {
+                sortProducts(val);
+            } else {
+                applyAdvancedFilters();
+            }
         });
     }
 }
