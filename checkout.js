@@ -1178,6 +1178,82 @@ function generateWalletOrderSummary() {
     `;
 }
 
+function generateNetBankingOrderSummary() {
+    const originalOrderSummary = document.querySelector('.order-summary-card');
+    if (originalOrderSummary) {
+        let orderSummaryHtml = originalOrderSummary.outerHTML;
+        const totalElement = originalOrderSummary.querySelector('.total-amount');
+        const totalAmount = totalElement ? totalElement.textContent : '$0.00';
+        orderSummaryHtml = orderSummaryHtml.replace(
+            /Place Order - \$[\d,]+\.?\d*/g,
+            `Proceed to pay ${totalAmount}`
+        );
+        orderSummaryHtml = orderSummaryHtml.replace(
+            'id="placeOrderBtn"',
+            'onclick="proceedNetBankingPayment()"'
+        );
+        return orderSummaryHtml;
+    }
+
+    // Fallback
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cartData.reduce((sum, item) => {
+        const price = typeof item.price === 'string' ? parseFloat(item.price.replace('$', '')) : parseFloat(item.price);
+        return sum + (price * item.quantity);
+    }, 0);
+    const shipping = subtotal > 50 ? 0 : 9.99;
+    const tax = subtotal * 0.08;
+    const discount = getCurrentDiscount();
+    const total = subtotal + shipping + tax - discount;
+
+    let orderItemsHtml = '';
+    cartData.forEach(item => {
+        const price = typeof item.price === 'string' ? item.price.replace('$', '') : item.price;
+        const totalPrice = (parseFloat(price) * item.quantity).toFixed(2);
+        orderItemsHtml += `
+            <div class="order-item">
+                <div class="item-image">
+                    <img src="${item.image || 'https://via.placeholder.com/200x200'}" alt="${item.title}">
+                </div>
+                <div class="item-details">
+                    <h4>${item.title}</h4>
+                    <p>StyleHub</p>
+                    <div class="item-options">
+                        ${item.selectedSize ? `<span>Size: ${item.selectedSize}</span>` : ''}
+                        ${item.selectedColor ? `<span>Color: ${item.selectedColor}</span>` : ''}
+                    </div>
+                    <div class="item-quantity">Qty: ${item.quantity}</div>
+                </div>
+                <div class="item-price">$${totalPrice}</div>
+            </div>
+        `;
+    });
+
+    return `
+        <div class="order-summary-card">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="order-items">${orderItemsHtml}</div>
+            <div class="price-breakdown">
+                <div class="price-row"><span>Subtotal (${totalItems} item${totalItems !== 1 ? 's' : ''})</span><span>$${subtotal.toFixed(2)}</span></div>
+                <div class="price-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span></div>
+                <div class="price-row"><span>Tax (NY)</span><span>$${tax.toFixed(2)}</span></div>
+                ${discount > 0 ? `<div class="price-row discount-row"><span>Discount</span><span class="discount-amount">-$${discount.toFixed(2)}</span></div>` : ''}
+                <div class="price-divider"></div>
+                <div class="price-row total-row"><span>Total</span><span class="total-amount">$${total.toFixed(2)}</span></div>
+            </div>
+            <button class="place-order-btn" onclick="proceedNetBankingPayment()">
+                <i class="fas fa-lock"></i>
+                Proceed to pay $${total.toFixed(2)}
+            </button>
+            <div class="security-info">
+                <div class="security-item"><i class="fas fa-shield-alt"></i><span>256-bit SSL encryption</span></div>
+                <div class="security-item"><i class="fas fa-undo"></i><span>30-day return policy</span></div>
+            </div>
+        </div>
+    `;
+}
+
 function payWithWallet(walletName) {
     const walletDisplayNames = {
         'googlepay': 'Google Pay',
@@ -1430,10 +1506,6 @@ function showNetBankingPaymentScreen() {
                         </div>
 
                         <div class="netbanking-action-buttons">
-                            <button class="netbanking-pay-btn" onclick="proceedNetBankingPayment()">
-                                <i class="fas fa-lock"></i>
-                                Proceed to Pay
-                            </button>
                             <button class="netbanking-cancel-btn" onclick="returnToCheckout()">Cancel & Choose Another Method</button>
                         </div>
 
@@ -1443,7 +1515,7 @@ function showNetBankingPaymentScreen() {
                         </div>
                     </div>
                     <div class="netbanking-order-summary">
-                        ${generateWalletOrderSummary()}
+                        ${generateNetBankingOrderSummary()}
                     </div>
                 </div>
             </div>
