@@ -1246,6 +1246,21 @@
             document.title = `Track Order ${order.id} - StyleHub`;
         }
 
+        function handleTrackSearch(){
+            const id=(document.getElementById('trackInput')?.value||'').trim().toUpperCase();
+            if(!id){ showNotification('Please enter an Order ID', 'error'); return; }
+            populateOrderDetails(id);
+            const url=new URL(window.location.href); url.searchParams.set('orderId', id); history.replaceState({}, '', url);
+        }
+
+        function getOrCreateTrackingNumber(orderId){
+            try{
+                const map=JSON.parse(localStorage.getItem('trackingNumbers')||'{}');
+                if(!map[orderId]){ map[orderId] = 'BDX' + Math.random().toString(36).substr(2,6).toUpperCase(); localStorage.setItem('trackingNumbers', JSON.stringify(map)); }
+                return map[orderId];
+            }catch(e){ return 'BDX' + Math.random().toString(36).substr(2,6).toUpperCase(); }
+        }
+
         // Update timeline based on order data
         function updateTimeline(timeline, currentStep) {
             const timelineContainer = document.querySelector('.timeline');
