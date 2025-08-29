@@ -3381,7 +3381,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'JEWELRY',
-            rating: '★★★★☆'
+            rating: '★★★★��'
         },
         {
             id: 'jewelry3',
@@ -4636,7 +4636,12 @@ function setupWinterFeatures() {
     const recBtns = document.querySelectorAll('.recommendation-btn');
     recBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const title = btn.closest('.recommendation-card').querySelector('.recommendation-title').textContent;
+            const card = btn.closest('.recommendation-card');
+            const title = card.querySelector('.recommendation-title').textContent;
+            if (card && card.classList.contains('spring-preview')) {
+                window.location.href = 'spring-collection.html';
+                return;
+            }
             showNotification(`Exploring: ${title}`, 'info');
         });
     });
