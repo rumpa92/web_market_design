@@ -3026,11 +3026,7 @@ h3::after {
 }
 
 .article-meta {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    display: none;
 }
 
 .article-category {
