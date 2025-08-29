@@ -1162,28 +1162,59 @@
         }
 
         function handleFiles(files) {
+            console.log('Handling files:', files.length);
+
+            if (!files || files.length === 0) {
+                showNotification('No files selected', 'error');
+                return;
+            }
+
             if (uploadedFiles.length + files.length > 5) {
                 showNotification('Maximum 5 files allowed', 'error');
                 return;
             }
 
+            let successCount = 0;
+            let errorCount = 0;
+
             Array.from(files).forEach(file => {
+                console.log('Processing file:', file.name, 'Type:', file.type, 'Size:', file.size);
+
                 if (file.size > 10 * 1024 * 1024) {
                     showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    errorCount++;
                     return;
                 }
-                
+
                 if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
                     showNotification(`${file.name} is not a supported file type`, 'error');
+                    errorCount++;
                     return;
                 }
-                
+
+                // Check for duplicates
+                const isDuplicate = uploadedFiles.some(existingFile =>
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+
+                if (isDuplicate) {
+                    showNotification(`${file.name} is already uploaded`, 'error');
+                    errorCount++;
+                    return;
+                }
+
                 uploadedFiles.push(file);
                 addFilePreview(file);
+                successCount++;
             });
-            
-            if (files.length > 0) {
-                showNotification(`${files.length} file(s) uploaded`, 'success');
+
+            if (successCount > 0) {
+                showNotification(`${successCount} file(s) uploaded successfully`, 'success');
+                updateUploadZone();
+            }
+
+            if (errorCount > 0 && successCount === 0) {
+                showNotification(`Failed to upload ${errorCount} file(s)`, 'error');
             }
         }
 
