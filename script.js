@@ -84,7 +84,9 @@ function initializeApp() {
     setupCollectionPage();
     setupCollectionNavigation();
     setupCartModal();
-    setupVideoShowcase();
+    if (typeof window.setupVideoShowcase === 'function') {
+        window.setupVideoShowcase();
+    }
 
     // Set default header title and hide header on homepage
     setPageHeaderTitle('Home');
