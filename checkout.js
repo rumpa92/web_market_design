@@ -1489,23 +1489,14 @@ function showNetBankingPaymentScreen() {
                         <div class="netbanking-selection">
                             <label for="bankSearchInput" class="netbanking-label">Select Your Bank</label>
                             <div class="netbanking-search-select">
-                                <div class="bank-combobox">
-                                    <div class="bank-search-icon-box"><i class="fas fa-search"></i></div>
-                                    <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search bank name…" oninput="filterBankOptions()" />
-                                    <div class="bank-select-wrapper">
-                                        <select id="bankSelect" class="bank-select">
-                                            <option value="" selected>Select Your Bank</option>
-                                            ${defaultOptions}
-                                        </select>
-                                        <i class="fas fa-chevron-down bank-select-caret"></i>
-                                    </div>
+                                <div class="bank-select-wrapper">
+                                    <select id="bankSelect" class="bank-select">
+                                        <option value="" selected>Select Your Bank</option>
+                                        ${defaultOptions}
+                                    </select>
+                                    <i class="fas fa-chevron-down bank-select-caret"></i>
                                 </div>
                             </div>
-
-                            <div class="popular-banks">
-                                ${defaultBanks.map(b => `<button class=\"bank-chip\" onclick=\"selectBank('${b.replace(/'/g, "\\'")}')\">${b}</button>`).join('')}
-                            </div>
-
                             <button class="netbanking-view-all-btn" onclick="toggleAllBanks()">+ View All Banks</button>
                         </div>
 
