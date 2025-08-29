@@ -564,6 +564,14 @@
             margin-bottom: 0.5rem;
         }
 
+        .preview-media {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
         .file-name {
             font-size: 0.75rem;
             color: #4a5568;
@@ -912,8 +920,8 @@
                     <div class="upload-zone" id="uploadZone">
                         <i class="fas fa-cloud-upload-alt upload-icon"></i>
                         <div class="upload-text">Drop files here or click to upload</div>
-                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each ��� Up to 5 files</div>
-                        <input type="file" id="fileInput" class="file-input" multiple accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,video/mp4,video/mov,video/avi">
+                        <div class="upload-subtext">Support: JPG, PNG, MP4 • Max 10MB each • Up to 5 files</div>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime,video/x-msvideo">
                     </div>
                     <div class="uploaded-files" id="uploadedFiles"></div>
                 </div>
@@ -1147,6 +1155,13 @@
             const uploadZone = document.getElementById('uploadZone');
             const fileInput = document.getElementById('fileInput');
 
+            document.addEventListener('dragover', (e) => e.preventDefault());
+            document.addEventListener('drop', (e) => {
+                if (!uploadZone.contains(e.target)) {
+                    e.preventDefault();
+                }
+            });
+
             // Click to upload
             uploadZone.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1261,18 +1276,39 @@
             const uploadedFilesContainer = document.getElementById('uploadedFiles');
             const filePreview = document.createElement('div');
             filePreview.className = 'file-preview';
-            
-            const fileName = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
-            const fileIcon = file.type.startsWith('image/') ? 'fa-image' : 'fa-video';
-            
-            filePreview.innerHTML = `
-                <i class="fas ${fileIcon} file-icon"></i>
-                <div class="file-name">${fileName}</div>
-                <button type="button" class="remove-file" onclick="removeFile('${file.name}', this)">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
+
+            const displayName = file.name.length > 30 ? file.name.slice(0, 27) + '...' : file.name;
+
+            let mediaEl;
+            if (file.type.startsWith('image/')) {
+                mediaEl = document.createElement('img');
+                mediaEl.className = 'preview-media';
+                const reader = new FileReader();
+                reader.onload = () => { mediaEl.src = reader.result; };
+                reader.readAsDataURL(file);
+            } else {
+                mediaEl = document.createElement('video');
+                mediaEl.className = 'preview-media';
+                mediaEl.src = URL.createObjectURL(file);
+                mediaEl.muted = true;
+                mediaEl.loop = true;
+                mediaEl.onloadeddata = () => mediaEl.play();
+            }
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'file-name';
+            nameEl.textContent = displayName;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-file';
+            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            removeBtn.addEventListener('click', () => removeFile(file.name, removeBtn));
+
+            filePreview.appendChild(mediaEl);
+            filePreview.appendChild(nameEl);
+            filePreview.appendChild(removeBtn);
+
             uploadedFilesContainer.appendChild(filePreview);
         }
 
