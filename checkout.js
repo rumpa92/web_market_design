@@ -838,6 +838,9 @@ function showUpiSuccessScreen() {
     const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
 
+    // Persist order for tracking
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
+
     upiContainer.innerHTML = `
         <div class="upi-result-screen upi-success-screen">
             <div class="upi-result-content">
@@ -941,9 +944,8 @@ function returnToCheckout() {
 }
 
 function trackOrder(orderNumber) {
-    // Store order number for tracking page
     localStorage.setItem('currentOrderNumber', orderNumber);
-    window.location.href = 'track-order.html';
+    window.location.href = `track-order.html?orderId=${encodeURIComponent(orderNumber)}`;
 }
 
 function continueShopping() {
@@ -1306,6 +1308,8 @@ function showWalletSuccessScreen(walletUsed) {
     const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
 
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
+
     walletContainer.innerHTML = `
         <div class="wallet-result-screen wallet-success-screen">
             <div class="wallet-result-content">
@@ -1452,6 +1456,25 @@ window.retryNetBankingPayment = retryNetBankingPayment;
 window.toggleAllBanks = toggleAllBanks;
 window.filterBankOptions = filterBankOptions;
 window.selectBank = selectBank;
+
+// Save last order (id, items, total, paymentStatus) for Track Order page
+function saveLastOrder(orderId, totalAmount, paymentStatus) {
+    const cartData = JSON.parse(localStorage.getItem('fashionCart') || '[]');
+    const products = cartData.map(item => ({
+        name: item.title || item.name || 'Product',
+        image: item.image || 'https://via.placeholder.com/60',
+        variant: `${item.selectedSize ? 'Size: ' + item.selectedSize + ', ' : ''}${item.selectedColor ? 'Color: ' + item.selectedColor : ''}`.replace(/,\s*$/, ''),
+        price: typeof item.price === 'string' ? item.price : `$${Number(item.price || 0).toFixed(2)}`
+    }));
+    const order = {
+        id: orderId,
+        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        paymentStatus: paymentStatus || 'Paid',
+        products,
+        total: totalAmount || '$0.00'
+    };
+    localStorage.setItem('lastOrder', JSON.stringify(order));
+}
 
 // Net Banking Payment Flow Functions
 function showNetBankingPaymentScreen() {
@@ -1622,6 +1645,8 @@ function showNetBankingSuccessScreen(bank) {
     const totalAmount = document.querySelector('.total-amount')?.textContent || '$0.00';
     const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const orderNumber = 'ORD' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    try { saveLastOrder(orderNumber, totalAmount, 'Paid'); } catch (e) { console.warn(e); }
 
     container.innerHTML = `
         <div class="wallet-result-screen wallet-success-screen">
