@@ -5726,7 +5726,7 @@ h3.section-title {
 
 /* Specific positioning for Spring Collection to show face */
 .seasonal-card:nth-child(2) .season-image {
-    object-position: center 20%;
+    object-position: center 8%;
 }
 
 /* Specific positioning for Summer Collection to show face */
