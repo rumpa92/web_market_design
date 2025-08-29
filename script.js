@@ -988,7 +988,7 @@ function populateArticleContent(title, description, index) {
         'Designer Spotlight': {
             category: 'DESIGNER FOCUS',
             author: 'Michael Rodriguez',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F80e47675174d4bea93d80b11131ee500?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2Fe06e940245694220b458c160d5d39072?format=webp&width=1200',
             intro: 'Featured collections from top designers who are reshaping the fashion landscape with innovative designs and sustainable practices.',
             quote: 'Design is not just what it looks like and feels like. Design is how it works in people\'s lives.',
             body: 'Today\'s fashion designers are more than just creators of beautiful garments - they\'re storytellers, innovators, and advocates for positive change in the industry. Their collections reflect not just aesthetic vision, but also values and purpose.'
