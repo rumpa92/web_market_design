@@ -2129,6 +2129,10 @@ body {
     width: 100%;
 }
 
+.bank-search-input::placeholder {
+    color: #9aa0a6;
+}
+
 .netbanking-view-all-btn {
     margin-top: 1rem;
     background: transparent;
