@@ -85,8 +85,10 @@ function initializeApp() {
     setupCollectionNavigation();
     setupCartModal();
 
-    // Set default header title
+    // Set default header title and hide header on homepage
     setPageHeaderTitle('Home');
+    const homeHeader = document.getElementById('homePageHeader');
+    if (homeHeader) homeHeader.style.display = 'none';
 
     // Debug cart functionality
     console.log('Cart initialized with items:', cart);
@@ -934,6 +936,8 @@ function handleStoryClick(card, index) {
 
 function showArticlePage(title, description, index) {
     setPageHeaderTitle(title || 'Article');
+    const homeHeader = document.getElementById('homePageHeader');
+    if (homeHeader) homeHeader.style.display = 'block';
     // Hide the fashion stories section
     const fashionStoriesSection = document.querySelector('.fashion-stories-section');
     const seasonalSection = document.querySelector('.seasonal-collections-section');
@@ -1117,6 +1121,8 @@ function setupArticlePageListeners() {
 
 function hideArticlePage() {
     setPageHeaderTitle('Home');
+    const homeHeader = document.getElementById('homePageHeader');
+    if (homeHeader) homeHeader.style.display = 'none';
     // Hide article page
     const articlePage = document.getElementById('articlePage');
     articlePage.style.display = 'none';
@@ -3828,7 +3834,7 @@ function loadCollectionContent(collectionType) {
 function getCollectionData(collectionType) {
     const collections = {
         winter: {
-            title: 'Winter Collection ❄��',
+            title: 'Winter Collection ❄️',
             tagline: 'Explore cozy coats, chic sweaters, and stylish accessories designed to keep you warm and elegant this season.',
             heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200',
             theme: 'winter'
