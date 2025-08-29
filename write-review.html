@@ -1464,10 +1464,6 @@
             return `${i === 0 ? Math.round(v) : v.toFixed(1)} ${units[i]}`;
         }
 
-        window.replaceFile = function(fileName) {
-            openFilePicker('browse', fileName);
-        };
-
         function handleFiles(files) {
             console.log('Handling files:', files.length);
 
