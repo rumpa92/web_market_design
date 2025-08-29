@@ -1863,6 +1863,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     transition: transform 0.3s ease;
 }
 
@@ -1880,6 +1881,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
 }
 
 .collection-product-card:hover .product-hover-image {
@@ -4152,6 +4154,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     transition: opacity 0.3s ease;
 }
 
@@ -4169,6 +4172,7 @@ h3::after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
 }
 
 .collection-product-card:hover .product-hover-image {
@@ -6105,6 +6109,7 @@ h3.section-title {
     width: 100%;
     height: 300px;
     object-fit: cover;
+    object-position: top center;
     transition: transform 0.3s ease;
 }
 
