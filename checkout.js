@@ -1489,14 +1489,17 @@ function showNetBankingPaymentScreen() {
                         <div class="netbanking-selection">
                             <label for="bankSearchInput" class="netbanking-label">Select Your Bank</label>
                             <div class="netbanking-search-select">
-                                <div class="bank-search-wrapper">
-                                    <i class="fas fa-search bank-search-icon"></i>
+                                <div class="bank-combobox">
+                                    <div class="bank-search-icon-box"><i class="fas fa-search"></i></div>
                                     <input id="bankSearchInput" type="text" class="bank-search-input" placeholder="Search bank name…" oninput="filterBankOptions()" />
+                                    <div class="bank-select-wrapper">
+                                        <select id="bankSelect" class="bank-select">
+                                            <option value="" selected>Select Your Bank</option>
+                                            ${defaultOptions}
+                                        </select>
+                                        <i class="fas fa-chevron-down bank-select-caret"></i>
+                                    </div>
                                 </div>
-                                <select id="bankSelect" class="bank-select">
-                                    <option value="" selected>Select Your Bank</option>
-                                    ${defaultOptions}
-                                </select>
                             </div>
                             <button class="netbanking-view-all-btn" onclick="toggleAllBanks()">+ View All Banks</button>
                         </div>
