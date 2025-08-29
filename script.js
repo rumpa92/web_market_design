@@ -2362,8 +2362,74 @@ function showCartSummary() {
 
 // Wishlist Summary Function
 function showWishlistSummary() {
-    const wishlistItems = wishlist.map(item => item.title).join('\n');
-    showNotification(`Wishlist Items:\n${wishlistItems}\n\n${wishlist.length} items saved`, 'success');
+    const items = JSON.parse(localStorage.getItem('fashionWishlist') || '[]');
+    if (!items.length) {
+        showNotification('Your wishlist is empty. Add some favorites!', 'info');
+        return;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10000;`;
+
+    const card = document.createElement('div');
+    card.style.cssText = `width:min(560px,92vw);max-height:80vh;overflow:hidden;border-radius:16px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;`;
+
+    const header = document.createElement('div');
+    header.style.cssText = `padding:1rem 1.25rem;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;gap:.5rem;`;
+    header.innerHTML = `<div style="font-weight:800;font-size:1.1rem;">Your Wishlist (${items.length} item${items.length!==1?'s':''})</div>
+    <button class="wm-close" style="border:none;background:transparent;font-size:1.1rem;cursor:pointer;color:#718096"><i class="fas fa-times"></i></button>`;
+
+    const listWrap = document.createElement('div');
+    listWrap.style.cssText = `overflow:auto;max-height:56vh;`;
+    listWrap.innerHTML = items.map(i => `
+      <div class="wm-row" data-title="${(i.title||'').replace(/"/g,'&quot;')}">
+        <div style="display:flex;gap:.75rem;align-items:center;padding:.9rem 1.25rem;border-bottom:1px solid #f1f1f1;">
+          <img src="${i.image||''}" alt="${i.title||''}" style="width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid #eee;"/>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;color:#2d3748;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${i.title||''}</div>
+            <div style="font-weight:800;">${typeof i.price==='number'?`₹${i.price}`:(i.price||'₹0')}</div>
+          </div>
+          <div style="display:flex;gap:.4rem;">
+            <button class="wm-add" style="padding:.5rem .8rem;border:none;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:700;cursor:pointer;"><i class="fas fa-shopping-bag"></i></button>
+            <button class="wm-remove" style="padding:.5rem .7rem;border:1px solid #eee;border-radius:10px;background:#fff;color:#e53e3e;cursor:pointer;"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    const footer = document.createElement('div');
+    footer.style.cssText = `padding:1rem 1.25rem;border-top:1px solid #eee;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;`;
+    footer.innerHTML = `
+      <button class="wm-view" style="padding:.65rem 1rem;border-radius:10px;border:1px solid #ddd;background:#fff;font-weight:700;cursor:pointer;">View Wishlist</button>
+      <button class="wm-move-all" style="padding:.65rem 1rem;border-radius:10px;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:800;cursor:pointer;">Move All to Cart</button>
+    `;
+
+    card.appendChild(header); card.appendChild(listWrap); card.appendChild(footer); overlay.appendChild(card); document.body.appendChild(overlay);
+
+    function close() { if (document.body.contains(overlay)) document.body.removeChild(overlay); }
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) close(); });
+    header.querySelector('.wm-close').addEventListener('click', close);
+
+    // Delegated actions
+    listWrap.addEventListener('click', (e)=>{
+        const row = e.target.closest('.wm-row'); if(!row) return;
+        const title = row.dataset.title;
+        if (e.target.closest('.wm-add')) {
+            const item = items.find(x => x.title === title) || {};
+            addToCart({ title: item.title, price: item.price || '₹0', image: item.image, quantity: 1, id: item.id || Date.now()+Math.random() });
+            showNotification(`${item.title} added to cart!`, 'success');
+        } else if (e.target.closest('.wm-remove')) {
+            removeFromWishlist(title);
+            row.remove();
+            showNotification('Removed from wishlist', 'info');
+            if (listWrap.querySelectorAll('.wm-row').length === 0) { close(); }
+        }
+    });
+
+    footer.querySelector('.wm-move-all').addEventListener('click', ()=>{
+        items.forEach(i=>addToCart({ title:i.title, price:i.price||'₹0', image:i.image, quantity:1, id:i.id||Date.now()+Math.random() }));
+        showNotification('All wishlist items moved to cart!', 'success');
+    });
+    footer.querySelector('.wm-view').addEventListener('click', ()=>{ window.location.href = 'wishlist.html'; });
 }
 
 // Newsletter functionality enhancement
@@ -3009,46 +3075,73 @@ function navigateToProductDetail(product) {
 }
 
 function showWishlistSummary() {
-    if (wishlist.length === 0) {
+    const items = JSON.parse(localStorage.getItem('fashionWishlist') || '[]');
+    if (!items.length) {
         showNotification('Your wishlist is empty. Add some favorites!', 'info');
         return;
     }
 
-    const wishlistItems = wishlist.map(item => `
-        <div style="padding: 10px; border-bottom: 1px solid #eee;">
-            <strong>${item.title}</strong><br>
-            <span>${item.price}</span>
-        </div>
-    `).join('');
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10000;`;
 
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5); display: flex; align-items: center;
-        justify-content: center; z-index: 10000;
+    const card = document.createElement('div');
+    card.style.cssText = `width:min(560px,92vw);max-height:80vh;overflow:hidden;border-radius:16px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;`;
+
+    const header = document.createElement('div');
+    header.style.cssText = `padding:1rem 1.25rem;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;gap:.5rem;`;
+    header.innerHTML = `<div style="font-weight:800;font-size:1.1rem;">Your Wishlist (${items.length} item${items.length!==1?'s':''})</div>
+    <button class="wm-close" style="border:none;background:transparent;font-size:1.1rem;cursor:pointer;color:#718096"><i class="fas fa-times"></i></button>`;
+
+    const listWrap = document.createElement('div');
+    listWrap.style.cssText = `overflow:auto;max-height:56vh;`;
+    listWrap.innerHTML = items.map(i => `
+      <div class="wm-row" data-title="${(i.title||'').replace(/"/g,'&quot;')}">
+        <div style="display:flex;gap:.75rem;align-items:center;padding:.9rem 1.25rem;border-bottom:1px solid #f1f1f1;">
+          <img src="${i.image||''}" alt="${i.title||''}" style="width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid #eee;"/>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;color:#2d3748;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${i.title||''}</div>
+            <div style="font-weight:800;">${typeof i.price==='number'?`₹${i.price}`:(i.price||'₹0')}</div>
+          </div>
+          <div style="display:flex;gap:.4rem;">
+            <button class="wm-add" style="padding:.5rem .8rem;border:none;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:700;cursor:pointer;"><i class="fas fa-shopping-bag"></i></button>
+            <button class="wm-remove" style="padding:.5rem .7rem;border:1px solid #eee;border-radius:10px;background:#fff;color:#e53e3e;cursor:pointer;"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    const footer = document.createElement('div');
+    footer.style.cssText = `padding:1rem 1.25rem;border-top:1px solid #eee;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;`;
+    footer.innerHTML = `
+      <button class="wm-view" style="padding:.65rem 1rem;border-radius:10px;border:1px solid #ddd;background:#fff;font-weight:700;cursor:pointer;">View Wishlist</button>
+      <button class="wm-move-all" style="padding:.65rem 1rem;border-radius:10px;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:800;cursor:pointer;">Move All to Cart</button>
     `;
 
-    modal.innerHTML = `
-        <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 90%;">
-            <h3>Your Wishlist (${wishlist.length} items)</h3>
-            <div style="max-height: 300px; overflow-y: auto;">
-                ${wishlistItems}
-            </div>
-            <button onclick="this.closest('.modal').remove()"
-                    style="margin-top: 1rem; padding: 0.5rem 1rem; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Close
-            </button>
-        </div>
-    `;
+    card.appendChild(header); card.appendChild(listWrap); card.appendChild(footer); overlay.appendChild(card); document.body.appendChild(overlay);
 
-    modal.className = 'modal';
-    document.body.appendChild(modal);
+    function close() { if (document.body.contains(overlay)) document.body.removeChild(overlay); }
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) close(); });
+    header.querySelector('.wm-close').addEventListener('click', close);
 
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            document.body.removeChild(modal);
+    listWrap.addEventListener('click', (e)=>{
+        const row = e.target.closest('.wm-row'); if(!row) return;
+        const title = row.dataset.title;
+        if (e.target.closest('.wm-add')) {
+            const item = items.find(x => x.title === title) || {};
+            addToCart({ title: item.title, price: item.price || '₹0', image: item.image, quantity: 1, id: item.id || Date.now()+Math.random() });
+            showNotification(`${item.title} added to cart!`, 'success');
+        } else if (e.target.closest('.wm-remove')) {
+            removeFromWishlist(title);
+            row.remove();
+            showNotification('Removed from wishlist', 'info');
+            if (listWrap.querySelectorAll('.wm-row').length === 0) { close(); }
         }
     });
+
+    footer.querySelector('.wm-move-all').addEventListener('click', ()=>{
+        items.forEach(i=>addToCart({ title:i.title, price:i.price||'₹0', image:i.image, quantity:1, id:i.id||Date.now()+Math.random() }));
+        showNotification('All wishlist items moved to cart!', 'success');
+    });
+    footer.querySelector('.wm-view').addEventListener('click', ()=>{ window.location.href = 'wishlist.html'; });
 }
 
 // Category Page Data and Functionality
@@ -3485,7 +3578,7 @@ const subcategoryItems = {
             originalPrice: '$59',
             image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'ACTIVEWEAR',
-            rating: '★★★★☆'
+            rating: '★���★★☆'
         }
     ]
 };
@@ -3874,22 +3967,45 @@ function loadCollectionProducts(collectionType) {
 
     if (!productsGrid) return;
 
-    // Generate dynamic products based on collection type
     const products = generateCollectionProducts(collectionType);
 
-    // Update products count
     if (productsCount) productsCount.textContent = `${products.length} items`;
 
-    // Clear existing products and add new ones
-    const existingProducts = productsGrid.querySelectorAll('.collection-product-card');
-    existingProducts.forEach(product => product.style.display = 'block');
+    // Render products
+    productsGrid.innerHTML = products.map(p => `
+        <div class="collection-product-card" data-category="${p.category || 'all'}" data-price="${p.price || 0}">
+            <div class="product-image-container">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="product-image">
+                <div class="product-hover-image">
+                    <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="hover-image">
+                </div>
+                <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-rating">
+                    <span class="stars">${p.rating || '★★★★☆'}</span>
+                    <span class="rating-count">(120)</span>
+                </div>
+                <div class="product-price">₹${(p.price || 0).toLocaleString()}</div>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                    <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
 
-    // Filter products based on collection type
-    existingProducts.forEach((product, index) => {
-        if (index >= products.length) {
-            product.style.display = 'none';
-        }
-    });
+    // Re-bind action listeners for newly rendered cards
+    setupQuickActions();
+
+    // Apply current active category filter if any
+    const activeFilter = document.querySelector('.category-filter.active');
+    if (activeFilter) {
+        filterProductsByCategory(activeFilter.dataset.category);
+    } else {
+        updateProductsCount();
+    }
 }
 
 function generateCollectionProducts(collectionType) {
@@ -3982,14 +4098,14 @@ function setupCollectionFilters() {
     // Category filters
     const categoryFilters = document.querySelectorAll('.category-filter');
     categoryFilters.forEach(filter => {
-        filter.addEventListener('click', () => {
+        filter.addEventListener('click', async () => {
             // Remove active from all filters
             categoryFilters.forEach(f => f.classList.remove('active'));
             // Add active to clicked filter
             filter.classList.add('active');
 
             const category = filter.dataset.category;
-            filterProductsByCategory(category);
+            await fetchAndRenderCategory(category);
 
             showNotification(`Filtering by: ${filter.textContent}`, 'info');
         });
@@ -4040,27 +4156,105 @@ function setupCollectionFilters() {
     }
 
     // Sort filter
-    const sortFilter = document.getElementById('sortFilter');
+    const sortFilter = document.getElementById('sortFilter') || document.getElementById('modernSortFilter');
     if (sortFilter) {
         sortFilter.addEventListener('change', () => {
-            applyAdvancedFilters();
+            const val = sortFilter.value;
+            if (val === 'price-low' || val === 'price-high' || val === 'bestsellers' || val === 'newest' || val === 'rating') {
+                sortProducts(val);
+            } else {
+                applyAdvancedFilters();
+            }
         });
     }
 }
 
-function filterProductsByCategory(category) {
-    const productCards = document.querySelectorAll('.collection-product-card');
+function getActiveCollectionType() {
+    const activeTab = document.querySelector('.collection-tab.active');
+    return activeTab ? activeTab.dataset.collection : 'winter';
+}
 
-    productCards.forEach(card => {
-        if (category === 'all') {
-            card.style.display = 'block';
-        } else {
-            const productCategory = card.dataset.category;
-            card.style.display = productCategory === category ? 'block' : 'none';
-        }
-    });
+async function fetchProductsByCategory(category) {
+    const type = getActiveCollectionType();
+    const all = generateCollectionProducts(type);
+    const filtered = category === 'all' ? all : all.filter(p => (p.category || '').toLowerCase() === category.toLowerCase());
+    // Simulate network latency for loading animation
+    await new Promise(r => setTimeout(r, 400));
+    return filtered;
+}
 
+function renderSkeletonCards(count = 8) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    if (!productsGrid) return;
+    const skeleton = Array.from({ length: count }).map(() => `
+        <div class="collection-product-card skeleton">
+            <div class="product-image-container">
+                <div class="skeleton-box img"></div>
+            </div>
+            <div class="product-info">
+                <div class="skeleton-box line"></div>
+                <div class="skeleton-box line short"></div>
+                <div class="skeleton-box btn"></div>
+            </div>
+        </div>`).join('');
+    productsGrid.innerHTML = skeleton;
+}
+
+function renderProductsList(products) {
+    const productsGrid = document.getElementById('collectionProductsGrid');
+    if (!productsGrid) return;
+
+    if (!products || products.length === 0) {
+        productsGrid.innerHTML = `
+            <div class="empty-state">
+                <p>No items found in this category. Try another one.</p>
+                <button id="backToAllItems" class="empty-cta">Back to All Items</button>
+            </div>`;
+        const btn = document.getElementById('backToAllItems');
+        if (btn) btn.addEventListener('click', () => {
+            const allBtn = document.querySelector('.category-filter[data-category="all"]');
+            if (allBtn) allBtn.click();
+        });
+        updateProductsCount();
+        return;
+    }
+
+    productsGrid.innerHTML = products.map(p => `
+        <div class="collection-product-card fade-in" data-category="${p.category || 'all'}" data-price="${p.price || 0}">
+            <div class="product-image-container">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="product-image">
+                <div class="product-hover-image">
+                    <img src="${p.image || 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=600&fit=crop'}" alt="${p.name}" class="hover-image">
+                </div>
+                <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-rating">
+                    <span class="stars">${p.rating || '★★★★☆'}</span>
+                    <span class="rating-count">(120)</span>
+                </div>
+                <div class="product-price">₹${(p.price || 0).toLocaleString()}</div>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                    <button class="quick-view-btn"><i class="fas fa-eye"></i> Quick View</button>
+                </div>
+            </div>
+        </div>`).join('');
+
+    setupQuickActions();
     updateProductsCount();
+}
+
+async function fetchAndRenderCategory(category) {
+    renderSkeletonCards();
+    const products = await fetchProductsByCategory(category);
+    renderProductsList(products);
+}
+
+function filterProductsByCategory(category) {
+    // Backward compatibility: use async fetch + render
+    fetchAndRenderCategory(category);
 }
 
 function applyAdvancedFilters() {
