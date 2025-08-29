@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'sp9', name: 'Eyelet Lace Blouse', price: 1099, category: 'tops', colors: ['white'], sizes: ['XS','S','M','L'], rating: '★★★★★', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=800&fit=crop&auto=format&q=80' },
     { id: 'sp10', name: 'Floral Wrap Dress', price: 1399, category: 'dresses', colors: ['red','pink'], sizes: ['S','M','L'], rating: '★★★★★', image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&h=800&fit=crop&auto=format&q=80' },
     { id: 'sp11', name: 'Lightweight Trench', price: 1999, category: 'outerwear', colors: ['beige','yellow'], sizes: ['M','L','XL'], rating: '★★★★☆', image: 'https://images.unsplash.com/photo-1520975922284-4c36b1a1b75b?w=800&h=800&fit=crop&auto=format&q=80' },
-    { id: 'sp12', name: 'Canvas Crossbody Bag', price: 799, category: 'accessories', colors: ['green','white'], sizes: ['M'], rating: '���★★★☆', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=800&fit=crop&auto=format&q=80' }
+    { id: 'sp12', name: 'Canvas Crossbody Bag', price: 799, category: 'accessories', colors: ['green','white'], sizes: ['M'], rating: '★★★★☆', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=800&h=800&fit=crop&auto=format&q=80' }
   ];
 
   let currentList = products.slice();
