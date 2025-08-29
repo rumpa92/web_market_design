@@ -87,6 +87,7 @@ function initializeApp() {
     if (typeof window.setupVideoShowcase === 'function') {
         window.setupVideoShowcase();
     }
+    updateWishlistCount();
 
     // Set default header title and hide header on homepage
     setPageHeaderTitle('Home');
@@ -3345,7 +3346,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★★'
+            rating: '★���★★★'
         },
         {
             id: 'suit2',
