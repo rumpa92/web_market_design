@@ -84,6 +84,7 @@ function initializeApp() {
     setupCollectionPage();
     setupCollectionNavigation();
     setupCartModal();
+    setupVideoShowcase();
 
     // Set default header title and hide header on homepage
     setPageHeaderTitle('Home');
@@ -251,6 +252,13 @@ function extractProductData(productCard) {
             image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
                 ? imgElement.src
                 : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F302ea9cbe68a4e86aa894e18fdddf869?format=webp&width=400';
+        } else if (productCard.classList.contains('collection-product-card')) {
+            title = productCard.querySelector('.product-name')?.textContent || 'Collection Product';
+            price = productCard.querySelector('.product-price')?.textContent || '₹0';
+            const imgElement = productCard.querySelector('.product-image');
+            image = (imgElement && imgElement.src && imgElement.src !== window.location.href)
+                ? imgElement.src
+                : 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=400';
         } else {
             // Fallback for regular product cards
             title = productCard.querySelector('.product-title')?.textContent ||
@@ -3295,7 +3303,7 @@ const subcategoryItems = {
             originalPrice: '$120',
             image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '★★★★★'
+            rating: '���★★★★'
         }
     ],
     'Pants & Jeans': [
@@ -3393,7 +3401,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '★�����★★☆'
+            rating: '�������★★☆'
         }
     ],
     'Handbags': [
@@ -3404,7 +3412,7 @@ const subcategoryItems = {
             originalPrice: '$399',
             image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'BAGS',
-            rating: '★★★★★'
+            rating: '★★★���★'
         }
     ],
     'Tops & Blouses': [
@@ -3549,7 +3557,7 @@ const subcategoryItems = {
             originalPrice: '$229',
             image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'OUTERWEAR',
-            rating: '★★★★★'
+            rating: '★★★★���'
         }
     ],
     'Activewear': [
@@ -4628,7 +4636,16 @@ function setupWinterFeatures() {
     const recBtns = document.querySelectorAll('.recommendation-btn');
     recBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const title = btn.closest('.recommendation-card').querySelector('.recommendation-title').textContent;
+            const card = btn.closest('.recommendation-card');
+            const title = card.querySelector('.recommendation-title').textContent;
+            if (card && card.classList.contains('spring-preview')) {
+                window.location.href = 'spring-collection.html';
+                return;
+            }
+            if (card && card.classList.contains('limited-offers')) {
+                window.location.href = 'winter-sale.html';
+                return;
+            }
             showNotification(`Exploring: ${title}`, 'info');
         });
     });

@@ -601,6 +601,8 @@
         </div>
     </section>
 
+    <script src="./video-showcase.js"></script>
+
     <!-- Collection Page (Hidden by default) -->
     <section class="collection-page-section" id="collectionPage" style="display: none;">
         <div class="container">
@@ -636,33 +638,6 @@
                 </div>
             </div>
 
-            <!-- Filter & Sort Options -->
-            <div class="collection-filters">
-                <div class="filter-section">
-                    <h4>Categories</h4>
-                    <div class="category-filters">
-                        <button class="category-filter active" data-category="all">All Items</button>
-                        <button class="category-filter" data-category="coats">Coats</button>
-                        <button class="category-filter" data-category="jackets">Jackets</button>
-                        <button class="category-filter" data-category="sweaters">Sweaters</button>
-                        <button class="category-filter" data-category="dresses">Dresses</button>
-                        <button class="category-filter" data-category="accessories">Accessories</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modern-sort-section">
-                <div class="sort-container">
-                    <label for="modernSortFilter" class="sort-label">Sort By</label>
-                    <select id="modernSortFilter" class="modern-sort-select">
-                        <option value="new-arrivals">New Arrivals</option>
-                        <option value="bestsellers">Bestsellers</option>
-                        <option value="price-low">Price: Low → High</option>
-                        <option value="price-high">Price: High → Low</option>
-                    </select>
-                </div>
-            </div>
 
             <!-- Top Picks for Winter -->
             <div class="winter-highlights">
@@ -763,11 +738,14 @@
                     <h3>Collection Showcase</h3>
                     <div class="video-container">
                         <div class="video-placeholder">
-                            <div class="video-thumbnail">
-                                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=400&fit=crop&auto=format&q=80" alt="Collection Video" class="video-thumb">
-                                <div class="play-button">
+                            <div class="video-thumbnail" id="videoThumbnail">
+                                <img id="videoPoster" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=400&fit=crop&auto=format&q=80" alt="Collection Video" class="video-thumb">
+                                <button class="play-button" id="playButton" aria-label="Play collection video">
                                     <i class="fas fa-play"></i>
-                                </div>
+                                </button>
+                                <video id="collectionVideo" class="video-player" playsinline controls preload="metadata" poster="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=800&fit=crop&auto=format&q=80">
+                                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="video-info">
                                 <h4>Winter Collection 2025 Lookbook</h4>
@@ -778,15 +756,6 @@
                 </div>
             </div>
 
-            <!-- Product Grid Section -->
-            <div class="collection-products">
-                <div class="collection-products-grid" id="collectionProductsGrid">
-                    <!-- Winter Collection Products -->
-                    <div class="collection-product-card">
-                    </div>
-
-                </div>
-            </div>
 
             <!-- Bottom CTAs -->
             <div class="collection-bottom-cta">
@@ -1110,28 +1079,13 @@
             <!-- Header Section -->
             <div class="arrivals-header">
                 <div class="arrivals-title-section">
-                    <h2 class="arrivals-title">New Arrivals</h2>
-                </div>
-                <div class="arrivals-actions">
-                    <span class="arrivals-count">24 new items this week</span>
-                    <button class="view-all-arrivals-btn">View All New Arrivals</button>
+                    <h2 class="section-title arrivals-title">New Arrivals</h2>
                 </div>
             </div>
 
             <!-- Filters and Sort Bar -->
             <div class="arrivals-controls">
-                <div class="controls-left">
-                    <button class="filter-toggle-btn" id="filterToggleBtn">
-                        <i class="fas fa-filter"></i>
-                        Filters
-                    </button>
-                    <div class="active-filter-tags" id="activeFilterTags">
-                        <span class="filter-tag">
-                            RED
-                            <button class="remove-filter" onclick="removeFilter('color', 'red')">×</button>
-                        </span>
-                    </div>
-                </div>
+                <div class="controls-left"></div>
                 <div class="controls-right">
                     <div class="sort-dropdown">
                         <label for="sortDropdown">Sort by:</label>
