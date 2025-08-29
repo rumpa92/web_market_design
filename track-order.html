@@ -1108,6 +1108,39 @@
 
         // Populate order details based on order ID
         function populateOrderDetails(orderId) {
+            // Seed last order into dataset if available
+            if (lastOrder && !orderData[lastOrder.id]) {
+                orderData[lastOrder.id] = {
+                    id: lastOrder.id,
+                    date: lastOrder.date,
+                    status: 'In Transit',
+                    paymentStatus: lastOrder.paymentStatus || 'Paid',
+                    currentStep: 2,
+                    products: (lastOrder.products || []).map(p => ({
+                        name: p.name,
+                        image: p.image,
+                        variant: p.variant || '',
+                        price: p.price
+                    })),
+                    total: lastOrder.total,
+                    estimatedDelivery: { date: 'Tomorrow', time: '10:00 AM - 2:00 PM' },
+                    courier: { name: 'Amit Singh', distance: '12.5 km away' },
+                    address: {
+                        type: 'Home Address',
+                        recipient: 'Rumpa Samanta',
+                        phone: '+91 9876543210',
+                        details: 'Flat 302, Sunrise Apartments, Near Park Street Metro<br>Kolkata, West Bengal - 700016<br>India'
+                    },
+                    timeline: [
+                        { label: 'Order Placed', time: 'Just now', icon: 'fas fa-check', completed: true },
+                        { label: 'Packed', time: 'Pending', icon: 'fas fa-box', completed: false },
+                        { label: 'Shipped', time: 'Pending', icon: 'fas fa-shipping-fast', completed: false },
+                        { label: 'Out for Delivery', time: 'Pending', icon: 'fas fa-map-marker-alt', completed: false },
+                        { label: 'Delivered', time: 'Pending', icon: 'fas fa-gift', completed: false }
+                    ]
+                };
+            }
+
             console.log('Populating order details for:', orderId);
             const order = orderData[orderId];
 
