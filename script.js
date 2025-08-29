@@ -998,12 +998,18 @@ function populateArticleContent(title, description, index) {
     const data = storyData[title] || storyData['Street Style Guide'];
 
     // Update article content
-    document.getElementById('articleCategory').textContent = data.category;
-    document.getElementById('articleTitle').textContent = title;
-    document.getElementById('authorName').textContent = data.author;
-    document.getElementById('articleHeroImage').src = data.heroImage;
-    document.getElementById('articleIntro').textContent = data.intro;
-    document.getElementById('articleQuote').textContent = data.quote;
+    const categoryEl = document.getElementById('articleCategory');
+    if (categoryEl) categoryEl.textContent = data.category;
+    const titleEl = document.getElementById('articleTitle');
+    if (titleEl) titleEl.textContent = title;
+    const authorEl = document.getElementById('authorName');
+    if (authorEl) authorEl.textContent = data.author;
+    const heroEl = document.getElementById('articleHeroImage');
+    if (heroEl) heroEl.src = data.heroImage;
+    const introEl = document.getElementById('articleIntro');
+    if (introEl) introEl.textContent = data.intro;
+    const quoteEl = document.getElementById('articleQuote');
+    if (quoteEl) quoteEl.textContent = data.quote;
 
     // Update article body with more detailed content
     const articleBody = document.getElementById('articleBody');
@@ -1014,7 +1020,7 @@ function populateArticleContent(title, description, index) {
         <p>Understanding the core principles behind ${title.toLowerCase()} starts with recognizing that fashion is deeply personal. Each choice you make - from color palette to silhouette - communicates something about who you are and how you want to be perceived.</p>
 
         <div class="article-quote">
-            <blockquote>${data.quote}</blockquote>
+            <blockquote id="articleQuote">${data.quote}</blockquote>
             <cite>- ${data.author}, Fashion Expert</cite>
         </div>
 
